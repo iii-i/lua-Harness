@@ -1,6 +1,8 @@
 
 LUA ?= lua
 
+export LUA_INIT=--[[ coverage ]]
+
 test:
 	prove --exec="$(LUA)" *.t
 

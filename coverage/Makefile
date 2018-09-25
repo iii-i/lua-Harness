@@ -31,10 +31,10 @@ build: extract
 
 .PHONY: harness
 harness: build
-	-make -C ../test_lua harness LUA="../coverage/lua-5.1.5/src/lua -l profile_lua51"
-	-make -C ../test_lua harness LUA="../coverage/lua-5.2.4/src/lua -l profile_lua52"
-	-make -C ../test_lua harness LUA="../coverage/lua-5.3.5/src/lua -l profile_lua53"
-	-make -C ../test_lua harness LUA="../coverage/lua-5.4.0-work2/src/lua -l profile_lua54"
+	-make -C ../test_lua harness LUA="../coverage/lua-5.1.5/src/lua -l profile_lua51" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.1/?.so"
+	-make -C ../test_lua harness LUA="../coverage/lua-5.2.4/src/lua -l profile_lua52" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.2/?.so"
+	-make -C ../test_lua harness LUA="../coverage/lua-5.3.5/src/lua -l profile_lua53" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.3/?.so"
+	-make -C ../test_lua harness LUA="../coverage/lua-5.4.0-work2/src/lua -l profile_lua54" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.4/?.so"
 
 .PHONY: lcov
 lcov: harness
