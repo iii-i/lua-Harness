@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2018-09-26 12:47:26</td>
+            <td class="headerValue">2018-10-07 17:32:53</td>
             <td></td>
           </tr>
           <tr>
@@ -123,20 +123,20 @@
 <span class="lineNum">      57 </span>            :         api_check(l, isstackindex(i, o), &quot;index not in the stack&quot;)
 <span class="lineNum">      58 </span>            : 
 <span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span><span class="lineCov">    1338521 : static TValue *index2addr (lua_State *L, int idx) {</span>
-<span class="lineNum">      61 </span><span class="lineCov">    1338521 :   CallInfo *ci = L-&gt;ci;</span>
-<span class="lineNum">      62 </span><span class="lineCov">    1338521 :   if (idx &gt; 0) {</span>
-<span class="lineNum">      63 </span><span class="lineCov">     806649 :     TValue *o = ci-&gt;func + idx;</span>
+<span class="lineNum">      60 </span><span class="lineCov">    1348469 : static TValue *index2addr (lua_State *L, int idx) {</span>
+<span class="lineNum">      61 </span><span class="lineCov">    1348469 :   CallInfo *ci = L-&gt;ci;</span>
+<span class="lineNum">      62 </span><span class="lineCov">    1348469 :   if (idx &gt; 0) {</span>
+<span class="lineNum">      63 </span><span class="lineCov">     812924 :     TValue *o = ci-&gt;func + idx;</span>
 <span class="lineNum">      64 </span>            :     api_check(L, idx &lt;= ci-&gt;top - (ci-&gt;func + 1), &quot;unacceptable index&quot;);
-<span class="lineNum">      65 </span><span class="lineCov">     806649 :     if (o &gt;= L-&gt;top) return NONVALIDVALUE;</span>
-<span class="lineNum">      66 </span><span class="lineCov">     762594 :     else return o;</span>
+<span class="lineNum">      65 </span><span class="lineCov">     812924 :     if (o &gt;= L-&gt;top) return NONVALIDVALUE;</span>
+<span class="lineNum">      66 </span><span class="lineCov">     768315 :     else return o;</span>
 <span class="lineNum">      67 </span>            :   }
-<span class="lineNum">      68 </span><span class="lineCov">     531872 :   else if (!ispseudo(idx)) {  /* negative index */</span>
+<span class="lineNum">      68 </span><span class="lineCov">     535545 :   else if (!ispseudo(idx)) {  /* negative index */</span>
 <span class="lineNum">      69 </span>            :     api_check(L, idx != 0 &amp;&amp; -idx &lt;= L-&gt;top - (ci-&gt;func + 1), &quot;invalid index&quot;);
-<span class="lineNum">      70 </span><span class="lineCov">     523643 :     return L-&gt;top + idx;</span>
+<span class="lineNum">      70 </span><span class="lineCov">     526982 :     return L-&gt;top + idx;</span>
 <span class="lineNum">      71 </span>            :   }
-<span class="lineNum">      72 </span><span class="lineCov">       8229 :   else if (idx == LUA_REGISTRYINDEX)</span>
-<span class="lineNum">      73 </span><span class="lineCov">       7488 :     return &amp;G(L)-&gt;l_registry;</span>
+<span class="lineNum">      72 </span><span class="lineCov">       8563 :   else if (idx == LUA_REGISTRYINDEX)</span>
+<span class="lineNum">      73 </span><span class="lineCov">       7822 :     return &amp;G(L)-&gt;l_registry;</span>
 <span class="lineNum">      74 </span>            :   else {  /* upvalues */
 <span class="lineNum">      75 </span><span class="lineCov">        741 :     idx = LUA_REGISTRYINDEX - idx;</span>
 <span class="lineNum">      76 </span>            :     api_check(L, idx &lt;= MAXUPVAL + 1, &quot;upvalue index too large&quot;);
@@ -160,12 +160,12 @@
 <span class="lineNum">      94 </span><span class="lineCov">          1 : }</span>
 <span class="lineNum">      95 </span>            : 
 <span class="lineNum">      96 </span>            : 
-<span class="lineNum">      97 </span><span class="lineCov">      13999 : LUA_API int lua_checkstack (lua_State *L, int n) {</span>
+<span class="lineNum">      97 </span><span class="lineCov">      14115 : LUA_API int lua_checkstack (lua_State *L, int n) {</span>
 <span class="lineNum">      98 </span>            :   int res;
-<span class="lineNum">      99 </span><span class="lineCov">      13999 :   CallInfo *ci = L-&gt;ci;</span>
+<span class="lineNum">      99 </span><span class="lineCov">      14115 :   CallInfo *ci = L-&gt;ci;</span>
 <span class="lineNum">     100 </span>            :   lua_lock(L);
 <span class="lineNum">     101 </span>            :   api_check(L, n &gt;= 0, &quot;negative 'n'&quot;);
-<span class="lineNum">     102 </span><span class="lineCov">      13999 :   if (L-&gt;stack_last - L-&gt;top &gt; n)  /* stack large enough? */</span>
+<span class="lineNum">     102 </span><span class="lineCov">      14115 :   if (L-&gt;stack_last - L-&gt;top &gt; n)  /* stack large enough? */</span>
 <span class="lineNum">     103 </span>            :     res = 1;  /* yes; check is OK */
 <span class="lineNum">     104 </span>            :   else {  /* no; need to grow stack */
 <span class="lineNum">     105 </span><span class="lineCov">          1 :     int inuse = cast_int(L-&gt;top - L-&gt;stack) + EXTRA_STACK;</span>
@@ -175,9 +175,9 @@
 <span class="lineNum">     109 </span><span class="lineCov">          1 :       res = (luaD_rawrunprotected(L, &amp;growstack, &amp;n) == LUA_OK);</span>
 <span class="lineNum">     110 </span>            :   }
 <span class="lineNum">     111 </span><span class="lineCov">          1 :   if (res &amp;&amp; ci-&gt;top &lt; L-&gt;top + n)</span>
-<span class="lineNum">     112 </span><span class="lineCov">         74 :     ci-&gt;top = L-&gt;top + n;  /* adjust frame top */</span>
+<span class="lineNum">     112 </span><span class="lineCov">        100 :     ci-&gt;top = L-&gt;top + n;  /* adjust frame top */</span>
 <span class="lineNum">     113 </span>            :   lua_unlock(L);
-<span class="lineNum">     114 </span><span class="lineCov">      13999 :   return res;</span>
+<span class="lineNum">     114 </span><span class="lineCov">      14115 :   return res;</span>
 <span class="lineNum">     115 </span>            : }
 <span class="lineNum">     116 </span>            : 
 <span class="lineNum">     117 </span>            : 
@@ -197,20 +197,20 @@
 <span class="lineNum">     131 </span>            : }
 <span class="lineNum">     132 </span>            : 
 <span class="lineNum">     133 </span>            : 
-<span class="lineNum">     134 </span><span class="lineCov">         92 : LUA_API lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf) {</span>
+<span class="lineNum">     134 </span><span class="lineCov">        106 : LUA_API lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf) {</span>
 <span class="lineNum">     135 </span>            :   lua_CFunction old;
 <span class="lineNum">     136 </span>            :   lua_lock(L);
-<span class="lineNum">     137 </span><span class="lineCov">         92 :   old = G(L)-&gt;panic;</span>
-<span class="lineNum">     138 </span><span class="lineCov">         92 :   G(L)-&gt;panic = panicf;</span>
+<span class="lineNum">     137 </span><span class="lineCov">        106 :   old = G(L)-&gt;panic;</span>
+<span class="lineNum">     138 </span><span class="lineCov">        106 :   G(L)-&gt;panic = panicf;</span>
 <span class="lineNum">     139 </span>            :   lua_unlock(L);
-<span class="lineNum">     140 </span><span class="lineCov">         92 :   return old;</span>
+<span class="lineNum">     140 </span><span class="lineCov">        106 :   return old;</span>
 <span class="lineNum">     141 </span>            : }
 <span class="lineNum">     142 </span>            : 
 <span class="lineNum">     143 </span>            : 
-<span class="lineNum">     144 </span><span class="lineCov">       1858 : LUA_API const lua_Number *lua_version (lua_State *L) {</span>
+<span class="lineNum">     144 </span><span class="lineCov">       1940 : LUA_API const lua_Number *lua_version (lua_State *L) {</span>
 <span class="lineNum">     145 </span>            :   static const lua_Number version = LUA_VERSION_NUM;
-<span class="lineNum">     146 </span><span class="lineCov">       1858 :   if (L == NULL) return &amp;version;</span>
-<span class="lineNum">     147 </span><span class="lineCov">        883 :   else return G(L)-&gt;version;</span>
+<span class="lineNum">     146 </span><span class="lineCov">       1940 :   if (L == NULL) return &amp;version;</span>
+<span class="lineNum">     147 </span><span class="lineCov">        917 :   else return G(L)-&gt;version;</span>
 <span class="lineNum">     148 </span>            : }
 <span class="lineNum">     149 </span>            : 
 <span class="lineNum">     150 </span>            : 
@@ -223,33 +223,33 @@
 <span class="lineNum">     157 </span>            : /*
 <span class="lineNum">     158 </span>            : ** convert an acceptable stack index into an absolute index
 <span class="lineNum">     159 </span>            : */
-<span class="lineNum">     160 </span><span class="lineCov">       4856 : LUA_API int lua_absindex (lua_State *L, int idx) {</span>
-<span class="lineNum">     161 </span><span class="lineCov">       4856 :   return (idx &gt; 0 || ispseudo(idx))</span>
+<span class="lineNum">     160 </span><span class="lineCov">       5041 : LUA_API int lua_absindex (lua_State *L, int idx) {</span>
+<span class="lineNum">     161 </span><span class="lineCov">       5041 :   return (idx &gt; 0 || ispseudo(idx))</span>
 <span class="lineNum">     162 </span>            :          ? idx
-<span class="lineNum">     163 </span><span class="lineCov">       4856 :          : cast_int(L-&gt;top - L-&gt;ci-&gt;func) + idx;</span>
+<span class="lineNum">     163 </span><span class="lineCov">       5041 :          : cast_int(L-&gt;top - L-&gt;ci-&gt;func) + idx;</span>
 <span class="lineNum">     164 </span>            : }
 <span class="lineNum">     165 </span>            : 
 <span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span><span class="lineCov">      27663 : LUA_API int lua_gettop (lua_State *L) {</span>
-<span class="lineNum">     168 </span><span class="lineCov">      27663 :   return cast_int(L-&gt;top - (L-&gt;ci-&gt;func + 1));</span>
+<span class="lineNum">     167 </span><span class="lineCov">      27795 : LUA_API int lua_gettop (lua_State *L) {</span>
+<span class="lineNum">     168 </span><span class="lineCov">      27795 :   return cast_int(L-&gt;top - (L-&gt;ci-&gt;func + 1));</span>
 <span class="lineNum">     169 </span>            : }
 <span class="lineNum">     170 </span>            : 
 <span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineCov">     210176 : LUA_API void lua_settop (lua_State *L, int idx) {</span>
-<span class="lineNum">     173 </span><span class="lineCov">     210176 :   StkId func = L-&gt;ci-&gt;func;</span>
+<span class="lineNum">     172 </span><span class="lineCov">     212218 : LUA_API void lua_settop (lua_State *L, int idx) {</span>
+<span class="lineNum">     173 </span><span class="lineCov">     212218 :   StkId func = L-&gt;ci-&gt;func;</span>
 <span class="lineNum">     174 </span>            :   lua_lock(L);
-<span class="lineNum">     175 </span><span class="lineCov">     210176 :   if (idx &gt;= 0) {</span>
+<span class="lineNum">     175 </span><span class="lineCov">     212218 :   if (idx &gt;= 0) {</span>
 <span class="lineNum">     176 </span>            :     api_check(L, idx &lt;= L-&gt;stack_last - (func + 1), &quot;new top too large&quot;);
-<span class="lineNum">     177 </span><span class="lineCov">      41030 :     while (L-&gt;top &lt; (func + 1) + idx)</span>
+<span class="lineNum">     177 </span><span class="lineCov">      41932 :     while (L-&gt;top &lt; (func + 1) + idx)</span>
 <span class="lineNum">     178 </span><span class="lineCov">       5936 :       setnilvalue(L-&gt;top++);</span>
-<span class="lineNum">     179 </span><span class="lineCov">      35094 :     L-&gt;top = (func + 1) + idx;</span>
+<span class="lineNum">     179 </span><span class="lineCov">      35996 :     L-&gt;top = (func + 1) + idx;</span>
 <span class="lineNum">     180 </span>            :   }
 <span class="lineNum">     181 </span>            :   else {
 <span class="lineNum">     182 </span>            :     api_check(L, -(idx+1) &lt;= (L-&gt;top - (func + 1)), &quot;invalid new top&quot;);
-<span class="lineNum">     183 </span><span class="lineCov">     175082 :     L-&gt;top += idx+1;  /* 'subtract' index (index is negative) */</span>
+<span class="lineNum">     183 </span><span class="lineCov">     176222 :     L-&gt;top += idx+1;  /* 'subtract' index (index is negative) */</span>
 <span class="lineNum">     184 </span>            :   }
 <span class="lineNum">     185 </span>            :   lua_unlock(L);
-<span class="lineNum">     186 </span><span class="lineCov">     210176 : }</span>
+<span class="lineNum">     186 </span><span class="lineCov">     212218 : }</span>
 <span class="lineNum">     187 </span>            : 
 <span class="lineNum">     188 </span>            : 
 <span class="lineNum">     189 </span>            : /*
@@ -257,11 +257,11 @@
 <span class="lineNum">     191 </span>            : ** (auxiliary to 'lua_rotate')
 <span class="lineNum">     192 </span>            : */
 <span class="lineNum">     193 </span>            : static void reverse (lua_State *L, StkId from, StkId to) {
-<span class="lineNum">     194 </span><span class="lineCov">       9813 :   for (; from &lt; to; from++, to--) {</span>
+<span class="lineNum">     194 </span><span class="lineCov">       9901 :   for (; from &lt; to; from++, to--) {</span>
 <span class="lineNum">     195 </span>            :     TValue temp;
-<span class="lineNum">     196 </span><span class="lineCov">       9813 :     setobj(L, &amp;temp, from);</span>
-<span class="lineNum">     197 </span><span class="lineCov">       9813 :     setobjs2s(L, from, to);</span>
-<span class="lineNum">     198 </span><span class="lineCov">       9813 :     setobj2s(L, to, &amp;temp);</span>
+<span class="lineNum">     196 </span><span class="lineCov">       9901 :     setobj(L, &amp;temp, from);</span>
+<span class="lineNum">     197 </span><span class="lineCov">       9901 :     setobjs2s(L, from, to);</span>
+<span class="lineNum">     198 </span><span class="lineCov">       9901 :     setobj2s(L, to, &amp;temp);</span>
 <span class="lineNum">     199 </span>            :   }
 <span class="lineNum">     200 </span>            : }
 <span class="lineNum">     201 </span>            : 
@@ -270,19 +270,19 @@
 <span class="lineNum">     204 </span>            : ** Let x = AB, where A is a prefix of length 'n'. Then,
 <span class="lineNum">     205 </span>            : ** rotate x n == BA. But BA == (A^r . B^r)^r.
 <span class="lineNum">     206 </span>            : */
-<span class="lineNum">     207 </span><span class="lineCov">      93603 : LUA_API void lua_rotate (lua_State *L, int idx, int n) {</span>
+<span class="lineNum">     207 </span><span class="lineCov">      93772 : LUA_API void lua_rotate (lua_State *L, int idx, int n) {</span>
 <span class="lineNum">     208 </span>            :   StkId p, t, m;
 <span class="lineNum">     209 </span>            :   lua_lock(L);
-<span class="lineNum">     210 </span><span class="lineCov">      93603 :   t = L-&gt;top - 1;  /* end of stack segment being rotated */</span>
-<span class="lineNum">     211 </span><span class="lineCov">      93603 :   p = index2addr(L, idx);  /* start of segment */</span>
+<span class="lineNum">     210 </span><span class="lineCov">      93772 :   t = L-&gt;top - 1;  /* end of stack segment being rotated */</span>
+<span class="lineNum">     211 </span><span class="lineCov">      93772 :   p = index2addr(L, idx);  /* start of segment */</span>
 <span class="lineNum">     212 </span>            :   api_checkstackindex(L, idx, p);
 <span class="lineNum">     213 </span>            :   api_check(L, (n &gt;= 0 ? n : -n) &lt;= (t - p + 1), &quot;invalid 'n'&quot;);
-<span class="lineNum">     214 </span><span class="lineCov">      93603 :   m = (n &gt;= 0 ? t - n : p - n - 1);  /* end of prefix */</span>
+<span class="lineNum">     214 </span><span class="lineCov">      93772 :   m = (n &gt;= 0 ? t - n : p - n - 1);  /* end of prefix */</span>
 <span class="lineNum">     215 </span>            :   reverse(L, p, m);  /* reverse the prefix with length 'n' */
-<span class="lineNum">     216 </span><span class="lineCov">      93603 :   reverse(L, m + 1, t);  /* reverse the suffix */</span>
+<span class="lineNum">     216 </span><span class="lineCov">      93772 :   reverse(L, m + 1, t);  /* reverse the suffix */</span>
 <span class="lineNum">     217 </span>            :   reverse(L, p, t);  /* reverse the entire segment */
 <span class="lineNum">     218 </span>            :   lua_unlock(L);
-<span class="lineNum">     219 </span><span class="lineCov">      93603 : }</span>
+<span class="lineNum">     219 </span><span class="lineCov">      93772 : }</span>
 <span class="lineNum">     220 </span>            : 
 <span class="lineNum">     221 </span>            : 
 <span class="lineNum">     222 </span><span class="lineCov">         11 : LUA_API void lua_copy (lua_State *L, int fromidx, int toidx) {</span>
@@ -300,12 +300,12 @@
 <span class="lineNum">     234 </span><span class="lineCov">         11 : }</span>
 <span class="lineNum">     235 </span>            : 
 <span class="lineNum">     236 </span>            : 
-<span class="lineNum">     237 </span><span class="lineCov">      24340 : LUA_API void lua_pushvalue (lua_State *L, int idx) {</span>
+<span class="lineNum">     237 </span><span class="lineCov">      24651 : LUA_API void lua_pushvalue (lua_State *L, int idx) {</span>
 <span class="lineNum">     238 </span>            :   lua_lock(L);
-<span class="lineNum">     239 </span><span class="lineCov">      24340 :   setobj2s(L, L-&gt;top, index2addr(L, idx));</span>
-<span class="lineNum">     240 </span><span class="lineCov">      24340 :   api_incr_top(L);</span>
+<span class="lineNum">     239 </span><span class="lineCov">      24651 :   setobj2s(L, L-&gt;top, index2addr(L, idx));</span>
+<span class="lineNum">     240 </span><span class="lineCov">      24651 :   api_incr_top(L);</span>
 <span class="lineNum">     241 </span>            :   lua_unlock(L);
-<span class="lineNum">     242 </span><span class="lineCov">      24340 : }</span>
+<span class="lineNum">     242 </span><span class="lineCov">      24651 : }</span>
 <span class="lineNum">     243 </span>            : 
 <span class="lineNum">     244 </span>            : 
 <span class="lineNum">     245 </span>            : 
@@ -314,16 +314,16 @@
 <span class="lineNum">     248 </span>            : */
 <span class="lineNum">     249 </span>            : 
 <span class="lineNum">     250 </span>            : 
-<span class="lineNum">     251 </span><span class="lineCov">     258279 : LUA_API int lua_type (lua_State *L, int idx) {</span>
-<span class="lineNum">     252 </span><span class="lineCov">     258279 :   StkId o = index2addr(L, idx);</span>
-<span class="lineNum">     253 </span><span class="lineCov">     258279 :   return (isvalid(o) ? ttnov(o) : LUA_TNONE);</span>
+<span class="lineNum">     251 </span><span class="lineCov">     261898 : LUA_API int lua_type (lua_State *L, int idx) {</span>
+<span class="lineNum">     252 </span><span class="lineCov">     261898 :   StkId o = index2addr(L, idx);</span>
+<span class="lineNum">     253 </span><span class="lineCov">     261898 :   return (isvalid(o) ? ttnov(o) : LUA_TNONE);</span>
 <span class="lineNum">     254 </span>            : }
 <span class="lineNum">     255 </span>            : 
 <span class="lineNum">     256 </span>            : 
-<span class="lineNum">     257 </span><span class="lineCov">       1708 : LUA_API const char *lua_typename (lua_State *L, int t) {</span>
+<span class="lineNum">     257 </span><span class="lineCov">       1773 : LUA_API const char *lua_typename (lua_State *L, int t) {</span>
 <span class="lineNum">     258 </span>            :   UNUSED(L);
 <span class="lineNum">     259 </span>            :   api_check(L, LUA_TNONE &lt;= t &amp;&amp; t &lt; LUA_NUMTAGS, &quot;invalid tag&quot;);
-<span class="lineNum">     260 </span><span class="lineCov">       1708 :   return ttypename(t);</span>
+<span class="lineNum">     260 </span><span class="lineCov">       1773 :   return ttypename(t);</span>
 <span class="lineNum">     261 </span>            : }
 <span class="lineNum">     262 </span>            : 
 <span class="lineNum">     263 </span>            : 
@@ -333,9 +333,9 @@
 <span class="lineNum">     267 </span>            : }
 <span class="lineNum">     268 </span>            : 
 <span class="lineNum">     269 </span>            : 
-<span class="lineNum">     270 </span><span class="lineCov">       2080 : LUA_API int lua_isinteger (lua_State *L, int idx) {</span>
-<span class="lineNum">     271 </span><span class="lineCov">       2080 :   StkId o = index2addr(L, idx);</span>
-<span class="lineNum">     272 </span><span class="lineCov">       2080 :   return ttisinteger(o);</span>
+<span class="lineNum">     270 </span><span class="lineCov">       2148 : LUA_API int lua_isinteger (lua_State *L, int idx) {</span>
+<span class="lineNum">     271 </span><span class="lineCov">       2148 :   StkId o = index2addr(L, idx);</span>
+<span class="lineNum">     272 </span><span class="lineCov">       2148 :   return ttisinteger(o);</span>
 <span class="lineNum">     273 </span>            : }
 <span class="lineNum">     274 </span>            : 
 <span class="lineNum">     275 </span>            : 
@@ -346,9 +346,9 @@
 <span class="lineNum">     280 </span>            : }
 <span class="lineNum">     281 </span>            : 
 <span class="lineNum">     282 </span>            : 
-<span class="lineNum">     283 </span><span class="lineCov">      83141 : LUA_API int lua_isstring (lua_State *L, int idx) {</span>
-<span class="lineNum">     284 </span><span class="lineCov">      83141 :   const TValue *o = index2addr(L, idx);</span>
-<span class="lineNum">     285 </span><span class="lineCov">      83141 :   return (ttisstring(o) || cvt2str(o));</span>
+<span class="lineNum">     283 </span><span class="lineCov">      83212 : LUA_API int lua_isstring (lua_State *L, int idx) {</span>
+<span class="lineNum">     284 </span><span class="lineCov">      83212 :   const TValue *o = index2addr(L, idx);</span>
+<span class="lineNum">     285 </span><span class="lineCov">      83212 :   return (ttisstring(o) || cvt2str(o));</span>
 <span class="lineNum">     286 </span>            : }
 <span class="lineNum">     287 </span>            : 
 <span class="lineNum">     288 </span>            : 
@@ -358,10 +358,10 @@
 <span class="lineNum">     292 </span>            : }
 <span class="lineNum">     293 </span>            : 
 <span class="lineNum">     294 </span>            : 
-<span class="lineNum">     295 </span><span class="lineCov">       6240 : LUA_API int lua_rawequal (lua_State *L, int index1, int index2) {</span>
-<span class="lineNum">     296 </span><span class="lineCov">       6240 :   StkId o1 = index2addr(L, index1);</span>
-<span class="lineNum">     297 </span><span class="lineCov">       6240 :   StkId o2 = index2addr(L, index2);</span>
-<span class="lineNum">     298 </span><span class="lineCov">       6240 :   return (isvalid(o1) &amp;&amp; isvalid(o2)) ? luaV_rawequalobj(o1, o2) : 0;</span>
+<span class="lineNum">     295 </span><span class="lineCov">       6892 : LUA_API int lua_rawequal (lua_State *L, int index1, int index2) {</span>
+<span class="lineNum">     296 </span><span class="lineCov">       6892 :   StkId o1 = index2addr(L, index1);</span>
+<span class="lineNum">     297 </span><span class="lineCov">       6892 :   StkId o2 = index2addr(L, index2);</span>
+<span class="lineNum">     298 </span><span class="lineCov">       6892 :   return (isvalid(o1) &amp;&amp; isvalid(o2)) ? luaV_rawequalobj(o1, o2) : 0;</span>
 <span class="lineNum">     299 </span>            : }
 <span class="lineNum">     300 </span>            : 
 <span class="lineNum">     301 </span>            : 
@@ -381,30 +381,30 @@
 <span class="lineNum">     315 </span><span class="lineNoCov">          0 : }</span>
 <span class="lineNum">     316 </span>            : 
 <span class="lineNum">     317 </span>            : 
-<span class="lineNum">     318 </span><span class="lineCov">      91622 : LUA_API int lua_compare (lua_State *L, int index1, int index2, int op) {</span>
+<span class="lineNum">     318 </span><span class="lineCov">      91624 : LUA_API int lua_compare (lua_State *L, int index1, int index2, int op) {</span>
 <span class="lineNum">     319 </span>            :   StkId o1, o2;
 <span class="lineNum">     320 </span>            :   int i = 0;
 <span class="lineNum">     321 </span>            :   lua_lock(L);  /* may call tag method */
-<span class="lineNum">     322 </span><span class="lineCov">      91622 :   o1 = index2addr(L, index1);</span>
-<span class="lineNum">     323 </span><span class="lineCov">      91622 :   o2 = index2addr(L, index2);</span>
-<span class="lineNum">     324 </span><span class="lineCov">     183244 :   if (isvalid(o1) &amp;&amp; isvalid(o2)) {</span>
-<span class="lineNum">     325 </span><span class="lineCov">      91622 :     switch (op) {</span>
+<span class="lineNum">     322 </span><span class="lineCov">      91624 :   o1 = index2addr(L, index1);</span>
+<span class="lineNum">     323 </span><span class="lineCov">      91624 :   o2 = index2addr(L, index2);</span>
+<span class="lineNum">     324 </span><span class="lineCov">     183248 :   if (isvalid(o1) &amp;&amp; isvalid(o2)) {</span>
+<span class="lineNum">     325 </span><span class="lineCov">      91624 :     switch (op) {</span>
 <span class="lineNum">     326 </span><span class="lineCov">          1 :       case LUA_OPEQ: i = luaV_equalobj(L, o1, o2); break;</span>
-<span class="lineNum">     327 </span><span class="lineCov">      91621 :       case LUA_OPLT: i = luaV_lessthan(L, o1, o2); break;</span>
+<span class="lineNum">     327 </span><span class="lineCov">      91623 :       case LUA_OPLT: i = luaV_lessthan(L, o1, o2); break;</span>
 <span class="lineNum">     328 </span><span class="lineNoCov">          0 :       case LUA_OPLE: i = luaV_lessequal(L, o1, o2); break;</span>
-<span class="lineNum">     329 </span><span class="lineCov">      91622 :       default: api_check(L, 0, &quot;invalid option&quot;);</span>
+<span class="lineNum">     329 </span><span class="lineCov">      91624 :       default: api_check(L, 0, &quot;invalid option&quot;);</span>
 <span class="lineNum">     330 </span>            :     }
 <span class="lineNum">     331 </span>            :   }
 <span class="lineNum">     332 </span>            :   lua_unlock(L);
-<span class="lineNum">     333 </span><span class="lineCov">      91622 :   return i;</span>
+<span class="lineNum">     333 </span><span class="lineCov">      91624 :   return i;</span>
 <span class="lineNum">     334 </span>            : }
 <span class="lineNum">     335 </span>            : 
 <span class="lineNum">     336 </span>            : 
-<span class="lineNum">     337 </span><span class="lineCov">       1435 : LUA_API size_t lua_stringtonumber (lua_State *L, const char *s) {</span>
-<span class="lineNum">     338 </span><span class="lineCov">       1435 :   size_t sz = luaO_str2num(s, L-&gt;top);</span>
-<span class="lineNum">     339 </span><span class="lineCov">       1435 :   if (sz != 0)</span>
+<span class="lineNum">     337 </span><span class="lineCov">       1501 : LUA_API size_t lua_stringtonumber (lua_State *L, const char *s) {</span>
+<span class="lineNum">     338 </span><span class="lineCov">       1501 :   size_t sz = luaO_str2num(s, L-&gt;top);</span>
+<span class="lineNum">     339 </span><span class="lineCov">       1501 :   if (sz != 0)</span>
 <span class="lineNum">     340 </span><span class="lineCov">         20 :     api_incr_top(L);</span>
-<span class="lineNum">     341 </span><span class="lineCov">       1435 :   return sz;</span>
+<span class="lineNum">     341 </span><span class="lineCov">       1501 :   return sz;</span>
 <span class="lineNum">     342 </span>            : }
 <span class="lineNum">     343 </span>            : 
 <span class="lineNum">     344 </span>            : 
@@ -419,26 +419,26 @@
 <span class="lineNum">     353 </span>            : }
 <span class="lineNum">     354 </span>            : 
 <span class="lineNum">     355 </span>            : 
-<span class="lineNum">     356 </span><span class="lineCov">      82115 : LUA_API lua_Integer lua_tointegerx (lua_State *L, int idx, int *pisnum) {</span>
+<span class="lineNum">     356 </span><span class="lineCov">      82289 : LUA_API lua_Integer lua_tointegerx (lua_State *L, int idx, int *pisnum) {</span>
 <span class="lineNum">     357 </span>            :   lua_Integer res;
-<span class="lineNum">     358 </span><span class="lineCov">      82115 :   const TValue *o = index2addr(L, idx);</span>
-<span class="lineNum">     359 </span><span class="lineCov">      82115 :   int isnum = tointeger(o, &amp;res);</span>
-<span class="lineNum">     360 </span><span class="lineCov">         38 :   if (!isnum)</span>
+<span class="lineNum">     358 </span><span class="lineCov">      82289 :   const TValue *o = index2addr(L, idx);</span>
+<span class="lineNum">     359 </span><span class="lineCov">      82289 :   int isnum = tointeger(o, &amp;res);</span>
+<span class="lineNum">     360 </span><span class="lineCov">         41 :   if (!isnum)</span>
 <span class="lineNum">     361 </span><span class="lineCov">         25 :     res = 0;  /* call to 'tointeger' may change 'n' even if it fails */</span>
-<span class="lineNum">     362 </span><span class="lineCov">      82115 :   if (pisnum) *pisnum = isnum;</span>
-<span class="lineNum">     363 </span><span class="lineCov">      82115 :   return res;</span>
+<span class="lineNum">     362 </span><span class="lineCov">      82289 :   if (pisnum) *pisnum = isnum;</span>
+<span class="lineNum">     363 </span><span class="lineCov">      82289 :   return res;</span>
 <span class="lineNum">     364 </span>            : }
 <span class="lineNum">     365 </span>            : 
 <span class="lineNum">     366 </span>            : 
-<span class="lineNum">     367 </span><span class="lineCov">       7783 : LUA_API int lua_toboolean (lua_State *L, int idx) {</span>
-<span class="lineNum">     368 </span><span class="lineCov">       7783 :   const TValue *o = index2addr(L, idx);</span>
-<span class="lineNum">     369 </span><span class="lineCov">       7783 :   return !l_isfalse(o);</span>
+<span class="lineNum">     367 </span><span class="lineCov">       7828 : LUA_API int lua_toboolean (lua_State *L, int idx) {</span>
+<span class="lineNum">     368 </span><span class="lineCov">       7828 :   const TValue *o = index2addr(L, idx);</span>
+<span class="lineNum">     369 </span><span class="lineCov">       7828 :   return !l_isfalse(o);</span>
 <span class="lineNum">     370 </span>            : }
 <span class="lineNum">     371 </span>            : 
 <span class="lineNum">     372 </span>            : 
-<span class="lineNum">     373 </span><span class="lineCov">     123821 : LUA_API const char *lua_tolstring (lua_State *L, int idx, size_t *len) {</span>
-<span class="lineNum">     374 </span><span class="lineCov">     123821 :   StkId o = index2addr(L, idx);</span>
-<span class="lineNum">     375 </span><span class="lineCov">     123821 :   if (!ttisstring(o)) {</span>
+<span class="lineNum">     373 </span><span class="lineCov">     124717 : LUA_API const char *lua_tolstring (lua_State *L, int idx, size_t *len) {</span>
+<span class="lineNum">     374 </span><span class="lineCov">     124717 :   StkId o = index2addr(L, idx);</span>
+<span class="lineNum">     375 </span><span class="lineCov">     124717 :   if (!ttisstring(o)) {</span>
 <span class="lineNum">     376 </span><span class="lineCov">         15 :     if (!cvt2str(o)) {  /* not convertible? */</span>
 <span class="lineNum">     377 </span><span class="lineCov">         14 :       if (len != NULL) *len = 0;</span>
 <span class="lineNum">     378 </span>            :       return NULL;
@@ -449,16 +449,16 @@
 <span class="lineNum">     383 </span><span class="lineCov">          1 :     o = index2addr(L, idx);  /* previous call may reallocate the stack */</span>
 <span class="lineNum">     384 </span>            :     lua_unlock(L);
 <span class="lineNum">     385 </span>            :   }
-<span class="lineNum">     386 </span><span class="lineCov">     123807 :   if (len != NULL)</span>
-<span class="lineNum">     387 </span><span class="lineCov">     115366 :     *len = vslen(o);</span>
-<span class="lineNum">     388 </span><span class="lineCov">     123807 :   return svalue(o);</span>
+<span class="lineNum">     386 </span><span class="lineCov">     124703 :   if (len != NULL)</span>
+<span class="lineNum">     387 </span><span class="lineCov">     115974 :     *len = vslen(o);</span>
+<span class="lineNum">     388 </span><span class="lineCov">     124703 :   return svalue(o);</span>
 <span class="lineNum">     389 </span>            : }
 <span class="lineNum">     390 </span>            : 
 <span class="lineNum">     391 </span>            : 
-<span class="lineNum">     392 </span><span class="lineCov">         16 : LUA_API size_t lua_rawlen (lua_State *L, int idx) {</span>
-<span class="lineNum">     393 </span><span class="lineCov">         16 :   StkId o = index2addr(L, idx);</span>
-<span class="lineNum">     394 </span><span class="lineCov">         16 :   switch (ttype(o)) {</span>
-<span class="lineNum">     395 </span><span class="lineCov">         15 :     case LUA_TSHRSTR: return tsvalue(o)-&gt;shrlen;</span>
+<span class="lineNum">     392 </span><span class="lineCov">         18 : LUA_API size_t lua_rawlen (lua_State *L, int idx) {</span>
+<span class="lineNum">     393 </span><span class="lineCov">         18 :   StkId o = index2addr(L, idx);</span>
+<span class="lineNum">     394 </span><span class="lineCov">         18 :   switch (ttype(o)) {</span>
+<span class="lineNum">     395 </span><span class="lineCov">         17 :     case LUA_TSHRSTR: return tsvalue(o)-&gt;shrlen;</span>
 <span class="lineNum">     396 </span><span class="lineNoCov">          0 :     case LUA_TLNGSTR: return tsvalue(o)-&gt;u.lnglen;</span>
 <span class="lineNum">     397 </span><span class="lineNoCov">          0 :     case LUA_TUSERDATA: return uvalue(o)-&gt;len;</span>
 <span class="lineNum">     398 </span><span class="lineCov">          1 :     case LUA_TTABLE: return luaH_getn(hvalue(o));</span>
@@ -476,11 +476,11 @@
 <span class="lineNum">     410 </span>            : }
 <span class="lineNum">     411 </span>            : 
 <span class="lineNum">     412 </span>            : 
-<span class="lineNum">     413 </span><span class="lineCov">       3516 : LUA_API void *lua_touserdata (lua_State *L, int idx) {</span>
-<span class="lineNum">     414 </span><span class="lineCov">       3516 :   StkId o = index2addr(L, idx);</span>
-<span class="lineNum">     415 </span><span class="lineCov">       3516 :   switch (ttnov(o)) {</span>
-<span class="lineNum">     416 </span><span class="lineCov">       3420 :     case LUA_TUSERDATA: return getudatamem(uvalue(o));</span>
-<span class="lineNum">     417 </span><span class="lineCov">         93 :     case LUA_TLIGHTUSERDATA: return pvalue(o);</span>
+<span class="lineNum">     413 </span><span class="lineCov">       3764 : LUA_API void *lua_touserdata (lua_State *L, int idx) {</span>
+<span class="lineNum">     414 </span><span class="lineCov">       3764 :   StkId o = index2addr(L, idx);</span>
+<span class="lineNum">     415 </span><span class="lineCov">       3764 :   switch (ttnov(o)) {</span>
+<span class="lineNum">     416 </span><span class="lineCov">       3649 :     case LUA_TUSERDATA: return getudatamem(uvalue(o));</span>
+<span class="lineNum">     417 </span><span class="lineCov">        110 :     case LUA_TLIGHTUSERDATA: return pvalue(o);</span>
 <span class="lineNum">     418 </span>            :     default: return NULL;
 <span class="lineNum">     419 </span>            :   }
 <span class="lineNum">     420 </span>            : }
@@ -513,28 +513,28 @@
 <span class="lineNum">     447 </span>            : */
 <span class="lineNum">     448 </span>            : 
 <span class="lineNum">     449 </span>            : 
-<span class="lineNum">     450 </span><span class="lineCov">       5351 : LUA_API void lua_pushnil (lua_State *L) {</span>
+<span class="lineNum">     450 </span><span class="lineCov">       5545 : LUA_API void lua_pushnil (lua_State *L) {</span>
 <span class="lineNum">     451 </span>            :   lua_lock(L);
-<span class="lineNum">     452 </span><span class="lineCov">       5351 :   setnilvalue(L-&gt;top);</span>
-<span class="lineNum">     453 </span><span class="lineCov">       5351 :   api_incr_top(L);</span>
+<span class="lineNum">     452 </span><span class="lineCov">       5545 :   setnilvalue(L-&gt;top);</span>
+<span class="lineNum">     453 </span><span class="lineCov">       5545 :   api_incr_top(L);</span>
 <span class="lineNum">     454 </span>            :   lua_unlock(L);
-<span class="lineNum">     455 </span><span class="lineCov">       5351 : }</span>
+<span class="lineNum">     455 </span><span class="lineCov">       5545 : }</span>
 <span class="lineNum">     456 </span>            : 
 <span class="lineNum">     457 </span>            : 
-<span class="lineNum">     458 </span><span class="lineCov">        205 : LUA_API void lua_pushnumber (lua_State *L, lua_Number n) {</span>
+<span class="lineNum">     458 </span><span class="lineCov">        211 : LUA_API void lua_pushnumber (lua_State *L, lua_Number n) {</span>
 <span class="lineNum">     459 </span>            :   lua_lock(L);
-<span class="lineNum">     460 </span><span class="lineCov">        205 :   setfltvalue(L-&gt;top, n);</span>
-<span class="lineNum">     461 </span><span class="lineCov">        205 :   api_incr_top(L);</span>
+<span class="lineNum">     460 </span><span class="lineCov">        211 :   setfltvalue(L-&gt;top, n);</span>
+<span class="lineNum">     461 </span><span class="lineCov">        211 :   api_incr_top(L);</span>
 <span class="lineNum">     462 </span>            :   lua_unlock(L);
-<span class="lineNum">     463 </span><span class="lineCov">        205 : }</span>
+<span class="lineNum">     463 </span><span class="lineCov">        211 : }</span>
 <span class="lineNum">     464 </span>            : 
 <span class="lineNum">     465 </span>            : 
-<span class="lineNum">     466 </span><span class="lineCov">      55080 : LUA_API void lua_pushinteger (lua_State *L, lua_Integer n) {</span>
+<span class="lineNum">     466 </span><span class="lineCov">      55198 : LUA_API void lua_pushinteger (lua_State *L, lua_Integer n) {</span>
 <span class="lineNum">     467 </span>            :   lua_lock(L);
-<span class="lineNum">     468 </span><span class="lineCov">      55080 :   setivalue(L-&gt;top, n);</span>
-<span class="lineNum">     469 </span><span class="lineCov">      55080 :   api_incr_top(L);</span>
+<span class="lineNum">     468 </span><span class="lineCov">      55198 :   setivalue(L-&gt;top, n);</span>
+<span class="lineNum">     469 </span><span class="lineCov">      55198 :   api_incr_top(L);</span>
 <span class="lineNum">     470 </span>            :   lua_unlock(L);
-<span class="lineNum">     471 </span><span class="lineCov">      55080 : }</span>
+<span class="lineNum">     471 </span><span class="lineCov">      55198 : }</span>
 <span class="lineNum">     472 </span>            : 
 <span class="lineNum">     473 </span>            : 
 <span class="lineNum">     474 </span>            : /*
@@ -542,106 +542,106 @@
 <span class="lineNum">     476 </span>            : ** 'len' == 0 (as 's' can be NULL in that case), due to later use of
 <span class="lineNum">     477 </span>            : ** 'memcmp' and 'memcpy'.
 <span class="lineNum">     478 </span>            : */
-<span class="lineNum">     479 </span><span class="lineCov">      25264 : LUA_API const char *lua_pushlstring (lua_State *L, const char *s, size_t len) {</span>
+<span class="lineNum">     479 </span><span class="lineCov">      25505 : LUA_API const char *lua_pushlstring (lua_State *L, const char *s, size_t len) {</span>
 <span class="lineNum">     480 </span>            :   TString *ts;
 <span class="lineNum">     481 </span>            :   lua_lock(L);
-<span class="lineNum">     482 </span><span class="lineCov">      25264 :   ts = (len == 0) ? luaS_new(L, &quot;&quot;) : luaS_newlstr(L, s, len);</span>
-<span class="lineNum">     483 </span><span class="lineCov">      25264 :   setsvalue2s(L, L-&gt;top, ts);</span>
-<span class="lineNum">     484 </span><span class="lineCov">      25264 :   api_incr_top(L);</span>
-<span class="lineNum">     485 </span><span class="lineCov">      25264 :   luaC_checkGC(L);</span>
+<span class="lineNum">     482 </span><span class="lineCov">      25505 :   ts = (len == 0) ? luaS_new(L, &quot;&quot;) : luaS_newlstr(L, s, len);</span>
+<span class="lineNum">     483 </span><span class="lineCov">      25505 :   setsvalue2s(L, L-&gt;top, ts);</span>
+<span class="lineNum">     484 </span><span class="lineCov">      25505 :   api_incr_top(L);</span>
+<span class="lineNum">     485 </span><span class="lineCov">      25505 :   luaC_checkGC(L);</span>
 <span class="lineNum">     486 </span>            :   lua_unlock(L);
-<span class="lineNum">     487 </span><span class="lineCov">      25264 :   return getstr(ts);</span>
+<span class="lineNum">     487 </span><span class="lineCov">      25505 :   return getstr(ts);</span>
 <span class="lineNum">     488 </span>            : }
 <span class="lineNum">     489 </span>            : 
 <span class="lineNum">     490 </span>            : 
-<span class="lineNum">     491 </span><span class="lineCov">       8432 : LUA_API const char *lua_pushstring (lua_State *L, const char *s) {</span>
+<span class="lineNum">     491 </span><span class="lineCov">       8695 : LUA_API const char *lua_pushstring (lua_State *L, const char *s) {</span>
 <span class="lineNum">     492 </span>            :   lua_lock(L);
-<span class="lineNum">     493 </span><span class="lineCov">       8432 :   if (s == NULL)</span>
+<span class="lineNum">     493 </span><span class="lineCov">       8695 :   if (s == NULL)</span>
 <span class="lineNum">     494 </span><span class="lineCov">          5 :     setnilvalue(L-&gt;top);</span>
 <span class="lineNum">     495 </span>            :   else {
 <span class="lineNum">     496 </span>            :     TString *ts;
-<span class="lineNum">     497 </span><span class="lineCov">       8427 :     ts = luaS_new(L, s);</span>
-<span class="lineNum">     498 </span><span class="lineCov">       8427 :     setsvalue2s(L, L-&gt;top, ts);</span>
-<span class="lineNum">     499 </span><span class="lineCov">       8427 :     s = getstr(ts);  /* internal copy's address */</span>
+<span class="lineNum">     497 </span><span class="lineCov">       8690 :     ts = luaS_new(L, s);</span>
+<span class="lineNum">     498 </span><span class="lineCov">       8690 :     setsvalue2s(L, L-&gt;top, ts);</span>
+<span class="lineNum">     499 </span><span class="lineCov">       8690 :     s = getstr(ts);  /* internal copy's address */</span>
 <span class="lineNum">     500 </span>            :   }
-<span class="lineNum">     501 </span><span class="lineCov">       8432 :   api_incr_top(L);</span>
-<span class="lineNum">     502 </span><span class="lineCov">       8432 :   luaC_checkGC(L);</span>
+<span class="lineNum">     501 </span><span class="lineCov">       8695 :   api_incr_top(L);</span>
+<span class="lineNum">     502 </span><span class="lineCov">       8695 :   luaC_checkGC(L);</span>
 <span class="lineNum">     503 </span>            :   lua_unlock(L);
-<span class="lineNum">     504 </span><span class="lineCov">       8432 :   return s;</span>
+<span class="lineNum">     504 </span><span class="lineCov">       8695 :   return s;</span>
 <span class="lineNum">     505 </span>            : }
 <span class="lineNum">     506 </span>            : 
 <span class="lineNum">     507 </span>            : 
-<span class="lineNum">     508 </span><span class="lineCov">        108 : LUA_API const char *lua_pushvfstring (lua_State *L, const char *fmt,</span>
+<span class="lineNum">     508 </span><span class="lineCov">        111 : LUA_API const char *lua_pushvfstring (lua_State *L, const char *fmt,</span>
 <span class="lineNum">     509 </span>            :                                       va_list argp) {
 <span class="lineNum">     510 </span>            :   const char *ret;
 <span class="lineNum">     511 </span>            :   lua_lock(L);
-<span class="lineNum">     512 </span><span class="lineCov">        108 :   ret = luaO_pushvfstring(L, fmt, argp);</span>
-<span class="lineNum">     513 </span><span class="lineCov">        108 :   luaC_checkGC(L);</span>
+<span class="lineNum">     512 </span><span class="lineCov">        111 :   ret = luaO_pushvfstring(L, fmt, argp);</span>
+<span class="lineNum">     513 </span><span class="lineCov">        111 :   luaC_checkGC(L);</span>
 <span class="lineNum">     514 </span>            :   lua_unlock(L);
-<span class="lineNum">     515 </span><span class="lineCov">        108 :   return ret;</span>
+<span class="lineNum">     515 </span><span class="lineCov">        111 :   return ret;</span>
 <span class="lineNum">     516 </span>            : }
 <span class="lineNum">     517 </span>            : 
 <span class="lineNum">     518 </span>            : 
-<span class="lineNum">     519 </span><span class="lineCov">       3380 : LUA_API const char *lua_pushfstring (lua_State *L, const char *fmt, ...) {</span>
+<span class="lineNum">     519 </span><span class="lineCov">       3469 : LUA_API const char *lua_pushfstring (lua_State *L, const char *fmt, ...) {</span>
 <span class="lineNum">     520 </span>            :   const char *ret;
 <span class="lineNum">     521 </span>            :   va_list argp;
 <span class="lineNum">     522 </span>            :   lua_lock(L);
-<span class="lineNum">     523 </span><span class="lineCov">       3380 :   va_start(argp, fmt);</span>
-<span class="lineNum">     524 </span><span class="lineCov">       3380 :   ret = luaO_pushvfstring(L, fmt, argp);</span>
-<span class="lineNum">     525 </span><span class="lineCov">       3380 :   va_end(argp);</span>
-<span class="lineNum">     526 </span><span class="lineCov">       3380 :   luaC_checkGC(L);</span>
+<span class="lineNum">     523 </span><span class="lineCov">       3469 :   va_start(argp, fmt);</span>
+<span class="lineNum">     524 </span><span class="lineCov">       3469 :   ret = luaO_pushvfstring(L, fmt, argp);</span>
+<span class="lineNum">     525 </span><span class="lineCov">       3469 :   va_end(argp);</span>
+<span class="lineNum">     526 </span><span class="lineCov">       3469 :   luaC_checkGC(L);</span>
 <span class="lineNum">     527 </span>            :   lua_unlock(L);
-<span class="lineNum">     528 </span><span class="lineCov">       3380 :   return ret;</span>
+<span class="lineNum">     528 </span><span class="lineCov">       3469 :   return ret;</span>
 <span class="lineNum">     529 </span>            : }
 <span class="lineNum">     530 </span>            : 
 <span class="lineNum">     531 </span>            : 
-<span class="lineNum">     532 </span><span class="lineCov">      20687 : LUA_API void lua_pushcclosure (lua_State *L, lua_CFunction fn, int n) {</span>
+<span class="lineNum">     532 </span><span class="lineCov">      21245 : LUA_API void lua_pushcclosure (lua_State *L, lua_CFunction fn, int n) {</span>
 <span class="lineNum">     533 </span>            :   lua_lock(L);
-<span class="lineNum">     534 </span><span class="lineCov">      20687 :   if (n == 0) {</span>
-<span class="lineNum">     535 </span><span class="lineCov">      20268 :     setfvalue(L-&gt;top, fn);</span>
-<span class="lineNum">     536 </span><span class="lineCov">      20268 :     api_incr_top(L);</span>
+<span class="lineNum">     534 </span><span class="lineCov">      21245 :   if (n == 0) {</span>
+<span class="lineNum">     535 </span><span class="lineCov">      20811 :     setfvalue(L-&gt;top, fn);</span>
+<span class="lineNum">     536 </span><span class="lineCov">      20811 :     api_incr_top(L);</span>
 <span class="lineNum">     537 </span>            :   }
 <span class="lineNum">     538 </span>            :   else {
 <span class="lineNum">     539 </span>            :     CClosure *cl;
 <span class="lineNum">     540 </span>            :     api_checknelems(L, n);
 <span class="lineNum">     541 </span>            :     api_check(L, n &lt;= MAXUPVAL, &quot;upvalue index too large&quot;);
-<span class="lineNum">     542 </span><span class="lineCov">        419 :     cl = luaF_newCclosure(L, n);</span>
-<span class="lineNum">     543 </span><span class="lineCov">        419 :     cl-&gt;f = fn;</span>
-<span class="lineNum">     544 </span><span class="lineCov">        419 :     L-&gt;top -= n;</span>
-<span class="lineNum">     545 </span><span class="lineCov">       1282 :     while (n--) {</span>
-<span class="lineNum">     546 </span><span class="lineCov">        444 :       setobj2n(L, &amp;cl-&gt;upvalue[n], L-&gt;top + n);</span>
+<span class="lineNum">     542 </span><span class="lineCov">        434 :     cl = luaF_newCclosure(L, n);</span>
+<span class="lineNum">     543 </span><span class="lineCov">        434 :     cl-&gt;f = fn;</span>
+<span class="lineNum">     544 </span><span class="lineCov">        434 :     L-&gt;top -= n;</span>
+<span class="lineNum">     545 </span><span class="lineCov">       1327 :     while (n--) {</span>
+<span class="lineNum">     546 </span><span class="lineCov">        459 :       setobj2n(L, &amp;cl-&gt;upvalue[n], L-&gt;top + n);</span>
 <span class="lineNum">     547 </span>            :       /* does not need barrier because closure is white */
 <span class="lineNum">     548 </span>            :     }
-<span class="lineNum">     549 </span><span class="lineCov">        419 :     setclCvalue(L, L-&gt;top, cl);</span>
-<span class="lineNum">     550 </span><span class="lineCov">        419 :     api_incr_top(L);</span>
-<span class="lineNum">     551 </span><span class="lineCov">        419 :     luaC_checkGC(L);</span>
+<span class="lineNum">     549 </span><span class="lineCov">        434 :     setclCvalue(L, L-&gt;top, cl);</span>
+<span class="lineNum">     550 </span><span class="lineCov">        434 :     api_incr_top(L);</span>
+<span class="lineNum">     551 </span><span class="lineCov">        434 :     luaC_checkGC(L);</span>
 <span class="lineNum">     552 </span>            :   }
 <span class="lineNum">     553 </span>            :   lua_unlock(L);
-<span class="lineNum">     554 </span><span class="lineCov">      20687 : }</span>
+<span class="lineNum">     554 </span><span class="lineCov">      21245 : }</span>
 <span class="lineNum">     555 </span>            : 
 <span class="lineNum">     556 </span>            : 
-<span class="lineNum">     557 </span><span class="lineCov">       7306 : LUA_API void lua_pushboolean (lua_State *L, int b) {</span>
+<span class="lineNum">     557 </span><span class="lineCov">       7339 : LUA_API void lua_pushboolean (lua_State *L, int b) {</span>
 <span class="lineNum">     558 </span>            :   lua_lock(L);
-<span class="lineNum">     559 </span><span class="lineCov">       7306 :   setbvalue(L-&gt;top, (b != 0));  /* ensure that true is 1 */</span>
-<span class="lineNum">     560 </span><span class="lineCov">       7306 :   api_incr_top(L);</span>
+<span class="lineNum">     559 </span><span class="lineCov">       7339 :   setbvalue(L-&gt;top, (b != 0));  /* ensure that true is 1 */</span>
+<span class="lineNum">     560 </span><span class="lineCov">       7339 :   api_incr_top(L);</span>
 <span class="lineNum">     561 </span>            :   lua_unlock(L);
-<span class="lineNum">     562 </span><span class="lineCov">       7306 : }</span>
+<span class="lineNum">     562 </span><span class="lineCov">       7339 : }</span>
 <span class="lineNum">     563 </span>            : 
 <span class="lineNum">     564 </span>            : 
-<span class="lineNum">     565 </span><span class="lineCov">         94 : LUA_API void lua_pushlightuserdata (lua_State *L, void *p) {</span>
+<span class="lineNum">     565 </span><span class="lineCov">        109 : LUA_API void lua_pushlightuserdata (lua_State *L, void *p) {</span>
 <span class="lineNum">     566 </span>            :   lua_lock(L);
-<span class="lineNum">     567 </span><span class="lineCov">         94 :   setpvalue(L-&gt;top, p);</span>
-<span class="lineNum">     568 </span><span class="lineCov">         94 :   api_incr_top(L);</span>
+<span class="lineNum">     567 </span><span class="lineCov">        109 :   setpvalue(L-&gt;top, p);</span>
+<span class="lineNum">     568 </span><span class="lineCov">        109 :   api_incr_top(L);</span>
 <span class="lineNum">     569 </span>            :   lua_unlock(L);
-<span class="lineNum">     570 </span><span class="lineCov">         94 : }</span>
+<span class="lineNum">     570 </span><span class="lineCov">        109 : }</span>
 <span class="lineNum">     571 </span>            : 
 <span class="lineNum">     572 </span>            : 
-<span class="lineNum">     573 </span><span class="lineCov">       1275 : LUA_API int lua_pushthread (lua_State *L) {</span>
+<span class="lineNum">     573 </span><span class="lineCov">       1274 : LUA_API int lua_pushthread (lua_State *L) {</span>
 <span class="lineNum">     574 </span>            :   lua_lock(L);
-<span class="lineNum">     575 </span><span class="lineCov">       1275 :   setthvalue(L, L-&gt;top, L);</span>
-<span class="lineNum">     576 </span><span class="lineCov">       1275 :   api_incr_top(L);</span>
+<span class="lineNum">     575 </span><span class="lineCov">       1274 :   setthvalue(L, L-&gt;top, L);</span>
+<span class="lineNum">     576 </span><span class="lineCov">       1274 :   api_incr_top(L);</span>
 <span class="lineNum">     577 </span>            :   lua_unlock(L);
-<span class="lineNum">     578 </span><span class="lineCov">       1275 :   return (G(L)-&gt;mainthread == L);</span>
+<span class="lineNum">     578 </span><span class="lineCov">       1274 :   return (G(L)-&gt;mainthread == L);</span>
 <span class="lineNum">     579 </span>            : }
 <span class="lineNum">     580 </span>            : 
 <span class="lineNum">     581 </span>            : 
@@ -651,27 +651,27 @@
 <span class="lineNum">     585 </span>            : */
 <span class="lineNum">     586 </span>            : 
 <span class="lineNum">     587 </span>            : 
-<span class="lineNum">     588 </span><span class="lineCov">       7904 : static int auxgetstr (lua_State *L, const TValue *t, const char *k) {</span>
+<span class="lineNum">     588 </span><span class="lineCov">       8251 : static int auxgetstr (lua_State *L, const TValue *t, const char *k) {</span>
 <span class="lineNum">     589 </span>            :   const TValue *slot;
-<span class="lineNum">     590 </span><span class="lineCov">       7904 :   TString *str = luaS_new(L, k);</span>
-<span class="lineNum">     591 </span><span class="lineCov">       7904 :   if (luaV_fastget(L, t, str, slot, luaH_getstr)) {</span>
-<span class="lineNum">     592 </span><span class="lineCov">       6226 :     setobj2s(L, L-&gt;top, slot);</span>
-<span class="lineNum">     593 </span><span class="lineCov">       6226 :     api_incr_top(L);</span>
+<span class="lineNum">     590 </span><span class="lineCov">       8251 :   TString *str = luaS_new(L, k);</span>
+<span class="lineNum">     591 </span><span class="lineCov">       8251 :   if (luaV_fastget(L, t, str, slot, luaH_getstr)) {</span>
+<span class="lineNum">     592 </span><span class="lineCov">       6523 :     setobj2s(L, L-&gt;top, slot);</span>
+<span class="lineNum">     593 </span><span class="lineCov">       6523 :     api_incr_top(L);</span>
 <span class="lineNum">     594 </span>            :   }
 <span class="lineNum">     595 </span>            :   else {
-<span class="lineNum">     596 </span><span class="lineCov">       1678 :     setsvalue2s(L, L-&gt;top, str);</span>
-<span class="lineNum">     597 </span><span class="lineCov">       1678 :     api_incr_top(L);</span>
-<span class="lineNum">     598 </span><span class="lineCov">       1678 :     luaV_finishget(L, t, L-&gt;top - 1, L-&gt;top - 1, slot);</span>
+<span class="lineNum">     596 </span><span class="lineCov">       1728 :     setsvalue2s(L, L-&gt;top, str);</span>
+<span class="lineNum">     597 </span><span class="lineCov">       1728 :     api_incr_top(L);</span>
+<span class="lineNum">     598 </span><span class="lineCov">       1728 :     luaV_finishget(L, t, L-&gt;top - 1, L-&gt;top - 1, slot);</span>
 <span class="lineNum">     599 </span>            :   }
 <span class="lineNum">     600 </span>            :   lua_unlock(L);
-<span class="lineNum">     601 </span><span class="lineCov">       7904 :   return ttnov(L-&gt;top - 1);</span>
+<span class="lineNum">     601 </span><span class="lineCov">       8251 :   return ttnov(L-&gt;top - 1);</span>
 <span class="lineNum">     602 </span>            : }
 <span class="lineNum">     603 </span>            : 
 <span class="lineNum">     604 </span>            : 
-<span class="lineNum">     605 </span><span class="lineCov">        237 : LUA_API int lua_getglobal (lua_State *L, const char *name) {</span>
-<span class="lineNum">     606 </span><span class="lineCov">        237 :   Table *reg = hvalue(&amp;G(L)-&gt;l_registry);</span>
+<span class="lineNum">     605 </span><span class="lineCov">        241 : LUA_API int lua_getglobal (lua_State *L, const char *name) {</span>
+<span class="lineNum">     606 </span><span class="lineCov">        241 :   Table *reg = hvalue(&amp;G(L)-&gt;l_registry);</span>
 <span class="lineNum">     607 </span>            :   lua_lock(L);
-<span class="lineNum">     608 </span><span class="lineCov">        237 :   return auxgetstr(L, luaH_getint(reg, LUA_RIDX_GLOBALS), name);</span>
+<span class="lineNum">     608 </span><span class="lineCov">        241 :   return auxgetstr(L, luaH_getint(reg, LUA_RIDX_GLOBALS), name);</span>
 <span class="lineNum">     609 </span>            : }
 <span class="lineNum">     610 </span>            : 
 <span class="lineNum">     611 </span>            : 
@@ -685,20 +685,20 @@
 <span class="lineNum">     619 </span>            : }
 <span class="lineNum">     620 </span>            : 
 <span class="lineNum">     621 </span>            : 
-<span class="lineNum">     622 </span><span class="lineCov">       7667 : LUA_API int lua_getfield (lua_State *L, int idx, const char *k) {</span>
+<span class="lineNum">     622 </span><span class="lineCov">       8010 : LUA_API int lua_getfield (lua_State *L, int idx, const char *k) {</span>
 <span class="lineNum">     623 </span>            :   lua_lock(L);
-<span class="lineNum">     624 </span><span class="lineCov">       7667 :   return auxgetstr(L, index2addr(L, idx), k);</span>
+<span class="lineNum">     624 </span><span class="lineCov">       8010 :   return auxgetstr(L, index2addr(L, idx), k);</span>
 <span class="lineNum">     625 </span>            : }
 <span class="lineNum">     626 </span>            : 
 <span class="lineNum">     627 </span>            : 
-<span class="lineNum">     628 </span><span class="lineCov">     275138 : LUA_API int lua_geti (lua_State *L, int idx, lua_Integer n) {</span>
+<span class="lineNum">     628 </span><span class="lineCov">     275212 : LUA_API int lua_geti (lua_State *L, int idx, lua_Integer n) {</span>
 <span class="lineNum">     629 </span>            :   StkId t;
 <span class="lineNum">     630 </span>            :   const TValue *slot;
 <span class="lineNum">     631 </span>            :   lua_lock(L);
-<span class="lineNum">     632 </span><span class="lineCov">     275138 :   t = index2addr(L, idx);</span>
-<span class="lineNum">     633 </span><span class="lineCov">     275138 :   if (luaV_fastget(L, t, n, slot, luaH_getint)) {</span>
-<span class="lineNum">     634 </span><span class="lineCov">     269209 :     setobj2s(L, L-&gt;top, slot);</span>
-<span class="lineNum">     635 </span><span class="lineCov">     269209 :     api_incr_top(L);</span>
+<span class="lineNum">     632 </span><span class="lineCov">     275212 :   t = index2addr(L, idx);</span>
+<span class="lineNum">     633 </span><span class="lineCov">     275212 :   if (luaV_fastget(L, t, n, slot, luaH_getint)) {</span>
+<span class="lineNum">     634 </span><span class="lineCov">     269283 :     setobj2s(L, L-&gt;top, slot);</span>
+<span class="lineNum">     635 </span><span class="lineCov">     269283 :     api_incr_top(L);</span>
 <span class="lineNum">     636 </span>            :   }
 <span class="lineNum">     637 </span>            :   else {
 <span class="lineNum">     638 </span><span class="lineCov">       5929 :     setivalue(L-&gt;top, n);</span>
@@ -706,84 +706,84 @@
 <span class="lineNum">     640 </span><span class="lineCov">       5929 :     luaV_finishget(L, t, L-&gt;top - 1, L-&gt;top - 1, slot);</span>
 <span class="lineNum">     641 </span>            :   }
 <span class="lineNum">     642 </span>            :   lua_unlock(L);
-<span class="lineNum">     643 </span><span class="lineCov">     275138 :   return ttnov(L-&gt;top - 1);</span>
+<span class="lineNum">     643 </span><span class="lineCov">     275212 :   return ttnov(L-&gt;top - 1);</span>
 <span class="lineNum">     644 </span>            : }
 <span class="lineNum">     645 </span>            : 
 <span class="lineNum">     646 </span>            : 
-<span class="lineNum">     647 </span><span class="lineCov">      30426 : LUA_API int lua_rawget (lua_State *L, int idx) {</span>
+<span class="lineNum">     647 </span><span class="lineCov">      31433 : LUA_API int lua_rawget (lua_State *L, int idx) {</span>
 <span class="lineNum">     648 </span>            :   StkId t;
 <span class="lineNum">     649 </span>            :   lua_lock(L);
-<span class="lineNum">     650 </span><span class="lineCov">      30426 :   t = index2addr(L, idx);</span>
+<span class="lineNum">     650 </span><span class="lineCov">      31433 :   t = index2addr(L, idx);</span>
 <span class="lineNum">     651 </span>            :   api_check(L, ttistable(t), &quot;table expected&quot;);
-<span class="lineNum">     652 </span><span class="lineCov">      30426 :   setobj2s(L, L-&gt;top - 1, luaH_get(hvalue(t), L-&gt;top - 1));</span>
+<span class="lineNum">     652 </span><span class="lineCov">      31433 :   setobj2s(L, L-&gt;top - 1, luaH_get(hvalue(t), L-&gt;top - 1));</span>
 <span class="lineNum">     653 </span>            :   lua_unlock(L);
-<span class="lineNum">     654 </span><span class="lineCov">      30426 :   return ttnov(L-&gt;top - 1);</span>
+<span class="lineNum">     654 </span><span class="lineCov">      31433 :   return ttnov(L-&gt;top - 1);</span>
 <span class="lineNum">     655 </span>            : }
 <span class="lineNum">     656 </span>            : 
 <span class="lineNum">     657 </span>            : 
-<span class="lineNum">     658 </span><span class="lineCov">        513 : LUA_API int lua_rawgeti (lua_State *L, int idx, lua_Integer n) {</span>
+<span class="lineNum">     658 </span><span class="lineCov">        520 : LUA_API int lua_rawgeti (lua_State *L, int idx, lua_Integer n) {</span>
 <span class="lineNum">     659 </span>            :   StkId t;
 <span class="lineNum">     660 </span>            :   lua_lock(L);
-<span class="lineNum">     661 </span><span class="lineCov">        513 :   t = index2addr(L, idx);</span>
+<span class="lineNum">     661 </span><span class="lineCov">        520 :   t = index2addr(L, idx);</span>
 <span class="lineNum">     662 </span>            :   api_check(L, ttistable(t), &quot;table expected&quot;);
-<span class="lineNum">     663 </span><span class="lineCov">        513 :   setobj2s(L, L-&gt;top, luaH_getint(hvalue(t), n));</span>
-<span class="lineNum">     664 </span><span class="lineCov">        513 :   api_incr_top(L);</span>
+<span class="lineNum">     663 </span><span class="lineCov">        520 :   setobj2s(L, L-&gt;top, luaH_getint(hvalue(t), n));</span>
+<span class="lineNum">     664 </span><span class="lineCov">        520 :   api_incr_top(L);</span>
 <span class="lineNum">     665 </span>            :   lua_unlock(L);
-<span class="lineNum">     666 </span><span class="lineCov">        513 :   return ttnov(L-&gt;top - 1);</span>
+<span class="lineNum">     666 </span><span class="lineCov">        520 :   return ttnov(L-&gt;top - 1);</span>
 <span class="lineNum">     667 </span>            : }
 <span class="lineNum">     668 </span>            : 
 <span class="lineNum">     669 </span>            : 
-<span class="lineNum">     670 </span><span class="lineCov">       1277 : LUA_API int lua_rawgetp (lua_State *L, int idx, const void *p) {</span>
+<span class="lineNum">     670 </span><span class="lineCov">       1281 : LUA_API int lua_rawgetp (lua_State *L, int idx, const void *p) {</span>
 <span class="lineNum">     671 </span>            :   StkId t;
 <span class="lineNum">     672 </span>            :   TValue k;
 <span class="lineNum">     673 </span>            :   lua_lock(L);
-<span class="lineNum">     674 </span><span class="lineCov">       1277 :   t = index2addr(L, idx);</span>
+<span class="lineNum">     674 </span><span class="lineCov">       1281 :   t = index2addr(L, idx);</span>
 <span class="lineNum">     675 </span>            :   api_check(L, ttistable(t), &quot;table expected&quot;);
-<span class="lineNum">     676 </span><span class="lineCov">       1277 :   setpvalue(&amp;k, cast(void *, p));</span>
-<span class="lineNum">     677 </span><span class="lineCov">       1277 :   setobj2s(L, L-&gt;top, luaH_get(hvalue(t), &amp;k));</span>
-<span class="lineNum">     678 </span><span class="lineCov">       1277 :   api_incr_top(L);</span>
+<span class="lineNum">     676 </span><span class="lineCov">       1281 :   setpvalue(&amp;k, cast(void *, p));</span>
+<span class="lineNum">     677 </span><span class="lineCov">       1281 :   setobj2s(L, L-&gt;top, luaH_get(hvalue(t), &amp;k));</span>
+<span class="lineNum">     678 </span><span class="lineCov">       1281 :   api_incr_top(L);</span>
 <span class="lineNum">     679 </span>            :   lua_unlock(L);
-<span class="lineNum">     680 </span><span class="lineCov">       1277 :   return ttnov(L-&gt;top - 1);</span>
+<span class="lineNum">     680 </span><span class="lineCov">       1281 :   return ttnov(L-&gt;top - 1);</span>
 <span class="lineNum">     681 </span>            : }
 <span class="lineNum">     682 </span>            : 
 <span class="lineNum">     683 </span>            : 
-<span class="lineNum">     684 </span><span class="lineCov">       1450 : LUA_API void lua_createtable (lua_State *L, int narray, int nrec) {</span>
+<span class="lineNum">     684 </span><span class="lineCov">       1504 : LUA_API void lua_createtable (lua_State *L, int narray, int nrec) {</span>
 <span class="lineNum">     685 </span>            :   Table *t;
 <span class="lineNum">     686 </span>            :   lua_lock(L);
-<span class="lineNum">     687 </span><span class="lineCov">       1450 :   t = luaH_new(L);</span>
-<span class="lineNum">     688 </span><span class="lineCov">       1450 :   sethvalue(L, L-&gt;top, t);</span>
-<span class="lineNum">     689 </span><span class="lineCov">       1450 :   api_incr_top(L);</span>
-<span class="lineNum">     690 </span><span class="lineCov">       1450 :   if (narray &gt; 0 || nrec &gt; 0)</span>
-<span class="lineNum">     691 </span><span class="lineCov">       1207 :     luaH_resize(L, t, narray, nrec);</span>
-<span class="lineNum">     692 </span><span class="lineCov">       1450 :   luaC_checkGC(L);</span>
+<span class="lineNum">     687 </span><span class="lineCov">       1504 :   t = luaH_new(L);</span>
+<span class="lineNum">     688 </span><span class="lineCov">       1504 :   sethvalue(L, L-&gt;top, t);</span>
+<span class="lineNum">     689 </span><span class="lineCov">       1504 :   api_incr_top(L);</span>
+<span class="lineNum">     690 </span><span class="lineCov">       1504 :   if (narray &gt; 0 || nrec &gt; 0)</span>
+<span class="lineNum">     691 </span><span class="lineCov">       1252 :     luaH_resize(L, t, narray, nrec);</span>
+<span class="lineNum">     692 </span><span class="lineCov">       1504 :   luaC_checkGC(L);</span>
 <span class="lineNum">     693 </span>            :   lua_unlock(L);
-<span class="lineNum">     694 </span><span class="lineCov">       1450 : }</span>
+<span class="lineNum">     694 </span><span class="lineCov">       1504 : }</span>
 <span class="lineNum">     695 </span>            : 
 <span class="lineNum">     696 </span>            : 
-<span class="lineNum">     697 </span><span class="lineCov">      14153 : LUA_API int lua_getmetatable (lua_State *L, int objindex) {</span>
+<span class="lineNum">     697 </span><span class="lineCov">      14556 : LUA_API int lua_getmetatable (lua_State *L, int objindex) {</span>
 <span class="lineNum">     698 </span>            :   const TValue *obj;
 <span class="lineNum">     699 </span>            :   Table *mt;
 <span class="lineNum">     700 </span>            :   int res = 0;
 <span class="lineNum">     701 </span>            :   lua_lock(L);
-<span class="lineNum">     702 </span><span class="lineCov">      14153 :   obj = index2addr(L, objindex);</span>
-<span class="lineNum">     703 </span><span class="lineCov">      14153 :   switch (ttnov(obj)) {</span>
-<span class="lineNum">     704 </span><span class="lineCov">       6246 :     case LUA_TTABLE:</span>
-<span class="lineNum">     705 </span><span class="lineCov">       6246 :       mt = hvalue(obj)-&gt;metatable;</span>
-<span class="lineNum">     706 </span><span class="lineCov">       6246 :       break;</span>
-<span class="lineNum">     707 </span><span class="lineCov">       3223 :     case LUA_TUSERDATA:</span>
-<span class="lineNum">     708 </span><span class="lineCov">       3223 :       mt = uvalue(obj)-&gt;metatable;</span>
-<span class="lineNum">     709 </span><span class="lineCov">       3223 :       break;</span>
-<span class="lineNum">     710 </span><span class="lineCov">       4684 :     default:</span>
-<span class="lineNum">     711 </span><span class="lineCov">       4684 :       mt = G(L)-&gt;mt[ttnov(obj)];</span>
-<span class="lineNum">     712 </span><span class="lineCov">       4684 :       break;</span>
+<span class="lineNum">     702 </span><span class="lineCov">      14556 :   obj = index2addr(L, objindex);</span>
+<span class="lineNum">     703 </span><span class="lineCov">      14556 :   switch (ttnov(obj)) {</span>
+<span class="lineNum">     704 </span><span class="lineCov">       6247 :     case LUA_TTABLE:</span>
+<span class="lineNum">     705 </span><span class="lineCov">       6247 :       mt = hvalue(obj)-&gt;metatable;</span>
+<span class="lineNum">     706 </span><span class="lineCov">       6247 :       break;</span>
+<span class="lineNum">     707 </span><span class="lineCov">       3446 :     case LUA_TUSERDATA:</span>
+<span class="lineNum">     708 </span><span class="lineCov">       3446 :       mt = uvalue(obj)-&gt;metatable;</span>
+<span class="lineNum">     709 </span><span class="lineCov">       3446 :       break;</span>
+<span class="lineNum">     710 </span><span class="lineCov">       4863 :     default:</span>
+<span class="lineNum">     711 </span><span class="lineCov">       4863 :       mt = G(L)-&gt;mt[ttnov(obj)];</span>
+<span class="lineNum">     712 </span><span class="lineCov">       4863 :       break;</span>
 <span class="lineNum">     713 </span>            :   }
-<span class="lineNum">     714 </span><span class="lineCov">      14153 :   if (mt != NULL) {</span>
-<span class="lineNum">     715 </span><span class="lineCov">       5930 :     sethvalue(L, L-&gt;top, mt);</span>
-<span class="lineNum">     716 </span><span class="lineCov">       5930 :     api_incr_top(L);</span>
+<span class="lineNum">     714 </span><span class="lineCov">      14556 :   if (mt != NULL) {</span>
+<span class="lineNum">     715 </span><span class="lineCov">       6264 :     sethvalue(L, L-&gt;top, mt);</span>
+<span class="lineNum">     716 </span><span class="lineCov">       6264 :     api_incr_top(L);</span>
 <span class="lineNum">     717 </span>            :     res = 1;
 <span class="lineNum">     718 </span>            :   }
 <span class="lineNum">     719 </span>            :   lua_unlock(L);
-<span class="lineNum">     720 </span><span class="lineCov">      14153 :   return res;</span>
+<span class="lineNum">     720 </span><span class="lineCov">      14556 :   return res;</span>
 <span class="lineNum">     721 </span>            : }
 <span class="lineNum">     722 </span>            : 
 <span class="lineNum">     723 </span>            : 
@@ -806,27 +806,27 @@
 <span class="lineNum">     740 </span>            : /*
 <span class="lineNum">     741 </span>            : ** t[k] = value at the top of the stack (where 'k' is a string)
 <span class="lineNum">     742 </span>            : */
-<span class="lineNum">     743 </span><span class="lineCov">      17189 : static void auxsetstr (lua_State *L, const TValue *t, const char *k) {</span>
+<span class="lineNum">     743 </span><span class="lineCov">      17823 : static void auxsetstr (lua_State *L, const TValue *t, const char *k) {</span>
 <span class="lineNum">     744 </span>            :   const TValue *slot;
-<span class="lineNum">     745 </span><span class="lineCov">      17189 :   TString *str = luaS_new(L, k);</span>
+<span class="lineNum">     745 </span><span class="lineCov">      17823 :   TString *str = luaS_new(L, k);</span>
 <span class="lineNum">     746 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">     747 </span><span class="lineCov">      17189 :   if (luaV_fastset(L, t, str, slot, luaH_getstr, L-&gt;top - 1))</span>
-<span class="lineNum">     748 </span><span class="lineCov">       1051 :     L-&gt;top--;  /* pop value */</span>
+<span class="lineNum">     747 </span><span class="lineCov">      17823 :   if (luaV_fastset(L, t, str, slot, luaH_getstr, L-&gt;top - 1))</span>
+<span class="lineNum">     748 </span><span class="lineCov">       1090 :     L-&gt;top--;  /* pop value */</span>
 <span class="lineNum">     749 </span>            :   else {
-<span class="lineNum">     750 </span><span class="lineCov">      16138 :     setsvalue2s(L, L-&gt;top, str);  /* push 'str' (to make it a TValue) */</span>
-<span class="lineNum">     751 </span><span class="lineCov">      16138 :     api_incr_top(L);</span>
-<span class="lineNum">     752 </span><span class="lineCov">      16138 :     luaV_finishset(L, t, L-&gt;top - 1, L-&gt;top - 2, slot);</span>
-<span class="lineNum">     753 </span><span class="lineCov">      16138 :     L-&gt;top -= 2;  /* pop value and key */</span>
+<span class="lineNum">     750 </span><span class="lineCov">      16733 :     setsvalue2s(L, L-&gt;top, str);  /* push 'str' (to make it a TValue) */</span>
+<span class="lineNum">     751 </span><span class="lineCov">      16733 :     api_incr_top(L);</span>
+<span class="lineNum">     752 </span><span class="lineCov">      16733 :     luaV_finishset(L, t, L-&gt;top - 1, L-&gt;top - 2, slot);</span>
+<span class="lineNum">     753 </span><span class="lineCov">      16733 :     L-&gt;top -= 2;  /* pop value and key */</span>
 <span class="lineNum">     754 </span>            :   }
 <span class="lineNum">     755 </span>            :   lua_unlock(L);  /* lock done by caller */
-<span class="lineNum">     756 </span><span class="lineCov">      17189 : }</span>
+<span class="lineNum">     756 </span><span class="lineCov">      17823 : }</span>
 <span class="lineNum">     757 </span>            : 
 <span class="lineNum">     758 </span>            : 
-<span class="lineNum">     759 </span><span class="lineCov">       1008 : LUA_API void lua_setglobal (lua_State *L, const char *name) {</span>
-<span class="lineNum">     760 </span><span class="lineCov">       1008 :   Table *reg = hvalue(&amp;G(L)-&gt;l_registry);</span>
+<span class="lineNum">     759 </span><span class="lineCov">       1044 : LUA_API void lua_setglobal (lua_State *L, const char *name) {</span>
+<span class="lineNum">     760 </span><span class="lineCov">       1044 :   Table *reg = hvalue(&amp;G(L)-&gt;l_registry);</span>
 <span class="lineNum">     761 </span>            :   lua_lock(L);  /* unlock done in 'auxsetstr' */
-<span class="lineNum">     762 </span><span class="lineCov">       1008 :   auxsetstr(L, luaH_getint(reg, LUA_RIDX_GLOBALS), name);</span>
-<span class="lineNum">     763 </span><span class="lineCov">       1008 : }</span>
+<span class="lineNum">     762 </span><span class="lineCov">       1044 :   auxsetstr(L, luaH_getint(reg, LUA_RIDX_GLOBALS), name);</span>
+<span class="lineNum">     763 </span><span class="lineCov">       1044 : }</span>
 <span class="lineNum">     764 </span>            : 
 <span class="lineNum">     765 </span>            : 
 <span class="lineNum">     766 </span><span class="lineNoCov">          0 : LUA_API void lua_settable (lua_State *L, int idx) {</span>
@@ -840,20 +840,20 @@
 <span class="lineNum">     774 </span><span class="lineNoCov">          0 : }</span>
 <span class="lineNum">     775 </span>            : 
 <span class="lineNum">     776 </span>            : 
-<span class="lineNum">     777 </span><span class="lineCov">      16181 : LUA_API void lua_setfield (lua_State *L, int idx, const char *k) {</span>
+<span class="lineNum">     777 </span><span class="lineCov">      16779 : LUA_API void lua_setfield (lua_State *L, int idx, const char *k) {</span>
 <span class="lineNum">     778 </span>            :   lua_lock(L);  /* unlock done in 'auxsetstr' */
-<span class="lineNum">     779 </span><span class="lineCov">      16181 :   auxsetstr(L, index2addr(L, idx), k);</span>
-<span class="lineNum">     780 </span><span class="lineCov">      16181 : }</span>
+<span class="lineNum">     779 </span><span class="lineCov">      16779 :   auxsetstr(L, index2addr(L, idx), k);</span>
+<span class="lineNum">     780 </span><span class="lineCov">      16779 : }</span>
 <span class="lineNum">     781 </span>            : 
 <span class="lineNum">     782 </span>            : 
-<span class="lineNum">     783 </span><span class="lineCov">      86135 : LUA_API void lua_seti (lua_State *L, int idx, lua_Integer n) {</span>
+<span class="lineNum">     783 </span><span class="lineCov">      86131 : LUA_API void lua_seti (lua_State *L, int idx, lua_Integer n) {</span>
 <span class="lineNum">     784 </span>            :   StkId t;
 <span class="lineNum">     785 </span>            :   const TValue *slot;
 <span class="lineNum">     786 </span>            :   lua_lock(L);
 <span class="lineNum">     787 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">     788 </span><span class="lineCov">      86135 :   t = index2addr(L, idx);</span>
-<span class="lineNum">     789 </span><span class="lineCov">      86135 :   if (luaV_fastset(L, t, n, slot, luaH_getint, L-&gt;top - 1))</span>
-<span class="lineNum">     790 </span><span class="lineCov">      86072 :     L-&gt;top--;  /* pop value */</span>
+<span class="lineNum">     788 </span><span class="lineCov">      86131 :   t = index2addr(L, idx);</span>
+<span class="lineNum">     789 </span><span class="lineCov">      86131 :   if (luaV_fastset(L, t, n, slot, luaH_getint, L-&gt;top - 1))</span>
+<span class="lineNum">     790 </span><span class="lineCov">      86068 :     L-&gt;top--;  /* pop value */</span>
 <span class="lineNum">     791 </span>            :   else {
 <span class="lineNum">     792 </span><span class="lineCov">         63 :     setivalue(L-&gt;top, n);</span>
 <span class="lineNum">     793 </span><span class="lineCov">         63 :     api_incr_top(L);</span>
@@ -861,7 +861,7 @@
 <span class="lineNum">     795 </span><span class="lineCov">         63 :     L-&gt;top -= 2;  /* pop value and key */</span>
 <span class="lineNum">     796 </span>            :   }
 <span class="lineNum">     797 </span>            :   lua_unlock(L);
-<span class="lineNum">     798 </span><span class="lineCov">      86135 : }</span>
+<span class="lineNum">     798 </span><span class="lineCov">      86131 : }</span>
 <span class="lineNum">     799 </span>            : 
 <span class="lineNum">     800 </span>            : 
 <span class="lineNum">     801 </span><span class="lineCov">          5 : LUA_API void lua_rawset (lua_State *L, int idx) {</span>
@@ -880,72 +880,72 @@
 <span class="lineNum">     814 </span><span class="lineCov">          4 : }</span>
 <span class="lineNum">     815 </span>            : 
 <span class="lineNum">     816 </span>            : 
-<span class="lineNum">     817 </span><span class="lineCov">        608 : LUA_API void lua_rawseti (lua_State *L, int idx, lua_Integer n) {</span>
+<span class="lineNum">     817 </span><span class="lineCov">        629 : LUA_API void lua_rawseti (lua_State *L, int idx, lua_Integer n) {</span>
 <span class="lineNum">     818 </span>            :   StkId o;
 <span class="lineNum">     819 </span>            :   lua_lock(L);
 <span class="lineNum">     820 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">     821 </span><span class="lineCov">        608 :   o = index2addr(L, idx);</span>
+<span class="lineNum">     821 </span><span class="lineCov">        629 :   o = index2addr(L, idx);</span>
 <span class="lineNum">     822 </span>            :   api_check(L, ttistable(o), &quot;table expected&quot;);
-<span class="lineNum">     823 </span><span class="lineCov">        608 :   luaH_setint(L, hvalue(o), n, L-&gt;top - 1);</span>
-<span class="lineNum">     824 </span><span class="lineCov">        608 :   luaC_barrierback(L, hvalue(o), L-&gt;top-1);</span>
-<span class="lineNum">     825 </span><span class="lineCov">        608 :   L-&gt;top--;</span>
+<span class="lineNum">     823 </span><span class="lineCov">        629 :   luaH_setint(L, hvalue(o), n, L-&gt;top - 1);</span>
+<span class="lineNum">     824 </span><span class="lineCov">        629 :   luaC_barrierback(L, hvalue(o), L-&gt;top-1);</span>
+<span class="lineNum">     825 </span><span class="lineCov">        629 :   L-&gt;top--;</span>
 <span class="lineNum">     826 </span>            :   lua_unlock(L);
-<span class="lineNum">     827 </span><span class="lineCov">        608 : }</span>
+<span class="lineNum">     827 </span><span class="lineCov">        629 : }</span>
 <span class="lineNum">     828 </span>            : 
 <span class="lineNum">     829 </span>            : 
-<span class="lineNum">     830 </span><span class="lineCov">         81 : LUA_API void lua_rawsetp (lua_State *L, int idx, const void *p) {</span>
+<span class="lineNum">     830 </span><span class="lineCov">         84 : LUA_API void lua_rawsetp (lua_State *L, int idx, const void *p) {</span>
 <span class="lineNum">     831 </span>            :   StkId o;
 <span class="lineNum">     832 </span>            :   TValue k, *slot;
 <span class="lineNum">     833 </span>            :   lua_lock(L);
 <span class="lineNum">     834 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">     835 </span><span class="lineCov">         81 :   o = index2addr(L, idx);</span>
+<span class="lineNum">     835 </span><span class="lineCov">         84 :   o = index2addr(L, idx);</span>
 <span class="lineNum">     836 </span>            :   api_check(L, ttistable(o), &quot;table expected&quot;);
-<span class="lineNum">     837 </span><span class="lineCov">         81 :   setpvalue(&amp;k, cast(void *, p));</span>
-<span class="lineNum">     838 </span><span class="lineCov">         81 :   slot = luaH_set(L, hvalue(o), &amp;k);</span>
-<span class="lineNum">     839 </span><span class="lineCov">         81 :   setobj2t(L, slot, L-&gt;top - 1);</span>
-<span class="lineNum">     840 </span><span class="lineCov">         81 :   luaC_barrierback(L, hvalue(o), L-&gt;top - 1);</span>
-<span class="lineNum">     841 </span><span class="lineCov">         81 :   L-&gt;top--;</span>
+<span class="lineNum">     837 </span><span class="lineCov">         84 :   setpvalue(&amp;k, cast(void *, p));</span>
+<span class="lineNum">     838 </span><span class="lineCov">         84 :   slot = luaH_set(L, hvalue(o), &amp;k);</span>
+<span class="lineNum">     839 </span><span class="lineCov">         84 :   setobj2t(L, slot, L-&gt;top - 1);</span>
+<span class="lineNum">     840 </span><span class="lineCov">         84 :   luaC_barrierback(L, hvalue(o), L-&gt;top - 1);</span>
+<span class="lineNum">     841 </span><span class="lineCov">         84 :   L-&gt;top--;</span>
 <span class="lineNum">     842 </span>            :   lua_unlock(L);
-<span class="lineNum">     843 </span><span class="lineCov">         81 : }</span>
+<span class="lineNum">     843 </span><span class="lineCov">         84 : }</span>
 <span class="lineNum">     844 </span>            : 
 <span class="lineNum">     845 </span>            : 
-<span class="lineNum">     846 </span><span class="lineCov">        682 : LUA_API int lua_setmetatable (lua_State *L, int objindex) {</span>
+<span class="lineNum">     846 </span><span class="lineCov">        723 : LUA_API int lua_setmetatable (lua_State *L, int objindex) {</span>
 <span class="lineNum">     847 </span>            :   TValue *obj;
 <span class="lineNum">     848 </span>            :   Table *mt;
 <span class="lineNum">     849 </span>            :   lua_lock(L);
 <span class="lineNum">     850 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">     851 </span><span class="lineCov">        682 :   obj = index2addr(L, objindex);</span>
-<span class="lineNum">     852 </span><span class="lineCov">        682 :   if (ttisnil(L-&gt;top - 1))</span>
+<span class="lineNum">     851 </span><span class="lineCov">        723 :   obj = index2addr(L, objindex);</span>
+<span class="lineNum">     852 </span><span class="lineCov">        723 :   if (ttisnil(L-&gt;top - 1))</span>
 <span class="lineNum">     853 </span>            :     mt = NULL;
 <span class="lineNum">     854 </span>            :   else {
 <span class="lineNum">     855 </span>            :     api_check(L, ttistable(L-&gt;top - 1), &quot;table expected&quot;);
-<span class="lineNum">     856 </span><span class="lineCov">        681 :     mt = hvalue(L-&gt;top - 1);</span>
+<span class="lineNum">     856 </span><span class="lineCov">        722 :     mt = hvalue(L-&gt;top - 1);</span>
 <span class="lineNum">     857 </span>            :   }
-<span class="lineNum">     858 </span><span class="lineCov">        682 :   switch (ttnov(obj)) {</span>
-<span class="lineNum">     859 </span><span class="lineCov">        257 :     case LUA_TTABLE: {</span>
-<span class="lineNum">     860 </span><span class="lineCov">        257 :       hvalue(obj)-&gt;metatable = mt;</span>
-<span class="lineNum">     861 </span><span class="lineCov">        257 :       if (mt) {</span>
-<span class="lineNum">     862 </span><span class="lineCov">        256 :         luaC_objbarrier(L, gcvalue(obj), mt);</span>
-<span class="lineNum">     863 </span><span class="lineCov">        256 :         luaC_checkfinalizer(L, gcvalue(obj), mt);</span>
+<span class="lineNum">     858 </span><span class="lineCov">        723 :   switch (ttnov(obj)) {</span>
+<span class="lineNum">     859 </span><span class="lineCov">        260 :     case LUA_TTABLE: {</span>
+<span class="lineNum">     860 </span><span class="lineCov">        260 :       hvalue(obj)-&gt;metatable = mt;</span>
+<span class="lineNum">     861 </span><span class="lineCov">        260 :       if (mt) {</span>
+<span class="lineNum">     862 </span><span class="lineCov">        259 :         luaC_objbarrier(L, gcvalue(obj), mt);</span>
+<span class="lineNum">     863 </span><span class="lineCov">        259 :         luaC_checkfinalizer(L, gcvalue(obj), mt);</span>
 <span class="lineNum">     864 </span>            :       }
 <span class="lineNum">     865 </span>            :       break;
 <span class="lineNum">     866 </span>            :     }
-<span class="lineNum">     867 </span><span class="lineCov">        343 :     case LUA_TUSERDATA: {</span>
-<span class="lineNum">     868 </span><span class="lineCov">        343 :       uvalue(obj)-&gt;metatable = mt;</span>
-<span class="lineNum">     869 </span><span class="lineCov">        343 :       if (mt) {</span>
-<span class="lineNum">     870 </span><span class="lineCov">        343 :         luaC_objbarrier(L, uvalue(obj), mt);</span>
-<span class="lineNum">     871 </span><span class="lineCov">        343 :         luaC_checkfinalizer(L, gcvalue(obj), mt);</span>
+<span class="lineNum">     867 </span><span class="lineCov">        378 :     case LUA_TUSERDATA: {</span>
+<span class="lineNum">     868 </span><span class="lineCov">        378 :       uvalue(obj)-&gt;metatable = mt;</span>
+<span class="lineNum">     869 </span><span class="lineCov">        378 :       if (mt) {</span>
+<span class="lineNum">     870 </span><span class="lineCov">        378 :         luaC_objbarrier(L, uvalue(obj), mt);</span>
+<span class="lineNum">     871 </span><span class="lineCov">        378 :         luaC_checkfinalizer(L, gcvalue(obj), mt);</span>
 <span class="lineNum">     872 </span>            :       }
 <span class="lineNum">     873 </span>            :       break;
 <span class="lineNum">     874 </span>            :     }
-<span class="lineNum">     875 </span><span class="lineCov">         82 :     default: {</span>
-<span class="lineNum">     876 </span><span class="lineCov">         82 :       G(L)-&gt;mt[ttnov(obj)] = mt;</span>
-<span class="lineNum">     877 </span><span class="lineCov">         82 :       break;</span>
+<span class="lineNum">     875 </span><span class="lineCov">         85 :     default: {</span>
+<span class="lineNum">     876 </span><span class="lineCov">         85 :       G(L)-&gt;mt[ttnov(obj)] = mt;</span>
+<span class="lineNum">     877 </span><span class="lineCov">         85 :       break;</span>
 <span class="lineNum">     878 </span>            :     }
 <span class="lineNum">     879 </span>            :   }
-<span class="lineNum">     880 </span><span class="lineCov">        682 :   L-&gt;top--;</span>
+<span class="lineNum">     880 </span><span class="lineCov">        723 :   L-&gt;top--;</span>
 <span class="lineNum">     881 </span>            :   lua_unlock(L);
-<span class="lineNum">     882 </span><span class="lineCov">        682 :   return 1;</span>
+<span class="lineNum">     882 </span><span class="lineCov">        723 :   return 1;</span>
 <span class="lineNum">     883 </span>            : }
 <span class="lineNum">     884 </span>            : 
 <span class="lineNum">     885 </span>            : 
@@ -972,7 +972,7 @@
 <span class="lineNum">     906 </span>            :         &quot;results from function overflow current stack size&quot;)
 <span class="lineNum">     907 </span>            : 
 <span class="lineNum">     908 </span>            : 
-<span class="lineNum">     909 </span><span class="lineCov">       2885 : LUA_API void lua_callk (lua_State *L, int nargs, int nresults,</span>
+<span class="lineNum">     909 </span><span class="lineCov">       2920 : LUA_API void lua_callk (lua_State *L, int nargs, int nresults,</span>
 <span class="lineNum">     910 </span>            :                         lua_KContext ctx, lua_KFunction k) {
 <span class="lineNum">     911 </span>            :   StkId func;
 <span class="lineNum">     912 </span>            :   lua_lock(L);
@@ -981,17 +981,17 @@
 <span class="lineNum">     915 </span>            :   api_checknelems(L, nargs+1);
 <span class="lineNum">     916 </span>            :   api_check(L, L-&gt;status == LUA_OK, &quot;cannot do calls on non-normal thread&quot;);
 <span class="lineNum">     917 </span>            :   checkresults(L, nargs, nresults);
-<span class="lineNum">     918 </span><span class="lineCov">       2885 :   func = L-&gt;top - (nargs+1);</span>
-<span class="lineNum">     919 </span><span class="lineCov">       2885 :   if (k != NULL &amp;&amp; L-&gt;nny == 0) {  /* need to prepare continuation? */</span>
+<span class="lineNum">     918 </span><span class="lineCov">       2920 :   func = L-&gt;top - (nargs+1);</span>
+<span class="lineNum">     919 </span><span class="lineCov">       2920 :   if (k != NULL &amp;&amp; L-&gt;nny == 0) {  /* need to prepare continuation? */</span>
 <span class="lineNum">     920 </span><span class="lineNoCov">          0 :     L-&gt;ci-&gt;u.c.k = k;  /* save continuation */</span>
 <span class="lineNum">     921 </span><span class="lineNoCov">          0 :     L-&gt;ci-&gt;u.c.ctx = ctx;  /* save context */</span>
 <span class="lineNum">     922 </span><span class="lineNoCov">          0 :     luaD_call(L, func, nresults);  /* do the call */</span>
 <span class="lineNum">     923 </span>            :   }
 <span class="lineNum">     924 </span>            :   else  /* no continuation or no yieldable */
-<span class="lineNum">     925 </span><span class="lineCov">       2885 :     luaD_callnoyield(L, func, nresults);  /* just do the call */</span>
-<span class="lineNum">     926 </span><span class="lineCov">       2882 :   adjustresults(L, nresults);</span>
+<span class="lineNum">     925 </span><span class="lineCov">       2920 :     luaD_callnoyield(L, func, nresults);  /* just do the call */</span>
+<span class="lineNum">     926 </span><span class="lineCov">       2917 :   adjustresults(L, nresults);</span>
 <span class="lineNum">     927 </span>            :   lua_unlock(L);
-<span class="lineNum">     928 </span><span class="lineCov">       2882 : }</span>
+<span class="lineNum">     928 </span><span class="lineCov">       2917 : }</span>
 <span class="lineNum">     929 </span>            : 
 <span class="lineNum">     930 </span>            : 
 <span class="lineNum">     931 </span>            : 
@@ -1004,14 +1004,14 @@
 <span class="lineNum">     938 </span>            : };
 <span class="lineNum">     939 </span>            : 
 <span class="lineNum">     940 </span>            : 
-<span class="lineNum">     941 </span><span class="lineCov">        909 : static void f_call (lua_State *L, void *ud) {</span>
+<span class="lineNum">     941 </span><span class="lineCov">        934 : static void f_call (lua_State *L, void *ud) {</span>
 <span class="lineNum">     942 </span>            :   struct CallS *c = cast(struct CallS *, ud);
-<span class="lineNum">     943 </span><span class="lineCov">        909 :   luaD_callnoyield(L, c-&gt;func, c-&gt;nresults);</span>
-<span class="lineNum">     944 </span><span class="lineCov">        492 : }</span>
+<span class="lineNum">     943 </span><span class="lineCov">        934 :   luaD_callnoyield(L, c-&gt;func, c-&gt;nresults);</span>
+<span class="lineNum">     944 </span><span class="lineCov">        507 : }</span>
 <span class="lineNum">     945 </span>            : 
 <span class="lineNum">     946 </span>            : 
 <span class="lineNum">     947 </span>            : 
-<span class="lineNum">     948 </span><span class="lineCov">        911 : LUA_API int lua_pcallk (lua_State *L, int nargs, int nresults, int errfunc,</span>
+<span class="lineNum">     948 </span><span class="lineCov">        936 : LUA_API int lua_pcallk (lua_State *L, int nargs, int nresults, int errfunc,</span>
 <span class="lineNum">     949 </span>            :                         lua_KContext ctx, lua_KFunction k) {
 <span class="lineNum">     950 </span>            :   struct CallS c;
 <span class="lineNum">     951 </span>            :   int status;
@@ -1022,17 +1022,17 @@
 <span class="lineNum">     956 </span>            :   api_checknelems(L, nargs+1);
 <span class="lineNum">     957 </span>            :   api_check(L, L-&gt;status == LUA_OK, &quot;cannot do calls on non-normal thread&quot;);
 <span class="lineNum">     958 </span>            :   checkresults(L, nargs, nresults);
-<span class="lineNum">     959 </span><span class="lineCov">        911 :   if (errfunc == 0)</span>
+<span class="lineNum">     959 </span><span class="lineCov">        936 :   if (errfunc == 0)</span>
 <span class="lineNum">     960 </span>            :     func = 0;
 <span class="lineNum">     961 </span>            :   else {
-<span class="lineNum">     962 </span><span class="lineCov">        210 :     StkId o = index2addr(L, errfunc);</span>
+<span class="lineNum">     962 </span><span class="lineCov">        215 :     StkId o = index2addr(L, errfunc);</span>
 <span class="lineNum">     963 </span>            :     api_checkstackindex(L, errfunc, o);
-<span class="lineNum">     964 </span><span class="lineCov">        210 :     func = savestack(L, o);</span>
+<span class="lineNum">     964 </span><span class="lineCov">        215 :     func = savestack(L, o);</span>
 <span class="lineNum">     965 </span>            :   }
-<span class="lineNum">     966 </span><span class="lineCov">        911 :   c.func = L-&gt;top - (nargs+1);  /* function to be called */</span>
-<span class="lineNum">     967 </span><span class="lineCov">        911 :   if (k == NULL || L-&gt;nny &gt; 0) {  /* no continuation or no yieldable? */</span>
-<span class="lineNum">     968 </span><span class="lineCov">        909 :     c.nresults = nresults;  /* do a 'conventional' protected call */</span>
-<span class="lineNum">     969 </span><span class="lineCov">        909 :     status = luaD_pcall(L, f_call, &amp;c, savestack(L, c.func), func);</span>
+<span class="lineNum">     966 </span><span class="lineCov">        936 :   c.func = L-&gt;top - (nargs+1);  /* function to be called */</span>
+<span class="lineNum">     967 </span><span class="lineCov">        936 :   if (k == NULL || L-&gt;nny &gt; 0) {  /* no continuation or no yieldable? */</span>
+<span class="lineNum">     968 </span><span class="lineCov">        934 :     c.nresults = nresults;  /* do a 'conventional' protected call */</span>
+<span class="lineNum">     969 </span><span class="lineCov">        934 :     status = luaD_pcall(L, f_call, &amp;c, savestack(L, c.func), func);</span>
 <span class="lineNum">     970 </span>            :   }
 <span class="lineNum">     971 </span>            :   else {  /* prepare continuation (call is already protected by 'resume') */
 <span class="lineNum">     972 </span><span class="lineCov">          2 :     CallInfo *ci = L-&gt;ci;</span>
@@ -1049,48 +1049,48 @@
 <span class="lineNum">     983 </span><span class="lineNoCov">          0 :     L-&gt;errfunc = ci-&gt;u.c.old_errfunc;</span>
 <span class="lineNum">     984 </span>            :     status = LUA_OK;  /* if it is here, there were no errors */
 <span class="lineNum">     985 </span>            :   }
-<span class="lineNum">     986 </span><span class="lineCov">        894 :   adjustresults(L, nresults);</span>
+<span class="lineNum">     986 </span><span class="lineCov">        915 :   adjustresults(L, nresults);</span>
 <span class="lineNum">     987 </span>            :   lua_unlock(L);
-<span class="lineNum">     988 </span><span class="lineCov">        894 :   return status;</span>
+<span class="lineNum">     988 </span><span class="lineCov">        915 :   return status;</span>
 <span class="lineNum">     989 </span>            : }
 <span class="lineNum">     990 </span>            : 
 <span class="lineNum">     991 </span>            : 
-<span class="lineNum">     992 </span><span class="lineCov">        556 : LUA_API int lua_load (lua_State *L, lua_Reader reader, void *data,</span>
+<span class="lineNum">     992 </span><span class="lineCov">        591 : LUA_API int lua_load (lua_State *L, lua_Reader reader, void *data,</span>
 <span class="lineNum">     993 </span>            :                       const char *chunkname, const char *mode) {
 <span class="lineNum">     994 </span>            :   ZIO z;
 <span class="lineNum">     995 </span>            :   int status;
 <span class="lineNum">     996 </span>            :   lua_lock(L);
-<span class="lineNum">     997 </span><span class="lineCov">        556 :   if (!chunkname) chunkname = &quot;?&quot;;</span>
-<span class="lineNum">     998 </span><span class="lineCov">        556 :   luaZ_init(L, &amp;z, reader, data);</span>
-<span class="lineNum">     999 </span><span class="lineCov">        556 :   status = luaD_protectedparser(L, &amp;z, chunkname, mode);</span>
-<span class="lineNum">    1000 </span><span class="lineCov">        556 :   if (status == LUA_OK) {  /* no errors? */</span>
-<span class="lineNum">    1001 </span><span class="lineCov">        522 :     LClosure *f = clLvalue(L-&gt;top - 1);  /* get newly created function */</span>
-<span class="lineNum">    1002 </span><span class="lineCov">        522 :     if (f-&gt;nupvalues &gt;= 1) {  /* does it have an upvalue? */</span>
+<span class="lineNum">     997 </span><span class="lineCov">        591 :   if (!chunkname) chunkname = &quot;?&quot;;</span>
+<span class="lineNum">     998 </span><span class="lineCov">        591 :   luaZ_init(L, &amp;z, reader, data);</span>
+<span class="lineNum">     999 </span><span class="lineCov">        591 :   status = luaD_protectedparser(L, &amp;z, chunkname, mode);</span>
+<span class="lineNum">    1000 </span><span class="lineCov">        591 :   if (status == LUA_OK) {  /* no errors? */</span>
+<span class="lineNum">    1001 </span><span class="lineCov">        538 :     LClosure *f = clLvalue(L-&gt;top - 1);  /* get newly created function */</span>
+<span class="lineNum">    1002 </span><span class="lineCov">        538 :     if (f-&gt;nupvalues &gt;= 1) {  /* does it have an upvalue? */</span>
 <span class="lineNum">    1003 </span>            :       /* get global table from registry */
-<span class="lineNum">    1004 </span><span class="lineCov">        522 :       Table *reg = hvalue(&amp;G(L)-&gt;l_registry);</span>
-<span class="lineNum">    1005 </span><span class="lineCov">        522 :       const TValue *gt = luaH_getint(reg, LUA_RIDX_GLOBALS);</span>
+<span class="lineNum">    1004 </span><span class="lineCov">        538 :       Table *reg = hvalue(&amp;G(L)-&gt;l_registry);</span>
+<span class="lineNum">    1005 </span><span class="lineCov">        538 :       const TValue *gt = luaH_getint(reg, LUA_RIDX_GLOBALS);</span>
 <span class="lineNum">    1006 </span>            :       /* set global table as 1st upvalue of 'f' (may be LUA_ENV) */
-<span class="lineNum">    1007 </span><span class="lineCov">        522 :       setobj(L, f-&gt;upvals[0]-&gt;v, gt);</span>
-<span class="lineNum">    1008 </span><span class="lineCov">        522 :       luaC_upvalbarrier(L, f-&gt;upvals[0]);</span>
+<span class="lineNum">    1007 </span><span class="lineCov">        538 :       setobj(L, f-&gt;upvals[0]-&gt;v, gt);</span>
+<span class="lineNum">    1008 </span><span class="lineCov">        538 :       luaC_upvalbarrier(L, f-&gt;upvals[0]);</span>
 <span class="lineNum">    1009 </span>            :     }
 <span class="lineNum">    1010 </span>            :   }
 <span class="lineNum">    1011 </span>            :   lua_unlock(L);
-<span class="lineNum">    1012 </span><span class="lineCov">        556 :   return status;</span>
+<span class="lineNum">    1012 </span><span class="lineCov">        591 :   return status;</span>
 <span class="lineNum">    1013 </span>            : }
 <span class="lineNum">    1014 </span>            : 
 <span class="lineNum">    1015 </span>            : 
-<span class="lineNum">    1016 </span><span class="lineCov">          2 : LUA_API int lua_dump (lua_State *L, lua_Writer writer, void *data, int strip) {</span>
+<span class="lineNum">    1016 </span><span class="lineCov">          3 : LUA_API int lua_dump (lua_State *L, lua_Writer writer, void *data, int strip) {</span>
 <span class="lineNum">    1017 </span>            :   int status;
 <span class="lineNum">    1018 </span>            :   TValue *o;
 <span class="lineNum">    1019 </span>            :   lua_lock(L);
 <span class="lineNum">    1020 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">    1021 </span><span class="lineCov">          2 :   o = L-&gt;top - 1;</span>
-<span class="lineNum">    1022 </span><span class="lineCov">          2 :   if (isLfunction(o))</span>
-<span class="lineNum">    1023 </span><span class="lineCov">          1 :     status = luaU_dump(L, getproto(o), writer, data, strip);</span>
+<span class="lineNum">    1021 </span><span class="lineCov">          3 :   o = L-&gt;top - 1;</span>
+<span class="lineNum">    1022 </span><span class="lineCov">          3 :   if (isLfunction(o))</span>
+<span class="lineNum">    1023 </span><span class="lineCov">          2 :     status = luaU_dump(L, getproto(o), writer, data, strip);</span>
 <span class="lineNum">    1024 </span>            :   else
 <span class="lineNum">    1025 </span>            :     status = 1;
 <span class="lineNum">    1026 </span>            :   lua_unlock(L);
-<span class="lineNum">    1027 </span><span class="lineCov">          2 :   return status;</span>
+<span class="lineNum">    1027 </span><span class="lineCov">          3 :   return status;</span>
 <span class="lineNum">    1028 </span>            : }
 <span class="lineNum">    1029 </span>            : 
 <span class="lineNum">    1030 </span>            : 
@@ -1177,65 +1177,65 @@
 <span class="lineNum">    1111 </span>            : */
 <span class="lineNum">    1112 </span>            : 
 <span class="lineNum">    1113 </span>            : 
-<span class="lineNum">    1114 </span><span class="lineCov">        129 : LUA_API int lua_error (lua_State *L) {</span>
+<span class="lineNum">    1114 </span><span class="lineCov">        132 : LUA_API int lua_error (lua_State *L) {</span>
 <span class="lineNum">    1115 </span>            :   lua_lock(L);
 <span class="lineNum">    1116 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">    1117 </span><span class="lineCov">        129 :   luaG_errormsg(L);</span>
+<span class="lineNum">    1117 </span><span class="lineCov">        132 :   luaG_errormsg(L);</span>
 <span class="lineNum">    1118 </span>            :   /* code unreachable; will unlock when control actually leaves the kernel */
 <span class="lineNum">    1119 </span>            :   return 0;  /* to avoid warnings */
 <span class="lineNum">    1120 </span>            : }
 <span class="lineNum">    1121 </span>            : 
 <span class="lineNum">    1122 </span>            : 
-<span class="lineNum">    1123 </span><span class="lineCov">       4434 : LUA_API int lua_next (lua_State *L, int idx) {</span>
+<span class="lineNum">    1123 </span><span class="lineCov">       4887 : LUA_API int lua_next (lua_State *L, int idx) {</span>
 <span class="lineNum">    1124 </span>            :   StkId t;
 <span class="lineNum">    1125 </span>            :   int more;
 <span class="lineNum">    1126 </span>            :   lua_lock(L);
-<span class="lineNum">    1127 </span><span class="lineCov">       4434 :   t = index2addr(L, idx);</span>
+<span class="lineNum">    1127 </span><span class="lineCov">       4887 :   t = index2addr(L, idx);</span>
 <span class="lineNum">    1128 </span>            :   api_check(L, ttistable(t), &quot;table expected&quot;);
-<span class="lineNum">    1129 </span><span class="lineCov">       4434 :   more = luaH_next(L, hvalue(t), L-&gt;top - 1);</span>
-<span class="lineNum">    1130 </span><span class="lineCov">       4433 :   if (more) {</span>
-<span class="lineNum">    1131 </span><span class="lineCov">       4161 :     api_incr_top(L);</span>
+<span class="lineNum">    1129 </span><span class="lineCov">       4887 :   more = luaH_next(L, hvalue(t), L-&gt;top - 1);</span>
+<span class="lineNum">    1130 </span><span class="lineCov">       4886 :   if (more) {</span>
+<span class="lineNum">    1131 </span><span class="lineCov">       4591 :     api_incr_top(L);</span>
 <span class="lineNum">    1132 </span>            :   }
 <span class="lineNum">    1133 </span>            :   else  /* no more elements */
-<span class="lineNum">    1134 </span><span class="lineCov">        272 :     L-&gt;top -= 1;  /* remove key */</span>
+<span class="lineNum">    1134 </span><span class="lineCov">        295 :     L-&gt;top -= 1;  /* remove key */</span>
 <span class="lineNum">    1135 </span>            :   lua_unlock(L);
-<span class="lineNum">    1136 </span><span class="lineCov">       4433 :   return more;</span>
+<span class="lineNum">    1136 </span><span class="lineCov">       4886 :   return more;</span>
 <span class="lineNum">    1137 </span>            : }
 <span class="lineNum">    1138 </span>            : 
 <span class="lineNum">    1139 </span>            : 
-<span class="lineNum">    1140 </span><span class="lineCov">        146 : LUA_API void lua_concat (lua_State *L, int n) {</span>
+<span class="lineNum">    1140 </span><span class="lineCov">        149 : LUA_API void lua_concat (lua_State *L, int n) {</span>
 <span class="lineNum">    1141 </span>            :   lua_lock(L);
 <span class="lineNum">    1142 </span>            :   api_checknelems(L, n);
-<span class="lineNum">    1143 </span><span class="lineCov">        146 :   if (n &gt;= 2) {</span>
-<span class="lineNum">    1144 </span><span class="lineCov">        140 :     luaV_concat(L, n);</span>
+<span class="lineNum">    1143 </span><span class="lineCov">        149 :   if (n &gt;= 2) {</span>
+<span class="lineNum">    1144 </span><span class="lineCov">        143 :     luaV_concat(L, n);</span>
 <span class="lineNum">    1145 </span>            :   }
 <span class="lineNum">    1146 </span><span class="lineCov">          6 :   else if (n == 0) {  /* push empty string */</span>
 <span class="lineNum">    1147 </span><span class="lineNoCov">          0 :     setsvalue2s(L, L-&gt;top, luaS_newlstr(L, &quot;&quot;, 0));</span>
 <span class="lineNum">    1148 </span><span class="lineNoCov">          0 :     api_incr_top(L);</span>
 <span class="lineNum">    1149 </span>            :   }
 <span class="lineNum">    1150 </span>            :   /* else n == 1; nothing to do */
-<span class="lineNum">    1151 </span><span class="lineCov">        146 :   luaC_checkGC(L);</span>
+<span class="lineNum">    1151 </span><span class="lineCov">        149 :   luaC_checkGC(L);</span>
 <span class="lineNum">    1152 </span>            :   lua_unlock(L);
-<span class="lineNum">    1153 </span><span class="lineCov">        146 : }</span>
+<span class="lineNum">    1153 </span><span class="lineCov">        149 : }</span>
 <span class="lineNum">    1154 </span>            : 
 <span class="lineNum">    1155 </span>            : 
-<span class="lineNum">    1156 </span><span class="lineCov">      20446 : LUA_API void lua_len (lua_State *L, int idx) {</span>
+<span class="lineNum">    1156 </span><span class="lineCov">      20528 : LUA_API void lua_len (lua_State *L, int idx) {</span>
 <span class="lineNum">    1157 </span>            :   StkId t;
 <span class="lineNum">    1158 </span>            :   lua_lock(L);
-<span class="lineNum">    1159 </span><span class="lineCov">      20446 :   t = index2addr(L, idx);</span>
-<span class="lineNum">    1160 </span><span class="lineCov">      20446 :   luaV_objlen(L, L-&gt;top, t);</span>
-<span class="lineNum">    1161 </span><span class="lineCov">      20446 :   api_incr_top(L);</span>
+<span class="lineNum">    1159 </span><span class="lineCov">      20528 :   t = index2addr(L, idx);</span>
+<span class="lineNum">    1160 </span><span class="lineCov">      20528 :   luaV_objlen(L, L-&gt;top, t);</span>
+<span class="lineNum">    1161 </span><span class="lineCov">      20528 :   api_incr_top(L);</span>
 <span class="lineNum">    1162 </span>            :   lua_unlock(L);
-<span class="lineNum">    1163 </span><span class="lineCov">      20446 : }</span>
+<span class="lineNum">    1163 </span><span class="lineCov">      20528 : }</span>
 <span class="lineNum">    1164 </span>            : 
 <span class="lineNum">    1165 </span>            : 
-<span class="lineNum">    1166 </span><span class="lineCov">          9 : LUA_API lua_Alloc lua_getallocf (lua_State *L, void **ud) {</span>
+<span class="lineNum">    1166 </span><span class="lineCov">         15 : LUA_API lua_Alloc lua_getallocf (lua_State *L, void **ud) {</span>
 <span class="lineNum">    1167 </span>            :   lua_Alloc f;
 <span class="lineNum">    1168 </span>            :   lua_lock(L);
-<span class="lineNum">    1169 </span><span class="lineCov">          9 :   if (ud) *ud = G(L)-&gt;ud;</span>
-<span class="lineNum">    1170 </span><span class="lineCov">          9 :   f = G(L)-&gt;frealloc;</span>
+<span class="lineNum">    1169 </span><span class="lineCov">         15 :   if (ud) *ud = G(L)-&gt;ud;</span>
+<span class="lineNum">    1170 </span><span class="lineCov">         15 :   f = G(L)-&gt;frealloc;</span>
 <span class="lineNum">    1171 </span>            :   lua_unlock(L);
-<span class="lineNum">    1172 </span><span class="lineCov">          9 :   return f;</span>
+<span class="lineNum">    1172 </span><span class="lineCov">         15 :   return f;</span>
 <span class="lineNum">    1173 </span>            : }
 <span class="lineNum">    1174 </span>            : 
 <span class="lineNum">    1175 </span>            : 
@@ -1247,15 +1247,15 @@
 <span class="lineNum">    1181 </span><span class="lineNoCov">          0 : }</span>
 <span class="lineNum">    1182 </span>            : 
 <span class="lineNum">    1183 </span>            : 
-<span class="lineNum">    1184 </span><span class="lineCov">        347 : LUA_API void *lua_newuserdata (lua_State *L, size_t size) {</span>
+<span class="lineNum">    1184 </span><span class="lineCov">        382 : LUA_API void *lua_newuserdata (lua_State *L, size_t size) {</span>
 <span class="lineNum">    1185 </span>            :   Udata *u;
 <span class="lineNum">    1186 </span>            :   lua_lock(L);
-<span class="lineNum">    1187 </span><span class="lineCov">        347 :   u = luaS_newudata(L, size);</span>
-<span class="lineNum">    1188 </span><span class="lineCov">        347 :   setuvalue(L, L-&gt;top, u);</span>
-<span class="lineNum">    1189 </span><span class="lineCov">        347 :   api_incr_top(L);</span>
-<span class="lineNum">    1190 </span><span class="lineCov">        347 :   luaC_checkGC(L);</span>
+<span class="lineNum">    1187 </span><span class="lineCov">        382 :   u = luaS_newudata(L, size);</span>
+<span class="lineNum">    1188 </span><span class="lineCov">        382 :   setuvalue(L, L-&gt;top, u);</span>
+<span class="lineNum">    1189 </span><span class="lineCov">        382 :   api_incr_top(L);</span>
+<span class="lineNum">    1190 </span><span class="lineCov">        382 :   luaC_checkGC(L);</span>
 <span class="lineNum">    1191 </span>            :   lua_unlock(L);
-<span class="lineNum">    1192 </span><span class="lineCov">        347 :   return getudatamem(u);</span>
+<span class="lineNum">    1192 </span><span class="lineCov">        382 :   return getudatamem(u);</span>
 <span class="lineNum">    1193 </span>            : }
 <span class="lineNum">    1194 </span>            : 
 <span class="lineNum">    1195 </span>            : 

@@ -31,13 +31,13 @@
             <td class="headerValue">Lua 5.2.4</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">396</td>
+            <td class="headerCovTableEntry">391</td>
             <td class="headerCovTableEntry">457</td>
-            <td class="headerCovTableEntryMed">86.7 %</td>
+            <td class="headerCovTableEntryMed">85.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2018-09-26 12:47:25</td>
+            <td class="headerValue">2018-10-07 17:32:52</td>
             <td></td>
           </tr>
           <tr>
@@ -106,25 +106,25 @@
 <span class="lineNum">      40 </span>            : ** search for 'objidx' in table at index -1.
 <span class="lineNum">      41 </span>            : ** return 1 + string at top if find a good name.
 <span class="lineNum">      42 </span>            : */
-<span class="lineNum">      43 </span><span class="lineCov">       1186 : static int findfield (lua_State *L, int objidx, int level) {</span>
-<span class="lineNum">      44 </span><span class="lineCov">       1186 :   if (level == 0 || !lua_istable(L, -1))</span>
+<span class="lineNum">      43 </span><span class="lineCov">       1193 : static int findfield (lua_State *L, int objidx, int level) {</span>
+<span class="lineNum">      44 </span><span class="lineCov">       1193 :   if (level == 0 || !lua_istable(L, -1))</span>
 <span class="lineNum">      45 </span>            :     return 0;  /* not found */
-<span class="lineNum">      46 </span><span class="lineCov">         63 :   lua_pushnil(L);  /* start 'next' loop */</span>
-<span class="lineNum">      47 </span><span class="lineCov">       1317 :   while (lua_next(L, -2)) {  /* for each pair in table */</span>
-<span class="lineNum">      48 </span><span class="lineCov">       1193 :     if (lua_type(L, -2) == LUA_TSTRING) {  /* ignore non-string keys */</span>
-<span class="lineNum">      49 </span><span class="lineCov">       1181 :       if (lua_rawequal(L, objidx, -1)) {  /* found object? */</span>
+<span class="lineNum">      46 </span><span class="lineCov">         64 :   lua_pushnil(L);  /* start 'next' loop */</span>
+<span class="lineNum">      47 </span><span class="lineCov">       1327 :   while (lua_next(L, -2)) {  /* for each pair in table */</span>
+<span class="lineNum">      48 </span><span class="lineCov">       1200 :     if (lua_type(L, -2) == LUA_TSTRING) {  /* ignore non-string keys */</span>
+<span class="lineNum">      49 </span><span class="lineCov">       1188 :       if (lua_rawequal(L, objidx, -1)) {  /* found object? */</span>
 <span class="lineNum">      50 </span><span class="lineCov">          1 :         lua_pop(L, 1);  /* remove value (but keep name) */</span>
 <span class="lineNum">      51 </span><span class="lineCov">          1 :         return 1;</span>
 <span class="lineNum">      52 </span>            :       }
-<span class="lineNum">      53 </span><span class="lineCov">       1180 :       else if (findfield(L, objidx, level - 1)) {  /* try recursively */</span>
-<span class="lineNum">      54 </span><span class="lineCov">          1 :         lua_remove(L, -2);  /* remove table (but keep name) */</span>
-<span class="lineNum">      55 </span><span class="lineCov">          1 :         lua_pushliteral(L, &quot;.&quot;);</span>
-<span class="lineNum">      56 </span><span class="lineCov">          1 :         lua_insert(L, -2);  /* place '.' between the two names */</span>
-<span class="lineNum">      57 </span><span class="lineCov">          1 :         lua_concat(L, 3);</span>
-<span class="lineNum">      58 </span><span class="lineCov">          1 :         return 1;</span>
+<span class="lineNum">      53 </span><span class="lineCov">       1187 :       else if (findfield(L, objidx, level - 1)) {  /* try recursively */</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :         lua_remove(L, -2);  /* remove table (but keep name) */</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :         lua_pushliteral(L, &quot;.&quot;);</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :         lua_insert(L, -2);  /* place '.' between the two names */</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         lua_concat(L, 3);</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         return 1;</span>
 <span class="lineNum">      59 </span>            :       }
 <span class="lineNum">      60 </span>            :     }
-<span class="lineNum">      61 </span><span class="lineCov">       1191 :     lua_pop(L, 1);  /* remove value */</span>
+<span class="lineNum">      61 </span><span class="lineCov">       1199 :     lua_pop(L, 1);  /* remove value */</span>
 <span class="lineNum">      62 </span>            :   }
 <span class="lineNum">      63 </span>            :   return 0;  /* not found */
 <span class="lineNum">      64 </span>            : }
@@ -246,35 +246,35 @@
 <span class="lineNum">     180 </span>            : }
 <span class="lineNum">     181 </span>            : 
 <span class="lineNum">     182 </span>            : 
-<span class="lineNum">     183 </span><span class="lineCov">         99 : LUALIB_API void luaL_where (lua_State *L, int level) {</span>
+<span class="lineNum">     183 </span><span class="lineCov">        100 : LUALIB_API void luaL_where (lua_State *L, int level) {</span>
 <span class="lineNum">     184 </span>            :   lua_Debug ar;
-<span class="lineNum">     185 </span><span class="lineCov">         99 :   if (lua_getstack(L, level, &amp;ar)) {  /* check function at level */</span>
-<span class="lineNum">     186 </span><span class="lineCov">         99 :     lua_getinfo(L, &quot;Sl&quot;, &amp;ar);  /* get info about it */</span>
-<span class="lineNum">     187 </span><span class="lineCov">         99 :     if (ar.currentline &gt; 0) {  /* is there info? */</span>
-<span class="lineNum">     188 </span><span class="lineCov">         93 :       lua_pushfstring(L, &quot;%s:%d: &quot;, ar.short_src, ar.currentline);</span>
-<span class="lineNum">     189 </span><span class="lineCov">         93 :       return;</span>
+<span class="lineNum">     185 </span><span class="lineCov">        100 :   if (lua_getstack(L, level, &amp;ar)) {  /* check function at level */</span>
+<span class="lineNum">     186 </span><span class="lineCov">        100 :     lua_getinfo(L, &quot;Sl&quot;, &amp;ar);  /* get info about it */</span>
+<span class="lineNum">     187 </span><span class="lineCov">        100 :     if (ar.currentline &gt; 0) {  /* is there info? */</span>
+<span class="lineNum">     188 </span><span class="lineCov">         94 :       lua_pushfstring(L, &quot;%s:%d: &quot;, ar.short_src, ar.currentline);</span>
+<span class="lineNum">     189 </span><span class="lineCov">         94 :       return;</span>
 <span class="lineNum">     190 </span>            :     }
 <span class="lineNum">     191 </span>            :   }
 <span class="lineNum">     192 </span><span class="lineCov">          6 :   lua_pushliteral(L, &quot;&quot;);  /* else, no information available... */</span>
 <span class="lineNum">     193 </span>            : }
 <span class="lineNum">     194 </span>            : 
 <span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span><span class="lineCov">         90 : LUALIB_API int luaL_error (lua_State *L, const char *fmt, ...) {</span>
+<span class="lineNum">     196 </span><span class="lineCov">         91 : LUALIB_API int luaL_error (lua_State *L, const char *fmt, ...) {</span>
 <span class="lineNum">     197 </span>            :   va_list argp;
-<span class="lineNum">     198 </span><span class="lineCov">         90 :   va_start(argp, fmt);</span>
-<span class="lineNum">     199 </span><span class="lineCov">         90 :   luaL_where(L, 1);</span>
-<span class="lineNum">     200 </span><span class="lineCov">         90 :   lua_pushvfstring(L, fmt, argp);</span>
-<span class="lineNum">     201 </span><span class="lineCov">         90 :   va_end(argp);</span>
-<span class="lineNum">     202 </span><span class="lineCov">         90 :   lua_concat(L, 2);</span>
-<span class="lineNum">     203 </span><span class="lineCov">         90 :   return lua_error(L);</span>
+<span class="lineNum">     198 </span><span class="lineCov">         91 :   va_start(argp, fmt);</span>
+<span class="lineNum">     199 </span><span class="lineCov">         91 :   luaL_where(L, 1);</span>
+<span class="lineNum">     200 </span><span class="lineCov">         91 :   lua_pushvfstring(L, fmt, argp);</span>
+<span class="lineNum">     201 </span><span class="lineCov">         91 :   va_end(argp);</span>
+<span class="lineNum">     202 </span><span class="lineCov">         91 :   lua_concat(L, 2);</span>
+<span class="lineNum">     203 </span><span class="lineCov">         91 :   return lua_error(L);</span>
 <span class="lineNum">     204 </span>            : }
 <span class="lineNum">     205 </span>            : 
 <span class="lineNum">     206 </span>            : 
-<span class="lineNum">     207 </span><span class="lineCov">        170 : LUALIB_API int luaL_fileresult (lua_State *L, int stat, const char *fname) {</span>
-<span class="lineNum">     208 </span><span class="lineCov">        170 :   int en = errno;  /* calls to Lua API may change this value */</span>
-<span class="lineNum">     209 </span><span class="lineCov">        170 :   if (stat) {</span>
-<span class="lineNum">     210 </span><span class="lineCov">        164 :     lua_pushboolean(L, 1);</span>
-<span class="lineNum">     211 </span><span class="lineCov">        164 :     return 1;</span>
+<span class="lineNum">     207 </span><span class="lineCov">        175 : LUALIB_API int luaL_fileresult (lua_State *L, int stat, const char *fname) {</span>
+<span class="lineNum">     208 </span><span class="lineCov">        175 :   int en = errno;  /* calls to Lua API may change this value */</span>
+<span class="lineNum">     209 </span><span class="lineCov">        175 :   if (stat) {</span>
+<span class="lineNum">     210 </span><span class="lineCov">        169 :     lua_pushboolean(L, 1);</span>
+<span class="lineNum">     211 </span><span class="lineCov">        169 :     return 1;</span>
 <span class="lineNum">     212 </span>            :   }
 <span class="lineNum">     213 </span>            :   else {
 <span class="lineNum">     214 </span><span class="lineCov">          6 :     lua_pushnil(L);</span>
@@ -310,19 +310,19 @@
 <span class="lineNum">     244 </span>            : #endif                          /* } */
 <span class="lineNum">     245 </span>            : 
 <span class="lineNum">     246 </span>            : 
-<span class="lineNum">     247 </span><span class="lineCov">         50 : LUALIB_API int luaL_execresult (lua_State *L, int stat) {</span>
+<span class="lineNum">     247 </span><span class="lineCov">         67 : LUALIB_API int luaL_execresult (lua_State *L, int stat) {</span>
 <span class="lineNum">     248 </span>            :   const char *what = &quot;exit&quot;;  /* type of termination */
-<span class="lineNum">     249 </span><span class="lineCov">         50 :   if (stat == -1)  /* error? */</span>
+<span class="lineNum">     249 </span><span class="lineCov">         67 :   if (stat == -1)  /* error? */</span>
 <span class="lineNum">     250 </span><span class="lineNoCov">          0 :     return luaL_fileresult(L, 0, NULL);</span>
 <span class="lineNum">     251 </span>            :   else {
-<span class="lineNum">     252 </span><span class="lineCov">         50 :     inspectstat(stat, what);  /* interpret result */</span>
-<span class="lineNum">     253 </span><span class="lineCov">         50 :     if (*what == 'e' &amp;&amp; stat == 0)  /* successful termination? */</span>
-<span class="lineNum">     254 </span><span class="lineCov">         32 :       lua_pushboolean(L, 1);</span>
+<span class="lineNum">     252 </span><span class="lineCov">         67 :     inspectstat(stat, what);  /* interpret result */</span>
+<span class="lineNum">     253 </span><span class="lineCov">         67 :     if (*what == 'e' &amp;&amp; stat == 0)  /* successful termination? */</span>
+<span class="lineNum">     254 </span><span class="lineCov">         42 :       lua_pushboolean(L, 1);</span>
 <span class="lineNum">     255 </span>            :     else
-<span class="lineNum">     256 </span><span class="lineCov">         18 :       lua_pushnil(L);</span>
-<span class="lineNum">     257 </span><span class="lineCov">         50 :     lua_pushstring(L, what);</span>
-<span class="lineNum">     258 </span><span class="lineCov">         50 :     lua_pushinteger(L, stat);</span>
-<span class="lineNum">     259 </span><span class="lineCov">         50 :     return 3;  /* return true/nil,what,code */</span>
+<span class="lineNum">     256 </span><span class="lineCov">         25 :       lua_pushnil(L);</span>
+<span class="lineNum">     257 </span><span class="lineCov">         67 :     lua_pushstring(L, what);</span>
+<span class="lineNum">     258 </span><span class="lineCov">         67 :     lua_pushinteger(L, stat);</span>
+<span class="lineNum">     259 </span><span class="lineCov">         67 :     return 3;  /* return true/nil,what,code */</span>
 <span class="lineNum">     260 </span>            :   }
 <span class="lineNum">     261 </span>            : }
 <span class="lineNum">     262 </span>            : 
@@ -335,43 +335,43 @@
 <span class="lineNum">     269 </span>            : ** =======================================================
 <span class="lineNum">     270 </span>            : */
 <span class="lineNum">     271 </span>            : 
-<span class="lineNum">     272 </span><span class="lineCov">         81 : LUALIB_API int luaL_newmetatable (lua_State *L, const char *tname) {</span>
-<span class="lineNum">     273 </span><span class="lineCov">         81 :   luaL_getmetatable(L, tname);  /* try to get metatable */</span>
-<span class="lineNum">     274 </span><span class="lineCov">         81 :   if (!lua_isnil(L, -1))  /* name already in use? */</span>
+<span class="lineNum">     272 </span><span class="lineCov">         84 : LUALIB_API int luaL_newmetatable (lua_State *L, const char *tname) {</span>
+<span class="lineNum">     273 </span><span class="lineCov">         84 :   luaL_getmetatable(L, tname);  /* try to get metatable */</span>
+<span class="lineNum">     274 </span><span class="lineCov">         84 :   if (!lua_isnil(L, -1))  /* name already in use? */</span>
 <span class="lineNum">     275 </span>            :     return 0;  /* leave previous value on top, but return 0 */
-<span class="lineNum">     276 </span><span class="lineCov">         81 :   lua_pop(L, 1);</span>
-<span class="lineNum">     277 </span><span class="lineCov">         81 :   lua_newtable(L);  /* create metatable */</span>
-<span class="lineNum">     278 </span><span class="lineCov">         81 :   lua_pushvalue(L, -1);</span>
-<span class="lineNum">     279 </span><span class="lineCov">         81 :   lua_setfield(L, LUA_REGISTRYINDEX, tname);  /* registry.name = metatable */</span>
-<span class="lineNum">     280 </span><span class="lineCov">         81 :   return 1;</span>
+<span class="lineNum">     276 </span><span class="lineCov">         84 :   lua_pop(L, 1);</span>
+<span class="lineNum">     277 </span><span class="lineCov">         84 :   lua_newtable(L);  /* create metatable */</span>
+<span class="lineNum">     278 </span><span class="lineCov">         84 :   lua_pushvalue(L, -1);</span>
+<span class="lineNum">     279 </span><span class="lineCov">         84 :   lua_setfield(L, LUA_REGISTRYINDEX, tname);  /* registry.name = metatable */</span>
+<span class="lineNum">     280 </span><span class="lineCov">         84 :   return 1;</span>
 <span class="lineNum">     281 </span>            : }
 <span class="lineNum">     282 </span>            : 
 <span class="lineNum">     283 </span>            : 
-<span class="lineNum">     284 </span><span class="lineCov">        339 : LUALIB_API void luaL_setmetatable (lua_State *L, const char *tname) {</span>
-<span class="lineNum">     285 </span><span class="lineCov">        339 :   luaL_getmetatable(L, tname);</span>
-<span class="lineNum">     286 </span><span class="lineCov">        339 :   lua_setmetatable(L, -2);</span>
-<span class="lineNum">     287 </span><span class="lineCov">        339 : }</span>
+<span class="lineNum">     284 </span><span class="lineCov">        368 : LUALIB_API void luaL_setmetatable (lua_State *L, const char *tname) {</span>
+<span class="lineNum">     285 </span><span class="lineCov">        368 :   luaL_getmetatable(L, tname);</span>
+<span class="lineNum">     286 </span><span class="lineCov">        368 :   lua_setmetatable(L, -2);</span>
+<span class="lineNum">     287 </span><span class="lineCov">        368 : }</span>
 <span class="lineNum">     288 </span>            : 
 <span class="lineNum">     289 </span>            : 
-<span class="lineNum">     290 </span><span class="lineCov">       2944 : LUALIB_API void *luaL_testudata (lua_State *L, int ud, const char *tname) {</span>
-<span class="lineNum">     291 </span><span class="lineCov">       2944 :   void *p = lua_touserdata(L, ud);</span>
-<span class="lineNum">     292 </span><span class="lineCov">       2944 :   if (p != NULL) {  /* value is a userdata? */</span>
-<span class="lineNum">     293 </span><span class="lineCov">       2943 :     if (lua_getmetatable(L, ud)) {  /* does it have a metatable? */</span>
-<span class="lineNum">     294 </span><span class="lineCov">       2943 :       luaL_getmetatable(L, tname);  /* get correct metatable */</span>
-<span class="lineNum">     295 </span><span class="lineCov">       2943 :       if (!lua_rawequal(L, -1, -2))  /* not the same? */</span>
+<span class="lineNum">     290 </span><span class="lineCov">       3144 : LUALIB_API void *luaL_testudata (lua_State *L, int ud, const char *tname) {</span>
+<span class="lineNum">     291 </span><span class="lineCov">       3144 :   void *p = lua_touserdata(L, ud);</span>
+<span class="lineNum">     292 </span><span class="lineCov">       3144 :   if (p != NULL) {  /* value is a userdata? */</span>
+<span class="lineNum">     293 </span><span class="lineCov">       3143 :     if (lua_getmetatable(L, ud)) {  /* does it have a metatable? */</span>
+<span class="lineNum">     294 </span><span class="lineCov">       3143 :       luaL_getmetatable(L, tname);  /* get correct metatable */</span>
+<span class="lineNum">     295 </span><span class="lineCov">       3143 :       if (!lua_rawequal(L, -1, -2))  /* not the same? */</span>
 <span class="lineNum">     296 </span>            :         p = NULL;  /* value is a userdata with wrong metatable */
-<span class="lineNum">     297 </span><span class="lineCov">       2943 :       lua_pop(L, 2);  /* remove both metatables */</span>
-<span class="lineNum">     298 </span><span class="lineCov">       2943 :       return p;</span>
+<span class="lineNum">     297 </span><span class="lineCov">       3143 :       lua_pop(L, 2);  /* remove both metatables */</span>
+<span class="lineNum">     298 </span><span class="lineCov">       3143 :       return p;</span>
 <span class="lineNum">     299 </span>            :     }
 <span class="lineNum">     300 </span>            :   }
 <span class="lineNum">     301 </span>            :   return NULL;  /* value is not a userdata with a metatable */
 <span class="lineNum">     302 </span>            : }
 <span class="lineNum">     303 </span>            : 
 <span class="lineNum">     304 </span>            : 
-<span class="lineNum">     305 </span><span class="lineCov">       2935 : LUALIB_API void *luaL_checkudata (lua_State *L, int ud, const char *tname) {</span>
-<span class="lineNum">     306 </span><span class="lineCov">       2935 :   void *p = luaL_testudata(L, ud, tname);</span>
-<span class="lineNum">     307 </span><span class="lineCov">       2935 :   if (p == NULL) typeerror(L, ud, tname);</span>
-<span class="lineNum">     308 </span><span class="lineCov">       2935 :   return p;</span>
+<span class="lineNum">     305 </span><span class="lineCov">       3135 : LUALIB_API void *luaL_checkudata (lua_State *L, int ud, const char *tname) {</span>
+<span class="lineNum">     306 </span><span class="lineCov">       3135 :   void *p = luaL_testudata(L, ud, tname);</span>
+<span class="lineNum">     307 </span><span class="lineCov">       3135 :   if (p == NULL) typeerror(L, ud, tname);</span>
+<span class="lineNum">     308 </span><span class="lineCov">       3135 :   return p;</span>
 <span class="lineNum">     309 </span>            : }
 <span class="lineNum">     310 </span>            : 
 <span class="lineNum">     311 </span>            : /* }====================================================== */
@@ -396,45 +396,45 @@
 <span class="lineNum">     330 </span>            : }
 <span class="lineNum">     331 </span>            : 
 <span class="lineNum">     332 </span>            : 
-<span class="lineNum">     333 </span><span class="lineCov">       7538 : LUALIB_API void luaL_checkstack (lua_State *L, int space, const char *msg) {</span>
+<span class="lineNum">     333 </span><span class="lineCov">       7635 : LUALIB_API void luaL_checkstack (lua_State *L, int space, const char *msg) {</span>
 <span class="lineNum">     334 </span>            :   /* keep some extra space to run error routines, if needed */
 <span class="lineNum">     335 </span>            :   const int extra = LUA_MINSTACK;
-<span class="lineNum">     336 </span><span class="lineCov">       7538 :   if (!lua_checkstack(L, space + extra)) {</span>
+<span class="lineNum">     336 </span><span class="lineCov">       7635 :   if (!lua_checkstack(L, space + extra)) {</span>
 <span class="lineNum">     337 </span><span class="lineNoCov">          0 :     if (msg)</span>
 <span class="lineNum">     338 </span><span class="lineNoCov">          0 :       luaL_error(L, &quot;stack overflow (%s)&quot;, msg);</span>
 <span class="lineNum">     339 </span>            :     else
 <span class="lineNum">     340 </span><span class="lineNoCov">          0 :       luaL_error(L, &quot;stack overflow&quot;);</span>
 <span class="lineNum">     341 </span>            :   }
-<span class="lineNum">     342 </span><span class="lineCov">       7538 : }</span>
+<span class="lineNum">     342 </span><span class="lineCov">       7635 : }</span>
 <span class="lineNum">     343 </span>            : 
 <span class="lineNum">     344 </span>            : 
-<span class="lineNum">     345 </span><span class="lineCov">      96685 : LUALIB_API void luaL_checktype (lua_State *L, int narg, int t) {</span>
-<span class="lineNum">     346 </span><span class="lineCov">      96685 :   if (lua_type(L, narg) != t)</span>
+<span class="lineNum">     345 </span><span class="lineCov">      97619 : LUALIB_API void luaL_checktype (lua_State *L, int narg, int t) {</span>
+<span class="lineNum">     346 </span><span class="lineCov">      97619 :   if (lua_type(L, narg) != t)</span>
 <span class="lineNum">     347 </span>            :     tag_error(L, narg, t);
-<span class="lineNum">     348 </span><span class="lineCov">      96679 : }</span>
+<span class="lineNum">     348 </span><span class="lineCov">      97613 : }</span>
 <span class="lineNum">     349 </span>            : 
 <span class="lineNum">     350 </span>            : 
-<span class="lineNum">     351 </span><span class="lineCov">      30043 : LUALIB_API void luaL_checkany (lua_State *L, int narg) {</span>
-<span class="lineNum">     352 </span><span class="lineCov">      30043 :   if (lua_type(L, narg) == LUA_TNONE)</span>
+<span class="lineNum">     351 </span><span class="lineCov">      31198 : LUALIB_API void luaL_checkany (lua_State *L, int narg) {</span>
+<span class="lineNum">     352 </span><span class="lineCov">      31198 :   if (lua_type(L, narg) == LUA_TNONE)</span>
 <span class="lineNum">     353 </span><span class="lineCov">          3 :     luaL_argerror(L, narg, &quot;value expected&quot;);</span>
-<span class="lineNum">     354 </span><span class="lineCov">      30040 : }</span>
+<span class="lineNum">     354 </span><span class="lineCov">      31195 : }</span>
 <span class="lineNum">     355 </span>            : 
 <span class="lineNum">     356 </span>            : 
-<span class="lineNum">     357 </span><span class="lineCov">      29372 : LUALIB_API const char *luaL_checklstring (lua_State *L, int narg, size_t *len) {</span>
-<span class="lineNum">     358 </span><span class="lineCov">      29372 :   const char *s = lua_tolstring(L, narg, len);</span>
-<span class="lineNum">     359 </span><span class="lineCov">      29372 :   if (!s) tag_error(L, narg, LUA_TSTRING);</span>
-<span class="lineNum">     360 </span><span class="lineCov">      29370 :   return s;</span>
+<span class="lineNum">     357 </span><span class="lineCov">      29822 : LUALIB_API const char *luaL_checklstring (lua_State *L, int narg, size_t *len) {</span>
+<span class="lineNum">     358 </span><span class="lineCov">      29822 :   const char *s = lua_tolstring(L, narg, len);</span>
+<span class="lineNum">     359 </span><span class="lineCov">      29822 :   if (!s) tag_error(L, narg, LUA_TSTRING);</span>
+<span class="lineNum">     360 </span><span class="lineCov">      29820 :   return s;</span>
 <span class="lineNum">     361 </span>            : }
 <span class="lineNum">     362 </span>            : 
 <span class="lineNum">     363 </span>            : 
-<span class="lineNum">     364 </span><span class="lineCov">      14244 : LUALIB_API const char *luaL_optlstring (lua_State *L, int narg,</span>
+<span class="lineNum">     364 </span><span class="lineCov">      14376 : LUALIB_API const char *luaL_optlstring (lua_State *L, int narg,</span>
 <span class="lineNum">     365 </span>            :                                         const char *def, size_t *len) {
-<span class="lineNum">     366 </span><span class="lineCov">      14244 :   if (lua_isnoneornil(L, narg)) {</span>
-<span class="lineNum">     367 </span><span class="lineCov">       2178 :     if (len)</span>
-<span class="lineNum">     368 </span><span class="lineCov">       1714 :       *len = (def ? strlen(def) : 0);</span>
+<span class="lineNum">     366 </span><span class="lineCov">      14376 :   if (lua_isnoneornil(L, narg)) {</span>
+<span class="lineNum">     367 </span><span class="lineCov">       2306 :     if (len)</span>
+<span class="lineNum">     368 </span><span class="lineCov">       1783 :       *len = (def ? strlen(def) : 0);</span>
 <span class="lineNum">     369 </span>            :     return def;
 <span class="lineNum">     370 </span>            :   }
-<span class="lineNum">     371 </span><span class="lineCov">      12066 :   else return luaL_checklstring(L, narg, len);</span>
+<span class="lineNum">     371 </span><span class="lineCov">      12070 :   else return luaL_checklstring(L, narg, len);</span>
 <span class="lineNum">     372 </span>            : }
 <span class="lineNum">     373 </span>            : 
 <span class="lineNum">     374 </span>            : 
@@ -452,12 +452,12 @@
 <span class="lineNum">     386 </span>            : }
 <span class="lineNum">     387 </span>            : 
 <span class="lineNum">     388 </span>            : 
-<span class="lineNum">     389 </span><span class="lineCov">      59089 : LUALIB_API lua_Integer luaL_checkinteger (lua_State *L, int narg) {</span>
+<span class="lineNum">     389 </span><span class="lineCov">      59099 : LUALIB_API lua_Integer luaL_checkinteger (lua_State *L, int narg) {</span>
 <span class="lineNum">     390 </span>            :   int isnum;
-<span class="lineNum">     391 </span><span class="lineCov">      59089 :   lua_Integer d = lua_tointegerx(L, narg, &amp;isnum);</span>
-<span class="lineNum">     392 </span><span class="lineCov">      59089 :   if (!isnum)</span>
+<span class="lineNum">     391 </span><span class="lineCov">      59099 :   lua_Integer d = lua_tointegerx(L, narg, &amp;isnum);</span>
+<span class="lineNum">     392 </span><span class="lineCov">      59099 :   if (!isnum)</span>
 <span class="lineNum">     393 </span>            :     tag_error(L, narg, LUA_TNUMBER);
-<span class="lineNum">     394 </span><span class="lineCov">      59088 :   return d;</span>
+<span class="lineNum">     394 </span><span class="lineCov">      59098 :   return d;</span>
 <span class="lineNum">     395 </span>            : }
 <span class="lineNum">     396 </span>            : 
 <span class="lineNum">     397 </span>            : 
@@ -470,9 +470,9 @@
 <span class="lineNum">     404 </span>            : }
 <span class="lineNum">     405 </span>            : 
 <span class="lineNum">     406 </span>            : 
-<span class="lineNum">     407 </span><span class="lineCov">      24444 : LUALIB_API lua_Integer luaL_optinteger (lua_State *L, int narg,</span>
+<span class="lineNum">     407 </span><span class="lineCov">      24687 : LUALIB_API lua_Integer luaL_optinteger (lua_State *L, int narg,</span>
 <span class="lineNum">     408 </span>            :                                                       lua_Integer def) {
-<span class="lineNum">     409 </span><span class="lineCov">      24444 :   return luaL_opt(L, luaL_checkinteger, narg, def);</span>
+<span class="lineNum">     409 </span><span class="lineCov">      24687 :   return luaL_opt(L, luaL_checkinteger, narg, def);</span>
 <span class="lineNum">     410 </span>            : }
 <span class="lineNum">     411 </span>            : 
 <span class="lineNum">     412 </span>            : 
@@ -500,76 +500,76 @@
 <span class="lineNum">     434 </span>            : /*
 <span class="lineNum">     435 </span>            : ** returns a pointer to a free area with at least 'sz' bytes
 <span class="lineNum">     436 </span>            : */
-<span class="lineNum">     437 </span><span class="lineCov">     158044 : LUALIB_API char *luaL_prepbuffsize (luaL_Buffer *B, size_t sz) {</span>
-<span class="lineNum">     438 </span><span class="lineCov">     158044 :   lua_State *L = B-&gt;L;</span>
-<span class="lineNum">     439 </span><span class="lineCov">     158044 :   if (B-&gt;size - B-&gt;n &lt; sz) {  /* not enough space? */</span>
+<span class="lineNum">     437 </span><span class="lineCov">     158292 : LUALIB_API char *luaL_prepbuffsize (luaL_Buffer *B, size_t sz) {</span>
+<span class="lineNum">     438 </span><span class="lineCov">     158292 :   lua_State *L = B-&gt;L;</span>
+<span class="lineNum">     439 </span><span class="lineCov">     158292 :   if (B-&gt;size - B-&gt;n &lt; sz) {  /* not enough space? */</span>
 <span class="lineNum">     440 </span>            :     char *newbuff;
-<span class="lineNum">     441 </span><span class="lineCov">          3 :     size_t newsize = B-&gt;size * 2;  /* double buffer size */</span>
-<span class="lineNum">     442 </span><span class="lineCov">          3 :     if (newsize - B-&gt;n &lt; sz)  /* not big enough? */</span>
-<span class="lineNum">     443 </span><span class="lineCov">          3 :       newsize = B-&gt;n + sz;</span>
-<span class="lineNum">     444 </span><span class="lineCov">          3 :     if (newsize &lt; B-&gt;n || newsize - B-&gt;n &lt; sz)</span>
+<span class="lineNum">     441 </span><span class="lineCov">          6 :     size_t newsize = B-&gt;size * 2;  /* double buffer size */</span>
+<span class="lineNum">     442 </span><span class="lineCov">          6 :     if (newsize - B-&gt;n &lt; sz)  /* not big enough? */</span>
+<span class="lineNum">     443 </span><span class="lineCov">          6 :       newsize = B-&gt;n + sz;</span>
+<span class="lineNum">     444 </span><span class="lineCov">          6 :     if (newsize &lt; B-&gt;n || newsize - B-&gt;n &lt; sz)</span>
 <span class="lineNum">     445 </span><span class="lineNoCov">          0 :       luaL_error(L, &quot;buffer too large&quot;);</span>
 <span class="lineNum">     446 </span>            :     /* create larger buffer */
-<span class="lineNum">     447 </span><span class="lineCov">          3 :     newbuff = (char *)lua_newuserdata(L, newsize * sizeof(char));</span>
+<span class="lineNum">     447 </span><span class="lineCov">          6 :     newbuff = (char *)lua_newuserdata(L, newsize * sizeof(char));</span>
 <span class="lineNum">     448 </span>            :     /* move content to new buffer */
-<span class="lineNum">     449 </span><span class="lineCov">          3 :     memcpy(newbuff, B-&gt;b, B-&gt;n * sizeof(char));</span>
-<span class="lineNum">     450 </span><span class="lineCov">          3 :     if (buffonstack(B))</span>
+<span class="lineNum">     449 </span><span class="lineCov">          5 :     memcpy(newbuff, B-&gt;b, B-&gt;n * sizeof(char));</span>
+<span class="lineNum">     450 </span><span class="lineCov">          5 :     if (buffonstack(B))</span>
 <span class="lineNum">     451 </span><span class="lineNoCov">          0 :       lua_remove(L, -2);  /* remove old buffer */</span>
-<span class="lineNum">     452 </span><span class="lineCov">          3 :     B-&gt;b = newbuff;</span>
-<span class="lineNum">     453 </span><span class="lineCov">          3 :     B-&gt;size = newsize;</span>
+<span class="lineNum">     452 </span><span class="lineCov">          5 :     B-&gt;b = newbuff;</span>
+<span class="lineNum">     453 </span><span class="lineCov">          5 :     B-&gt;size = newsize;</span>
 <span class="lineNum">     454 </span>            :   }
-<span class="lineNum">     455 </span><span class="lineCov">     158044 :   return &amp;B-&gt;b[B-&gt;n];</span>
+<span class="lineNum">     455 </span><span class="lineCov">     158291 :   return &amp;B-&gt;b[B-&gt;n];</span>
 <span class="lineNum">     456 </span>            : }
 <span class="lineNum">     457 </span>            : 
 <span class="lineNum">     458 </span>            : 
-<span class="lineNum">     459 </span><span class="lineCov">     157749 : LUALIB_API void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l) {</span>
-<span class="lineNum">     460 </span><span class="lineCov">     157749 :   char *b = luaL_prepbuffsize(B, l);</span>
+<span class="lineNum">     459 </span><span class="lineCov">     157964 : LUALIB_API void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l) {</span>
+<span class="lineNum">     460 </span><span class="lineCov">     157964 :   char *b = luaL_prepbuffsize(B, l);</span>
 <span class="lineNum">     461 </span>            :   memcpy(b, s, l * sizeof(char));
-<span class="lineNum">     462 </span><span class="lineCov">     157749 :   luaL_addsize(B, l);</span>
-<span class="lineNum">     463 </span><span class="lineCov">     157749 : }</span>
+<span class="lineNum">     462 </span><span class="lineCov">     157964 :   luaL_addsize(B, l);</span>
+<span class="lineNum">     463 </span><span class="lineCov">     157964 : }</span>
 <span class="lineNum">     464 </span>            : 
 <span class="lineNum">     465 </span>            : 
 <span class="lineNum">     466 </span><span class="lineCov">          4 : LUALIB_API void luaL_addstring (luaL_Buffer *B, const char *s) {</span>
-<span class="lineNum">     467 </span><span class="lineCov">       2352 :   luaL_addlstring(B, s, strlen(s));</span>
+<span class="lineNum">     467 </span><span class="lineCov">       2384 :   luaL_addlstring(B, s, strlen(s));</span>
 <span class="lineNum">     468 </span><span class="lineCov">          4 : }</span>
 <span class="lineNum">     469 </span>            : 
 <span class="lineNum">     470 </span>            : 
-<span class="lineNum">     471 </span><span class="lineCov">      17020 : LUALIB_API void luaL_pushresult (luaL_Buffer *B) {</span>
-<span class="lineNum">     472 </span><span class="lineCov">      17020 :   lua_State *L = B-&gt;L;</span>
-<span class="lineNum">     473 </span><span class="lineCov">      17020 :   lua_pushlstring(L, B-&gt;b, B-&gt;n);</span>
-<span class="lineNum">     474 </span><span class="lineCov">      17020 :   if (buffonstack(B))</span>
-<span class="lineNum">     475 </span><span class="lineCov">          3 :     lua_remove(L, -2);  /* remove old buffer */</span>
-<span class="lineNum">     476 </span><span class="lineCov">      17020 : }</span>
+<span class="lineNum">     471 </span><span class="lineCov">      17206 : LUALIB_API void luaL_pushresult (luaL_Buffer *B) {</span>
+<span class="lineNum">     472 </span><span class="lineCov">      17206 :   lua_State *L = B-&gt;L;</span>
+<span class="lineNum">     473 </span><span class="lineCov">      17206 :   lua_pushlstring(L, B-&gt;b, B-&gt;n);</span>
+<span class="lineNum">     474 </span><span class="lineCov">      17206 :   if (buffonstack(B))</span>
+<span class="lineNum">     475 </span><span class="lineCov">          5 :     lua_remove(L, -2);  /* remove old buffer */</span>
+<span class="lineNum">     476 </span><span class="lineCov">      17206 : }</span>
 <span class="lineNum">     477 </span>            : 
 <span class="lineNum">     478 </span>            : 
-<span class="lineNum">     479 </span><span class="lineCov">         19 : LUALIB_API void luaL_pushresultsize (luaL_Buffer *B, size_t sz) {</span>
-<span class="lineNum">     480 </span><span class="lineCov">         19 :   luaL_addsize(B, sz);</span>
-<span class="lineNum">     481 </span><span class="lineCov">         19 :   luaL_pushresult(B);</span>
-<span class="lineNum">     482 </span><span class="lineCov">         19 : }</span>
+<span class="lineNum">     479 </span><span class="lineCov">         26 : LUALIB_API void luaL_pushresultsize (luaL_Buffer *B, size_t sz) {</span>
+<span class="lineNum">     480 </span><span class="lineCov">         26 :   luaL_addsize(B, sz);</span>
+<span class="lineNum">     481 </span><span class="lineCov">         26 :   luaL_pushresult(B);</span>
+<span class="lineNum">     482 </span><span class="lineCov">         26 : }</span>
 <span class="lineNum">     483 </span>            : 
 <span class="lineNum">     484 </span>            : 
-<span class="lineNum">     485 </span><span class="lineCov">      83418 : LUALIB_API void luaL_addvalue (luaL_Buffer *B) {</span>
-<span class="lineNum">     486 </span><span class="lineCov">      83418 :   lua_State *L = B-&gt;L;</span>
+<span class="lineNum">     485 </span><span class="lineCov">      83489 : LUALIB_API void luaL_addvalue (luaL_Buffer *B) {</span>
+<span class="lineNum">     486 </span><span class="lineCov">      83489 :   lua_State *L = B-&gt;L;</span>
 <span class="lineNum">     487 </span>            :   size_t l;
-<span class="lineNum">     488 </span><span class="lineCov">      83418 :   const char *s = lua_tolstring(L, -1, &amp;l);</span>
-<span class="lineNum">     489 </span><span class="lineCov">      83418 :   if (buffonstack(B))</span>
+<span class="lineNum">     488 </span><span class="lineCov">      83489 :   const char *s = lua_tolstring(L, -1, &amp;l);</span>
+<span class="lineNum">     489 </span><span class="lineCov">      83489 :   if (buffonstack(B))</span>
 <span class="lineNum">     490 </span><span class="lineNoCov">          0 :     lua_insert(L, -2);  /* put value below buffer */</span>
-<span class="lineNum">     491 </span><span class="lineCov">      83418 :   luaL_addlstring(B, s, l);</span>
-<span class="lineNum">     492 </span><span class="lineCov">      83418 :   lua_remove(L, (buffonstack(B)) ? -2 : -1);  /* remove value */</span>
-<span class="lineNum">     493 </span><span class="lineCov">      83418 : }</span>
+<span class="lineNum">     491 </span><span class="lineCov">      83489 :   luaL_addlstring(B, s, l);</span>
+<span class="lineNum">     492 </span><span class="lineCov">      83489 :   lua_remove(L, (buffonstack(B)) ? -2 : -1);  /* remove value */</span>
+<span class="lineNum">     493 </span><span class="lineCov">      83489 : }</span>
 <span class="lineNum">     494 </span>            : 
 <span class="lineNum">     495 </span>            : 
-<span class="lineNum">     496 </span><span class="lineCov">      16134 : LUALIB_API void luaL_buffinit (lua_State *L, luaL_Buffer *B) {</span>
-<span class="lineNum">     497 </span><span class="lineCov">      17380 :   B-&gt;L = L;</span>
-<span class="lineNum">     498 </span><span class="lineCov">      17380 :   B-&gt;b = B-&gt;initb;</span>
-<span class="lineNum">     499 </span><span class="lineCov">      17380 :   B-&gt;n = 0;</span>
-<span class="lineNum">     500 </span><span class="lineCov">      17380 :   B-&gt;size = LUAL_BUFFERSIZE;</span>
-<span class="lineNum">     501 </span><span class="lineCov">      16134 : }</span>
+<span class="lineNum">     496 </span><span class="lineCov">      16298 : LUALIB_API void luaL_buffinit (lua_State *L, luaL_Buffer *B) {</span>
+<span class="lineNum">     497 </span><span class="lineCov">      17569 :   B-&gt;L = L;</span>
+<span class="lineNum">     498 </span><span class="lineCov">      17569 :   B-&gt;b = B-&gt;initb;</span>
+<span class="lineNum">     499 </span><span class="lineCov">      17569 :   B-&gt;n = 0;</span>
+<span class="lineNum">     500 </span><span class="lineCov">      17569 :   B-&gt;size = LUAL_BUFFERSIZE;</span>
+<span class="lineNum">     501 </span><span class="lineCov">      16298 : }</span>
 <span class="lineNum">     502 </span>            : 
 <span class="lineNum">     503 </span>            : 
-<span class="lineNum">     504 </span><span class="lineCov">         21 : LUALIB_API char *luaL_buffinitsize (lua_State *L, luaL_Buffer *B, size_t sz) {</span>
+<span class="lineNum">     504 </span><span class="lineCov">         29 : LUALIB_API char *luaL_buffinitsize (lua_State *L, luaL_Buffer *B, size_t sz) {</span>
 <span class="lineNum">     505 </span>            :   luaL_buffinit(L, B);
-<span class="lineNum">     506 </span><span class="lineCov">         21 :   return luaL_prepbuffsize(B, sz);</span>
+<span class="lineNum">     506 </span><span class="lineCov">         29 :   return luaL_prepbuffsize(B, sz);</span>
 <span class="lineNum">     507 </span>            : }
 <span class="lineNum">     508 </span>            : 
 <span class="lineNum">     509 </span>            : /* }====================================================== */
@@ -632,21 +632,21 @@
 <span class="lineNum">     566 </span>            : } LoadF;
 <span class="lineNum">     567 </span>            : 
 <span class="lineNum">     568 </span>            : 
-<span class="lineNum">     569 </span><span class="lineCov">        797 : static const char *getF (lua_State *L, void *ud, size_t *size) {</span>
+<span class="lineNum">     569 </span><span class="lineCov">        822 : static const char *getF (lua_State *L, void *ud, size_t *size) {</span>
 <span class="lineNum">     570 </span>            :   LoadF *lf = (LoadF *)ud;
 <span class="lineNum">     571 </span>            :   (void)L;  /* not used */
-<span class="lineNum">     572 </span><span class="lineCov">        797 :   if (lf-&gt;n &gt; 0) {  /* are there pre-read characters to be read? */</span>
-<span class="lineNum">     573 </span><span class="lineCov">        240 :     *size = lf-&gt;n;  /* return them (chars already in buffer) */</span>
-<span class="lineNum">     574 </span><span class="lineCov">        240 :     lf-&gt;n = 0;  /* no more pre-read characters */</span>
+<span class="lineNum">     572 </span><span class="lineCov">        822 :   if (lf-&gt;n &gt; 0) {  /* are there pre-read characters to be read? */</span>
+<span class="lineNum">     573 </span><span class="lineCov">        250 :     *size = lf-&gt;n;  /* return them (chars already in buffer) */</span>
+<span class="lineNum">     574 </span><span class="lineCov">        250 :     lf-&gt;n = 0;  /* no more pre-read characters */</span>
 <span class="lineNum">     575 </span>            :   }
 <span class="lineNum">     576 </span>            :   else {  /* read a block from file */
 <span class="lineNum">     577 </span>            :     /* 'fread' can return &gt; 0 *and* set the EOF flag. If next call to
 <span class="lineNum">     578 </span>            :        'getF' called 'fread', it might still wait for user input.
 <span class="lineNum">     579 </span>            :        The next check avoids this problem. */
-<span class="lineNum">     580 </span><span class="lineCov">        557 :     if (feof(lf-&gt;f)) return NULL;</span>
-<span class="lineNum">     581 </span><span class="lineCov">        654 :     *size = fread(lf-&gt;buff, 1, sizeof(lf-&gt;buff), lf-&gt;f);  /* read block */</span>
+<span class="lineNum">     580 </span><span class="lineCov">        572 :     if (feof(lf-&gt;f)) return NULL;</span>
+<span class="lineNum">     581 </span><span class="lineCov">        676 :     *size = fread(lf-&gt;buff, 1, sizeof(lf-&gt;buff), lf-&gt;f);  /* read block */</span>
 <span class="lineNum">     582 </span>            :   }
-<span class="lineNum">     583 </span><span class="lineCov">        567 :   return lf-&gt;buff;</span>
+<span class="lineNum">     583 </span><span class="lineCov">        588 :   return lf-&gt;buff;</span>
 <span class="lineNum">     584 </span>            : }
 <span class="lineNum">     585 </span>            : 
 <span class="lineNum">     586 </span>            : 
@@ -659,13 +659,13 @@
 <span class="lineNum">     593 </span>            : }
 <span class="lineNum">     594 </span>            : 
 <span class="lineNum">     595 </span>            : 
-<span class="lineNum">     596 </span><span class="lineCov">        247 : static int skipBOM (LoadF *lf) {</span>
+<span class="lineNum">     596 </span><span class="lineCov">        262 : static int skipBOM (LoadF *lf) {</span>
 <span class="lineNum">     597 </span>            :   const char *p = &quot;\xEF\xBB\xBF&quot;;  /* Utf8 BOM mark */
 <span class="lineNum">     598 </span>            :   int c;
-<span class="lineNum">     599 </span><span class="lineCov">        247 :   lf-&gt;n = 0;</span>
+<span class="lineNum">     599 </span><span class="lineCov">        262 :   lf-&gt;n = 0;</span>
 <span class="lineNum">     600 </span>            :   do {
-<span class="lineNum">     601 </span><span class="lineCov">        253 :     c = getc(lf-&gt;f);</span>
-<span class="lineNum">     602 </span><span class="lineCov">        253 :     if (c == EOF || c != *(const unsigned char *)p++) return c;</span>
+<span class="lineNum">     601 </span><span class="lineCov">        268 :     c = getc(lf-&gt;f);</span>
+<span class="lineNum">     602 </span><span class="lineCov">        268 :     if (c == EOF || c != *(const unsigned char *)p++) return c;</span>
 <span class="lineNum">     603 </span><span class="lineCov">          9 :     lf-&gt;buff[lf-&gt;n++] = c;  /* to be read by the parser */</span>
 <span class="lineNum">     604 </span><span class="lineCov">          9 :   } while (*p != '\0');</span>
 <span class="lineNum">     605 </span><span class="lineCov">          3 :   lf-&gt;n = 0;  /* prefix matched; discard it */</span>
@@ -680,9 +680,9 @@
 <span class="lineNum">     614 </span>            : ** first &quot;valid&quot; character of the file (after the optional BOM and
 <span class="lineNum">     615 </span>            : ** a first-line comment).
 <span class="lineNum">     616 </span>            : */
-<span class="lineNum">     617 </span><span class="lineCov">        247 : static int skipcomment (LoadF *lf, int *cp) {</span>
-<span class="lineNum">     618 </span><span class="lineCov">        247 :   int c = *cp = skipBOM(lf);</span>
-<span class="lineNum">     619 </span><span class="lineCov">        247 :   if (c == '#') {  /* first line is a comment (Unix exec. file)? */</span>
+<span class="lineNum">     617 </span><span class="lineCov">        262 : static int skipcomment (LoadF *lf, int *cp) {</span>
+<span class="lineNum">     618 </span><span class="lineCov">        262 :   int c = *cp = skipBOM(lf);</span>
+<span class="lineNum">     619 </span><span class="lineCov">        262 :   if (c == '#') {  /* first line is a comment (Unix exec. file)? */</span>
 <span class="lineNum">     620 </span>            :     do {  /* skip first line */
 <span class="lineNum">     621 </span><span class="lineCov">        675 :       c = getc(lf-&gt;f);</span>
 <span class="lineNum">     622 </span><span class="lineCov">        675 :     } while (c != EOF &amp;&amp; c != '\n') ;</span>
@@ -693,39 +693,39 @@
 <span class="lineNum">     627 </span>            : }
 <span class="lineNum">     628 </span>            : 
 <span class="lineNum">     629 </span>            : 
-<span class="lineNum">     630 </span><span class="lineCov">        244 : LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,</span>
+<span class="lineNum">     630 </span><span class="lineCov">        254 : LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,</span>
 <span class="lineNum">     631 </span>            :                                              const char *mode) {
 <span class="lineNum">     632 </span>            :   LoadF lf;
 <span class="lineNum">     633 </span>            :   int status, readstatus;
 <span class="lineNum">     634 </span>            :   int c;
-<span class="lineNum">     635 </span><span class="lineCov">        244 :   int fnameindex = lua_gettop(L) + 1;  /* index of filename on the stack */</span>
-<span class="lineNum">     636 </span><span class="lineCov">        244 :   if (filename == NULL) {</span>
-<span class="lineNum">     637 </span><span class="lineCov">          3 :     lua_pushliteral(L, &quot;=stdin&quot;);</span>
-<span class="lineNum">     638 </span><span class="lineCov">          3 :     lf.f = stdin;</span>
+<span class="lineNum">     635 </span><span class="lineCov">        254 :   int fnameindex = lua_gettop(L) + 1;  /* index of filename on the stack */</span>
+<span class="lineNum">     636 </span><span class="lineCov">        254 :   if (filename == NULL) {</span>
+<span class="lineNum">     637 </span><span class="lineCov">          6 :     lua_pushliteral(L, &quot;=stdin&quot;);</span>
+<span class="lineNum">     638 </span><span class="lineCov">          6 :     lf.f = stdin;</span>
 <span class="lineNum">     639 </span>            :   }
 <span class="lineNum">     640 </span>            :   else {
-<span class="lineNum">     641 </span><span class="lineCov">        241 :     lua_pushfstring(L, &quot;@%s&quot;, filename);</span>
-<span class="lineNum">     642 </span><span class="lineCov">        241 :     lf.f = fopen(filename, &quot;r&quot;);</span>
-<span class="lineNum">     643 </span><span class="lineCov">        241 :     if (lf.f == NULL) return errfile(L, &quot;open&quot;, fnameindex);</span>
+<span class="lineNum">     641 </span><span class="lineCov">        248 :     lua_pushfstring(L, &quot;@%s&quot;, filename);</span>
+<span class="lineNum">     642 </span><span class="lineCov">        248 :     lf.f = fopen(filename, &quot;r&quot;);</span>
+<span class="lineNum">     643 </span><span class="lineCov">        248 :     if (lf.f == NULL) return errfile(L, &quot;open&quot;, fnameindex);</span>
 <span class="lineNum">     644 </span>            :   }
-<span class="lineNum">     645 </span><span class="lineCov">        240 :   if (skipcomment(&amp;lf, &amp;c))  /* read initial portion */</span>
+<span class="lineNum">     645 </span><span class="lineCov">        250 :   if (skipcomment(&amp;lf, &amp;c))  /* read initial portion */</span>
 <span class="lineNum">     646 </span><span class="lineCov">         45 :     lf.buff[lf.n++] = '\n';  /* add line to correct line numbers */</span>
-<span class="lineNum">     647 </span><span class="lineCov">        240 :   if (c == LUA_SIGNATURE[0] &amp;&amp; filename) {  /* binary file? */</span>
-<span class="lineNum">     648 </span><span class="lineCov">          7 :     lf.f = freopen(filename, &quot;rb&quot;, lf.f);  /* reopen in binary mode */</span>
-<span class="lineNum">     649 </span><span class="lineCov">          7 :     if (lf.f == NULL) return errfile(L, &quot;reopen&quot;, fnameindex);</span>
-<span class="lineNum">     650 </span><span class="lineCov">          7 :     skipcomment(&amp;lf, &amp;c);  /* re-read initial portion */</span>
+<span class="lineNum">     647 </span><span class="lineCov">        250 :   if (c == LUA_SIGNATURE[0] &amp;&amp; filename) {  /* binary file? */</span>
+<span class="lineNum">     648 </span><span class="lineCov">         12 :     lf.f = freopen(filename, &quot;rb&quot;, lf.f);  /* reopen in binary mode */</span>
+<span class="lineNum">     649 </span><span class="lineCov">         12 :     if (lf.f == NULL) return errfile(L, &quot;reopen&quot;, fnameindex);</span>
+<span class="lineNum">     650 </span><span class="lineCov">         12 :     skipcomment(&amp;lf, &amp;c);  /* re-read initial portion */</span>
 <span class="lineNum">     651 </span>            :   }
-<span class="lineNum">     652 </span><span class="lineCov">        240 :   if (c != EOF)</span>
-<span class="lineNum">     653 </span><span class="lineCov">        240 :     lf.buff[lf.n++] = c;  /* 'c' is the first character of the stream */</span>
-<span class="lineNum">     654 </span><span class="lineCov">        240 :   status = lua_load(L, getF, &amp;lf, lua_tostring(L, -1), mode);</span>
-<span class="lineNum">     655 </span><span class="lineCov">        240 :   readstatus = ferror(lf.f);</span>
-<span class="lineNum">     656 </span><span class="lineCov">        240 :   if (filename) fclose(lf.f);  /* close file (even in case of errors) */</span>
-<span class="lineNum">     657 </span><span class="lineCov">        240 :   if (readstatus) {</span>
+<span class="lineNum">     652 </span><span class="lineCov">        250 :   if (c != EOF)</span>
+<span class="lineNum">     653 </span><span class="lineCov">        250 :     lf.buff[lf.n++] = c;  /* 'c' is the first character of the stream */</span>
+<span class="lineNum">     654 </span><span class="lineCov">        250 :   status = lua_load(L, getF, &amp;lf, lua_tostring(L, -1), mode);</span>
+<span class="lineNum">     655 </span><span class="lineCov">        250 :   readstatus = ferror(lf.f);</span>
+<span class="lineNum">     656 </span><span class="lineCov">        250 :   if (filename) fclose(lf.f);  /* close file (even in case of errors) */</span>
+<span class="lineNum">     657 </span><span class="lineCov">        250 :   if (readstatus) {</span>
 <span class="lineNum">     658 </span><span class="lineNoCov">          0 :     lua_settop(L, fnameindex);  /* ignore results from `lua_load' */</span>
 <span class="lineNum">     659 </span><span class="lineNoCov">          0 :     return errfile(L, &quot;read&quot;, fnameindex);</span>
 <span class="lineNum">     660 </span>            :   }
-<span class="lineNum">     661 </span><span class="lineCov">        240 :   lua_remove(L, fnameindex);</span>
-<span class="lineNum">     662 </span><span class="lineCov">        240 :   return status;</span>
+<span class="lineNum">     661 </span><span class="lineCov">        250 :   lua_remove(L, fnameindex);</span>
+<span class="lineNum">     662 </span><span class="lineCov">        250 :   return status;</span>
 <span class="lineNum">     663 </span>            : }
 <span class="lineNum">     664 </span>            : 
 <span class="lineNum">     665 </span>            : 
@@ -735,22 +735,22 @@
 <span class="lineNum">     669 </span>            : } LoadS;
 <span class="lineNum">     670 </span>            : 
 <span class="lineNum">     671 </span>            : 
-<span class="lineNum">     672 </span><span class="lineCov">        581 : static const char *getS (lua_State *L, void *ud, size_t *size) {</span>
+<span class="lineNum">     672 </span><span class="lineCov">        621 : static const char *getS (lua_State *L, void *ud, size_t *size) {</span>
 <span class="lineNum">     673 </span>            :   LoadS *ls = (LoadS *)ud;
 <span class="lineNum">     674 </span>            :   (void)L;  /* not used */
-<span class="lineNum">     675 </span><span class="lineCov">        581 :   if (ls-&gt;size == 0) return NULL;</span>
-<span class="lineNum">     676 </span><span class="lineCov">        297 :   *size = ls-&gt;size;</span>
-<span class="lineNum">     677 </span><span class="lineCov">        297 :   ls-&gt;size = 0;</span>
-<span class="lineNum">     678 </span><span class="lineCov">        297 :   return ls-&gt;s;</span>
+<span class="lineNum">     675 </span><span class="lineCov">        621 :   if (ls-&gt;size == 0) return NULL;</span>
+<span class="lineNum">     676 </span><span class="lineCov">        320 :   *size = ls-&gt;size;</span>
+<span class="lineNum">     677 </span><span class="lineCov">        320 :   ls-&gt;size = 0;</span>
+<span class="lineNum">     678 </span><span class="lineCov">        320 :   return ls-&gt;s;</span>
 <span class="lineNum">     679 </span>            : }
 <span class="lineNum">     680 </span>            : 
 <span class="lineNum">     681 </span>            : 
-<span class="lineNum">     682 </span><span class="lineCov">        297 : LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,</span>
+<span class="lineNum">     682 </span><span class="lineCov">        320 : LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,</span>
 <span class="lineNum">     683 </span>            :                                  const char *name, const char *mode) {
 <span class="lineNum">     684 </span>            :   LoadS ls;
-<span class="lineNum">     685 </span><span class="lineCov">        297 :   ls.s = buff;</span>
-<span class="lineNum">     686 </span><span class="lineCov">        297 :   ls.size = size;</span>
-<span class="lineNum">     687 </span><span class="lineCov">        297 :   return lua_load(L, getS, &amp;ls, name, mode);</span>
+<span class="lineNum">     685 </span><span class="lineCov">        320 :   ls.s = buff;</span>
+<span class="lineNum">     686 </span><span class="lineCov">        320 :   ls.size = size;</span>
+<span class="lineNum">     687 </span><span class="lineCov">        320 :   return lua_load(L, getS, &amp;ls, name, mode);</span>
 <span class="lineNum">     688 </span>            : }
 <span class="lineNum">     689 </span>            : 
 <span class="lineNum">     690 </span>            : 
@@ -762,14 +762,14 @@
 <span class="lineNum">     696 </span>            : 
 <span class="lineNum">     697 </span>            : 
 <span class="lineNum">     698 </span>            : 
-<span class="lineNum">     699 </span><span class="lineCov">      10234 : LUALIB_API int luaL_getmetafield (lua_State *L, int obj, const char *event) {</span>
-<span class="lineNum">     700 </span><span class="lineCov">      10234 :   if (!lua_getmetatable(L, obj))  /* no metatable? */</span>
+<span class="lineNum">     699 </span><span class="lineCov">      10405 : LUALIB_API int luaL_getmetafield (lua_State *L, int obj, const char *event) {</span>
+<span class="lineNum">     700 </span><span class="lineCov">      10405 :   if (!lua_getmetatable(L, obj))  /* no metatable? */</span>
 <span class="lineNum">     701 </span>            :     return 0;
-<span class="lineNum">     702 </span><span class="lineCov">       2302 :   lua_pushstring(L, event);</span>
-<span class="lineNum">     703 </span><span class="lineCov">       2302 :   lua_rawget(L, -2);</span>
-<span class="lineNum">     704 </span><span class="lineCov">       2302 :   if (lua_isnil(L, -1)) {</span>
-<span class="lineNum">     705 </span><span class="lineCov">       2256 :     lua_pop(L, 2);  /* remove metatable and metafield */</span>
-<span class="lineNum">     706 </span><span class="lineCov">       2256 :     return 0;</span>
+<span class="lineNum">     702 </span><span class="lineCov">       2407 :   lua_pushstring(L, event);</span>
+<span class="lineNum">     703 </span><span class="lineCov">       2407 :   lua_rawget(L, -2);</span>
+<span class="lineNum">     704 </span><span class="lineCov">       2407 :   if (lua_isnil(L, -1)) {</span>
+<span class="lineNum">     705 </span><span class="lineCov">       2361 :     lua_pop(L, 2);  /* remove metatable and metafield */</span>
+<span class="lineNum">     706 </span><span class="lineCov">       2361 :     return 0;</span>
 <span class="lineNum">     707 </span>            :   }
 <span class="lineNum">     708 </span>            :   else {
 <span class="lineNum">     709 </span><span class="lineCov">         46 :     lua_remove(L, -2);  /* remove only metatable */</span>
@@ -778,9 +778,9 @@
 <span class="lineNum">     712 </span>            : }
 <span class="lineNum">     713 </span>            : 
 <span class="lineNum">     714 </span>            : 
-<span class="lineNum">     715 </span><span class="lineCov">       4029 : LUALIB_API int luaL_callmeta (lua_State *L, int obj, const char *event) {</span>
-<span class="lineNum">     716 </span><span class="lineCov">       4029 :   obj = lua_absindex(L, obj);</span>
-<span class="lineNum">     717 </span><span class="lineCov">       4029 :   if (!luaL_getmetafield(L, obj, event))  /* no metafield? */</span>
+<span class="lineNum">     715 </span><span class="lineCov">       4199 : LUALIB_API int luaL_callmeta (lua_State *L, int obj, const char *event) {</span>
+<span class="lineNum">     716 </span><span class="lineCov">       4199 :   obj = lua_absindex(L, obj);</span>
+<span class="lineNum">     717 </span><span class="lineCov">       4199 :   if (!luaL_getmetafield(L, obj, event))  /* no metafield? */</span>
 <span class="lineNum">     718 </span>            :     return 0;
 <span class="lineNum">     719 </span><span class="lineCov">         42 :   lua_pushvalue(L, obj);</span>
 <span class="lineNum">     720 </span><span class="lineCov">         42 :   lua_call(L, 1, 1);</span>
@@ -788,25 +788,25 @@
 <span class="lineNum">     722 </span>            : }
 <span class="lineNum">     723 </span>            : 
 <span class="lineNum">     724 </span>            : 
-<span class="lineNum">     725 </span><span class="lineCov">      20025 : LUALIB_API int luaL_len (lua_State *L, int idx) {</span>
+<span class="lineNum">     725 </span><span class="lineCov">      20101 : LUALIB_API int luaL_len (lua_State *L, int idx) {</span>
 <span class="lineNum">     726 </span>            :   int l;
 <span class="lineNum">     727 </span>            :   int isnum;
-<span class="lineNum">     728 </span><span class="lineCov">      20025 :   lua_len(L, idx);</span>
-<span class="lineNum">     729 </span><span class="lineCov">      20025 :   l = (int)lua_tointegerx(L, -1, &amp;isnum);</span>
-<span class="lineNum">     730 </span><span class="lineCov">      20025 :   if (!isnum)</span>
+<span class="lineNum">     728 </span><span class="lineCov">      20101 :   lua_len(L, idx);</span>
+<span class="lineNum">     729 </span><span class="lineCov">      20101 :   l = (int)lua_tointegerx(L, -1, &amp;isnum);</span>
+<span class="lineNum">     730 </span><span class="lineCov">      20101 :   if (!isnum)</span>
 <span class="lineNum">     731 </span><span class="lineCov">          1 :     luaL_error(L, &quot;object length is not a number&quot;);</span>
-<span class="lineNum">     732 </span><span class="lineCov">      20024 :   lua_pop(L, 1);  /* remove object */</span>
-<span class="lineNum">     733 </span><span class="lineCov">      20024 :   return l;</span>
+<span class="lineNum">     732 </span><span class="lineCov">      20100 :   lua_pop(L, 1);  /* remove object */</span>
+<span class="lineNum">     733 </span><span class="lineCov">      20100 :   return l;</span>
 <span class="lineNum">     734 </span>            : }
 <span class="lineNum">     735 </span>            : 
 <span class="lineNum">     736 </span>            : 
-<span class="lineNum">     737 </span><span class="lineCov">       4027 : LUALIB_API const char *luaL_tolstring (lua_State *L, int idx, size_t *len) {</span>
-<span class="lineNum">     738 </span><span class="lineCov">       4027 :   if (!luaL_callmeta(L, idx, &quot;__tostring&quot;)) {  /* no metafield? */</span>
-<span class="lineNum">     739 </span><span class="lineCov">       3986 :     switch (lua_type(L, idx)) {</span>
-<span class="lineNum">     740 </span><span class="lineCov">       3974 :       case LUA_TNUMBER:</span>
+<span class="lineNum">     737 </span><span class="lineCov">       4197 : LUALIB_API const char *luaL_tolstring (lua_State *L, int idx, size_t *len) {</span>
+<span class="lineNum">     738 </span><span class="lineCov">       4197 :   if (!luaL_callmeta(L, idx, &quot;__tostring&quot;)) {  /* no metafield? */</span>
+<span class="lineNum">     739 </span><span class="lineCov">       4156 :     switch (lua_type(L, idx)) {</span>
+<span class="lineNum">     740 </span><span class="lineCov">       4144 :       case LUA_TNUMBER:</span>
 <span class="lineNum">     741 </span>            :       case LUA_TSTRING:
-<span class="lineNum">     742 </span><span class="lineCov">       3974 :         lua_pushvalue(L, idx);</span>
-<span class="lineNum">     743 </span><span class="lineCov">       3974 :         break;</span>
+<span class="lineNum">     742 </span><span class="lineCov">       4144 :         lua_pushvalue(L, idx);</span>
+<span class="lineNum">     743 </span><span class="lineCov">       4144 :         break;</span>
 <span class="lineNum">     744 </span><span class="lineCov">          3 :       case LUA_TBOOLEAN:</span>
 <span class="lineNum">     745 </span><span class="lineCov">          3 :         lua_pushstring(L, (lua_toboolean(L, idx) ? &quot;true&quot; : &quot;false&quot;));</span>
 <span class="lineNum">     746 </span><span class="lineCov">          3 :         break;</span>
@@ -819,7 +819,7 @@
 <span class="lineNum">     753 </span><span class="lineCov">          5 :         break;</span>
 <span class="lineNum">     754 </span>            :     }
 <span class="lineNum">     755 </span><span class="lineCov">         40 :   }</span>
-<span class="lineNum">     756 </span><span class="lineCov">       4026 :   return lua_tolstring(L, -1, len);</span>
+<span class="lineNum">     756 </span><span class="lineCov">       4196 :   return lua_tolstring(L, -1, len);</span>
 <span class="lineNum">     757 </span>            : }
 <span class="lineNum">     758 </span>            : 
 <span class="lineNum">     759 </span>            : 
@@ -911,34 +911,34 @@
 <span class="lineNum">     845 </span>            : ** function gets the 'nup' elements at the top as upvalues.
 <span class="lineNum">     846 </span>            : ** Returns with only the table at the stack.
 <span class="lineNum">     847 </span>            : */
-<span class="lineNum">     848 </span><span class="lineCov">        962 : LUALIB_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {</span>
-<span class="lineNum">     849 </span><span class="lineCov">        962 :   luaL_checkversion(L);</span>
-<span class="lineNum">     850 </span><span class="lineCov">        962 :   luaL_checkstack(L, nup, &quot;too many upvalues&quot;);</span>
-<span class="lineNum">     851 </span><span class="lineCov">      12352 :   for (; l-&gt;name != NULL; l++) {  /* fill the table with given functions */</span>
+<span class="lineNum">     848 </span><span class="lineCov">        998 : LUALIB_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {</span>
+<span class="lineNum">     849 </span><span class="lineCov">        998 :   luaL_checkversion(L);</span>
+<span class="lineNum">     850 </span><span class="lineCov">        998 :   luaL_checkstack(L, nup, &quot;too many upvalues&quot;);</span>
+<span class="lineNum">     851 </span><span class="lineCov">      12814 :   for (; l-&gt;name != NULL; l++) {  /* fill the table with given functions */</span>
 <span class="lineNum">     852 </span>            :     int i;
-<span class="lineNum">     853 </span><span class="lineCov">        160 :     for (i = 0; i &lt; nup; i++)  /* copy upvalues to the top */</span>
-<span class="lineNum">     854 </span><span class="lineCov">        160 :       lua_pushvalue(L, -nup);</span>
-<span class="lineNum">     855 </span><span class="lineCov">      11390 :     lua_pushcclosure(L, l-&gt;func, nup);  /* closure with those upvalues */</span>
-<span class="lineNum">     856 </span><span class="lineCov">      11390 :     lua_setfield(L, -(nup + 2), l-&gt;name);</span>
+<span class="lineNum">     853 </span><span class="lineCov">        166 :     for (i = 0; i &lt; nup; i++)  /* copy upvalues to the top */</span>
+<span class="lineNum">     854 </span><span class="lineCov">        166 :       lua_pushvalue(L, -nup);</span>
+<span class="lineNum">     855 </span><span class="lineCov">      11816 :     lua_pushcclosure(L, l-&gt;func, nup);  /* closure with those upvalues */</span>
+<span class="lineNum">     856 </span><span class="lineCov">      11816 :     lua_setfield(L, -(nup + 2), l-&gt;name);</span>
 <span class="lineNum">     857 </span>            :   }
-<span class="lineNum">     858 </span><span class="lineCov">        962 :   lua_pop(L, nup);  /* remove upvalues */</span>
-<span class="lineNum">     859 </span><span class="lineCov">        962 : }</span>
+<span class="lineNum">     858 </span><span class="lineCov">        998 :   lua_pop(L, nup);  /* remove upvalues */</span>
+<span class="lineNum">     859 </span><span class="lineCov">        998 : }</span>
 <span class="lineNum">     860 </span>            : 
 <span class="lineNum">     861 </span>            : 
 <span class="lineNum">     862 </span>            : /*
 <span class="lineNum">     863 </span>            : ** ensure that stack[idx][fname] has a table and push that table
 <span class="lineNum">     864 </span>            : ** into the stack
 <span class="lineNum">     865 </span>            : */
-<span class="lineNum">     866 </span><span class="lineCov">       2395 : LUALIB_API int luaL_getsubtable (lua_State *L, int idx, const char *fname) {</span>
-<span class="lineNum">     867 </span><span class="lineCov">       2395 :   lua_getfield(L, idx, fname);</span>
-<span class="lineNum">     868 </span><span class="lineCov">       2395 :   if (lua_istable(L, -1)) return 1;  /* table already there */</span>
+<span class="lineNum">     866 </span><span class="lineCov">       2436 : LUALIB_API int luaL_getsubtable (lua_State *L, int idx, const char *fname) {</span>
+<span class="lineNum">     867 </span><span class="lineCov">       2436 :   lua_getfield(L, idx, fname);</span>
+<span class="lineNum">     868 </span><span class="lineCov">       2436 :   if (lua_istable(L, -1)) return 1;  /* table already there */</span>
 <span class="lineNum">     869 </span>            :   else {
-<span class="lineNum">     870 </span><span class="lineCov">        241 :     lua_pop(L, 1);  /* remove previous result */</span>
-<span class="lineNum">     871 </span><span class="lineCov">        241 :     idx = lua_absindex(L, idx);</span>
-<span class="lineNum">     872 </span><span class="lineCov">        241 :     lua_newtable(L);</span>
-<span class="lineNum">     873 </span><span class="lineCov">        241 :     lua_pushvalue(L, -1);  /* copy to be left at top */</span>
-<span class="lineNum">     874 </span><span class="lineCov">        241 :     lua_setfield(L, idx, fname);  /* assign new table to field */</span>
-<span class="lineNum">     875 </span><span class="lineCov">        241 :     return 0;  /* false, because did not find table there */</span>
+<span class="lineNum">     870 </span><span class="lineCov">        250 :     lua_pop(L, 1);  /* remove previous result */</span>
+<span class="lineNum">     871 </span><span class="lineCov">        250 :     idx = lua_absindex(L, idx);</span>
+<span class="lineNum">     872 </span><span class="lineCov">        250 :     lua_newtable(L);</span>
+<span class="lineNum">     873 </span><span class="lineCov">        250 :     lua_pushvalue(L, -1);  /* copy to be left at top */</span>
+<span class="lineNum">     874 </span><span class="lineCov">        250 :     lua_setfield(L, idx, fname);  /* assign new table to field */</span>
+<span class="lineNum">     875 </span><span class="lineCov">        250 :     return 0;  /* false, because did not find table there */</span>
 <span class="lineNum">     876 </span>            :   }
 <span class="lineNum">     877 </span>            : }
 <span class="lineNum">     878 </span>            : 
@@ -949,47 +949,47 @@
 <span class="lineNum">     883 </span>            : ** is true, also registers the result in the global table.
 <span class="lineNum">     884 </span>            : ** Leaves resulting module on the top.
 <span class="lineNum">     885 </span>            : */
-<span class="lineNum">     886 </span><span class="lineCov">        800 : LUALIB_API void luaL_requiref (lua_State *L, const char *modname,</span>
+<span class="lineNum">     886 </span><span class="lineCov">        830 : LUALIB_API void luaL_requiref (lua_State *L, const char *modname,</span>
 <span class="lineNum">     887 </span>            :                                lua_CFunction openf, int glb) {
-<span class="lineNum">     888 </span><span class="lineCov">        800 :   lua_pushcfunction(L, openf);</span>
-<span class="lineNum">     889 </span><span class="lineCov">        800 :   lua_pushstring(L, modname);  /* argument to open function */</span>
-<span class="lineNum">     890 </span><span class="lineCov">        800 :   lua_call(L, 1, 1);  /* open module */</span>
-<span class="lineNum">     891 </span><span class="lineCov">        800 :   luaL_getsubtable(L, LUA_REGISTRYINDEX, &quot;_LOADED&quot;);</span>
-<span class="lineNum">     892 </span><span class="lineCov">        800 :   lua_pushvalue(L, -2);  /* make copy of module (call result) */</span>
-<span class="lineNum">     893 </span><span class="lineCov">        800 :   lua_setfield(L, -2, modname);  /* _LOADED[modname] = module */</span>
-<span class="lineNum">     894 </span><span class="lineCov">        800 :   lua_pop(L, 1);  /* remove _LOADED table */</span>
-<span class="lineNum">     895 </span><span class="lineCov">        800 :   if (glb) {</span>
-<span class="lineNum">     896 </span><span class="lineCov">        800 :     lua_pushvalue(L, -1);  /* copy of 'mod' */</span>
-<span class="lineNum">     897 </span><span class="lineCov">        800 :     lua_setglobal(L, modname);  /* _G[modname] = module */</span>
+<span class="lineNum">     888 </span><span class="lineCov">        830 :   lua_pushcfunction(L, openf);</span>
+<span class="lineNum">     889 </span><span class="lineCov">        830 :   lua_pushstring(L, modname);  /* argument to open function */</span>
+<span class="lineNum">     890 </span><span class="lineCov">        830 :   lua_call(L, 1, 1);  /* open module */</span>
+<span class="lineNum">     891 </span><span class="lineCov">        830 :   luaL_getsubtable(L, LUA_REGISTRYINDEX, &quot;_LOADED&quot;);</span>
+<span class="lineNum">     892 </span><span class="lineCov">        830 :   lua_pushvalue(L, -2);  /* make copy of module (call result) */</span>
+<span class="lineNum">     893 </span><span class="lineCov">        830 :   lua_setfield(L, -2, modname);  /* _LOADED[modname] = module */</span>
+<span class="lineNum">     894 </span><span class="lineCov">        830 :   lua_pop(L, 1);  /* remove _LOADED table */</span>
+<span class="lineNum">     895 </span><span class="lineCov">        830 :   if (glb) {</span>
+<span class="lineNum">     896 </span><span class="lineCov">        830 :     lua_pushvalue(L, -1);  /* copy of 'mod' */</span>
+<span class="lineNum">     897 </span><span class="lineCov">        830 :     lua_setglobal(L, modname);  /* _G[modname] = module */</span>
 <span class="lineNum">     898 </span>            :   }
-<span class="lineNum">     899 </span><span class="lineCov">        800 : }</span>
+<span class="lineNum">     899 </span><span class="lineCov">        830 : }</span>
 <span class="lineNum">     900 </span>            : 
 <span class="lineNum">     901 </span>            : 
-<span class="lineNum">     902 </span><span class="lineCov">       1225 : LUALIB_API const char *luaL_gsub (lua_State *L, const char *s, const char *p,</span>
+<span class="lineNum">     902 </span><span class="lineCov">       1242 : LUALIB_API const char *luaL_gsub (lua_State *L, const char *s, const char *p,</span>
 <span class="lineNum">     903 </span>            :                                                                const char *r) {
 <span class="lineNum">     904 </span>            :   const char *wild;
-<span class="lineNum">     905 </span><span class="lineCov">       1225 :   size_t l = strlen(p);</span>
+<span class="lineNum">     905 </span><span class="lineCov">       1242 :   size_t l = strlen(p);</span>
 <span class="lineNum">     906 </span>            :   luaL_Buffer b;
 <span class="lineNum">     907 </span>            :   luaL_buffinit(L, &amp;b);
-<span class="lineNum">     908 </span><span class="lineCov">       2348 :   while ((wild = strstr(s, p)) != NULL) {</span>
-<span class="lineNum">     909 </span><span class="lineCov">       1123 :     luaL_addlstring(&amp;b, s, wild - s);  /* push prefix */</span>
+<span class="lineNum">     908 </span><span class="lineCov">       2380 :   while ((wild = strstr(s, p)) != NULL) {</span>
+<span class="lineNum">     909 </span><span class="lineCov">       1138 :     luaL_addlstring(&amp;b, s, wild - s);  /* push prefix */</span>
 <span class="lineNum">     910 </span>            :     luaL_addstring(&amp;b, r);  /* push replacement in place of pattern */
-<span class="lineNum">     911 </span><span class="lineCov">       1123 :     s = wild + l;  /* continue after `p' */</span>
+<span class="lineNum">     911 </span><span class="lineCov">       1138 :     s = wild + l;  /* continue after `p' */</span>
 <span class="lineNum">     912 </span>            :   }
 <span class="lineNum">     913 </span>            :   luaL_addstring(&amp;b, s);  /* push last suffix */
-<span class="lineNum">     914 </span><span class="lineCov">       1225 :   luaL_pushresult(&amp;b);</span>
-<span class="lineNum">     915 </span><span class="lineCov">       1225 :   return lua_tostring(L, -1);</span>
+<span class="lineNum">     914 </span><span class="lineCov">       1242 :   luaL_pushresult(&amp;b);</span>
+<span class="lineNum">     915 </span><span class="lineCov">       1242 :   return lua_tostring(L, -1);</span>
 <span class="lineNum">     916 </span>            : }
 <span class="lineNum">     917 </span>            : 
 <span class="lineNum">     918 </span>            : 
-<span class="lineNum">     919 </span><span class="lineCov">     364404 : static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {</span>
+<span class="lineNum">     919 </span><span class="lineCov">     370041 : static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {</span>
 <span class="lineNum">     920 </span>            :   (void)ud; (void)osize;  /* not used */
-<span class="lineNum">     921 </span><span class="lineCov">     364404 :   if (nsize == 0) {</span>
-<span class="lineNum">     922 </span><span class="lineCov">     158575 :     free(ptr);</span>
-<span class="lineNum">     923 </span><span class="lineCov">     158575 :     return NULL;</span>
+<span class="lineNum">     921 </span><span class="lineCov">     370041 :   if (nsize == 0) {</span>
+<span class="lineNum">     922 </span><span class="lineCov">     161439 :     free(ptr);</span>
+<span class="lineNum">     923 </span><span class="lineCov">     161439 :     return NULL;</span>
 <span class="lineNum">     924 </span>            :   }
 <span class="lineNum">     925 </span>            :   else
-<span class="lineNum">     926 </span><span class="lineCov">     205829 :     return realloc(ptr, nsize);</span>
+<span class="lineNum">     926 </span><span class="lineCov">     208602 :     return realloc(ptr, nsize);</span>
 <span class="lineNum">     927 </span>            : }
 <span class="lineNum">     928 </span>            : 
 <span class="lineNum">     929 </span>            : 
@@ -1000,28 +1000,28 @@
 <span class="lineNum">     934 </span>            : }
 <span class="lineNum">     935 </span>            : 
 <span class="lineNum">     936 </span>            : 
-<span class="lineNum">     937 </span><span class="lineCov">         92 : LUALIB_API lua_State *luaL_newstate (void) {</span>
-<span class="lineNum">     938 </span><span class="lineCov">         92 :   lua_State *L = lua_newstate(l_alloc, NULL);</span>
-<span class="lineNum">     939 </span><span class="lineCov">         92 :   if (L) lua_atpanic(L, &amp;panic);</span>
-<span class="lineNum">     940 </span><span class="lineCov">         92 :   return L;</span>
+<span class="lineNum">     937 </span><span class="lineCov">        104 : LUALIB_API lua_State *luaL_newstate (void) {</span>
+<span class="lineNum">     938 </span><span class="lineCov">        104 :   lua_State *L = lua_newstate(l_alloc, NULL);</span>
+<span class="lineNum">     939 </span><span class="lineCov">        104 :   if (L) lua_atpanic(L, &amp;panic);</span>
+<span class="lineNum">     940 </span><span class="lineCov">        104 :   return L;</span>
 <span class="lineNum">     941 </span>            : }
 <span class="lineNum">     942 </span>            : 
 <span class="lineNum">     943 </span>            : 
-<span class="lineNum">     944 </span><span class="lineCov">       1042 : LUALIB_API void luaL_checkversion_ (lua_State *L, lua_Number ver) {</span>
-<span class="lineNum">     945 </span><span class="lineCov">       1042 :   const lua_Number *v = lua_version(L);</span>
-<span class="lineNum">     946 </span><span class="lineCov">       1042 :   if (v != lua_version(NULL))</span>
+<span class="lineNum">     944 </span><span class="lineCov">       1081 : LUALIB_API void luaL_checkversion_ (lua_State *L, lua_Number ver) {</span>
+<span class="lineNum">     945 </span><span class="lineCov">       1081 :   const lua_Number *v = lua_version(L);</span>
+<span class="lineNum">     946 </span><span class="lineCov">       1081 :   if (v != lua_version(NULL))</span>
 <span class="lineNum">     947 </span><span class="lineNoCov">          0 :     luaL_error(L, &quot;multiple Lua VMs detected&quot;);</span>
-<span class="lineNum">     948 </span><span class="lineCov">       1042 :   else if (*v != ver)</span>
+<span class="lineNum">     948 </span><span class="lineCov">       1081 :   else if (*v != ver)</span>
 <span class="lineNum">     949 </span><span class="lineNoCov">          0 :     luaL_error(L, &quot;version mismatch: app. needs %f, Lua core provides %f&quot;,</span>
 <span class="lineNum">     950 </span>            :                   ver, *v);
 <span class="lineNum">     951 </span>            :   /* check conversions number -&gt; integer types */
-<span class="lineNum">     952 </span><span class="lineCov">       1042 :   lua_pushnumber(L, -(lua_Number)0x1234);</span>
-<span class="lineNum">     953 </span><span class="lineCov">       2084 :   if (lua_tointeger(L, -1) != -0x1234 ||</span>
-<span class="lineNum">     954 </span><span class="lineCov">       1042 :       lua_tounsigned(L, -1) != (lua_Unsigned)-0x1234)</span>
+<span class="lineNum">     952 </span><span class="lineCov">       1081 :   lua_pushnumber(L, -(lua_Number)0x1234);</span>
+<span class="lineNum">     953 </span><span class="lineCov">       2162 :   if (lua_tointeger(L, -1) != -0x1234 ||</span>
+<span class="lineNum">     954 </span><span class="lineCov">       1081 :       lua_tounsigned(L, -1) != (lua_Unsigned)-0x1234)</span>
 <span class="lineNum">     955 </span><span class="lineNoCov">          0 :     luaL_error(L, &quot;bad conversion number-&gt;int;&quot;</span>
 <span class="lineNum">     956 </span>            :                   &quot; must recompile Lua with proper settings&quot;);
-<span class="lineNum">     957 </span><span class="lineCov">       1042 :   lua_pop(L, 1);</span>
-<span class="lineNum">     958 </span><span class="lineCov">       1042 : }</span>
+<span class="lineNum">     957 </span><span class="lineCov">       1081 :   lua_pop(L, 1);</span>
+<span class="lineNum">     958 </span><span class="lineCov">       1081 : }</span>
 <span class="lineNum">     959 </span>            : 
 </pre>
       </td>
