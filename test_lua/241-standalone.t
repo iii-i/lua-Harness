@@ -52,6 +52,11 @@ f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "file")
 f:close()
 
+cmd = lua .. " -- hello.lua"
+f = io.popen(cmd)
+is(f:read'*l', 'Hello World', "-- file")
+f:close()
+
 cmd = lua .. " no_file.lua 2>&1"
 f = io.popen(cmd)
 like(f:read'*l', "^[^:]+: cannot open no_file.lua", "no file")
@@ -81,6 +86,17 @@ end
 cmd = lua .. " < hello.lua"
 f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "redirect")
+f:close()
+
+cmd = lua .. " - < hello.lua"
+f = io.popen(cmd)
+is(f:read'*l', 'Hello World', "redirect")
+f:close()
+
+cmd = lua .. " -i hello.lua < hello.lua 2>&1"
+f = io.popen(cmd)
+like(f:read'*l', '^Lua', "-i")
+is(f:read'*l', 'Hello World')
 f:close()
 
 cmd = lua .. [[ -e"a=1" -e "print(a)"]]
@@ -128,6 +144,11 @@ is(f:read'*l', '1', "-e & script")
 is(f:read'*l', 'Hello World')
 f:close()
 
+cmd = lua .. [[ -e"a=1" -i < hello.lua 2>&1]]
+f = io.popen(cmd)
+like(f:read'*l', '^Lua', "-e & -i")
+f:close()
+
 cmd = lua .. [[ -e "?syntax error?" 2>&1]]
 f = io.popen(cmd)
 like(f:read'*l', "lua", "-e bad")
@@ -152,6 +173,11 @@ like(f:read'*l', '^Lua', "-v & script")
 is(f:read'*l', 'Hello World')
 f:close()
 
+cmd = lua .. [[ -v -- 2>&1]]
+f = io.popen(cmd)
+like(f:read'*l', '^Lua', "-v --")
+f:close()
+
 if _VERSION >= 'Lua 5.2' then
     cmd = lua .. [[ -E hello.lua 2>&1]]
     f = io.popen(cmd)
@@ -165,6 +191,14 @@ cmd = lua .. [[ -u 2>&1]]
 f = io.popen(cmd)
 if _VERSION ~= 'Lua 5.1' then
     like(f:read'*l', "^[^:]+: unrecognized option '%-u'", "unknown option")
+end
+like(f:read'*l', "^usage: ", "no file")
+f:close()
+
+cmd = lua .. [[ --u 2>&1]]
+f = io.popen(cmd)
+if _VERSION ~= 'Lua 5.1' then
+    like(f:read'*l', "^[^:]+: unrecognized option '%-%-u'", "unknown option")
 end
 like(f:read'*l', "^usage: ", "no file")
 f:close()

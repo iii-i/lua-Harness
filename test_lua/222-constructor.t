@@ -31,24 +31,46 @@ See section "Table Constructors" in "Programming in Lua".
 
 require'tap'
 
-plan(14)
+plan(16)
 
---[[ list-style init ]]
-do
+do --[[ list-style init ]]
     local days = {'Sunday', 'Monday', 'Tuesday', 'Wednesday',
                   'Thursday', 'Friday', 'Saturday'}
     is(days[4], 'Wednesday', "list-style init")
     is(#days, 7)
 end
 
---[[ record-style init ]]
 do
+    local large = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }
+    is(#large, 100)
+    large = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }
+    is(#large, 200)
+end
+
+do --[[ record-style init ]]
     local a = {x=0, y=0}
     is(a.x, 0, "record-style init")
     is(a.y, 0)
 end
 
---[[ ]]
 do
     local w = {x=0, y=0, label='console'}
     local x = {0, 1, 2}
@@ -60,8 +82,7 @@ do
     w.x = nil
 end
 
---[[ mix record-style and list-style init ]]
-do
+do --[[ mix record-style and list-style init ]]
     local polyline = {color='blue', thickness=2, npoints=4,
                        {x=0,   y=0},
                        {x=-10, y=0},
@@ -71,7 +92,6 @@ do
     is(polyline[2].x, -10, "mix record-style and list-style init")
 end
 
---[[ ]]
 do
     local opnames = {['+'] = 'add', ['-'] = 'sub',
                      ['*'] = 'mul', ['/'] = 'div'}
@@ -81,7 +101,6 @@ do
     is(a[22], '---')
 end
 
---[[ ]]
 do
     local function f() return 10, 20 end
 

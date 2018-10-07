@@ -41,26 +41,30 @@ local nocvts2n = profile.nocvts2n
 
 plan'no_plan'
 
--- abs
-is(math.abs(-12.34), 12.34, "function abs (float)")
-is(math.abs(12.34), 12.34)
-if math.type then
-    is(math.type(math.abs(-12.34)), 'float')
+do -- abs
+    is(math.abs(-12.34), 12.34, "function abs (float)")
+    is(math.abs(12.34), 12.34)
+    if math.type then
+        is(math.type(math.abs(-12.34)), 'float')
+    end
+    is(math.abs(-12), 12, "function abs (integer)")
+    is(math.abs(12), 12)
+    if math.type then
+        is(math.type(math.abs(-12)), 'integer')
+    end
 end
-is(math.abs(-12), 12, "function abs (integer)")
-is(math.abs(12), 12)
-if math.type then
-    is(math.type(math.abs(-12)), 'integer')
+
+do -- acos
+    like(math.acos(0.5), '^1%.047', "function acos")
 end
 
--- acos
-like(math.acos(0.5), '^1%.047', "function acos")
+do -- asin
+    like(math.asin(0.5), '^0%.523', "function asin")
+end
 
--- asin
-like(math.asin(0.5), '^0%.523', "function asin")
-
--- atan
-like(math.atan(0.5), '^0%.463', "function atan")
+do -- atan
+    like(math.atan(0.5), '^0%.463', "function atan")
+end
 
 -- atan2
 if has_mathx then
@@ -69,16 +73,18 @@ else
     is(math.atan2, nil, "function atan2 (removed)")
 end
 
--- ceil
-is(math.ceil(12.34), 13, "function ceil")
-is(math.ceil(-12.34), -12)
-is(math.ceil(-12), -12)
-if math.type then
-    is(math.type(math.ceil(-12.34)), 'integer')
+do -- ceil
+    is(math.ceil(12.34), 13, "function ceil")
+    is(math.ceil(-12.34), -12)
+    is(math.ceil(-12), -12)
+    if math.type then
+        is(math.type(math.ceil(-12.34)), 'integer')
+    end
 end
 
--- cos
-like(math.cos(1.0), '^0%.540', "function cos")
+do -- cos
+    like(math.cos(1.0), '^0%.540', "function cos")
+end
 
 -- cosh
 if has_mathx then
@@ -87,39 +93,43 @@ else
     is(math.cosh, nil, "function cosh (removed)")
 end
 
--- deg
-is(math.deg(math.pi), 180, "function deg")
-
--- exp
-like(math.exp(1.0), '^2%.718', "function exp")
-
--- floor
-is(math.floor(12.34), 12, "function floor")
-is(math.floor(-12.34), -13)
-is(math.floor(-12), -12)
-if math.type then
-    is(math.type(math.floor(-12.34)), 'integer')
+do -- deg
+    is(math.deg(math.pi), 180, "function deg")
 end
 
--- fmod
-like(math.fmod(7.0001, 0.3), '^0%.100', "function fmod (float)")
-like(math.fmod(-7.0001, 0.3), '^-0%.100')
-like(math.fmod(-7.0001, -0.3), '^-0%.100')
-if math.type then
-    is(math.type(math.fmod(7.0, 0.3)), 'float')
+do -- exp
+    like(math.exp(1.0), '^2%.718', "function exp")
 end
-is(math.fmod(7, 3), 1, "function fmod (integer)")
-is(math.fmod(-7, 3), -1)
-is(math.fmod(-7, -1), 0)
-if math.type then
-    is(math.type(math.fmod(7, 3)), 'integer')
+
+do -- floor
+    is(math.floor(12.34), 12, "function floor")
+    is(math.floor(-12.34), -13)
+    is(math.floor(-12), -12)
+    if math.type then
+        is(math.type(math.floor(-12.34)), 'integer')
+    end
 end
-if _VERSION >= 'Lua 5.3' then
-    error_like(function () math.fmod(7, 0) end,
-               "^[^:]+:%d+: bad argument #2 to 'fmod' %(zero%)",
-               "function fmod 0")
-else
-    diag"fmod by zero -> nan"
+
+do -- fmod
+    like(math.fmod(7.0001, 0.3), '^0%.100', "function fmod (float)")
+    like(math.fmod(-7.0001, 0.3), '^-0%.100')
+    like(math.fmod(-7.0001, -0.3), '^-0%.100')
+    if math.type then
+        is(math.type(math.fmod(7.0, 0.3)), 'float')
+    end
+    is(math.fmod(7, 3), 1, "function fmod (integer)")
+    is(math.fmod(-7, 3), -1)
+    is(math.fmod(-7, -1), 0)
+    if math.type then
+        is(math.type(math.fmod(7, 3)), 'integer')
+    end
+    if _VERSION >= 'Lua 5.3' then
+        error_like(function () math.fmod(7, 0) end,
+                   "^[^:]+:%d+: bad argument #2 to 'fmod' %(zero%)",
+                   "function fmod 0")
+    else
+        diag"fmod by zero -> nan"
+    end
 end
 
 -- frexp
@@ -129,10 +139,11 @@ else
     is(math.frexp, nil, "function frexp (removed)")
 end
 
--- huge
-type_ok(math.huge, 'number', "variable huge")
-if math.type then
-    is(math.type(math.huge), 'float')
+do -- huge
+    type_ok(math.huge, 'number', "variable huge")
+    if math.type then
+        is(math.type(math.huge), 'float')
+    end
 end
 
 -- ldexp
@@ -142,12 +153,13 @@ else
     is(math.ldexp, nil, "function ldexp (removed)")
 end
 
--- log
-like(math.log(47), '^3%.85', "function log")
-if has_log_with_base then
-    like(math.log(47, math.exp(1)), '^3%.85', "function log (base e)")
-    like(math.log(47, 2), '^5%.554', "function log (base 2)")
-    like(math.log(47, 10), '^1%.672', "function log (base 10)")
+do -- log
+    like(math.log(47), '^3%.85', "function log")
+    if has_log_with_base then
+        like(math.log(47, math.exp(1)), '^3%.85', "function log (base e)")
+        like(math.log(47, 2), '^5%.554', "function log (base 2)")
+        like(math.log(47, 10), '^1%.672', "function log (base 10)")
+    end
 end
 
 -- log10
@@ -157,42 +169,44 @@ else
     is(math.log10, nil, "function log10 (removed)")
 end
 
---max
-is(math.max(1), 1, "function max")
-is(math.max(1, 2), 2)
-is(math.max(1, 2, 3, -4), 3)
+do --max
+    is(math.max(1), 1, "function max")
+    is(math.max(1, 2), 2)
+    is(math.max(1, 2, 3, -4), 3)
 
-error_like(function () math.max() end,
-           "^[^:]+:%d+: bad argument #1 to 'max' %(.- expected",
-           "function max 0")
+    error_like(function () math.max() end,
+               "^[^:]+:%d+: bad argument #1 to 'max' %(.- expected",
+               "function max 0")
+end
 
 -- maxinteger
 if has_integer then
     type_ok(math.maxinteger, 'number', "variable maxinteger")
+    if math.type then
+        is(math.type(math.maxinteger), 'integer')
+    end
 else
     is(math.maxinteger, nil, "no maxinteger")
 end
-if math.type then
-    is(math.type(math.maxinteger), 'integer')
+
+do --min
+    is(math.min(1), 1, "function min")
+    is(math.min(1, 2), 1)
+    is(math.min(1, 2, 3, -4), -4)
+
+    error_like(function () math.min() end,
+               "^[^:]+:%d+: bad argument #1 to 'min' %(.- expected",
+               "function min 0")
 end
-
---min
-is(math.min(1), 1, "function min")
-is(math.min(1, 2), 1)
-is(math.min(1, 2, 3, -4), -4)
-
-error_like(function () math.min() end,
-           "^[^:]+:%d+: bad argument #1 to 'min' %(.- expected",
-           "function min 0")
 
 -- mininteger
 if has_integer then
     type_ok(math.mininteger, 'number', "variable mininteger")
+    if math.type then
+        is(math.type(math.mininteger), 'integer')
+    end
 else
     is(math.mininteger, nil, "no mininteger")
-end
-if math.type then
-    is(math.type(math.mininteger), 'integer')
 end
 
 -- mod (compat50)
@@ -202,12 +216,14 @@ else
     is(math.mod, nil, "function mod (alias removed)")
 end
 
--- modf
-eq_array({math.modf(2.25)}, {2, 0.25}, "function modf")
-eq_array({math.modf(2)}, {2, 0.0})
+do -- modf
+    eq_array({math.modf(2.25)}, {2, 0.25}, "function modf")
+    eq_array({math.modf(2)}, {2, 0.0})
+end
 
--- pi
-like(tostring(math.pi), '^3%.14', "variable pi")
+do -- pi
+    like(tostring(math.pi), '^3%.14', "variable pi")
+end
 
 -- pow
 if has_mathx then
@@ -216,52 +232,54 @@ else
     is(math.pow, nil, "function pow (removed)")
 end
 
--- rad
-like(math.rad(180), '^3%.14', "function rad")
+do -- rad
+    like(math.rad(180), '^3%.14', "function rad")
+end
 
--- random
-like(math.random(), '^0%.%d+', "function random no arg")
-if math.type then
-    is(math.type(math.random()), 'float')
-end
-like(math.random(9), '^%d$', "function random 1 arg")
-if math.type then
-    is(math.type(math.random(9)), 'integer')
-end
-like(math.random(10, 19), '^1%d$', "function random 2 arg")
-if math.type then
-    is(math.type(math.random(10, 19)), 'integer')
-end
-like(math.random(-19, -10), '^-1%d$', "function random 2 arg")
-
-if _VERSION >= 'Lua 5.4' then
-    like(math.random(0), '^%-?%d+$', "function random 0")
-else
-    if jit then
-       todo("LuaJIT intentional. Don't check empty interval.")
+do -- random
+    like(math.random(), '^0%.%d+', "function random no arg")
+    if math.type then
+        is(math.type(math.random()), 'float')
     end
-    error_like(function () math.random(0) end,
-               "^[^:]+:%d+: bad argument #1 to 'random' %(interval is empty%)",
+    like(math.random(9), '^%d$', "function random 1 arg")
+    if math.type then
+        is(math.type(math.random(9)), 'integer')
+    end
+    like(math.random(10, 19), '^1%d$', "function random 2 arg")
+    if math.type then
+        is(math.type(math.random(10, 19)), 'integer')
+    end
+    like(math.random(-19, -10), '^-1%d$', "function random 2 arg")
+
+    if _VERSION >= 'Lua 5.4' then
+        like(math.random(0), '^%-?%d+$', "function random 0")
+    else
+        if jit then
+            todo("LuaJIT intentional. Don't check empty interval.")
+        end
+        error_like(function () math.random(0) end,
+                   "^[^:]+:%d+: bad argument #1 to 'random' %(interval is empty%)",
+                  "function random empty interval")
+    end
+
+    if jit then
+        todo("LuaJIT intentional. Don't check empty interval.", 2)
+    end
+    error_like(function () math.random(-9) end,
+               "^[^:]+:%d+: bad argument #%d to 'random' %(interval is empty%)",
                "function random empty interval")
-end
 
-if jit then
-    todo("LuaJIT intentional. Don't check empty interval.", 2)
-end
-error_like(function () math.random(-9) end,
-           "^[^:]+:%d+: bad argument #%d to 'random' %(interval is empty%)",
-           "function random empty interval")
+    error_like(function () math.random(19, 10) end,
+               "^[^:]+:%d+: bad argument #%d to 'random' %(interval is empty%)",
+               "function random empty interval")
 
-error_like(function () math.random(19, 10) end,
-           "^[^:]+:%d+: bad argument #%d to 'random' %(interval is empty%)",
-           "function random empty interval")
-
-if jit then
-    todo("LuaJIT intentional. Don't care about extra arguments.")
+    if jit then
+        todo("LuaJIT intentional. Don't care about extra arguments.")
+    end
+    error_like(function () math.random(1, 2, 3) end,
+               "^[^:]+:%d+: wrong number of arguments",
+               "function random too many arg")
 end
-error_like(function () math.random(1, 2, 3) end,
-           "^[^:]+:%d+: wrong number of arguments",
-           "function random too many arg")
 
 do -- randomseed
     math.randomseed(42)
@@ -271,8 +289,9 @@ do -- randomseed
     is(a, b, "function randomseed")
 end
 
--- sin
-like(math.sin(1.0), '^0%.841', "function sin")
+do -- sin
+    like(math.sin(1.0), '^0%.841', "function sin")
+end
 
 -- sinh
 if has_mathx then
@@ -281,11 +300,13 @@ else
     is(math.sinh, nil, "function sinh (removed)")
 end
 
--- sqrt
-like(math.sqrt(2), '^1%.414', "function sqrt")
+do -- sqrt
+    like(math.sqrt(2), '^1%.414', "function sqrt")
+end
 
--- tan
-like(math.tan(1.0), '^1%.557', "function tan")
+do -- tan
+    like(math.tan(1.0), '^1%.557', "function tan")
+end
 
 -- tanh
 if has_mathx then

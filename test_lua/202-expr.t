@@ -78,6 +78,8 @@ is(not not nil, false)
 is(not 'text', false)
 a = {}
 is(not a, false)
+is(not (a == a), false)
+is(not (a ~= a), true)
 
 is("Hello " .. "World", "Hello World", "concatenation")
 if not nocvtn2s then

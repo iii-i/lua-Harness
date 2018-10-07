@@ -28,8 +28,7 @@ require'tap'
 
 plan(18)
 
---[[ object ]]
-do
+do --[[ object ]]
     local Account = {balance = 0}
 
     function Account.withdraw (self, v)
@@ -45,8 +44,7 @@ do
     is(a2.balance, -260)
 end
 
---[[ object ]]
-do
+do --[[ object ]]
     local Account = {balance = 0}
 
     function Account:withdraw (v)
@@ -72,8 +70,7 @@ do
     is(Account.balance, 100)
 end
 
---[[ classe ]]
-do
+do --[[ class ]]
     local Account = {balance = 0}
 
     function Account:new (o)
@@ -101,8 +98,7 @@ do
     is(b.balance, 200)
 end
 
---[[ inheritance ]]
-do
+do --[[ inheritance ]]
     local Account = {balance = 0}
 
     function Account:new (o)
@@ -153,8 +149,7 @@ do
     is(s.balance, -100)
 end
 
---[[ multiple inheritance ]]
-do
+do --[[ multiple inheritance ]]
     -- look up for 'k' in list of tables 'plist'
     local function search (k, plist)
         for i=1, #plist do
@@ -211,8 +206,7 @@ do
     is(account.balance, 100)
 end
 
---[[ multiple inheritance (patched) ]]
-do
+do --[[ multiple inheritance (patched) ]]
     -- look up for 'k' in list of tables 'plist'
     local function search (k, plist)
         for i=1, #plist do
@@ -270,8 +264,7 @@ do
     is(account.balance, 100)
 end
 
---[[ privacy ]]
-do
+do --[[ privacy ]]
     local function newAccount (initialBalance)
         local self = {balance = initialBalance}
 
@@ -297,8 +290,7 @@ do
     is(acc1.getBalance(), 60, "privacy")
 end
 
---[[ single-method approach ]]
-do
+do --[[ single-method approach ]]
     local function newObject (value)
         return function (action, v)
             if action == 'get' then return value

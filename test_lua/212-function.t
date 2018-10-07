@@ -34,8 +34,7 @@ local loadstring = loadstring or load
 
 plan(68)
 
---[[ add ]]
-do
+do --[[ add ]]
     local function add (a)
         local sum = 0
         for i,v in ipairs(a) do
@@ -48,8 +47,7 @@ do
     is(add(t), 100, "add")
 end
 
---[[ f ]]
-do
+do --[[ f ]]
     local function f(a, b) return a or b end
 
     is(f(3), 3, "f")
@@ -57,8 +55,7 @@ do
     is(f(3, 4, 5), 3)
 end
 
---[[ incCount ]]
-do
+do --[[ incCount ]]
     local count = 0
 
     local function incCount (n)
@@ -75,8 +72,7 @@ do
     is(count, 4)
 end
 
---[[ maximum ]]
-do
+do --[[ maximum ]]
     local function maximum (a)
         local mi = 1                -- maximum index
         local m = a[mi]             -- maximum value
@@ -94,8 +90,7 @@ do
     is(mi, 3)
 end
 
---[[ call by value ]]
-do
+do --[[ call by value ]]
     local function f (n)
         n = n - 1
         return n
@@ -111,8 +106,7 @@ do
     is(a, 12)
 end
 
---[[ call by ref ]]
-do
+do --[[ call by ref ]]
     local function f (t)
         t[#t+1] = 'end'
         return t
@@ -125,31 +119,26 @@ do
     is(table.concat(a, ','), 'a,b,c,end')
 end
 
---[[ var args ]]
-do
-    local function g(a, b, ...)
+do --[[ var args ]]
+    local function g1(a, b, ...)
         local arg = {...}
         is(a, 3, "vararg")
         is(b, nil)
         is(#arg, 0)
         is(arg[1], nil)
     end
-    g(3)
-end
+    g1(3)
 
-do
-    local function g(a, b, ...)
+    local function g2(a, b, ...)
         local arg = {...}
         is(a, 3)
         is(b, 4)
         is(#arg, 0)
         is(arg[1], nil)
     end
-    g(3, 4)
-end
+    g2(3, 4)
 
-do
-    local function g(a, b, ...)
+    local function g3(a, b, ...)
         local arg = {...}
         is(a, 3)
         is(b, 4)
@@ -157,12 +146,11 @@ do
         is(arg[1], 5)
         is(arg[2], 8)
     end
-    g(3, 4, 5, 8)
+    g3(3, 4, 5, 8)
 end
 
---[[ var args ]]
-do
-    local function g(a, b, ...)
+do --[[ var args ]]
+    local function g1(a, b, ...)
         local c, d, e = ...
         is(a, 3, "var args")
         is(b, nil)
@@ -170,11 +158,9 @@ do
         is(d, nil)
         is(e, nil)
     end
-    g(3)
-end
+    g1(3)
 
-do
-    local function g(a, b, ...)
+    local function g2(a, b, ...)
         local c, d, e = ...
         is(a, 3)
         is(b, 4)
@@ -182,11 +168,9 @@ do
         is(d, nil)
         is(e, nil)
     end
-    g(3, 4)
-end
+    g2(3, 4)
 
-do
-    local function g(a, b, ...)
+    local function g3(a, b, ...)
         local c, d, e = ...
         is(a, 3)
         is(b, 4)
@@ -194,33 +178,27 @@ do
         is(d, 8)
         is(e, nil)
     end
-    g(3, 4, 5, 8)
+    g3(3, 4, 5, 8)
 end
 
---[[ var args ]]
-do
-    local function g(a, b, ...)
+do --[[ var args ]]
+    local function g1(a, b, ...)
         is(#{a, b, ...}, 1, "varargs")
     end
-    g(3)
-end
+    g1(3)
 
-do
-    local function g(a, b, ...)
+    local function g2(a, b, ...)
         is(#{a, b, ...}, 2)
     end
-    g(3, 4)
-end
+    g2(3, 4)
 
-do
-    local function g(a, b, ...)
+    local function g3(a, b, ...)
         is(#{a, b, ...}, 4)
     end
-    g(3, 4, 5, 8)
+    g3(3, 4, 5, 8)
 end
 
---[[ var args ]]
-do
+do --[[ var args ]]
     local function f() return 1, 2 end
     local function g() return 'a', f() end
     local function h() return f(), 'b' end
@@ -243,8 +221,7 @@ do
     is(z, nil)
 end
 
---[[ invalid var args ]]
-do
+do --[[ invalid var args ]]
     local f, msg = loadstring [[
 function f ()
     print(...)
@@ -253,8 +230,7 @@ end
     like(msg, "^[^:]+:%d+: cannot use '...' outside a vararg function", "invalid var args")
 end
 
---[[ tail call ]]
-do
+do --[[ tail call ]]
     local output = {}
     local function foo (n)
         output[#output+1] = n
@@ -268,8 +244,7 @@ do
     eq_array(output, {3, 2, 1, 0})
 end
 
---[[ no tail call ]]
-do
+do --[[ no tail call ]]
     local output = {}
     local function foo (n)
         output[#output+1] = n
@@ -283,8 +258,7 @@ do
     eq_array(output, {3, 2, 1, 0})
 end
 
---[[ no tail call ]]
-do
+do --[[ no tail call ]]
     local output = {}
     local function foo (n)
         output[#output+1] = n
@@ -297,8 +271,7 @@ do
     eq_array(output, {3, 2, 1, 0})
 end
 
---[[ sub name ]]
-do
+do --[[ sub name ]]
     local function f () return 1 end
     is(f(), 1, "sub name")
 

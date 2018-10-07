@@ -37,7 +37,6 @@ local has_isyieldable = _VERSION >= 'Lua 5.3' or (jit and jit.version_num >= 201
 
 plan'no_plan'
 
---[[ ]]
 do
     local output = {}
 
@@ -47,14 +46,14 @@ do
     end
 
     local co = coroutine.create(function (a,b)
-            local r, s
-            output[#output+1] = "co-body " .. tostring(a) .." " .. tostring(b)
-            r = foo1(a+1)
-            output[#output+1] = "co-body " .. r
-            r, s = coroutine.yield(a+b, a-b)
-            output[#output+1] = "co-body " .. r .. " " .. s
-            return b, 'end'
-        end)
+        local r, s
+        output[#output+1] = "co-body " .. tostring(a) .." " .. tostring(b)
+        r = foo1(a+1)
+        output[#output+1] = "co-body " .. r
+        r, s = coroutine.yield(a+b, a-b)
+        output[#output+1] = "co-body " .. r .. " " .. s
+        return b, 'end'
+    end)
 
     eq_array({coroutine.resume(co, 1, 10)}, {true, 4}, "foo1")
     eq_array({coroutine.resume(co, 'r')}, {true, 11, -9})
@@ -68,12 +67,11 @@ do
     })
 end
 
---[[ ]]
 do
     local output = ''
     local co = coroutine.create(function ()
-            output = 'hi'
-        end)
+        output = 'hi'
+    end)
     like(co, '^thread: 0?[Xx]?%x+$', "basics")
 
     is(coroutine.status(co), 'suspended')
@@ -91,15 +89,14 @@ do
                "^[^:]+:%d+: bad argument #1 to 'status' %(.- expected%)")
 end
 
---[[ ]]
 do
     local output = {}
     local co = coroutine.create(function ()
-            for i=1,10 do
-                output[#output+1] = i
-                coroutine.yield()
-            end
-        end)
+        for i=1,10 do
+            output[#output+1] = i
+            coroutine.yield()
+        end
+    end)
 
     coroutine.resume(co)
     if has_running52 then
@@ -125,25 +122,22 @@ do
     eq_array(output, {1,2,3,4,5,6,7,8,9,10})
 end
 
---[[ ]]
 do
     local co = coroutine.create(function (a,b)
-            coroutine.yield(a + b, a - b)
-        end)
+        coroutine.yield(a + b, a - b)
+    end)
 
     eq_array({coroutine.resume(co, 20, 10)}, {true, 30, 10}, "basics")
 end
 
---[[ ]]
 do
     local co = coroutine.create(function ()
-            return 6, 7
-        end)
+        return 6, 7
+    end)
 
     eq_array({coroutine.resume(co)}, {true, 6, 7}, "basics")
 end
 
---[[ ]]
 if has_coroutine52 then
     local co = coroutine.wrap(function(...)
         return pcall(function(...)
@@ -167,7 +161,6 @@ if has_coroutine52 then
     eq_array({co("World")}, {true, "World"})
 end
 
---[[ ]]
 if has_coroutine52 then
     local output = {}
     local co = coroutine.wrap(function()
@@ -187,7 +180,6 @@ if has_coroutine52 then
     eq_array(output, {true, false})
 end
 
---[[ ]]
 if has_coroutine52 then
     local co = coroutine.wrap(print)
     type_ok(co, 'function')
@@ -200,17 +192,15 @@ if has_coroutine52 then
                "^[^:]+:%d+: [^:]+:%d+: in coro$")
 end
 
---[[ ]]
 do
     local co = coroutine.create(function ()
-            error "in coro"
-        end)
+        error "in coro"
+    end)
     local r, msg = coroutine.resume(co)
     is(r, false)
     like(msg, "^[^:]+:%d+: in coro$")
 end
 
---[[ ]]
 do
     error_like(function () coroutine.yield() end,
                "attempt to yield")

@@ -139,8 +139,7 @@ do
     is(t .. t .. t ..'end' .. '.', "t|t|t|end.", "__concat")
 end
 
---[[ Cplx ]]
-do
+do --[[ Cplx ]]
     local Cplx = {}
     Cplx.mt = {}
     local tointeger = math.tointeger or math.floor
@@ -381,8 +380,7 @@ if has_metamethod_ipairs then
     is( r, 'abc', "__ipairs" )
 end
 
---[[ Window ]]
-do
+do --[[ Window ]]
     -- create a namespace
     local Window = {}
     -- create a prototype with default values
@@ -413,8 +411,7 @@ do
     is(rawget(w, 'width'), nil)
 end
 
---[[ tables with default values ]]
-do
+do --[[ tables with default values ]]
     local function setDefault_1 (t, d)
         local mt = {__index = function () return d end}
         setmetatable (t, mt)
@@ -428,8 +425,7 @@ do
     is(tab.z, 0)
 end
 
---[[ tables with default values ]]
-do
+do --[[ tables with default values ]]
     local mt = {__index = function (t) return t.___ end}
     local function setDefault_2 (t, d)
         t.___ = d
@@ -444,8 +440,7 @@ do
     is(tab.z, 0)
 end
 
---[[ tables with default values ]]
-do
+do --[[ tables with default values ]]
     local key = {}
     local mt = {__index = function (t) return t[key] end}
     local function setDefault_3 (t, d)
@@ -461,8 +456,7 @@ do
     is(tab.z, 0)
 end
 
---[[ private access ]]
-do
+do --[[ private access ]]
     local t = {}  -- original table
     -- keep a private access to original table
     local _t = t
@@ -492,8 +486,7 @@ do
     is(r, "*access to element 2")
 end
 
---[[ private access ]]
-do
+do --[[ private access ]]
     -- create private index
     local index = {}
 
@@ -528,8 +521,7 @@ do
     is(r, "*access to element 2")
 end
 
---[[ read-only table ]]
-do
+do --[[ read-only table ]]
     local function readOnly (t)
         local proxy = {}
         local mt = {
@@ -551,8 +543,7 @@ do
                "^[^:]+:%d+: attempt to update a read%-only table")
 end
 
---[[ declare global ]]
-do
+do --[[ declare global ]]
     local function declare (name, initval)
         rawset(_G, name, initval or false)
     end
@@ -575,7 +566,6 @@ do
     is(new_a, 1)
 end
 
---[[ ]]
 do
     local newindex = {}
     -- create metatable

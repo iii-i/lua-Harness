@@ -43,6 +43,7 @@ end
 plan'no_plan'
 diag(luac)
 
+local signature = "\x1bLua"
 local bin_version
 if     _VERSION == 'Lua 5.1' then
     bin_version = "\x51"
@@ -53,19 +54,18 @@ elseif _VERSION == 'Lua 5.3' then
 elseif _VERSION == 'Lua 5.4' then
     bin_version = "\x54"
 end
+local format = "\x00"
+local data = "\x19\x93\r\n\x1a\n"
+local size_i = string.char(string.packsize and string.packsize'i' or 0) -- int
+local size_T = string.char(string.packsize and string.packsize'T' or 0) -- size_t
+local size_I = string.char(string.packsize and string.packsize'I' or 0) -- Instruction
+local size_j = string.char(string.packsize and string.packsize'j' or 0) -- lua_Integer
+local size_n = string.char(string.packsize and string.packsize'n' or 0) -- lua_Number
+local sizes = size_i .. size_T .. size_I .. size_j .. size_n
 
 do -- hello.lua
     local f = io.open('hello.lua', 'w')
     f:write([[
-local a = false
-b = a + 1
-pi = 3.14
-s = "all escaped \1\a\b\f\n\r\t\v\\\""
-local t = { "a", "b", "c", "d" }
-local f = table.concat
-local function f () while true do print(a) end end
-s = nil
-
 print 'Hello World'
 ]])
     f:close()
@@ -78,10 +78,25 @@ do -- luac -v
     f:close()
 end
 
+do -- luac -v --
+    local cmd = luac .. [[ -v -- 2>&1]]
+    local f = io.popen(cmd)
+    like(f:read'*l', '^Lua', "-v --")
+    f:close()
+end
+
 do -- luac -u
     local cmd = luac .. [[ -u 2>&1]]
     local f = io.popen(cmd)
     like(f:read'*l', "^[^:]+: unrecognized option '%-u'", "unknown option")
+    like(f:read'*l', "^usage:")
+    f:close()
+end
+
+do -- luac --u
+    local cmd = luac .. [[ --u 2>&1]]
+    local f = io.popen(cmd)
+    like(f:read'*l', "^[^:]+: unrecognized option '%-%-u'", "unknown option")
     like(f:read'*l', "^usage:")
     f:close()
 end
@@ -93,10 +108,24 @@ do -- luac -p hello.lua
     f:close()
 end
 
-do -- luac -o no_file.lua
+do -- luac -p - < hello.lua
+    local cmd = luac .. [[ -p - < hello.lua 2>&1]]
+    local f = io.popen(cmd)
+    is(f:read'*l', nil)
+    f:close()
+end
+
+do -- luac -p no_file.lua
     local cmd = luac .. [[ -p no_file.lua 2>&1]]
     local f = io.popen(cmd)
     like(f:read'*l', "^[^:]+: cannot open no_file.lua", "no file")
+    f:close()
+end
+
+do -- luac -o
+    local cmd = luac .. [[ -o 2>&1]]
+    local f = io.popen(cmd)
+    like(f:read'*l', "^[^:]+: '%-o' needs argument", "-o needs argument")
     f:close()
 end
 
@@ -109,17 +138,35 @@ do -- luac -v -l -l hello.lua
     f:close()
 end
 
+os.remove('hello.lua') -- clean up
+
 do -- luac -l luac.out
     local cmd = luac .. [[ -l luac.out]]
     local f = io.popen(cmd)
-    is(f:read'*l', '')
+    is(f:read'*l', '', "-l luac.out")
+    like(f:read'*l', "^main")
+    f:close()
+end
+
+do -- luac -l
+    local cmd = luac .. [[ -l]]
+    local f = io.popen(cmd)
+    is(f:read'*l', '', "-l")
+    like(f:read'*l', "^main")
+    f:close()
+end
+
+do -- luac -l - < luac.out
+    local cmd = luac .. [[ -l - < luac.out]]
+    local f = io.popen(cmd)
+    is(f:read'*l', '', "-l -")
     like(f:read'*l', "^main")
     f:close()
 end
 
 if _VERSION ~= 'Lua 5.1' then
     local f = io.open('luac.out', 'w')
-    f:write("\x1bLua" .. bin_version .. "\x00")
+    f:write(signature .. bin_version .. format)
     f:close()
     local cmd = luac .. [[ luac.out 2>&1]]
     f = io.popen(cmd)
@@ -127,42 +174,141 @@ if _VERSION ~= 'Lua 5.1' then
     f:close()
 end
 
-if _VERSION ~= 'Lua 5.1' then
+if _VERSION ~= 'Lua 5.1' then -- bad signature
     local f = io.open('luac.out', 'w')
-    f:write("\x1bFoo" .. bin_version .. "\x00\xde\xad\xbe\xef\x00\x19\x93\r\n\x1a\nCode")
+    f:write("\x1bFoo" .. bin_version .. format .. data .. sizes .. "Foo")
     f:close()
     local cmd = luac .. [[ luac.out 2>&1]]
     f = io.popen(cmd)
-    like(f:read'*l', "not a precompiled chunk")
+    like(f:read'*l', "not a precompiled chunk", "bad signature")
     f:close()
 end
 
-if _VERSION ~= 'Lua 5.1' then
+if _VERSION ~= 'Lua 5.1' then -- bad version
     local f = io.open('luac.out', 'w')
-    f:write "\x1bLua\x51\x00\xde\xad\xbe\xef\x00\x19\x93\r\n\x1a\nCode"
+    f:write(signature .. "\x51" .. format .. data .. sizes .. "Foo")
     f:close()
     local cmd = luac .. [[ luac.out 2>&1]]
     f = io.popen(cmd)
-    like(f:read'*l', "version mismatch in precompiled chunk")
+    like(f:read'*l', "version mismatch in precompiled chunk", "bad version")
     f:close()
 end
 
-if _VERSION ~= 'Lua 5.1' then
+if _VERSION ~= 'Lua 5.1' then -- bad format
     local f = io.open('luac.out', 'w')
-    f:write("\x1bLua" .. bin_version .. "\x00\xde\xad\xbe\xef\x00\x19\x93\r\n\x1a\nCode")
+    f:write(signature .. bin_version .. "\x42" .. data .. sizes .. "Foo")
     f:close()
     local cmd = luac .. [[ luac.out 2>&1]]
     f = io.popen(cmd)
     if _VERSION >= 'Lua 5.3' then
-        like(f:read'*l', "corrupted precompiled chunk")
+        like(f:read'*l', "format mismatch in precompiled chunk", "bad format")
     else
-        like(f:read'*l', "incompatible precompiled chunk")
+        like(f:read'*l', "version mismatch in precompiled chunk")
     end
     f:close()
 end
 
-os.remove('hello.lua') -- clean up
+if _VERSION == 'Lua 5.2' then -- bad sizes
+    local f = io.open('luac.out', 'w')
+    f:write(signature .. bin_version .. format .. "\xde\xad\xbe\xef\x00" .. data .. "Foo")
+    f:close()
+    local cmd = luac .. [[ luac.out 2>&1]]
+    f = io.popen(cmd)
+    like(f:read'*l', "incompatible precompiled chunk", "incompatible 5.2")
+    f:close()
+end
+
+if _VERSION == 'Lua 5.2' then -- bad data / tail
+    sizes = string.dump(load "a = 1"):sub(7, 12)
+    local f = io.open('luac.out', 'w')
+    f:write(signature .. bin_version .. format .. sizes .. "\x19\x99\r\n\x1a\n")
+    f:close()
+    local cmd = luac .. [[ luac.out 2>&1]]
+    f = io.popen(cmd)
+    like(f:read'*l', "corrupted precompiled chunk", "corrupted 5.2")
+    f:close()
+end
+
+if _VERSION >= 'Lua 5.3' then -- bad data
+    local f = io.open('luac.out', 'w')
+    f:write(signature .. bin_version .. format .. "\x19\x99\r\n\x1a\n" .. sizes)
+    f:close()
+    local cmd = luac .. [[ luac.out 2>&1]]
+    f = io.popen(cmd)
+    like(f:read'*l', "corrupted precompiled chunk", "corrupted")
+    f:close()
+end
+
+if _VERSION >= 'Lua 5.3' then -- bad sizes
+    local f = io.open('luac.out', 'w')
+    f:write(signature .. bin_version .. format .. data .. "\xde\xad\xbe\xef\x00")
+    f:close()
+    local cmd = luac .. [[ luac.out 2>&1]]
+    f = io.popen(cmd)
+    like(f:read'*l', "int size mismatch in precompiled chunk", "bad sizes")
+    f:close()
+end
+
+if _VERSION >= 'Lua 5.3' then -- bad endianess
+    local f = io.open('luac.out', 'w')
+    f:write(signature .. bin_version .. format .. data .. sizes .. "\0\0\0\0\0\0\0\0")
+    f:close()
+    local cmd = luac .. [[ luac.out 2>&1]]
+    f = io.popen(cmd)
+    like(f:read'*l', "endianness mismatch in precompiled chunk", "bad endian")
+    f:close()
+end
+
+if _VERSION >= 'Lua 5.3' then -- bad float format
+    local endian = string.dump(load "a = 1"):sub(18, 18 + string.packsize'n')
+    local f = io.open('luac.out', 'w')
+    f:write(signature .. bin_version .. format .. data .. sizes .. endian .. "\0\0\0\0\0\0\0\0")
+    f:close()
+    local cmd = luac .. [[ luac.out 2>&1]]
+    f = io.popen(cmd)
+    like(f:read'*l', "float format mismatch in precompiled chunk")
+    f:close()
+end
+
+do -- cover.lua
+    local f = io.open('cover.lua', 'w')
+    f:write([[
+local a = false
+b = a + 1
+pi = 3.14
+s = "all escaped \1\a\b\f\n\r\t\v\\\""
+local t = { "a", "b", "c", "d", [true] = 1 }
+local f = table.concat
+local function f ()
+    while true do
+        print(a)
+    end
+end
+s = nil
+]])
+    f:close()
+
+    local cmd = luac .. [[ -o cover.out cover.lua 2>&1]]
+    f = io.popen(cmd)
+    is(f:read'*l', nil, "-o cover.out cover.lua")
+    f:close()
+
+    cmd = luac .. [[ -l cover.out]]
+    f = io.popen(cmd)
+    is(f:read'*l', '', "-l cover.out")
+    like(f:read'*l', "^main")
+    f:close()
+
+    cmd = luac .. [[ -l -l cover.out]]
+    f = io.popen(cmd)
+    is(f:read'*l', '', "-l -l cover.out")
+    like(f:read'*l', "^main")
+    f:close()
+end
+
 os.remove('luac.out') -- clean up
+os.remove('cover.lua') -- clean up
+os.remove('cover.out') -- clean up
 done_testing()
 
 -- Local Variables:

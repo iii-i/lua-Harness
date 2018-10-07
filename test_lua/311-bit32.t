@@ -41,71 +41,83 @@ end
 
 plan(20)
 
--- arshift
-is(bit32.arshift(0x06, 1), 0x03, "function arshift")
-is(bit32.arshift(-3, 1), bit32.arshift(-6, 2), "function arshift")
-
--- band
-is(bit32.band(0x01, 0x03, 0x07), 0x01, "function band")
-
--- bnot
-if string.pack and #string.pack('n', 0) == 4 then
-    is(bit32.bnot(0x03), (-1 - 0x03), "function bnot")
-else
-    is(bit32.bnot(0x03), (-1 - 0x03) % 2^32, "function bnot")
+do -- arshift
+    is(bit32.arshift(0x06, 1), 0x03, "function arshift")
+    is(bit32.arshift(-3, 1), bit32.arshift(-6, 2), "function arshift")
 end
 
--- bor
-is(bit32.bor(0x01, 0x03, 0x07), 0x07, "function bor")
+do -- band
+    is(bit32.band(0x01, 0x03, 0x07), 0x01, "function band")
+end
 
--- btest
-is(bit32.btest(0x01), true, "function btest")
-is(bit32.btest(0x00), false, "function btest")
+do -- bnot
+    if string.pack and #string.pack('n', 0) == 4 then
+        is(bit32.bnot(0x03), (-1 - 0x03), "function bnot")
+    else
+        is(bit32.bnot(0x03), (-1 - 0x03) % 2^32, "function bnot")
+    end
+end
 
--- bxor
-is(bit32.bxor(0x01, 0x03, 0x07), 0x05, "function bxor")
+do -- bor
+    is(bit32.bor(0x01, 0x03, 0x07), 0x07, "function bor")
+end
 
--- extract
-is(bit32.extract(0xFFFF, 3, 3), 0x07, "function extract")
+do -- btest
+    is(bit32.btest(0x01), true, "function btest")
+    is(bit32.btest(0x00), false, "function btest")
+end
 
-error_like(function () bit32.extract(0xFFFF, 99) end,
-           "^[^:]+:%d+: trying to access non%-existent bits",
-           "function extract (non-existent bits)")
+do -- bxor
+    is(bit32.bxor(0x01, 0x03, 0x07), 0x05, "function bxor")
+end
 
-error_like(function () bit32.extract(0xFFFF, -3) end,
-           "^[^:]+:%d+: bad argument #2 to 'extract' %(field cannot be negative%)",
-           "function extract (negatif field)")
+do -- extract
+    is(bit32.extract(0xFFFF, 3, 3), 0x07, "function extract")
 
-error_like(function () bit32.extract(0xFFFF, 3, -3) end,
-           "^[^:]+:%d+: bad argument #3 to 'extract' %(width must be positive%)",
-           "function extract (negative width)")
+    error_like(function () bit32.extract(0xFFFF, 99) end,
+               "^[^:]+:%d+: trying to access non%-existent bits",
+               "function extract (non-existent bits)")
 
--- replace
-is(bit32.replace(0x0000, 0xFFFF, 3, 3), 0x38, "function replace")
+    error_like(function () bit32.extract(0xFFFF, -3) end,
+               "^[^:]+:%d+: bad argument #2 to 'extract' %(field cannot be negative%)",
+               "function extract (negatif field)")
 
-error_like(function () bit32.replace(0x0000, 0xFFFF, 99) end,
-           "^[^:]+:%d+: trying to access non%-existent bits",
-           "function replace (non-existent bits)")
+    error_like(function () bit32.extract(0xFFFF, 3, -3) end,
+               "^[^:]+:%d+: bad argument #3 to 'extract' %(width must be positive%)",
+               "function extract (negative width)")
+end
 
-error_like(function () bit32.replace(0x0000, 0xFFFF, -3) end,
-           "^[^:]+:%d+: bad argument #3 to 'replace' %(field cannot be negative%)",
-           "function replace (negatif field)")
+do -- replace
+    is(bit32.replace(0x0000, 0xFFFF, 3, 3), 0x38, "function replace")
 
-error_like(function () bit32.replace(0x0000, 0xFFFF, 3, -3) end,
-           "^[^:]+:%d+: bad argument #4 to 'replace' %(width must be positive%)",
-           "function replace (negative width)")
+    error_like(function () bit32.replace(0x0000, 0xFFFF, 99) end,
+               "^[^:]+:%d+: trying to access non%-existent bits",
+               "function replace (non-existent bits)")
 
--- lrotate
-is(bit32.lrotate(0x03, 2), 0x0C, "function lrotate")
+    error_like(function () bit32.replace(0x0000, 0xFFFF, -3) end,
+               "^[^:]+:%d+: bad argument #3 to 'replace' %(field cannot be negative%)",
+               "function replace (negatif field)")
 
--- lshift
-is(bit32.lshift(0x03, 2), 0x0C, "function lshift")
+    error_like(function () bit32.replace(0x0000, 0xFFFF, 3, -3) end,
+               "^[^:]+:%d+: bad argument #4 to 'replace' %(width must be positive%)",
+               "function replace (negative width)")
+end
 
--- rrotate
-is(bit32.rrotate(0x06, 1), 0x03, "function rrotate")
+do -- lrotate
+    is(bit32.lrotate(0x03, 2), 0x0C, "function lrotate")
+end
 
--- rshift
-is(bit32.rshift(0x06, 1), 0x03, "function rshift")
+do -- lshift
+    is(bit32.lshift(0x03, 2), 0x0C, "function lshift")
+end
+
+do -- rrotate
+    is(bit32.rrotate(0x06, 1), 0x03, "function rrotate")
+end
+
+do -- rshift
+    is(bit32.rshift(0x06, 1), 0x03, "function rshift")
+end
 
 -- Local Variables:
 --   mode: lua

@@ -28,7 +28,6 @@ require'tap'
 
 plan(25)
 
---[[ ]]
 do
     local a = {}
     local k = 'x'
@@ -41,7 +40,6 @@ do
     is(a['x'], 11)
 end
 
---[[ ]]
 do
     local a = {}
     a['x'] = 10
@@ -53,7 +51,6 @@ do
     b = nil
 end
 
---[[ ]]
 do
     local a = {}
     for i=1,1000 do a[i] = i*2 end
@@ -63,7 +60,6 @@ do
     is(a['y'], nil)
 end
 
---[[ ]]
 do
     local a = {}
     local x = 'y'
@@ -73,7 +69,6 @@ do
     is(a.y, 10)
 end
 
---[[ ]]
 do
     local i = 10; local j = '10'; local k = '+10'
     local a = {}
@@ -94,7 +89,6 @@ do
     is(table.concat(t[1],','), 'A,b,c')
 end
 
---[[ ]]
 do
     local tt = { {'a','b','c'}, 10 }
     is(tt[2], 10)
@@ -103,14 +97,12 @@ do
     is(table.concat(tt[1],','), 'A,b,c')
 end
 
---[[ ]]
 do
     local a = {}
     error_like(function () a() end,
                "^[^:]+:%d+: attempt to call")
 end
 
---[[ ]]
 do
     local tt = { {'a','b','c'}, 10 }
     is((tt)[2], 10)

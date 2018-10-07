@@ -56,17 +56,18 @@ do -- byte
     is(s:byte(2), 66, "method s:byte")
 end
 
--- char
-is(string.char(65, 66, 67), 'ABC', "function char")
-is(string.char(), '')
+do -- char
+    is(string.char(65, 66, 67), 'ABC', "function char")
+    is(string.char(), '')
 
-error_like(function () string.char(0, 'bad') end,
-           "^[^:]+:%d+: bad argument #2 to 'char' %(number expected, got string%)",
-           "function char (bad arg)")
+    error_like(function () string.char(0, 'bad') end,
+               "^[^:]+:%d+: bad argument #2 to 'char' %(number expected, got string%)",
+               "function char (bad arg)")
 
-error_like(function () string.char(0, 9999) end,
-           "^[^:]+:%d+: bad argument #2 to 'char' %(.-value.-%)",
-           "function char (invalid)")
+    error_like(function () string.char(0, 9999) end,
+               "^[^:]+:%d+: bad argument #2 to 'char' %(.-value.-%)",
+               "function char (invalid)")
+end
 
 do -- dump
     local d = string.dump(plan)
@@ -158,6 +159,12 @@ do -- format
 
     is(string.format("%5s", 'foo'), '  foo', "function format (%5s)")
 
+    if _VERSION >= 'Lua 5.3' then
+        error_like(function () string.format("%5s", "foo\0bar") end,
+                   "^[^:]+:%d+: bad argument #2 to 'format' %(string contains zeros%)",
+                   "function format format (%5s with \\0)")
+    end
+
     is(string.format("%s %s", 1, 2, 3), '1 2', "function format (too many arg)")
 
     is(string.format("%% %c %%", 65), '% A %', "function format (%%)")
@@ -178,11 +185,18 @@ do -- format
                "function format (invalid option)")
 
     if jit and jit.version_num >= 20100 then
-        todo("not with 2.1")
+        error_like(function () string.format('%111s', 'toto') end,
+                   "^[^:]+:%d+: invalid option '%%111' to 'format'",
+                   "function format (invalid format)")
+    else
+        error_like(function () string.format('%111s', 'toto') end,
+                   "^[^:]+:%d+: invalid format %(width or precision too long%)",
+                   "function format (invalid format)")
+
+        error_like(function () string.format('%------s', 'toto') end,
+                   "^[^:]+:%d+: invalid format %(repeated flags%)",
+                   "function format (invalid format)")
     end
-    error_like(function () string.format('%------s', 'toto') end,
-               "^[^:]+:%d+: invalid format %(repeated flags%)",
-               "function format (invalid format)")
 
     error_like(function () string.format('pi = %.123f', math.pi) end,
                "^[^:]+:%d+: invalid ",
@@ -244,6 +258,7 @@ do -- gsub
     is(select(2, string.gsub("string with 3 spaces", ' ', ' ')), 3)
 
     eq_array({string.gsub("hello, up-down!", '%A', '.')}, {"hello..up.down.", 4})
+    eq_array({string.gsub("hello, up-down!", '%A', '%%')}, {"hello%%up%down%", 4})
     local text = "hello world"
     local nvow = select(2, string.gsub(text, '[AEIOUaeiou]', ''))
     is(nvow, 3)
@@ -295,15 +310,17 @@ do -- gsub
                "function gsub (invalid value)")
 end
 
--- len
-is(string.len(''), 0, "function len")
-is(string.len('test'), 4)
-is(string.len("a\000b\000c"), 5)
-is(string.len('"'), 1)
+do -- len
+    is(string.len(''), 0, "function len")
+    is(string.len('test'), 4)
+    is(string.len("a\000b\000c"), 5)
+    is(string.len('"'), 1)
+end
 
--- lower
-is(string.lower('Test'), 'test', "function lower")
-is(string.lower('TeSt'), 'test')
+do -- lower
+    is(string.lower('Test'), 'test', "function lower")
+    is(string.lower('TeSt'), 'test')
+end
 
 do -- match
     local s = "hello world"
@@ -410,32 +427,54 @@ else
     is(string.packsize, nil, "no string.packsize");
 end
 
--- rep
-is(string.rep('ab', 3), 'ababab', "function rep")
-is(string.rep('ab', 0), '')
-is(string.rep('ab', -1), '')
-is(string.rep('', 5), '')
-if has_rep52 then
-    is(string.rep('ab', 3, ','), 'ab,ab,ab', "with sep")
-else
-    diag("no rep with separator")
+do -- rep
+    is(string.rep('ab', 3), 'ababab', "function rep")
+    is(string.rep('ab', 0), '')
+    is(string.rep('ab', -1), '')
+    is(string.rep('', 5), '')
+    if has_rep52 then
+        is(string.rep('ab', 3, ','), 'ab,ab,ab', "with sep")
+        local n = 1e6
+        is(string.rep('a', n), string.rep('', n + 1, 'a'))
+    else
+        diag("no rep with separator")
+    end
+
+    if _VERSION >= 'Lua 5.3' then
+        error_like(function () string.rep('foo', 1e9) end,
+                   "^[^:]+:%d+: resulting string too large",
+                   "too large")
+    elseif _VERSION == 'Lua 5.2' or (jit and jit.version_num >= 20100) then
+        error_is(function () string.rep('foo', 1e9) end,
+                 "not enough memory",
+                 "too large")
+    end
+
+    if _VERSION >= 'Lua 5.4' or jit then
+        is(string.rep('', 1e8), '', "rep ''")
+    else
+        diag('too slow')
+    end
 end
 
--- reverse
-is(string.reverse('abcde'), 'edcba', "function reverse")
-is(string.reverse('abcd'), 'dcba')
-is(string.reverse(''), '')
+do -- reverse
+    is(string.reverse('abcde'), 'edcba', "function reverse")
+    is(string.reverse('abcd'), 'dcba')
+    is(string.reverse(''), '')
+end
 
--- sub
-is(string.sub('abcde', 1, 2), 'ab', "function sub")
-is(string.sub('abcde', 3, 4), 'cd')
-is(string.sub('abcde', -2), 'de')
-is(string.sub('abcde', 3, 2), '')
+do -- sub
+    is(string.sub('abcde', 1, 2), 'ab', "function sub")
+    is(string.sub('abcde', 3, 4), 'cd')
+    is(string.sub('abcde', -2), 'de')
+    is(string.sub('abcde', 3, 2), '')
+end
 
--- upper
-is(string.upper('Test'), 'TEST', "function upper")
-is(string.upper('TeSt'), 'TEST')
-is(string.upper(string.rep('Test', 10000)), string.rep('TEST', 10000))
+do -- upper
+    is(string.upper('Test'), 'TEST', "function upper")
+    is(string.upper('TeSt'), 'TEST')
+    is(string.upper(string.rep('Test', 10000)), string.rep('TEST', 10000))
+end
 
 -- unpack
 if has_pack then

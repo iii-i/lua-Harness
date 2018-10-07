@@ -255,7 +255,7 @@ else
 end
 
 -- upvaluejoin
-if jit then
+if has_upvaluejoin and jit then
     diag("jit upvaluejoin")
     -- TODO
 elseif has_upvaluejoin then

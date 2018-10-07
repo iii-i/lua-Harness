@@ -33,6 +33,7 @@ require'tap'
 local profile = require'profile'
 local has_loaders = _VERSION == 'Lua 5.1'
 local has_alias_loaders = profile.compat51
+local has_loadlib52 = _VERSION >= 'Lua 5.2' or jit
 local has_module = _VERSION == 'Lua 5.1' or profile.compat51
 local has_searchers = _VERSION >= 'Lua 5.2'
 local has_alias_searchers = jit and jit.version_num >= 20100 and profile.luajit_compat52
@@ -93,9 +94,35 @@ do -- preload
 end
 
 do -- loadlib
+    local path_lpeg = package.searchpath and package.searchpath('lpeg', package.cpath)
+
     local f, msg = package.loadlib('libbar', 'baz')
     is(f, nil, "loadlib")
     type_ok(msg, 'string')
+
+    if path_lpeg then
+        f, msg = package.loadlib(path_lpeg, 'baz')
+        is(f, nil, "loadlib")
+        like(msg, 'undefined symbol')
+
+        f = package.loadlib(path_lpeg, 'luaopen_lpeg')
+        type_ok(f, 'function', "loadlib ok")
+    else
+        skip("no lpeg path")
+    end
+
+    if has_loadlib52 then
+        f, msg = package.loadlib('libbar', '*')
+        is(f, nil, "loadlib '*'")
+        type_ok(msg, 'string')
+
+        if path_lpeg then
+            f = package.loadlib(path_lpeg, '*')
+            is(f, true, "loadlib '*'")
+        else
+            skip("no lpeg path")
+        end
+    end
 end
 
 -- searchpath

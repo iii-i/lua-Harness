@@ -71,8 +71,9 @@ do -- date
                "function date (invalid)")
 end
 
--- difftime
-is(os.difftime(1234, 1200), 34, "function difftime")
+do -- difftime
+    is(os.difftime(1234, 1200), 34, "function difftime")
+end
 
 do -- execute
     if has_execute51 then
@@ -198,56 +199,58 @@ do -- rename
     like(msg, 'No such file or directory')
 end
 
--- setlocale
-is(os.setlocale('C', 'all'), 'C', "function setlocale")
-is(os.setlocale(), 'C')
-is(os.setlocale('unk_loc', 'all'), nil, "function setlocale (unknown locale)")
-
--- time
-like(os.time(), '^%d+%.?%d*$', "function time")
-like(os.time(nil), '^%d+%.?%d*$', "function time")
-like(os.time({
-    sec = 0,
-    min = 0,
-    hour = 0,
-    day = 1,
-    month = 1,
-    year = 2000,
-    isdst = false,
-}), '^946%d+$', "function time")
-
-error_like(function () os.time{} end,
-           "^[^:]+:%d+: field 'day' missing in date table",
-           "function time (missing field)")
-
-error_like(function () os.time({ day = 'bad' }) end,
-           "^[^:]+:%d+: field 'day'",
-           "function time (bad field)")
-
-if _VERSION < 'Lua 5.3' then
-    todo("only with integer")
+do -- setlocale
+    is(os.setlocale('C', 'all'), 'C', "function setlocale")
+    is(os.setlocale(), 'C')
+    is(os.setlocale('unk_loc', 'all'), nil, "function setlocale (unknown locale)")
 end
-error_like(function () os.time({ day = 1.5 }) end,
-           "^[^:]+:%d+: field 'day' is not an integer",
-           "function time (not integer)")
 
-if string.packsize and string.packsize('l') == 8 then
-    skip('64bit platforms')
-else
-    if _VERSION < 'Lua 5.3' then
-        todo"only with 5.3"
-    end
-    error_like(function () os.time({
+do -- time
+    like(os.time(), '^%d+%.?%d*$', "function time")
+    like(os.time(nil), '^%d+%.?%d*$', "function time")
+    like(os.time({
         sec = 0,
         min = 0,
         hour = 0,
         day = 1,
         month = 1,
-        year = 1000,
+        year = 2000,
         isdst = false,
-    }) end,
-               "^[^:]+:%d+: time result cannot be represented in this installation",
-               "function time (invalid)")
+    }), '^946%d+$', "function time")
+
+    error_like(function () os.time{} end,
+               "^[^:]+:%d+: field 'day' missing in date table",
+               "function time (missing field)")
+
+    error_like(function () os.time({ day = 'bad' }) end,
+               "^[^:]+:%d+: field 'day'",
+               "function time (bad field)")
+
+    if _VERSION < 'Lua 5.3' then
+        todo("only with integer")
+    end
+    error_like(function () os.time({ day = 1.5 }) end,
+               "^[^:]+:%d+: field 'day' is not an integer",
+               "function time (not integer)")
+
+    if string.packsize and string.packsize('l') == 8 then
+        skip('64bit platforms')
+    else
+        if _VERSION < 'Lua 5.3' then
+            todo"only with 5.3"
+        end
+        error_like(function () os.time({
+            sec = 0,
+            min = 0,
+            hour = 0,
+            day = 1,
+            month = 1,
+            year = 1000,
+            isdst = false,
+        }) end,
+                   "^[^:]+:%d+: time result cannot be represented in this installation",
+                   "function time (invalid)")
+    end
 end
 
 do -- tmpname

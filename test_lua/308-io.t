@@ -40,14 +40,17 @@ local lua = arg[-3] or arg[-1]
 
 plan'no_plan'
 
--- stdin
-like(io.stdin, '^file %(0?[Xx]?%x+%)$', "variable stdin")
+do -- stdin
+    like(io.stdin, '^file %(0?[Xx]?%x+%)$', "variable stdin")
+end
 
--- stdout
-like(io.stdout, '^file %(0?[Xx]?%x+%)$', "variable stdout")
+do -- stdout
+    like(io.stdout, '^file %(0?[Xx]?%x+%)$', "variable stdout")
+end
 
--- stderr
-like(io.stderr, '^file %(0?[Xx]?%x+%)$', "variable stderr")
+do -- stderr
+    like(io.stderr, '^file %(0?[Xx]?%x+%)$', "variable stderr")
+end
 
 do -- close
     local r, msg = io.close(io.stderr)
@@ -55,8 +58,9 @@ do -- close
     is(msg, "cannot close standard file")
 end
 
--- flush
-is(io.flush(), true, "function flush")
+do -- flush
+    is(io.flush(), true, "function flush")
+end
 
 do -- open
     os.remove('file.no')
@@ -132,14 +136,15 @@ do -- popen
     end
 end
 
--- lines
-for line in io.lines('file.txt') do
-    is(line, "file with text", "function lines(filename)")
-end
+do -- lines
+    for line in io.lines('file.txt') do
+        is(line, "file with text", "function lines(filename)")
+    end
 
-error_like(function () io.lines('file.no') end,
-           "No such file or directory",
-           "function lines(no filename)")
+    error_like(function () io.lines('file.no') end,
+               "No such file or directory",
+               "function lines(no filename)")
+end
 
 do -- tmpfile
     local  f = io.tmpfile()
@@ -148,9 +153,10 @@ do -- tmpfile
     f:close()
 end
 
--- write
-io.write() -- not tested
-io.write('# text', 12, "\n") -- not tested :  # text12
+do -- write
+    io.write() -- not tested
+    io.write('# text', 12, "\n") -- not tested :  # text12
+end
 
 do -- :close
     local r, msg = io.stderr:close()

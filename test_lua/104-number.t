@@ -34,7 +34,9 @@ is(not 1, false, "not 1")
 
 is(10 + 2, 12, "10 + 2")
 
-is(2 - 10, -8, "2 - 10")
+is(2 - 10.5, -8.5, "2 - 10.5")
+
+is(2 * 3, 6, "2 * 3")
 
 is(3.14 * 1, 3.14, "3.14 * 1")
 
@@ -60,6 +62,10 @@ error_like(function () return 2 - nil end,
            "^[^:]+:%d+: attempt to perform arithmetic on a nil value",
            "2 - nil")
 
+error_like(function () return 2 * {} end,
+           "^[^:]+:%d+: attempt to perform arithmetic on a table value",
+           "2 * {}")
+
 error_like(function () return 3.14 * false end,
            "^[^:]+:%d+: attempt to perform arithmetic on a boolean value",
            "3.14 * false")
@@ -84,6 +90,10 @@ error_like(function () return 2 - 'text' end,
            "^[^:]+:%d+: attempt to",
            "2 - 'text'")
 
+error_like(function () return 2 * 'text' end,
+           "^[^:]+:%d+: attempt to",
+           "2 * 'text'")
+
 error_like(function () return 3.14 * 'text' end,
            "^[^:]+:%d+: attempt to",
            "3.14 * 'text'")
@@ -105,9 +115,13 @@ if profile.nocvts2n and _VERSION == 'Lua 5.3' then
                "^[^:]+:%d+: attempt to",
                "10 + '2'")
 
-    error_like(function () return 2 - '10' end,
+    error_like(function () return 2 - '10.5' end,
                "^[^:]+:%d+: attempt to",
-               "2 - '10'")
+               "2 - '10.5'")
+
+    error_like(function () return 2 * '3' end,
+               "^[^:]+:%d+: attempt to",
+               "2 * '3'")
 
     error_like(function () return 3.14 * '1' end,
                "^[^:]+:%d+: attempt to",
@@ -127,7 +141,9 @@ if profile.nocvts2n and _VERSION == 'Lua 5.3' then
 else
     is(10 + '2', 12, "10 + '2'")
 
-    is(2 - '10', -8, "2 - '10'")
+    is(2 - '10.5', -8.5, "2 - '10.5'")
+
+    is(2 * '3', 6, "2 * '3'")
 
     is(3.14 * '1', 3.14, "3.14 * '1'")
 

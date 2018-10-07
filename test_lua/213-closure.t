@@ -28,8 +28,7 @@ require'tap'
 
 plan(15)
 
---[[ inc ]]
-do
+do --[[ inc ]]
     local counter = 0
 
     local function inc (x)
@@ -41,8 +40,7 @@ do
     is(inc(2), 3)
 end
 
---[[ newCounter ]]
-do
+do --[[ newCounter ]]
     local function newCounter ()
         local i = 0
         return function ()  -- anonymous function
@@ -61,8 +59,7 @@ do
     is(c2(), 2)
 end
 
-do
---[[
+do --[[
 The loop creates ten closures (that is, ten instances of the anonymous
 function). Each of these closures uses a different y variable, while all
 of them share the same x.
@@ -79,8 +76,7 @@ of them share the same x.
     is(a[2](), 21)
 end
 
---[[ add ]]
-do
+do --[[ add ]]
     local function add(x)
         return function (y) return (x + y) end
     end

@@ -29,8 +29,7 @@ require'tap'
 
 plan(8)
 
---[[ list_iter ]]
-do
+do --[[ list_iter ]]
     local function list_iter (t)
         local i = 0
         local n = #t
@@ -52,8 +51,7 @@ do
     eq_array(output, t, "list_iter")
 end
 
---[[ values ]]
-do
+do --[[ values ]]
     local function values (t)
         local i = 0
         return function ()
@@ -70,8 +68,7 @@ do
     eq_array(output, t, "values")
 end
 
---[[ emul ipairs ]]
-do
+do --[[ emul ipairs ]]
     local function iter (a, i)
         i = i + 1
         local v = a[i]
@@ -93,8 +90,7 @@ do
     eq_array(output, {1, 'one', 2, 'two', 3, 'three'}, "emul ipairs")
 end
 
---[[ emul pairs ]]
-do
+do --[[ emul pairs ]]
     local function my_pairs (t)
         return next, t, nil
     end
@@ -108,8 +104,7 @@ do
     eq_array(output, {1, 'one', 2, 'two', 3, 'three'}, "emul ipairs")
 end
 
---[[ with next ]]
-do
+do --[[ with next ]]
     local t = {'one', 'two', 'three'}
     local output = {}
     for k, v in next, t do
@@ -119,8 +114,7 @@ do
     eq_array(output, {1, 'one', 2, 'two', 3, 'three'}, "with next")
 end
 
---[[ permutations ]]
-do
+do --[[ permutations ]]
     local function permgen (a, n)
         n = n or #a         -- default for 'n' is size of 'a'
         if n <= 1 then      -- nothing to change?
@@ -152,8 +146,7 @@ do
     eq_array(output, {'b c a','c b a','c a b','a c b','b a c','a b c'}, "permutations")
 end
 
---[[ permutations with wrap ]]
-do
+do --[[ permutations with wrap ]]
     local function permgen (a, n)
         n = n or #a         -- default for 'n' is size of 'a'
         if n <= 1 then      -- nothing to change?
@@ -181,8 +174,7 @@ do
     eq_array(output, {'b c a','c b a','c a b','a c b','b a c','a b c'}, "permutations with wrap")
 end
 
---[[ fibo ]]
-do
+do --[[ fibo ]]
     local function fibogen ()
         local x, y = 0, 1
         while true do
