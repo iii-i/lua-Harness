@@ -49,4 +49,5 @@ files['test_lua/231-metatable.t'].globals = { 'new_a' }
 files['test_lua/301-basic.t'].globals = { 'norm', 'twice', 'foo', 'bar', 'baz', 'i', 'X', 'a', 'g', 'save' }
 files['test_lua/303-package.t'].globals = { 'complex', 'cplx', 'a', 'm', 'mod', 'modz' }
 files['test_lua/304-string.t'].globals = { 'name', 'status' }
+files['test_lua/402-ffi.t'].globals = { 'ffi' }
 

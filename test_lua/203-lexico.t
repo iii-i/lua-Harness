@@ -123,6 +123,10 @@ if _VERSION >= 'Lua 5.3' or (jit and jit.version_num >= 20100) then
     dofile'lexico53/lexico.t'
 end
 
+if jit and pcall(require, 'ffi') then
+    dofile'lexicojit/lexico.t'
+end
+
 done_testing()
 
 -- Local Variables:

@@ -745,6 +745,10 @@ do -- xpcall
     is(r, true, "function xpcall")
 end
 
+if jit and pcall(require, 'ffi') then
+    dofile'lexicojit/basic.t'
+end
+
 done_testing()
 
 -- Local Variables:

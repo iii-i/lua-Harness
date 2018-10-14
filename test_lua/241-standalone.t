@@ -30,6 +30,7 @@ L<https://www.lua.org/manual/5.3/manual.html#7>
 require'tap'
 local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
+local has_opt_E = _VERSION >= 'Lua 5.2' or jit
 
 local lua = arg[-3] or arg[-1]
 local luac = jit and lua or (lua .. 'c')
@@ -178,10 +179,10 @@ f = io.popen(cmd)
 like(f:read'*l', '^Lua', "-v --")
 f:close()
 
-if _VERSION >= 'Lua 5.2' then
+if has_opt_E then
     cmd = lua .. [[ -E hello.lua 2>&1]]
     f = io.popen(cmd)
-    is(f:read'*l', 'Hello World')
+    is(f:read'*l', 'Hello World', "-E")
     f:close()
 else
     diag("no -E")

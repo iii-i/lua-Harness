@@ -14,7 +14,7 @@
 
 =head2 Synopsis
 
-    % prove 311-bit.t
+    % prove 311-bit32.t
 
 =head2 Description
 

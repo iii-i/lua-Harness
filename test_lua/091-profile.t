@@ -24,12 +24,18 @@
 
 require'tap'
 
-plan(3)
+plan'no_plan'
 
 type_ok(_VERSION, 'string', "variable _VERSION")
 like(_VERSION, '^Lua 5%.%d$')
 
+if jit then
+    type_ok(jit.version_num, 'number', "variable jit.version_num")
+end
+
 local profile = require_ok'profile'
+
+done_testing()
 
 -- Local Variables:
 --   mode: lua
