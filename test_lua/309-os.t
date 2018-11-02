@@ -172,29 +172,29 @@ do -- getenv
 end
 
 do -- remove
-    local f = io.open('file.rm', 'w')
+    local f = io.open('file-309.rm', 'w')
     f:write("file to remove")
     f:close()
-    local r = os.remove("file.rm")
+    local r = os.remove("file-309.rm")
     is(r, true, "function remove")
 
     local msg
-    r, msg = os.remove('file.rm')
+    r, msg = os.remove('file-309.rm')
     is(r, nil, "function remove")
-    like(msg, '^file.rm: No such file or directory')
+    like(msg, '^file%-309%.rm: No such file or directory')
 end
 
 do -- rename
-    local f = io.open('file.old', 'w')
+    local f = io.open('file-309.old', 'w')
     f:write("file to rename")
     f:close()
-    os.remove('file.new')
-    local r = os.rename('file.old', 'file.new')
+    os.remove('file-309.new')
+    local r = os.rename('file-309.old', 'file-309.new')
     is(r, true, "function rename")
-    os.remove('file.new') -- clean up
+    os.remove('file-309.new') -- clean up
 
     local msg
-    r, msg = os.rename('file.old', 'file.new')
+    r, msg = os.rename('file-309.old', 'file-309.new')
     is(r, nil, "function rename")
     like(msg, 'No such file or directory')
 end

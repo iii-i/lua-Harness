@@ -42,59 +42,59 @@ end
 plan'no_plan'
 diag(lua)
 
-local f = io.open('hello.lua', 'w')
+local f = io.open('hello-241.lua', 'w')
 f:write([[
 print 'Hello World'
 ]])
 f:close()
 
-local cmd = lua .. " hello.lua"
+local cmd = lua .. " hello-241.lua"
 f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "file")
 f:close()
 
-cmd = lua .. " -- hello.lua"
+cmd = lua .. " -- hello-241.lua"
 f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "-- file")
 f:close()
 
-cmd = lua .. " no_file.lua 2>&1"
+cmd = lua .. " no_file-241.lua 2>&1"
 f = io.popen(cmd)
-like(f:read'*l', "^[^:]+: cannot open no_file.lua", "no file")
+like(f:read'*l', "^[^:]+: cannot open no_file%-241%.lua", "no file")
 f:close()
 
 if jit then
-    os.execute(lua .. " -b hello.lua hello.luac")
+    os.execute(lua .. " -b hello-241.lua hello-241.luac")
 else
-    os.execute(luac .. " -s -o hello.luac hello.lua")
+    os.execute(luac .. " -s -o hello-241.luac hello-241.lua")
 end
-cmd = lua .. " hello.luac"
+cmd = lua .. " hello-241.luac"
 f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "bytecode")
 f:close()
-os.remove('hello.luac') -- clean up
+os.remove('hello-241.luac') -- clean up
 
 if not jit then
-    os.execute(luac .. " -s -o hello2.luac hello.lua hello.lua")
-    cmd = lua .. " hello2.luac"
+    os.execute(luac .. " -s -o hello-hello-241.luac hello-241.lua hello-241.lua")
+    cmd = lua .. " hello-hello-241.luac"
     f = io.popen(cmd)
     is(f:read'*l', 'Hello World', "combine 1")
     is(f:read'*l', 'Hello World', "combine 2")
     f:close()
-    os.remove('hello2.luac') -- clean up
+    os.remove('hello-hello-241.luac') -- clean up
 end
 
-cmd = lua .. " < hello.lua"
+cmd = lua .. " < hello-241.lua"
 f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "redirect")
 f:close()
 
-cmd = lua .. " - < hello.lua"
+cmd = lua .. " - < hello-241.lua"
 f = io.popen(cmd)
 is(f:read'*l', 'Hello World', "redirect")
 f:close()
 
-cmd = lua .. " -i hello.lua < hello.lua 2>&1"
+cmd = lua .. " -i hello-241.lua < hello-241.lua 2>&1"
 f = io.popen(cmd)
 like(f:read'*l', '^Lua', "-i")
 is(f:read'*l', 'Hello World')
@@ -139,13 +139,13 @@ else
 end
 f:close()
 
-cmd = lua .. [[ -e"a=1" -e "print(a)" hello.lua]]
+cmd = lua .. [[ -e"a=1" -e "print(a)" hello-241.lua]]
 f = io.popen(cmd)
 is(f:read'*l', '1', "-e & script")
 is(f:read'*l', 'Hello World')
 f:close()
 
-cmd = lua .. [[ -e"a=1" -i < hello.lua 2>&1]]
+cmd = lua .. [[ -e"a=1" -i < hello-241.lua 2>&1]]
 f = io.popen(cmd)
 like(f:read'*l', '^Lua', "-e & -i")
 f:close()
@@ -168,7 +168,7 @@ f = io.popen(cmd)
 like(f:read'*l', '^Lua', "-v")
 f:close()
 
-cmd = lua .. [[ -v hello.lua 2>&1]]
+cmd = lua .. [[ -v hello-241.lua 2>&1]]
 f = io.popen(cmd)
 like(f:read'*l', '^Lua', "-v & script")
 is(f:read'*l', 'Hello World')
@@ -180,7 +180,7 @@ like(f:read'*l', '^Lua', "-v --")
 f:close()
 
 if has_opt_E then
-    cmd = lua .. [[ -E hello.lua 2>&1]]
+    cmd = lua .. [[ -E hello-241.lua 2>&1]]
     f = io.popen(cmd)
     is(f:read'*l', 'Hello World', "-E")
     f:close()
@@ -219,12 +219,12 @@ f = io.popen(cmd)
 isnt(f:read'*l', nil, "-l lpeg")
 f:close()
 
-cmd = lua .. [[ -l no_lib hello.lua 2>&1]]
+cmd = lua .. [[ -l no_lib hello-241.lua 2>&1]]
 f = io.popen(cmd)
 like(f:read'*l', "^[^:]+: module 'no_lib' not found:", "-l no lib")
 f:close()
 
-os.remove('hello.lua') -- clean up
+os.remove('hello-241.lua') -- clean up
 done_testing()
 
 -- Local Variables:

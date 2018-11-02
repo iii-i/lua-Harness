@@ -64,7 +64,7 @@ local size_n = string.char(string.packsize and string.packsize'n' or 0) -- lua_N
 local sizes = size_i .. size_T .. size_I .. size_j .. size_n
 
 do -- hello.lua
-    local f = io.open('hello.lua', 'w')
+    local f = io.open('hello-242.lua', 'w')
     f:write([[
 print 'Hello World'
 ]])
@@ -101,24 +101,24 @@ do -- luac --u
     f:close()
 end
 
-do -- luac -p hello.lua
-    local cmd = luac .. [[ -p hello.lua 2>&1]]
+do -- luac -p hello-242.lua
+    local cmd = luac .. [[ -p hello-242.lua 2>&1]]
     local f = io.popen(cmd)
     is(f:read'*l', nil)
     f:close()
 end
 
-do -- luac -p - < hello.lua
-    local cmd = luac .. [[ -p - < hello.lua 2>&1]]
+do -- luac -p - < hello-242.lua
+    local cmd = luac .. [[ -p - < hello-242.lua 2>&1]]
     local f = io.popen(cmd)
     is(f:read'*l', nil)
     f:close()
 end
 
-do -- luac -p no_file.lua
-    local cmd = luac .. [[ -p no_file.lua 2>&1]]
+do -- luac -p no_file-242.lua
+    local cmd = luac .. [[ -p no_file-242.lua 2>&1]]
     local f = io.popen(cmd)
-    like(f:read'*l', "^[^:]+: cannot open no_file.lua", "no file")
+    like(f:read'*l', "^[^:]+: cannot open no_file%-242%.lua", "no file")
     f:close()
 end
 
@@ -129,8 +129,8 @@ do -- luac -o
     f:close()
 end
 
-do -- luac -v -l -l hello.lua
-    local cmd = luac .. [[ -v -l -l hello.lua]]
+do -- luac -v -l -l hello-242.lua
+    local cmd = luac .. [[ -v -l -l hello-242.lua]]
     local f = io.popen(cmd)
     like(f:read'*l', '^Lua', "-v -l -l")
     is(f:read'*l', '')
@@ -138,7 +138,7 @@ do -- luac -v -l -l hello.lua
     f:close()
 end
 
-os.remove('hello.lua') -- clean up
+os.remove('hello-242.lua') -- clean up
 
 do -- luac -l luac.out
     local cmd = luac .. [[ -l luac.out]]
@@ -271,7 +271,7 @@ if _VERSION >= 'Lua 5.3' then -- bad float format
 end
 
 do -- cover.lua
-    local f = io.open('cover.lua', 'w')
+    local f = io.open('cover-242.lua', 'w')
     f:write([[
 local a = false
 b = a + 1
@@ -288,27 +288,27 @@ s = nil
 ]])
     f:close()
 
-    local cmd = luac .. [[ -o cover.out cover.lua 2>&1]]
+    local cmd = luac .. [[ -o cover-242.out cover-242.lua 2>&1]]
     f = io.popen(cmd)
-    is(f:read'*l', nil, "-o cover.out cover.lua")
+    is(f:read'*l', nil, "-o cover-242.out cover-242.lua")
     f:close()
 
-    cmd = luac .. [[ -l cover.out]]
+    cmd = luac .. [[ -l cover-242.out]]
     f = io.popen(cmd)
-    is(f:read'*l', '', "-l cover.out")
+    is(f:read'*l', '', "-l cover-242.out")
     like(f:read'*l', "^main")
     f:close()
 
-    cmd = luac .. [[ -l -l cover.out]]
+    cmd = luac .. [[ -l -l cover-242.out]]
     f = io.popen(cmd)
-    is(f:read'*l', '', "-l -l cover.out")
+    is(f:read'*l', '', "-l -l cover-242.out")
     like(f:read'*l', "^main")
     f:close()
 end
 
 os.remove('luac.out') -- clean up
-os.remove('cover.lua') -- clean up
-os.remove('cover.out') -- clean up
+os.remove('cover-242.lua') -- clean up
+os.remove('cover-242.out') -- clean up
 done_testing()
 
 -- Local Variables:

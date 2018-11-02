@@ -149,7 +149,7 @@ error_like(function () collectgarbage('unknown') end,
            "function collectgarbage (invalid)")
 
 do -- dofile
-    local f = io.open('lib1.lua', 'w')
+    local f = io.open('lib-301.lua', 'w')
     f:write[[
 function norm (x, y)
     return (x^2 + y^2)^0.5
@@ -160,24 +160,24 @@ function twice (x)
 end
 ]]
     f:close()
-    dofile('lib1.lua')
+    dofile('lib-301.lua')
     local n = norm(3.4, 1.0)
     like(twice(n), '^7%.088', "function dofile")
 
-    os.remove('lib1.lua') -- clean up
+    os.remove('lib-301.lua') -- clean up
 
-    error_like(function () dofile('no_file.lua') end,
-               "cannot open no_file.lua: No such file or directory",
+    error_like(function () dofile('no_file-301.lua') end,
+               "cannot open no_file%-301%.lua: No such file or directory",
                "function dofile (no file)")
 
-    f = io.open('foo.lua', 'w')
+    f = io.open('foo-301.lua', 'w')
     f:write[[?syntax error?]]
     f:close()
-    error_like(function () dofile('foo.lua') end,
-               "^foo%.lua:%d+:",
+    error_like(function () dofile('foo-301.lua') end,
+               "^foo%-301%.lua:%d+:",
                "function dofile (syntax error)")
 
-    os.remove('foo.lua') -- clean up
+    os.remove('foo-301.lua') -- clean up
 end
 
 do -- error
@@ -359,7 +359,7 @@ end
 end
 
 do -- loadfile
-    local f = io.open('foo.lua', 'w')
+    local f = io.open('foo-301.lua', 'w')
     if _VERSION ~= 'Lua 5.1' or jit then
         f:write'\xEF\xBB\xBF' -- BOM
     end
@@ -369,19 +369,19 @@ function foo (x)
 end
 ]]
     f:close()
-    f = loadfile('foo.lua')
+    f = loadfile('foo-301.lua')
     is(foo, nil, "function loadfile")
     f()
     is(foo('ok'), 'ok')
 
     if has_loadfile52 then
         local msg
-        f, msg = loadfile('foo.lua', 'b')
+        f, msg = loadfile('foo-301.lua', 'b')
         like(msg, "attempt to load")
         is(f, nil, "mode")
 
         local env = {}
-        f = loadfile('foo.lua', 't', env)
+        f = loadfile('foo-301.lua', 't', env)
         is(env.foo, nil, "function loadfile")
         f()
         is(env.foo('ok'), 'ok')
@@ -389,20 +389,20 @@ end
         diag("no loadfile with mode & env")
     end
 
-    os.remove('foo.lua') -- clean up
+    os.remove('foo-301.lua') -- clean up
 
     local msg
-    f, msg = loadfile('no_file.lua')
+    f, msg = loadfile('no_file-301.lua')
     is(f, nil, "function loadfile (no file)")
-    is(msg, "cannot open no_file.lua: No such file or directory")
+    is(msg, "cannot open no_file-301.lua: No such file or directory")
 
-    f = io.open('foo.lua', 'w')
+    f = io.open('foo-301.lua', 'w')
     f:write[[?syntax error?]]
     f:close()
-    f, msg = loadfile('foo.lua')
+    f, msg = loadfile('foo-301.lua')
     is(f, nil, "function loadfile (syntax error)")
-    like(msg, '^foo%.lua:%d+:')
-    os.remove('foo.lua') -- clean up
+    like(msg, '^foo%-301%.lua:%d+:')
+    os.remove('foo-301.lua') -- clean up
 end
 
 -- loadstring
