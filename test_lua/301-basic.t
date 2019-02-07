@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2018, Perrad Francois
+-- Copyright (C) 2009-2019, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -43,6 +43,7 @@ local has_newproxy = _VERSION == 'Lua 5.1'
 local has_rawlen = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_unpack = _VERSION == 'Lua 5.1'
 local has_alias_unpack = profile.compat51
+local has_xpcall52 = _VERSION >= 'Lua 5.2' or jit
 local has_xpcall53 = _VERSION >= 'Lua 5.3' or jit
 
 plan'no_plan'
@@ -500,14 +501,14 @@ do -- pairs
 end
 
 do -- pcall
-    local r = pcall(assert, true)
-    is(r, true, "function pcall")
-    local msg
-    r, msg = pcall(assert, false, 'catched')
-    is(r, false)
-    is(msg, 'catched')
-    r = pcall(assert)
-    is(r, false)
+    local status, result = pcall(assert, 1)
+    is(status, true, "function pcall")
+    is(result, 1)
+    status, result = pcall(assert, false, 'catched')
+    is(status, false)
+    is(result, 'catched')
+    status = pcall(assert)
+    is(status, false)
 end
 
 do -- rawequal
@@ -719,30 +720,51 @@ else
 end
 
 do -- xpcall
-    if has_xpcall53 then
-        error_like(function () xpcall(assert, nil) end,
-                   "bad argument #2 to 'xpcall' %(function expected, got nil%)",
-                  "function xpcall")
+    local function err (obj)
+        return obj
+    end
+
+    local function backtrace ()
+        return 'not a back trace'
+    end
+
+    local status, result = xpcall(function () return assert(1) end, err)
+    is(status, true, "function xpcall")
+    is(result, 1)
+    status, result = xpcall(function () return assert(false, 'catched') end, err)
+    is(status, false)
+    if jit then
+        is(result, 'catched')
     else
-        is(xpcall(assert, nil), false, "function xpcall")
+        like(result, ':%d+: catched')
+    end
+    status, result = xpcall(function () return assert(false, 'catched') end, backtrace)
+    is(status, false)
+    is(result, 'not a back trace')
+
+    if has_xpcall52 then
+        status, result = xpcall(assert, err, 1)
+        is(status, true, "function xpcall with args")
+        is(result, 1)
+        status, result = xpcall(assert, err, false, 'catched')
+        is(status, false)
+        is(result, 'catched')
+        status, result = xpcall(assert, backtrace, false, 'catched')
+        is(status, false)
+        is(result, 'not a back trace')
     end
 
     error_like(function () xpcall(assert) end,
                "bad argument #2 to 'xpcall' %(.-",
                "function xpcall")
 
-    local function backtrace ()
-        return 'not a back trace'
+    if has_xpcall53 then
+        error_like(function () xpcall(assert, 1) end,
+                   "bad argument #2 to 'xpcall' %(function expected, got number%)",
+                  "function xpcall")
+    else
+        is(xpcall(assert, nil), false, "function xpcall")
     end
-    local r, msg = xpcall(assert, backtrace)
-    is(r, false, "function xpcall (backtrace)")
-    is(msg, 'not a back trace')
-
-    if _VERSION == 'Lua 5.1' and not jit then
-        todo("not 5.1")
-    end
-    r = xpcall(assert, backtrace, true)
-    is(r, true, "function xpcall")
 end
 
 if jit and pcall(require, 'ffi') then
