@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2018, Perrad Francois
+-- Copyright (C) 2009-2019, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -198,7 +198,7 @@ do -- setmetatable
     is(getmetatable(t), t1)
 
     error_like(function () debug.setmetatable(t, true) end,
-               "^[^:]+:%d+: bad argument #2 to 'setmetatable' %(nil or table expected%)")
+               "^[^:]+:%d+: bad argument #2 to 'setmetatable' %(nil or table expected")
 end
 
 do -- setupvalue
