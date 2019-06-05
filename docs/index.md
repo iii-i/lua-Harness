@@ -18,7 +18,7 @@ See the given coverage :
  - [Lua 5.1.5](cover_lua515/src/index.html),
  - [Lua 5.2.4](cover_lua524/src/index.html),
  - [Lua 5.3.5](cover_lua535/src/index.html),
- - [Lua 5.4.0-work2](cover_lua540/src/index.html)
+ - [Lua 5.4.0-alpha-rc1](cover_lua540/src/index.html)
 
 It uses the
 [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol)
@@ -31,7 +31,7 @@ lua-TestMore source can be downloaded from
 
 ## Copyright and License
 
-Copyright &copy; 2009-2018 Fran&ccedil;ois Perrad
+Copyright &copy; 2009-2019 Fran&ccedil;ois Perrad
 
 This library is licensed under the terms of the MIT/X11 license,
 like Lua itself.
