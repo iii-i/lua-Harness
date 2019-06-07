@@ -735,17 +735,7 @@ if has_warn then
         diag("io.popen not supported")
     end
 
-    r, f = pcall(io.popen, lua .. [[ -e "warn'foo'; warn'bar'" 2>&1]])
-    if r then
-        is(f:read'*l', 'Lua warning: foo', "warn called with popen")
-        is(f:read'*l', 'Lua warning: bar')
-        is(f:read'*l', nil)
-        is(f:close(), true)
-    else
-        diag("io.popen not supported")
-    end
-
-    r, f = pcall(io.popen, lua .. [[ -e "warn('foo', true); warn('bar', false)" 2>&1]])
+    r, f = pcall(io.popen, lua .. [[ -e "warn('foo', 'bar')" 2>&1]])
     if r then
         is(f:read'*l', 'Lua warning: foobar', "warn called with popen")
         is(f:read'*l', nil)
@@ -753,6 +743,10 @@ if has_warn then
     else
         diag("io.popen not supported")
     end
+
+    error_like(function () warn('foo', warn) end,
+               "^[^:]+:%d+: bad argument #2 to 'warn' %(string expected, got function%)",
+               "function warn (no arg)")
 
     error_like(function () warn() end,
                "^[^:]+:%d+: bad argument #1 to 'warn' %(string expected, got no value%)",

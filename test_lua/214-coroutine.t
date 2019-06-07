@@ -34,7 +34,7 @@ local profile = require'profile'
 local has_coroutine52 = _VERSION >= 'Lua 5.2' or jit
 local has_running52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_isyieldable = _VERSION >= 'Lua 5.3' or (jit and jit.version_num >= 20100)
-local has_kill = _VERSION >= 'Lua 5.4'
+local has_close = _VERSION >= 'Lua 5.4'
 
 plan'no_plan'
 
@@ -213,23 +213,23 @@ do
     end
 end
 
--- kill
-if has_kill then
+-- close
+if has_close then
     local output = ''
     local co = coroutine.create(function ()
         output = 'hi'
     end)
-    is(coroutine.kill(co), true, "kill")
+    is(coroutine.close(co), true, "close")
     is(coroutine.status(co), 'dead')
-    is(coroutine.kill(co), true, "kill again")
+    is(coroutine.close(co), true, "close again")
 
-    error_like(function () coroutine.kill(coroutine.running()) end,
-               "^[^:]+:%d+: cannot kill a running coroutine")
+    error_like(function () coroutine.close(coroutine.running()) end,
+               "^[^:]+:%d+: cannot close a running coroutine")
 
-    error_like(function () coroutine.kill(42) end,
-               "^[^:]+:%d+: bad argument #1 to 'kill' %(thread expected, got number%)")
+    error_like(function () coroutine.close(42) end,
+               "^[^:]+:%d+: bad argument #1 to 'close' %(thread expected, got number%)")
 else
-    is(coroutine.kill, nil, "no coroutine.kill")
+    is(coroutine.close, nil, "no coroutine.close")
 end
 
 done_testing()
