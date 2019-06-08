@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-05 19:28:51</td>
+            <td class="headerValue">2019-06-08 17:16:46</td>
             <td></td>
           </tr>
           <tr>
@@ -161,24 +161,24 @@
 <span class="lineNum">      95 </span>            : ** set GCdebt to a new value keeping the value (totalbytes + GCdebt)
 <span class="lineNum">      96 </span>            : ** invariant (and avoiding underflows in 'totalbytes')
 <span class="lineNum">      97 </span>            : */
-<span class="lineNum">      98 </span><span class="lineCov">       1142 : void luaE_setdebt (global_State *g, l_mem debt) {</span>
-<span class="lineNum">      99 </span><span class="lineCov">       1142 :   l_mem tb = gettotalbytes(g);</span>
+<span class="lineNum">      98 </span><span class="lineCov">       1141 : void luaE_setdebt (global_State *g, l_mem debt) {</span>
+<span class="lineNum">      99 </span><span class="lineCov">       1141 :   l_mem tb = gettotalbytes(g);</span>
 <span class="lineNum">     100 </span>            :   lua_assert(tb &gt; 0);
-<span class="lineNum">     101 </span><span class="lineCov">       1142 :   if (debt &lt; tb - MAX_LMEM)</span>
+<span class="lineNum">     101 </span><span class="lineCov">       1141 :   if (debt &lt; tb - MAX_LMEM)</span>
 <span class="lineNum">     102 </span><span class="lineNoCov">          0 :     debt = tb - MAX_LMEM;  /* will make 'totalbytes == MAX_LMEM' */</span>
-<span class="lineNum">     103 </span><span class="lineCov">       1142 :   g-&gt;totalbytes = tb - debt;</span>
-<span class="lineNum">     104 </span><span class="lineCov">       1142 :   g-&gt;GCdebt = debt;</span>
-<span class="lineNum">     105 </span><span class="lineCov">       1142 : }</span>
+<span class="lineNum">     103 </span><span class="lineCov">       1141 :   g-&gt;totalbytes = tb - debt;</span>
+<span class="lineNum">     104 </span><span class="lineCov">       1141 :   g-&gt;GCdebt = debt;</span>
+<span class="lineNum">     105 </span><span class="lineCov">       1141 : }</span>
 <span class="lineNum">     106 </span>            : 
 <span class="lineNum">     107 </span>            : 
-<span class="lineNum">     108 </span><span class="lineCov">       1218 : CallInfo *luaE_extendCI (lua_State *L) {</span>
-<span class="lineNum">     109 </span><span class="lineCov">       1218 :   CallInfo *ci = luaM_new(L, CallInfo);</span>
+<span class="lineNum">     108 </span><span class="lineCov">       1216 : CallInfo *luaE_extendCI (lua_State *L) {</span>
+<span class="lineNum">     109 </span><span class="lineCov">       1216 :   CallInfo *ci = luaM_new(L, CallInfo);</span>
 <span class="lineNum">     110 </span>            :   lua_assert(L-&gt;ci-&gt;next == NULL);
-<span class="lineNum">     111 </span><span class="lineCov">       1218 :   L-&gt;ci-&gt;next = ci;</span>
-<span class="lineNum">     112 </span><span class="lineCov">       1218 :   ci-&gt;previous = L-&gt;ci;</span>
-<span class="lineNum">     113 </span><span class="lineCov">       1218 :   ci-&gt;next = NULL;</span>
-<span class="lineNum">     114 </span><span class="lineCov">       1218 :   L-&gt;nci++;</span>
-<span class="lineNum">     115 </span><span class="lineCov">       1218 :   return ci;</span>
+<span class="lineNum">     111 </span><span class="lineCov">       1216 :   L-&gt;ci-&gt;next = ci;</span>
+<span class="lineNum">     112 </span><span class="lineCov">       1216 :   ci-&gt;previous = L-&gt;ci;</span>
+<span class="lineNum">     113 </span><span class="lineCov">       1216 :   ci-&gt;next = NULL;</span>
+<span class="lineNum">     114 </span><span class="lineCov">       1216 :   L-&gt;nci++;</span>
+<span class="lineNum">     115 </span><span class="lineCov">       1216 :   return ci;</span>
 <span class="lineNum">     116 </span>            : }
 <span class="lineNum">     117 </span>            : 
 <span class="lineNum">     118 </span>            : 
@@ -204,12 +204,12 @@
 <span class="lineNum">     138 </span><span class="lineCov">        782 :   CallInfo *ci = L-&gt;ci;</span>
 <span class="lineNum">     139 </span>            :   CallInfo *next2;  /* next's next */
 <span class="lineNum">     140 </span>            :   /* while there are two nexts */
-<span class="lineNum">     141 </span><span class="lineCov">       1315 :   while (ci-&gt;next != NULL &amp;&amp; (next2 = ci-&gt;next-&gt;next) != NULL) {</span>
-<span class="lineNum">     142 </span><span class="lineCov">        533 :     luaM_free(L, ci-&gt;next);  /* free next */</span>
-<span class="lineNum">     143 </span><span class="lineCov">        533 :     L-&gt;nci--;</span>
-<span class="lineNum">     144 </span><span class="lineCov">        533 :     ci-&gt;next = next2;  /* remove 'next' from the list */</span>
-<span class="lineNum">     145 </span><span class="lineCov">        533 :     next2-&gt;previous = ci;</span>
-<span class="lineNum">     146 </span><span class="lineCov">        533 :     ci = next2;  /* keep next's next */</span>
+<span class="lineNum">     141 </span><span class="lineCov">       1313 :   while (ci-&gt;next != NULL &amp;&amp; (next2 = ci-&gt;next-&gt;next) != NULL) {</span>
+<span class="lineNum">     142 </span><span class="lineCov">        531 :     luaM_free(L, ci-&gt;next);  /* free next */</span>
+<span class="lineNum">     143 </span><span class="lineCov">        531 :     L-&gt;nci--;</span>
+<span class="lineNum">     144 </span><span class="lineCov">        531 :     ci-&gt;next = next2;  /* remove 'next' from the list */</span>
+<span class="lineNum">     145 </span><span class="lineCov">        531 :     next2-&gt;previous = ci;</span>
+<span class="lineNum">     146 </span><span class="lineCov">        531 :     ci = next2;  /* keep next's next */</span>
 <span class="lineNum">     147 </span>            :   }
 <span class="lineNum">     148 </span><span class="lineCov">        782 : }</span>
 <span class="lineNum">     149 </span>            : 
