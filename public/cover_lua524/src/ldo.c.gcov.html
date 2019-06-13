@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-08 17:16:45</td>
+            <td class="headerValue">2019-06-13 19:44:16</td>
             <td></td>
           </tr>
           <tr>
@@ -209,13 +209,13 @@
 <span class="lineNum">     143 </span>            :   CallInfo *ci;
 <span class="lineNum">     144 </span>            :   GCObject *up;
 <span class="lineNum">     145 </span><span class="lineCov">        937 :   L-&gt;top = (L-&gt;top - oldstack) + L-&gt;stack;</span>
-<span class="lineNum">     146 </span><span class="lineCov">       2784 :   for (up = L-&gt;openupval; up != NULL; up = up-&gt;gch.next)</span>
-<span class="lineNum">     147 </span><span class="lineCov">       1847 :     gco2uv(up)-&gt;v = (gco2uv(up)-&gt;v - oldstack) + L-&gt;stack;</span>
-<span class="lineNum">     148 </span><span class="lineCov">       5763 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span>
-<span class="lineNum">     149 </span><span class="lineCov">       4826 :     ci-&gt;top = (ci-&gt;top - oldstack) + L-&gt;stack;</span>
-<span class="lineNum">     150 </span><span class="lineCov">       4826 :     ci-&gt;func = (ci-&gt;func - oldstack) + L-&gt;stack;</span>
-<span class="lineNum">     151 </span><span class="lineCov">       4826 :     if (isLua(ci))</span>
-<span class="lineNum">     152 </span><span class="lineCov">       2443 :       ci-&gt;u.l.base = (ci-&gt;u.l.base - oldstack) + L-&gt;stack;</span>
+<span class="lineNum">     146 </span><span class="lineCov">       2742 :   for (up = L-&gt;openupval; up != NULL; up = up-&gt;gch.next)</span>
+<span class="lineNum">     147 </span><span class="lineCov">       1805 :     gco2uv(up)-&gt;v = (gco2uv(up)-&gt;v - oldstack) + L-&gt;stack;</span>
+<span class="lineNum">     148 </span><span class="lineCov">       5756 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span>
+<span class="lineNum">     149 </span><span class="lineCov">       4819 :     ci-&gt;top = (ci-&gt;top - oldstack) + L-&gt;stack;</span>
+<span class="lineNum">     150 </span><span class="lineCov">       4819 :     ci-&gt;func = (ci-&gt;func - oldstack) + L-&gt;stack;</span>
+<span class="lineNum">     151 </span><span class="lineCov">       4819 :     if (isLua(ci))</span>
+<span class="lineNum">     152 </span><span class="lineCov">       2435 :       ci-&gt;u.l.base = (ci-&gt;u.l.base - oldstack) + L-&gt;stack;</span>
 <span class="lineNum">     153 </span>            :   }
 <span class="lineNum">     154 </span><span class="lineCov">        937 : }</span>
 <span class="lineNum">     155 </span>            : 
@@ -230,8 +230,8 @@
 <span class="lineNum">     164 </span>            :   lua_assert(newsize &lt;= LUAI_MAXSTACK || newsize == ERRORSTACKSIZE);
 <span class="lineNum">     165 </span>            :   lua_assert(L-&gt;stack_last - L-&gt;stack == L-&gt;stacksize - EXTRA_STACK);
 <span class="lineNum">     166 </span><span class="lineCov">        937 :   luaM_reallocvector(L, L-&gt;stack, L-&gt;stacksize, newsize, TValue);</span>
-<span class="lineNum">     167 </span><span class="lineCov">      23838 :   for (; lim &lt; newsize; lim++)</span>
-<span class="lineNum">     168 </span><span class="lineCov">      22901 :     setnilvalue(L-&gt;stack + lim); /* erase new segment */</span>
+<span class="lineNum">     167 </span><span class="lineCov">      23848 :   for (; lim &lt; newsize; lim++)</span>
+<span class="lineNum">     168 </span><span class="lineCov">      22911 :     setnilvalue(L-&gt;stack + lim); /* erase new segment */</span>
 <span class="lineNum">     169 </span><span class="lineCov">        937 :   L-&gt;stacksize = newsize;</span>
 <span class="lineNum">     170 </span><span class="lineCov">        937 :   L-&gt;stack_last = L-&gt;stack + newsize - EXTRA_STACK;</span>
 <span class="lineNum">     171 </span><span class="lineCov">        937 :   correctstack(L, oldstack);</span>
@@ -260,9 +260,9 @@
 <span class="lineNum">     194 </span><span class="lineCov">        602 : static int stackinuse (lua_State *L) {</span>
 <span class="lineNum">     195 </span>            :   CallInfo *ci;
 <span class="lineNum">     196 </span><span class="lineCov">        602 :   StkId lim = L-&gt;top;</span>
-<span class="lineNum">     197 </span><span class="lineCov">       3308 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span>
+<span class="lineNum">     197 </span><span class="lineCov">       3300 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span>
 <span class="lineNum">     198 </span>            :     lua_assert(ci-&gt;top &lt;= L-&gt;stack_last);
-<span class="lineNum">     199 </span><span class="lineCov">       2706 :     if (lim &lt; ci-&gt;top) lim = ci-&gt;top;</span>
+<span class="lineNum">     199 </span><span class="lineCov">       2698 :     if (lim &lt; ci-&gt;top) lim = ci-&gt;top;</span>
 <span class="lineNum">     200 </span>            :   }
 <span class="lineNum">     201 </span><span class="lineCov">        602 :   return cast_int(lim - L-&gt;stack) + 1;  /* part of stack in use */</span>
 <span class="lineNum">     202 </span>            : }

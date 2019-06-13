@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - Lua 5.4.0-alpha-rc2 - src/lvm.c</title>
+  <title>LCOV - Lua 5.4.0-alpha - src/lvm.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">Lua 5.4.0-alpha-rc2</td>
+            <td class="headerValue">Lua 5.4.0-alpha</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">724</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-08 17:16:47</td>
+            <td class="headerValue">2019-06-13 19:44:19</td>
             <td></td>
           </tr>
           <tr>
@@ -540,24 +540,24 @@
 <span class="lineNum">     474 </span>            : ** Main operation for equality of Lua values; return 't1 == t2'.
 <span class="lineNum">     475 </span>            : ** L == NULL means raw equality (no metamethods)
 <span class="lineNum">     476 </span>            : */
-<span class="lineNum">     477 </span><span class="lineCov">      37460 : int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {</span>
+<span class="lineNum">     477 </span><span class="lineCov">      37341 : int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {</span>
 <span class="lineNum">     478 </span>            :   const TValue *tm;
-<span class="lineNum">     479 </span><span class="lineCov">      37460 :   if (ttypetag(t1) != ttypetag(t2)) {  /* not the same variant? */</span>
-<span class="lineNum">     480 </span><span class="lineCov">       1680 :     if (ttype(t1) != ttype(t2) || ttype(t1) != LUA_TNUMBER)</span>
-<span class="lineNum">     481 </span><span class="lineCov">       1654 :       return 0;  /* only numbers can be equal with different variants */</span>
+<span class="lineNum">     479 </span><span class="lineCov">      37341 :   if (ttypetag(t1) != ttypetag(t2)) {  /* not the same variant? */</span>
+<span class="lineNum">     480 </span><span class="lineCov">       1636 :     if (ttype(t1) != ttype(t2) || ttype(t1) != LUA_TNUMBER)</span>
+<span class="lineNum">     481 </span><span class="lineCov">       1610 :       return 0;  /* only numbers can be equal with different variants */</span>
 <span class="lineNum">     482 </span>            :     else {  /* two numbers with different variants */
 <span class="lineNum">     483 </span>            :       lua_Integer i1, i2;  /* compare them as integers */
 <span class="lineNum">     484 </span><span class="lineCov">         26 :       return (tointegerns(t1, &amp;i1) &amp;&amp; tointegerns(t2, &amp;i2) &amp;&amp; i1 == i2);</span>
 <span class="lineNum">     485 </span>            :     }
 <span class="lineNum">     486 </span>            :   }
 <span class="lineNum">     487 </span>            :   /* values have same type and same variant */
-<span class="lineNum">     488 </span><span class="lineCov">      35780 :   switch (ttypetag(t1)) {</span>
+<span class="lineNum">     488 </span><span class="lineCov">      35705 :   switch (ttypetag(t1)) {</span>
 <span class="lineNum">     489 </span><span class="lineCov">        161 :     case LUA_TNIL: return 1;</span>
 <span class="lineNum">     490 </span><span class="lineCov">        546 :     case LUA_TNUMINT: return (ivalue(t1) == ivalue(t2));</span>
 <span class="lineNum">     491 </span><span class="lineCov">         69 :     case LUA_TNUMFLT: return luai_numeq(fltvalue(t1), fltvalue(t2));</span>
 <span class="lineNum">     492 </span><span class="lineCov">        222 :     case LUA_TBOOLEAN: return bvalue(t1) == bvalue(t2);  /* true must be 1! */</span>
 <span class="lineNum">     493 </span><span class="lineNoCov">          0 :     case LUA_TLIGHTUSERDATA: return pvalue(t1) == pvalue(t2);</span>
-<span class="lineNum">     494 </span><span class="lineCov">       1071 :     case LUA_TLCF: return fvalue(t1) == fvalue(t2);</span>
+<span class="lineNum">     494 </span><span class="lineCov">        998 :     case LUA_TLCF: return fvalue(t1) == fvalue(t2);</span>
 <span class="lineNum">     495 </span><span class="lineCov">      32071 :     case LUA_TSHRSTR: return eqshrstr(tsvalue(t1), tsvalue(t2));</span>
 <span class="lineNum">     496 </span><span class="lineCov">        181 :     case LUA_TLNGSTR: return luaS_eqlngstr(tsvalue(t1), tsvalue(t2));</span>
 <span class="lineNum">     497 </span><span class="lineCov">          9 :     case LUA_TUSERDATA: {</span>
@@ -576,8 +576,8 @@
 <span class="lineNum">     510 </span><span class="lineCov">          5 :         tm = fasttm(L, hvalue(t2)-&gt;metatable, TM_EQ);</span>
 <span class="lineNum">     511 </span><span class="lineCov">         10 :       break;  /* will try TM */</span>
 <span class="lineNum">     512 </span>            :     }
-<span class="lineNum">     513 </span><span class="lineCov">         69 :     default:</span>
-<span class="lineNum">     514 </span><span class="lineCov">         69 :       return gcvalue(t1) == gcvalue(t2);</span>
+<span class="lineNum">     513 </span><span class="lineCov">         67 :     default:</span>
+<span class="lineNum">     514 </span><span class="lineCov">         67 :       return gcvalue(t1) == gcvalue(t2);</span>
 <span class="lineNum">     515 </span>            :   }
 <span class="lineNum">     516 </span><span class="lineCov">         11 :   if (tm == NULL)  /* no TM? */</span>
 <span class="lineNum">     517 </span><span class="lineCov">          6 :     return 0;  /* objects are different */</span>

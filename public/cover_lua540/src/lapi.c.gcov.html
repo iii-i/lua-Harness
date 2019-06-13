@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - Lua 5.4.0-alpha-rc2 - src/lapi.c</title>
+  <title>LCOV - Lua 5.4.0-alpha - src/lapi.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">Lua 5.4.0-alpha-rc2</td>
+            <td class="headerValue">Lua 5.4.0-alpha</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">593</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-08 17:16:47</td>
+            <td class="headerValue">2019-06-13 19:44:19</td>
             <td></td>
           </tr>
           <tr>
@@ -119,17 +119,17 @@
 <span class="lineNum">      53 </span>            : #define isupvalue(i)            ((i) &lt; LUA_REGISTRYINDEX)
 <span class="lineNum">      54 </span>            : 
 <span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineCov">    1095649 : static TValue *index2value (lua_State *L, int idx) {</span>
-<span class="lineNum">      57 </span><span class="lineCov">    1095649 :   CallInfo *ci = L-&gt;ci;</span>
-<span class="lineNum">      58 </span><span class="lineCov">    1095649 :   if (idx &gt; 0) {</span>
-<span class="lineNum">      59 </span><span class="lineCov">     670639 :     StkId o = ci-&gt;func + idx;</span>
+<span class="lineNum">      56 </span><span class="lineCov">    1095151 : static TValue *index2value (lua_State *L, int idx) {</span>
+<span class="lineNum">      57 </span><span class="lineCov">    1095151 :   CallInfo *ci = L-&gt;ci;</span>
+<span class="lineNum">      58 </span><span class="lineCov">    1095151 :   if (idx &gt; 0) {</span>
+<span class="lineNum">      59 </span><span class="lineCov">     670510 :     StkId o = ci-&gt;func + idx;</span>
 <span class="lineNum">      60 </span>            :     api_check(L, idx &lt;= L-&gt;ci-&gt;top - (ci-&gt;func + 1), &quot;unacceptable index&quot;);
-<span class="lineNum">      61 </span><span class="lineCov">     670639 :     if (o &gt;= L-&gt;top) return &amp;G(L)-&gt;nilvalue;</span>
-<span class="lineNum">      62 </span><span class="lineCov">     638878 :     else return s2v(o);</span>
+<span class="lineNum">      61 </span><span class="lineCov">     670510 :     if (o &gt;= L-&gt;top) return &amp;G(L)-&gt;nilvalue;</span>
+<span class="lineNum">      62 </span><span class="lineCov">     638749 :     else return s2v(o);</span>
 <span class="lineNum">      63 </span>            :   }
-<span class="lineNum">      64 </span><span class="lineCov">     425010 :   else if (!ispseudo(idx)) {  /* negative index */</span>
+<span class="lineNum">      64 </span><span class="lineCov">     424641 :   else if (!ispseudo(idx)) {  /* negative index */</span>
 <span class="lineNum">      65 </span>            :     api_check(L, idx != 0 &amp;&amp; -idx &lt;= L-&gt;top - (ci-&gt;func + 1), &quot;invalid index&quot;);
-<span class="lineNum">      66 </span><span class="lineCov">     419625 :     return s2v(L-&gt;top + idx);</span>
+<span class="lineNum">      66 </span><span class="lineCov">     419256 :     return s2v(L-&gt;top + idx);</span>
 <span class="lineNum">      67 </span>            :   }
 <span class="lineNum">      68 </span><span class="lineCov">       5385 :   else if (idx == LUA_REGISTRYINDEX)</span>
 <span class="lineNum">      69 </span><span class="lineCov">       4590 :     return &amp;G(L)-&gt;l_registry;</span>
@@ -235,10 +235,10 @@
 <span class="lineNum">     169 </span>            : }
 <span class="lineNum">     170 </span>            : 
 <span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineCov">     175880 : LUA_API void lua_settop (lua_State *L, int idx) {</span>
-<span class="lineNum">     173 </span><span class="lineCov">     175880 :   StkId func = L-&gt;ci-&gt;func;</span>
+<span class="lineNum">     172 </span><span class="lineCov">     175766 : LUA_API void lua_settop (lua_State *L, int idx) {</span>
+<span class="lineNum">     173 </span><span class="lineCov">     175766 :   StkId func = L-&gt;ci-&gt;func;</span>
 <span class="lineNum">     174 </span>            :   lua_lock(L);
-<span class="lineNum">     175 </span><span class="lineCov">     175880 :   if (idx &gt;= 0) {</span>
+<span class="lineNum">     175 </span><span class="lineCov">     175766 :   if (idx &gt;= 0) {</span>
 <span class="lineNum">     176 </span><span class="lineCov">       6630 :     StkId newtop = (func + 1) + idx;</span>
 <span class="lineNum">     177 </span>            :     api_check(L, idx &lt;= L-&gt;stack_last - (func + 1), &quot;new top too large&quot;);
 <span class="lineNum">     178 </span><span class="lineCov">      12566 :     while (L-&gt;top &lt; newtop)</span>
@@ -247,11 +247,11 @@
 <span class="lineNum">     181 </span>            :   }
 <span class="lineNum">     182 </span>            :   else {
 <span class="lineNum">     183 </span>            :     api_check(L, -(idx+1) &lt;= (L-&gt;top - (func + 1)), &quot;invalid new top&quot;);
-<span class="lineNum">     184 </span><span class="lineCov">     169250 :     L-&gt;top += idx+1;  /* 'subtract' index (index is negative) */</span>
+<span class="lineNum">     184 </span><span class="lineCov">     169136 :     L-&gt;top += idx+1;  /* 'subtract' index (index is negative) */</span>
 <span class="lineNum">     185 </span>            :   }
-<span class="lineNum">     186 </span><span class="lineCov">     175880 :   luaF_close(L, L-&gt;top, LUA_OK);</span>
+<span class="lineNum">     186 </span><span class="lineCov">     175766 :   luaF_close(L, L-&gt;top, LUA_OK);</span>
 <span class="lineNum">     187 </span>            :   lua_unlock(L);
-<span class="lineNum">     188 </span><span class="lineCov">     175880 : }</span>
+<span class="lineNum">     188 </span><span class="lineCov">     175766 : }</span>
 <span class="lineNum">     189 </span>            : 
 <span class="lineNum">     190 </span>            : 
 <span class="lineNum">     191 </span>            : /*
@@ -317,9 +317,9 @@
 <span class="lineNum">     251 </span>            : */
 <span class="lineNum">     252 </span>            : 
 <span class="lineNum">     253 </span>            : 
-<span class="lineNum">     254 </span><span class="lineCov">     178745 : LUA_API int lua_type (lua_State *L, int idx) {</span>
-<span class="lineNum">     255 </span><span class="lineCov">     178745 :   const TValue *o = index2value(L, idx);</span>
-<span class="lineNum">     256 </span><span class="lineCov">     178745 :   return (isvalid(L, o) ? ttype(o) : LUA_TNONE);</span>
+<span class="lineNum">     254 </span><span class="lineCov">     178619 : LUA_API int lua_type (lua_State *L, int idx) {</span>
+<span class="lineNum">     255 </span><span class="lineCov">     178619 :   const TValue *o = index2value(L, idx);</span>
+<span class="lineNum">     256 </span><span class="lineCov">     178619 :   return (isvalid(L, o) ? ttype(o) : LUA_TNONE);</span>
 <span class="lineNum">     257 </span>            : }
 <span class="lineNum">     258 </span>            : 
 <span class="lineNum">     259 </span>            : 
@@ -361,10 +361,10 @@
 <span class="lineNum">     295 </span>            : }
 <span class="lineNum">     296 </span>            : 
 <span class="lineNum">     297 </span>            : 
-<span class="lineNum">     298 </span><span class="lineCov">       4061 : LUA_API int lua_rawequal (lua_State *L, int index1, int index2) {</span>
-<span class="lineNum">     299 </span><span class="lineCov">       4061 :   const TValue *o1 = index2value(L, index1);</span>
-<span class="lineNum">     300 </span><span class="lineCov">       4061 :   const TValue *o2 = index2value(L, index2);</span>
-<span class="lineNum">     301 </span><span class="lineCov">       4061 :   return (isvalid(L, o1) &amp;&amp; isvalid(L, o2)) ? luaV_rawequalobj(o1, o2) : 0;</span>
+<span class="lineNum">     298 </span><span class="lineCov">       3942 : LUA_API int lua_rawequal (lua_State *L, int index1, int index2) {</span>
+<span class="lineNum">     299 </span><span class="lineCov">       3942 :   const TValue *o1 = index2value(L, index1);</span>
+<span class="lineNum">     300 </span><span class="lineCov">       3942 :   const TValue *o2 = index2value(L, index2);</span>
+<span class="lineNum">     301 </span><span class="lineCov">       3942 :   return (isvalid(L, o1) &amp;&amp; isvalid(L, o2)) ? luaV_rawequalobj(o1, o2) : 0;</span>
 <span class="lineNum">     302 </span>            : }
 <span class="lineNum">     303 </span>            : 
 <span class="lineNum">     304 </span>            : 
@@ -530,12 +530,12 @@
 <span class="lineNum">     464 </span>            : */
 <span class="lineNum">     465 </span>            : 
 <span class="lineNum">     466 </span>            : 
-<span class="lineNum">     467 </span><span class="lineCov">        911 : LUA_API void lua_pushnil (lua_State *L) {</span>
+<span class="lineNum">     467 </span><span class="lineCov">        906 : LUA_API void lua_pushnil (lua_State *L) {</span>
 <span class="lineNum">     468 </span>            :   lua_lock(L);
-<span class="lineNum">     469 </span><span class="lineCov">        911 :   setnilvalue(s2v(L-&gt;top));</span>
-<span class="lineNum">     470 </span><span class="lineCov">        911 :   api_incr_top(L);</span>
+<span class="lineNum">     469 </span><span class="lineCov">        906 :   setnilvalue(s2v(L-&gt;top));</span>
+<span class="lineNum">     470 </span><span class="lineCov">        906 :   api_incr_top(L);</span>
 <span class="lineNum">     471 </span>            :   lua_unlock(L);
-<span class="lineNum">     472 </span><span class="lineCov">        911 : }</span>
+<span class="lineNum">     472 </span><span class="lineCov">        906 : }</span>
 <span class="lineNum">     473 </span>            : 
 <span class="lineNum">     474 </span>            : 
 <span class="lineNum">     475 </span><span class="lineCov">        222 : LUA_API void lua_pushnumber (lua_State *L, lua_Number n) {</span>
@@ -743,10 +743,10 @@
 <span class="lineNum">     677 </span>            : }
 <span class="lineNum">     678 </span>            : 
 <span class="lineNum">     679 </span>            : 
-<span class="lineNum">     680 </span><span class="lineCov">       7768 : static Table *gettable (lua_State *L, int idx) {</span>
-<span class="lineNum">     681 </span><span class="lineCov">       7768 :   TValue *t = index2value(L, idx);</span>
+<span class="lineNum">     680 </span><span class="lineCov">       7644 : static Table *gettable (lua_State *L, int idx) {</span>
+<span class="lineNum">     681 </span><span class="lineCov">       7644 :   TValue *t = index2value(L, idx);</span>
 <span class="lineNum">     682 </span>            :   api_check(L, ttistable(t), &quot;table expected&quot;);
-<span class="lineNum">     683 </span><span class="lineCov">       7768 :   return hvalue(t);</span>
+<span class="lineNum">     683 </span><span class="lineCov">       7644 :   return hvalue(t);</span>
 <span class="lineNum">     684 </span>            : }
 <span class="lineNum">     685 </span>            : 
 <span class="lineNum">     686 </span>            : 
@@ -894,23 +894,23 @@
 <span class="lineNum">     828 </span><span class="lineCov">      17958 : }</span>
 <span class="lineNum">     829 </span>            : 
 <span class="lineNum">     830 </span>            : 
-<span class="lineNum">     831 </span><span class="lineCov">      86137 : LUA_API void lua_seti (lua_State *L, int idx, lua_Integer n) {</span>
+<span class="lineNum">     831 </span><span class="lineCov">      86127 : LUA_API void lua_seti (lua_State *L, int idx, lua_Integer n) {</span>
 <span class="lineNum">     832 </span>            :   TValue *t;
 <span class="lineNum">     833 </span>            :   const TValue *slot;
 <span class="lineNum">     834 </span>            :   lua_lock(L);
 <span class="lineNum">     835 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">     836 </span><span class="lineCov">      86137 :   t = index2value(L, idx);</span>
-<span class="lineNum">     837 </span><span class="lineCov">      86137 :   if (luaV_fastgeti(L, t, n, slot)) {</span>
-<span class="lineNum">     838 </span><span class="lineCov">      86072 :     luaV_finishfastset(L, t, slot, s2v(L-&gt;top - 1));</span>
+<span class="lineNum">     836 </span><span class="lineCov">      86127 :   t = index2value(L, idx);</span>
+<span class="lineNum">     837 </span><span class="lineCov">      86127 :   if (luaV_fastgeti(L, t, n, slot)) {</span>
+<span class="lineNum">     838 </span><span class="lineCov">      86062 :     luaV_finishfastset(L, t, slot, s2v(L-&gt;top - 1));</span>
 <span class="lineNum">     839 </span>            :   }
 <span class="lineNum">     840 </span>            :   else {
 <span class="lineNum">     841 </span>            :     TValue aux;
 <span class="lineNum">     842 </span><span class="lineCov">         65 :     setivalue(&amp;aux, n);</span>
 <span class="lineNum">     843 </span><span class="lineCov">         65 :     luaV_finishset(L, t, &amp;aux, s2v(L-&gt;top - 1), slot);</span>
 <span class="lineNum">     844 </span>            :   }
-<span class="lineNum">     845 </span><span class="lineCov">      86137 :   L-&gt;top--;  /* pop value */</span>
+<span class="lineNum">     845 </span><span class="lineCov">      86127 :   L-&gt;top--;  /* pop value */</span>
 <span class="lineNum">     846 </span>            :   lua_unlock(L);
-<span class="lineNum">     847 </span><span class="lineCov">      86137 : }</span>
+<span class="lineNum">     847 </span><span class="lineCov">      86127 : }</span>
 <span class="lineNum">     848 </span>            : 
 <span class="lineNum">     849 </span>            : 
 <span class="lineNum">     850 </span><span class="lineCov">          5 : LUA_API void lua_rawset (lua_State *L, int idx) {</span>
@@ -1267,20 +1267,20 @@
 <span class="lineNum">    1201 </span>            : }
 <span class="lineNum">    1202 </span>            : 
 <span class="lineNum">    1203 </span>            : 
-<span class="lineNum">    1204 </span><span class="lineCov">       2907 : LUA_API int lua_next (lua_State *L, int idx) {</span>
+<span class="lineNum">    1204 </span><span class="lineCov">       2783 : LUA_API int lua_next (lua_State *L, int idx) {</span>
 <span class="lineNum">    1205 </span>            :   Table *t;
 <span class="lineNum">    1206 </span>            :   int more;
 <span class="lineNum">    1207 </span>            :   lua_lock(L);
 <span class="lineNum">    1208 </span>            :   api_checknelems(L, 1);
-<span class="lineNum">    1209 </span><span class="lineCov">       2907 :   t = gettable(L, idx);</span>
-<span class="lineNum">    1210 </span><span class="lineCov">       2907 :   more = luaH_next(L, t, L-&gt;top - 1);</span>
-<span class="lineNum">    1211 </span><span class="lineCov">       2906 :   if (more) {</span>
-<span class="lineNum">    1212 </span><span class="lineCov">       2726 :     api_incr_top(L);</span>
+<span class="lineNum">    1209 </span><span class="lineCov">       2783 :   t = gettable(L, idx);</span>
+<span class="lineNum">    1210 </span><span class="lineCov">       2783 :   more = luaH_next(L, t, L-&gt;top - 1);</span>
+<span class="lineNum">    1211 </span><span class="lineCov">       2782 :   if (more) {</span>
+<span class="lineNum">    1212 </span><span class="lineCov">       2607 :     api_incr_top(L);</span>
 <span class="lineNum">    1213 </span>            :   }
 <span class="lineNum">    1214 </span>            :   else  /* no more elements */
-<span class="lineNum">    1215 </span><span class="lineCov">        180 :     L-&gt;top -= 1;  /* remove key */</span>
+<span class="lineNum">    1215 </span><span class="lineCov">        175 :     L-&gt;top -= 1;  /* remove key */</span>
 <span class="lineNum">    1216 </span>            :   lua_unlock(L);
-<span class="lineNum">    1217 </span><span class="lineCov">       2906 :   return more;</span>
+<span class="lineNum">    1217 </span><span class="lineCov">       2782 :   return more;</span>
 <span class="lineNum">    1218 </span>            : }
 <span class="lineNum">    1219 </span>            : 
 <span class="lineNum">    1220 </span>            : 

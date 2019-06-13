@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - Lua 5.4.0-alpha-rc2 - src/lauxlib.c</title>
+  <title>LCOV - Lua 5.4.0-alpha - src/lauxlib.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">Lua 5.4.0-alpha-rc2</td>
+            <td class="headerValue">Lua 5.4.0-alpha</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">469</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-08 17:16:47</td>
+            <td class="headerValue">2019-06-13 19:44:19</td>
             <td></td>
           </tr>
           <tr>
@@ -115,17 +115,17 @@
 <span class="lineNum">      49 </span>            : ** Search for 'objidx' in table at index -1. ('objidx' must be an
 <span class="lineNum">      50 </span>            : ** absolute index.) Return 1 + string at top if it found a good name.
 <span class="lineNum">      51 </span>            : */
-<span class="lineNum">      52 </span><span class="lineCov">       2707 : static int findfield (lua_State *L, int objidx, int level) {</span>
-<span class="lineNum">      53 </span><span class="lineCov">       2707 :   if (level == 0 || !lua_istable(L, -1))</span>
-<span class="lineNum">      54 </span><span class="lineCov">       2527 :     return 0;  /* not found */</span>
-<span class="lineNum">      55 </span><span class="lineCov">        180 :   lua_pushnil(L);  /* start 'next' loop */</span>
-<span class="lineNum">      56 </span><span class="lineCov">       2863 :   while (lua_next(L, -2)) {  /* for each pair in table */</span>
-<span class="lineNum">      57 </span><span class="lineCov">       2695 :     if (lua_type(L, -2) == LUA_TSTRING) {  /* ignore non-string keys */</span>
-<span class="lineNum">      58 </span><span class="lineCov">       2695 :       if (lua_rawequal(L, objidx, -1)) {  /* found object? */</span>
+<span class="lineNum">      52 </span><span class="lineCov">       2588 : static int findfield (lua_State *L, int objidx, int level) {</span>
+<span class="lineNum">      53 </span><span class="lineCov">       2588 :   if (level == 0 || !lua_istable(L, -1))</span>
+<span class="lineNum">      54 </span><span class="lineCov">       2413 :     return 0;  /* not found */</span>
+<span class="lineNum">      55 </span><span class="lineCov">        175 :   lua_pushnil(L);  /* start 'next' loop */</span>
+<span class="lineNum">      56 </span><span class="lineCov">       2739 :   while (lua_next(L, -2)) {  /* for each pair in table */</span>
+<span class="lineNum">      57 </span><span class="lineCov">       2576 :     if (lua_type(L, -2) == LUA_TSTRING) {  /* ignore non-string keys */</span>
+<span class="lineNum">      58 </span><span class="lineCov">       2576 :       if (lua_rawequal(L, objidx, -1)) {  /* found object? */</span>
 <span class="lineNum">      59 </span><span class="lineCov">          6 :         lua_pop(L, 1);  /* remove value (but keep name) */</span>
 <span class="lineNum">      60 </span><span class="lineCov">          6 :         return 1;</span>
 <span class="lineNum">      61 </span>            :       }
-<span class="lineNum">      62 </span><span class="lineCov">       2689 :       else if (findfield(L, objidx, level - 1)) {  /* try recursively */</span>
+<span class="lineNum">      62 </span><span class="lineCov">       2570 :       else if (findfield(L, objidx, level - 1)) {  /* try recursively */</span>
 <span class="lineNum">      63 </span>            :         /* stack: lib_name, lib_table, field_name (top) */
 <span class="lineNum">      64 </span><span class="lineCov">          6 :         lua_pushliteral(L, &quot;.&quot;);  /* place '.' between the two names */</span>
 <span class="lineNum">      65 </span><span class="lineCov">          6 :         lua_replace(L, -3);  /* (in the slot ocupied by table) */</span>
@@ -133,9 +133,9 @@
 <span class="lineNum">      67 </span><span class="lineCov">          6 :         return 1;</span>
 <span class="lineNum">      68 </span>            :       }
 <span class="lineNum">      69 </span>            :     }
-<span class="lineNum">      70 </span><span class="lineCov">       2683 :     lua_pop(L, 1);  /* remove value */</span>
+<span class="lineNum">      70 </span><span class="lineCov">       2564 :     lua_pop(L, 1);  /* remove value */</span>
 <span class="lineNum">      71 </span>            :   }
-<span class="lineNum">      72 </span><span class="lineCov">        168 :   return 0;  /* not found */</span>
+<span class="lineNum">      72 </span><span class="lineCov">        163 :   return 0;  /* not found */</span>
 <span class="lineNum">      73 </span>            : }
 <span class="lineNum">      74 </span>            : 
 <span class="lineNum">      75 </span>            : 

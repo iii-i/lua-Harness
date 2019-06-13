@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-08 17:16:45</td>
+            <td class="headerValue">2019-06-13 19:44:16</td>
             <td></td>
           </tr>
           <tr>
@@ -138,17 +138,17 @@
 <span class="lineNum">      72 </span>            : /*
 <span class="lineNum">      73 </span>            : ** generic allocation routine.
 <span class="lineNum">      74 </span>            : */
-<span class="lineNum">      75 </span><span class="lineCov">     236348 : void *luaM_realloc_ (lua_State *L, void *block, size_t osize, size_t nsize) {</span>
+<span class="lineNum">      75 </span><span class="lineCov">     236203 : void *luaM_realloc_ (lua_State *L, void *block, size_t osize, size_t nsize) {</span>
 <span class="lineNum">      76 </span>            :   void *newblock;
-<span class="lineNum">      77 </span><span class="lineCov">     236348 :   global_State *g = G(L);</span>
-<span class="lineNum">      78 </span><span class="lineCov">     236348 :   size_t realosize = (block) ? osize : 0;</span>
+<span class="lineNum">      77 </span><span class="lineCov">     236203 :   global_State *g = G(L);</span>
+<span class="lineNum">      78 </span><span class="lineCov">     236203 :   size_t realosize = (block) ? osize : 0;</span>
 <span class="lineNum">      79 </span>            :   lua_assert((realosize == 0) == (block == NULL));
 <span class="lineNum">      80 </span>            : #if defined(HARDMEMTESTS)
 <span class="lineNum">      81 </span>            :   if (nsize &gt; realosize &amp;&amp; g-&gt;gcrunning)
 <span class="lineNum">      82 </span>            :     luaC_fullgc(L, 1);  /* force a GC whenever possible */
 <span class="lineNum">      83 </span>            : #endif
-<span class="lineNum">      84 </span><span class="lineCov">     236348 :   newblock = (*g-&gt;frealloc)(g-&gt;ud, block, osize, nsize);</span>
-<span class="lineNum">      85 </span><span class="lineCov">     236348 :   if (newblock == NULL &amp;&amp; nsize &gt; 0) {</span>
+<span class="lineNum">      84 </span><span class="lineCov">     236203 :   newblock = (*g-&gt;frealloc)(g-&gt;ud, block, osize, nsize);</span>
+<span class="lineNum">      85 </span><span class="lineCov">     236203 :   if (newblock == NULL &amp;&amp; nsize &gt; 0) {</span>
 <span class="lineNum">      86 </span>            :     api_check(L, nsize &gt; realosize,
 <span class="lineNum">      87 </span>            :                  &quot;realloc cannot fail when shrinking a block&quot;);
 <span class="lineNum">      88 </span><span class="lineCov">          1 :     if (g-&gt;gcrunning) {</span>
@@ -159,8 +159,8 @@
 <span class="lineNum">      93 </span><span class="lineCov">          1 :       luaD_throw(L, LUA_ERRMEM);</span>
 <span class="lineNum">      94 </span>            :   }
 <span class="lineNum">      95 </span>            :   lua_assert((nsize == 0) == (newblock == NULL));
-<span class="lineNum">      96 </span><span class="lineCov">     236347 :   g-&gt;GCdebt = (g-&gt;GCdebt + nsize) - realosize;</span>
-<span class="lineNum">      97 </span><span class="lineCov">     236347 :   return newblock;</span>
+<span class="lineNum">      96 </span><span class="lineCov">     236202 :   g-&gt;GCdebt = (g-&gt;GCdebt + nsize) - realosize;</span>
+<span class="lineNum">      97 </span><span class="lineCov">     236202 :   return newblock;</span>
 <span class="lineNum">      98 </span>            : }
 <span class="lineNum">      99 </span>            : 
 </pre>
