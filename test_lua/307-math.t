@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2018, Perrad Francois
+-- Copyright (C) 2009-2019, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -36,7 +36,7 @@ local has_mathx = _VERSION < 'Lua 5.3' or profile.compat52 or profile.compat53 o
 local has_log10 = _VERSION < 'Lua 5.2' or profile.compat51 or profile.has_math_log10 or
                   profile.compat52 or profile.compat53 or profile.has_mathx
 local has_log_with_base = _VERSION >= 'Lua 5.2' or profile.compat52
-local has_mod = profile.has_math_mod
+local has_mod = profile.has_math_mod or ujit
 local nocvts2n = profile.nocvts2n
 
 plan'no_plan'

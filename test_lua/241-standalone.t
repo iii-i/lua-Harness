@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2018, Perrad Francois
+-- Copyright (C) 2009-2019, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -28,6 +28,7 @@ L<https://www.lua.org/manual/5.3/manual.html#7>
 --]]
 
 require'tap'
+local has_bytecode = not ujit
 local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
 local has_opt_E = _VERSION >= 'Lua 5.2' or jit
@@ -63,16 +64,18 @@ f = io.popen(cmd)
 like(f:read'*l', "^[^:]+: cannot open no_file%-241%.lua", "no file")
 f:close()
 
-if jit then
-    os.execute(lua .. " -b hello-241.lua hello-241.luac")
-else
-    os.execute(luac .. " -s -o hello-241.luac hello-241.lua")
+if has_bytecode then
+    if jit then
+        os.execute(lua .. " -b hello-241.lua hello-241.luac")
+    else
+        os.execute(luac .. " -s -o hello-241.luac hello-241.lua")
+    end
+    cmd = lua .. " hello-241.luac"
+    f = io.popen(cmd)
+    is(f:read'*l', 'Hello World', "bytecode")
+    f:close()
+    os.remove('hello-241.luac') -- clean up
 end
-cmd = lua .. " hello-241.luac"
-f = io.popen(cmd)
-is(f:read'*l', 'Hello World', "bytecode")
-f:close()
-os.remove('hello-241.luac') -- clean up
 
 if not jit then
     os.execute(luac .. " -s -o hello-hello-241.luac hello-241.lua hello-241.lua")
@@ -97,6 +100,9 @@ f:close()
 cmd = lua .. " -i hello-241.lua < hello-241.lua 2>&1"
 f = io.popen(cmd)
 like(f:read'*l', '^Lua', "-i")
+if ujit then
+    like(f:read'*l', '^JIT:')
+end
 is(f:read'*l', 'Hello World')
 f:close()
 

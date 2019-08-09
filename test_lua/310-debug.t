@@ -33,7 +33,7 @@ require 'tap'
 local profile = require'profile'
 local has_getfenv = _VERSION == 'Lua 5.1'
 local has_getlocal52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
-local has_setmetatable52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
+local has_setmetatable52 = _VERSION >= 'Lua 5.2' or (profile.luajit_compat52 and not ujit)
 local has_getuservalue = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_getuservalue54 = _VERSION >= 'Lua 5.4'
 local has_upvalueid = _VERSION >= 'Lua 5.2' or jit
