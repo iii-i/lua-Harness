@@ -158,7 +158,7 @@ f:close()
 
 cmd = lua .. [[ -e "?syntax error?" 2>&1]]
 f = io.popen(cmd)
-like(f:read'*l', "lua", "-e bad")
+like(f:read'*l', "^.-%d: unexpected symbol near '%?'", "-e bad")
 f:close()
 
 cmd = lua .. [[ -e 2>&1]]
