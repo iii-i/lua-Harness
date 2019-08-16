@@ -39,6 +39,7 @@ local has_module = _VERSION == 'Lua 5.1' or profile.compat51
 local has_searchers = _VERSION >= 'Lua 5.2'
 local has_alias_searchers = luajit21 and profile.luajit_compat52
 local has_searcherpath = _VERSION >= 'Lua 5.2' or jit
+local has_require54 = _VERSION >= 'Lua 5.4'
 
 plan'no_plan'
 
@@ -171,8 +172,19 @@ end
 return complex
 ]]
     f:close()
-    local m = require 'complex'
-    is(m, complex, "function require")
+    if has_require54 then
+        local m1, path1 = require 'complex'
+        is(m1, complex, "function require")
+        is(path1, './complex.lua')
+        local m2, path2 = require 'complex'
+        is(m1, m2)
+        is(path2, nil)
+    else
+        local m1 = require 'complex'
+        is(m1, complex, "function require")
+        local m2 = require 'complex'
+        is(m1, m2)
+    end
     is(complex.i.r, 0)
     is(complex.i.i, 1)
     os.remove('complex.lua') -- clean up
