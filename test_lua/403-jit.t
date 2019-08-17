@@ -31,8 +31,9 @@ if not jit then
 end
 
 local compiled_with_jit = jit.status()
+local luajit20 = jit.version_num < 20100
 local has_jit_opt = compiled_with_jit
-local has_jit_util = (jit.version_num < 20100) and not ujit
+local has_jit_util = luajit20 and not ujit
 
 plan'no_plan'
 

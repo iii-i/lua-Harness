@@ -31,6 +31,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.4>
 
 require'tap'
 local profile = require'profile'
+local luajit21 = jit and jit.version_num >= 20100
 local has_format_a = _VERSION >= 'Lua 5.3' or profile.has_string_format_a or jit
 local has_format_p = _VERSION >= 'Lua 5.4'
 local has_format_q52 = _VERSION >= 'Lua 5.2' or jit
@@ -140,7 +141,7 @@ do -- format
 
     if has_format_q53 then
         is(string.format('%q', nil), 'nil', "function format ('%q', nil)")
-    elseif jit and jit.version_num >= 20100 then
+    elseif luajit21 then
         is(string.format('%q', nil), [["nil"]], "function format ('%q', nil)")
     else
         error_like(function () string.format("%q", nil) end,
@@ -158,7 +159,7 @@ do -- format
                    "function format '%-q'")
     end
 
-    if jit and jit.version_num >= 20100 then
+    if luajit21 then
         like(string.format('%q', {}), [[^"table: ]], "function format ('%q', {})")
     else
         error_like(function () string.format("%q", {}) end,
@@ -201,7 +202,7 @@ do -- format
                "^[^:]+:%d+: invalid .- '%%k' to 'format'",
                "function format (invalid conversion)")
 
-    if jit and jit.version_num >= 20100 then
+    if luajit21 then
         error_like(function () string.format('%111s', 'toto') end,
                    "^[^:]+:%d+: invalid option '%%111' to 'format'",
                    "function format (invalid format)")
@@ -468,7 +469,7 @@ do -- rep
         error_like(function () string.rep('foo', 1e9) end,
                    "^[^:]+:%d+: resulting string too large",
                    "too large")
-    elseif _VERSION == 'Lua 5.2' or (jit and jit.version_num >= 20100) then
+    elseif _VERSION == 'Lua 5.2' or luajit21 then
         error_is(function () string.rep('foo', 1e9) end,
                  "not enough memory",
                  "too large")

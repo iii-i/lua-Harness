@@ -31,6 +31,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.9>
 
 require'tap'
 local profile = require'profile'
+local luajit20 = jit and jit.version_num < 20100
 local has_execute51 = _VERSION == 'Lua 5.1' and (not profile.luajit_compat52 or ujit)
 local lua = arg[-3] or arg[-1]
 
@@ -58,7 +59,7 @@ do -- date
 
     like(os.date('%H:%M:%S'), '^%d%d:%d%d:%d%d', "function date")
 
-    if (_VERSION == 'Lua 5.1' and not jit) or (jit and jit.version_num < 20100) then
+    if (_VERSION == 'Lua 5.1' and not jit) or luajit20 then
         todo("not with 5.1")
     end
     is(os.date('%Oy', 0), '70')

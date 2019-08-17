@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2010-2018, Perrad Francois
+-- Copyright (C) 2010-2019, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -32,6 +32,7 @@ L<https://www.lua.org/manual/5.3/manual.html#3.1>
 
 require'tap'
 local loadstring = loadstring or load
+local luajit21 = jit and jit.version_num >= 20100
 
 plan'no_plan'
 
@@ -119,7 +120,7 @@ if _VERSION >= 'Lua 5.2' or jit then
     dofile'lexico52/lexico.t'
 end
 
-if _VERSION >= 'Lua 5.3' or (jit and jit.version_num >= 20100) then
+if _VERSION >= 'Lua 5.3' or luajit21 then
     dofile'lexico53/lexico.t'
 end
 

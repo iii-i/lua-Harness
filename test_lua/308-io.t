@@ -31,10 +31,11 @@ L<https://www.lua.org/manual/5.3/manual.html#6.8>
 
 require'tap'
 local profile = require'profile'
+local luajit21 = jit and jit.version_num >= 20100
 local has_write51 = _VERSION == 'Lua 5.1' and (not profile.luajit_compat52 or ujit)
 local has_lines52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_read52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
-local has_read53 = _VERSION >= 'Lua 5.3' or  (jit and jit.version_num >= 20100)
+local has_read53 = _VERSION >= 'Lua 5.3' or luajit21
 
 local lua = arg[-3] or arg[-1]
 
