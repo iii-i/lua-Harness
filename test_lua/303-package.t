@@ -31,7 +31,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.3>
 
 require'tap'
 local profile = require'profile'
-local luajit21 = jit and jit.version_num >= 20100
+local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
 local has_loaders = _VERSION == 'Lua 5.1'
 local has_alias_loaders = profile.compat51
 local has_loadlib52 = _VERSION >= 'Lua 5.2' or jit

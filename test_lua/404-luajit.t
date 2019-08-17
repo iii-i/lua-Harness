@@ -26,7 +26,7 @@ See L<http://luajit.org/running.html>
 
 require'tap'
 
-if not jit or ujit then
+if not jit or ujit or jit.version:match'^RaptorJIT' then
     skip_all("only with LuaJIT")
 end
 

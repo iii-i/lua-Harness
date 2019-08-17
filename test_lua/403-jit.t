@@ -31,7 +31,7 @@ if not jit then
 end
 
 local compiled_with_jit = jit.status()
-local luajit20 = jit.version_num < 20100
+local luajit20 = jit.version_num < 20100 and not jit.version:match'RaptorJIT'
 local has_jit_opt = compiled_with_jit
 local has_jit_util = luajit20 and not ujit
 
@@ -96,12 +96,12 @@ end
 
 do -- version
     type_ok(jit.version, 'string', "version")
-    like(jit.version, '^LuaJIT 2%.%d%.%d')
+    like(jit.version, 'JIT %d%.%d%.%d')
 end
 
 do -- version_num
     type_ok(jit.version_num, 'number', "version_num")
-    like(string.format("%06d", jit.version_num), '^020[01]%d%d$')
+    like(string.format("%06d", jit.version_num), '^0[12]0[01]%d%d$')
 end
 
 done_testing()

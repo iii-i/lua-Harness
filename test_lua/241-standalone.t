@@ -32,6 +32,18 @@ local has_bytecode = not ujit
 local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
 local has_opt_E = _VERSION >= 'Lua 5.2' or jit
+local banner = '^Lua'
+if jit then
+    if jit.version:match'^RaptorJIT' then
+        banner = '^RaptorJIT'
+    else
+        if ujit then
+            banner = '^LuaVela'
+        else
+            banner = '^LuaJIT'
+        end
+    end
+end
 
 local lua = arg[-3] or arg[-1]
 local luac = jit and lua or (lua .. 'c')
@@ -99,7 +111,7 @@ f:close()
 
 cmd = lua .. " -i hello-241.lua < hello-241.lua 2>&1"
 f = io.popen(cmd)
-like(f:read'*l', '^Lua', "-i")
+like(f:read'*l', banner, "-i")
 if ujit then
     like(f:read'*l', '^JIT:')
 end
@@ -153,7 +165,7 @@ f:close()
 
 cmd = lua .. [[ -e"a=1" -i < hello-241.lua 2>&1]]
 f = io.popen(cmd)
-like(f:read'*l', '^Lua', "-e & -i")
+like(f:read'*l', banner, "-e & -i")
 f:close()
 
 cmd = lua .. [[ -e "?syntax error?" 2>&1]]
@@ -171,18 +183,18 @@ f:close()
 
 cmd = lua .. [[ -v 2>&1]]
 f = io.popen(cmd)
-like(f:read'*l', '^Lua', "-v")
+like(f:read'*l', banner, "-v")
 f:close()
 
 cmd = lua .. [[ -v hello-241.lua 2>&1]]
 f = io.popen(cmd)
-like(f:read'*l', '^Lua', "-v & script")
+like(f:read'*l', banner, "-v & script")
 is(f:read'*l', 'Hello World')
 f:close()
 
 cmd = lua .. [[ -v -- 2>&1]]
 f = io.popen(cmd)
-like(f:read'*l', '^Lua', "-v --")
+like(f:read'*l', banner, "-v --")
 f:close()
 
 if has_opt_E then

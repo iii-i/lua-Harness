@@ -31,7 +31,7 @@ See section "Coroutines" in "Programming in Lua".
 
 require'tap'
 local profile = require'profile'
-local luajit21 = jit and jit.version_num >= 20100
+local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
 local has_coroutine52 = _VERSION >= 'Lua 5.2' or jit
 local has_running52 = _VERSION >= 'Lua 5.2' or (profile.luajit_compat52 and not ujit)
 local has_isyieldable = _VERSION >= 'Lua 5.3' or luajit21

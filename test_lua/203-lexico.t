@@ -32,7 +32,7 @@ L<https://www.lua.org/manual/5.3/manual.html#3.1>
 
 require'tap'
 local loadstring = loadstring or load
-local luajit21 = jit and jit.version_num >= 20100
+local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
 
 plan'no_plan'
 

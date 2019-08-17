@@ -31,7 +31,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.4>
 
 require'tap'
 local profile = require'profile'
-local luajit21 = jit and jit.version_num >= 20100
+local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
 local has_format_a = _VERSION >= 'Lua 5.3' or profile.has_string_format_a or jit
 local has_format_p = _VERSION >= 'Lua 5.4'
 local has_format_q52 = _VERSION >= 'Lua 5.2' or jit
