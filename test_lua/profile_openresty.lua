@@ -23,19 +23,20 @@ local profile = {
     compat52 = false,
 --[[
     has_mathx = true,
-    has_bit32 = true,
+    has_bit32 = false,
     has_metamethod_ipairs = true,
 --]]
 
     compat53 = false,
 --[[
+    has_math_log10 = true,
     has_mathx = true,
     has_metamethod_ipairs = true,
 --]]
 
---[[ luajit
+-- [[ luajit
     luajit_compat52 = true,
-    openresty = false,
+    openresty = true,
 --]]
 
 }
