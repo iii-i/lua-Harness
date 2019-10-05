@@ -10,14 +10,14 @@
 do -- toclose
     local called = false
     do
-        local <toclose> foo = setmetatable({}, { __close = function () called = true end })
+        local foo <close> = setmetatable({}, { __close = function () called = true end })
         type_ok(foo, 'table', "toclose")
         is(called, false)
     end
     is(called, true)
 
-    error_like(function () do local <toclose> foo = {} end end,
-               "^[^:]+:%d+: attempt to close non%-closable variable 'foo'")
+    error_like(function () do local foo <close> = {} end end,
+               "^[^:]+:%d+: variable 'foo' got a non%-closable value")
 end
 
 -- Local Variables:

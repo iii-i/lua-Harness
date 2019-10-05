@@ -32,10 +32,11 @@ L<https://www.lua.org/manual/5.3/manual.html#6.10>
 require 'tap'
 local profile = require'profile'
 local has_getfenv = _VERSION == 'Lua 5.1'
+local has_gethook54 = _VERSION >= 'Lua 5.4'
 local has_getlocal52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
-local has_setmetatable52 = _VERSION >= 'Lua 5.2' or (profile.luajit_compat52 and not ujit)
 local has_getuservalue = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_getuservalue54 = _VERSION >= 'Lua 5.4'
+local has_setmetatable52 = _VERSION >= 'Lua 5.2' or (profile.luajit_compat52 and not ujit)
 local has_upvalueid = _VERSION >= 'Lua 5.2' or jit
 local has_upvaluejoin = _VERSION >= 'Lua 5.2' or jit
 
@@ -132,10 +133,16 @@ end
 
 do -- gethook
     debug.sethook()
-    local hook, mask, count = debug.gethook()
-    is(hook, nil, "function gethook")
-    is(mask, '')
-    is(count, 0)
+    local hook, mask, count
+    if has_gethook54 then
+        hook = debug.gethook()
+        is(hook, nil, "function gethook")
+    else
+        hook, mask, count = debug.gethook()
+        is(hook, nil, "function gethook")
+        is(mask, '')
+        is(count, 0)
+    end
     local function f () end
     debug.sethook(f, 'c', 42)
     hook , mask, count = debug.gethook()

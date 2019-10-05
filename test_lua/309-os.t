@@ -220,18 +220,18 @@ do -- time
     }), '^946%d+$', "function time")
 
     error_like(function () os.time{} end,
-               "^[^:]+:%d+: field 'day' missing in date table",
+               "^[^:]+:%d+: field '%w+' missing in date table",
                "function time (missing field)")
 
-    error_like(function () os.time({ day = 'bad' }) end,
-               "^[^:]+:%d+: field 'day'",
+    error_like(function () os.time({ day = 'bad', year = 'bad' }) end,
+               "^[^:]+:%d+: field '%w+'",
                "function time (bad field)")
 
     if _VERSION < 'Lua 5.3' then
         todo("only with integer")
     end
-    error_like(function () os.time({ day = 1.5 }) end,
-               "^[^:]+:%d+: field 'day' is not an integer",
+    error_like(function () os.time({ day = 1.5, year = 1.5 }) end,
+               "^[^:]+:%d+: field '%w+' is not an integer",
                "function time (not integer)")
 
     if string.packsize and string.packsize('l') == 8 then

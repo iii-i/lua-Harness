@@ -30,7 +30,7 @@ L<https://www.lua.org/manual/5.3/manual.html#9>
 require'tap'
 local profile = require'profile'
 local has_goto = _VERSION >= 'Lua 5.2' or jit
-local has_anno = _VERSION >= 'Lua 5.4'
+local has_attr = _VERSION >= 'Lua 5.4'
 local loadstring = loadstring or load
 
 plan'no_plan'
@@ -211,14 +211,14 @@ do --[[ syntax error ]]
     like(msg, ":%d+: 'do' expected near 'f", "while do")
 end
 
-if has_anno then
-    local f, msg = load [[local < bar > foo = 'bar']]
+if has_attr then
+    local f, msg = load [[local foo < bar > = 'bar']]
     like(msg, "^[^:]+:%d+: unknown attribute 'bar'")
 
-    f, msg = load [[local <const> foo = 'bar'; foo = 'baz']]
+    f, msg = load [[local foo <const> = 'bar'; foo = 'baz']]
     like(msg, "^[^:]+:%d+: attempt to assign to const variable 'foo'")
 
-    f, msg = load [[local <toclose> foo = 'bar'; foo = 'baz']]
+    f, msg = load [[local foo <close> = 'bar'; foo = 'baz']]
     like(msg, "^[^:]+:%d+: attempt to assign to const variable 'foo'")
 end
 
