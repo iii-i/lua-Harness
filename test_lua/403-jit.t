@@ -34,7 +34,7 @@ end
 local compiled_with_jit = jit.status()
 local luajit20 = jit.version_num < 20100 and not jit.version:match'RaptorJIT'
 local has_jit_opt = compiled_with_jit
-local has_jit_util = luajit20 and not ujit
+local has_jit_util = not ujit and not jit.version:match'RaptorJIT'
 
 plan'no_plan'
 
@@ -76,6 +76,17 @@ do -- os
     type_ok(jit.os, 'string', "os")
 end
 
+-- prngstate
+if profile.openresty then
+    is(jit.prngstate(), 0, "prngstate")
+    is(jit.prngstate(32), 0)
+    is(jit.prngstate(5617), 32)
+    is(jit.prngstate(), 5617)
+
+    error_like(function () jit.prngstate({}) end,
+               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(number expected, got table%)")
+end
+
 do -- status
     local status = { jit.status() }
     type_ok(status[1], 'boolean', "status")
@@ -90,9 +101,18 @@ end
 
 -- util
 if has_jit_util then
-    type_ok(jit.util, 'table', "util.*")
+    local jutil = require'jit.util'
+    type_ok(jutil, 'table', "util")
+    is(package.loaded['jit.util'], jutil)
+
+    if luajit20 then
+        is(jit.util, jutil, "util inside jit")
+    else
+        is(jit.util, nil, "no util inside jit")
+    end
 else
-    is(jit.util, nil, "no jit.util")
+    local r = pcall(require, 'jit.util')
+    is(r, false, "no jit.util")
 end
 
 do -- version
@@ -103,17 +123,6 @@ end
 do -- version_num
     type_ok(jit.version_num, 'number', "version_num")
     like(string.format("%06d", jit.version_num), '^0[12]0[01]%d%d$')
-end
-
--- prngstate
-if profile.openresty then
-    is(jit.prngstate(), 0, "prngstate")
-    is(jit.prngstate(32), 0)
-    is(jit.prngstate(5617), 32)
-    is(jit.prngstate(), 5617)
-
-    error_like(function () jit.prngstate({}) end,
-               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(number expected, got table%)")
 end
 
 done_testing()

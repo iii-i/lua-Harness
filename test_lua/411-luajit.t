@@ -27,7 +27,7 @@ See L<http://luajit.org/running.html>
 require'tap'
 local profile = require'profile'
 
-if not jit or ujit or jit.version:match'^RaptorJIT' then
+if not jit or ujit then
     skip_all("only with LuaJIT")
 end
 
@@ -38,6 +38,7 @@ if not pcall(io.popen, lua .. [[ -e "a=1"]]) then
 end
 
 local compiled_with_jit = jit.status()
+local has_jutil = pcall(require, 'jit.util')
 
 plan'no_plan'
 diag(lua)
@@ -68,29 +69,31 @@ f:close()
 
 os.remove('hello-404.out') -- clean up
 
-cmd = lua .. " -bl hello-404.lua"
-f = io.popen(cmd)
-like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bl hello.lua")
-if profile.openresty then
-    like(f:read'*l', '^KGC    0')
-    like(f:read'*l', '^KGC    1')
-end
-like(f:read'*l', '^0001    %u[%u%d]+%s+')
-like(f:read'*l', '^0002    %u[%u%d]+%s+')
-like(f:read'*l', '^0003    %u[%u%d]+%s+')
-f:close()
+if has_jutil then
+    cmd = lua .. " -bl hello-404.lua"
+    f = io.popen(cmd)
+    like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bl hello.lua")
+    if profile.openresty then
+        like(f:read'*l', '^KGC    0')
+        like(f:read'*l', '^KGC    1')
+    end
+    like(f:read'*l', '^0001    %u[%u%d]+%s+')
+    like(f:read'*l', '^0002    %u[%u%d]+%s+')
+    like(f:read'*l', '^0003    %u[%u%d]+%s+')
+    f:close()
 
-os.execute(lua .. " -bl hello-404.lua hello-404.txt")
-f = io.open('hello-404.txt', 'r')
-like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bl hello.lua hello.txt")
-if profile.openresty then
-    like(f:read'*l', '^KGC    0')
-    like(f:read'*l', '^KGC    1')
+    os.execute(lua .. " -bl hello-404.lua hello-404.txt")
+    f = io.open('hello-404.txt', 'r')
+    like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bl hello.lua hello.txt")
+    if profile.openresty then
+        like(f:read'*l', '^KGC    0')
+        like(f:read'*l', '^KGC    1')
+    end
+    like(f:read'*l', '^0001    %u[%u%d]+%s+')
+    like(f:read'*l', '^0002    %u[%u%d]+%s+')
+    like(f:read'*l', '^0003    %u[%u%d]+%s+')
+    f:close()
 end
-like(f:read'*l', '^0001    %u[%u%d]+%s+')
-like(f:read'*l', '^0002    %u[%u%d]+%s+')
-like(f:read'*l', '^0003    %u[%u%d]+%s+')
-f:close()
 
 if profile.openresty then
     cmd = lua .. " -bL hello-404.lua"
