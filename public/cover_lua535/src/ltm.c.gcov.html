@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-06-13 19:44:17</td>
+            <td class="headerValue">2019-10-05 12:42:04</td>
             <td></td>
           </tr>
           <tr>
@@ -100,7 +100,7 @@
 <span class="lineNum">      34 </span>            : };
 <span class="lineNum">      35 </span>            : 
 <span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineCov">        110 : void luaT_init (lua_State *L) {</span>
+<span class="lineNum">      37 </span><span class="lineCov">        111 : void luaT_init (lua_State *L) {</span>
 <span class="lineNum">      38 </span>            :   static const char *const luaT_eventname[] = {  /* ORDER TM */
 <span class="lineNum">      39 </span>            :     &quot;__index&quot;, &quot;__newindex&quot;,
 <span class="lineNum">      40 </span>            :     &quot;__gc&quot;, &quot;__mode&quot;, &quot;__len&quot;, &quot;__eq&quot;,
@@ -111,41 +111,41 @@
 <span class="lineNum">      45 </span>            :     &quot;__concat&quot;, &quot;__call&quot;
 <span class="lineNum">      46 </span>            :   };
 <span class="lineNum">      47 </span>            :   int i;
-<span class="lineNum">      48 </span><span class="lineCov">       2750 :   for (i=0; i&lt;TM_N; i++) {</span>
-<span class="lineNum">      49 </span><span class="lineCov">       2640 :     G(L)-&gt;tmname[i] = luaS_new(L, luaT_eventname[i]);</span>
-<span class="lineNum">      50 </span><span class="lineCov">       2640 :     luaC_fix(L, obj2gco(G(L)-&gt;tmname[i]));  /* never collect these names */</span>
+<span class="lineNum">      48 </span><span class="lineCov">       2775 :   for (i=0; i&lt;TM_N; i++) {</span>
+<span class="lineNum">      49 </span><span class="lineCov">       2664 :     G(L)-&gt;tmname[i] = luaS_new(L, luaT_eventname[i]);</span>
+<span class="lineNum">      50 </span><span class="lineCov">       2664 :     luaC_fix(L, obj2gco(G(L)-&gt;tmname[i]));  /* never collect these names */</span>
 <span class="lineNum">      51 </span>            :   }
-<span class="lineNum">      52 </span><span class="lineCov">        110 : }</span>
+<span class="lineNum">      52 </span><span class="lineCov">        111 : }</span>
 <span class="lineNum">      53 </span>            : 
 <span class="lineNum">      54 </span>            : 
 <span class="lineNum">      55 </span>            : /*
 <span class="lineNum">      56 </span>            : ** function to be used with macro &quot;fasttm&quot;: optimized for absence of
 <span class="lineNum">      57 </span>            : ** tag methods
 <span class="lineNum">      58 </span>            : */
-<span class="lineNum">      59 </span><span class="lineCov">        751 : const TValue *luaT_gettm (Table *events, TMS event, TString *ename) {</span>
-<span class="lineNum">      60 </span><span class="lineCov">        751 :   const TValue *tm = luaH_getshortstr(events, ename);</span>
+<span class="lineNum">      59 </span><span class="lineCov">        759 : const TValue *luaT_gettm (Table *events, TMS event, TString *ename) {</span>
+<span class="lineNum">      60 </span><span class="lineCov">        759 :   const TValue *tm = luaH_getshortstr(events, ename);</span>
 <span class="lineNum">      61 </span>            :   lua_assert(event &lt;= TM_EQ);
-<span class="lineNum">      62 </span><span class="lineCov">        751 :   if (ttisnil(tm)) {  /* no tag method? */</span>
-<span class="lineNum">      63 </span><span class="lineCov">        227 :     events-&gt;flags |= cast_byte(1u&lt;&lt;event);  /* cache this fact */</span>
-<span class="lineNum">      64 </span><span class="lineCov">        227 :     return NULL;</span>
+<span class="lineNum">      62 </span><span class="lineCov">        759 :   if (ttisnil(tm)) {  /* no tag method? */</span>
+<span class="lineNum">      63 </span><span class="lineCov">        231 :     events-&gt;flags |= cast_byte(1u&lt;&lt;event);  /* cache this fact */</span>
+<span class="lineNum">      64 </span><span class="lineCov">        231 :     return NULL;</span>
 <span class="lineNum">      65 </span>            :   }
-<span class="lineNum">      66 </span><span class="lineCov">        524 :   else return tm;</span>
+<span class="lineNum">      66 </span><span class="lineCov">        528 :   else return tm;</span>
 <span class="lineNum">      67 </span>            : }
 <span class="lineNum">      68 </span>            : 
 <span class="lineNum">      69 </span>            : 
-<span class="lineNum">      70 </span><span class="lineCov">       8396 : const TValue *luaT_gettmbyobj (lua_State *L, const TValue *o, TMS event) {</span>
+<span class="lineNum">      70 </span><span class="lineCov">       8397 : const TValue *luaT_gettmbyobj (lua_State *L, const TValue *o, TMS event) {</span>
 <span class="lineNum">      71 </span>            :   Table *mt;
-<span class="lineNum">      72 </span><span class="lineCov">       8396 :   switch (ttnov(o)) {</span>
+<span class="lineNum">      72 </span><span class="lineCov">       8397 :   switch (ttnov(o)) {</span>
 <span class="lineNum">      73 </span><span class="lineCov">        163 :     case LUA_TTABLE:</span>
 <span class="lineNum">      74 </span><span class="lineCov">        163 :       mt = hvalue(o)-&gt;metatable;</span>
 <span class="lineNum">      75 </span><span class="lineCov">        163 :       break;</span>
 <span class="lineNum">      76 </span><span class="lineCov">        663 :     case LUA_TUSERDATA:</span>
 <span class="lineNum">      77 </span><span class="lineCov">        663 :       mt = uvalue(o)-&gt;metatable;</span>
 <span class="lineNum">      78 </span><span class="lineCov">        663 :       break;</span>
-<span class="lineNum">      79 </span><span class="lineCov">       7570 :     default:</span>
-<span class="lineNum">      80 </span><span class="lineCov">       7570 :       mt = G(L)-&gt;mt[ttnov(o)];</span>
+<span class="lineNum">      79 </span><span class="lineCov">       7571 :     default:</span>
+<span class="lineNum">      80 </span><span class="lineCov">       7571 :       mt = G(L)-&gt;mt[ttnov(o)];</span>
 <span class="lineNum">      81 </span>            :   }
-<span class="lineNum">      82 </span><span class="lineCov">       8396 :   return (mt ? luaH_getshortstr(mt, G(L)-&gt;tmname[event]) : luaO_nilobject);</span>
+<span class="lineNum">      82 </span><span class="lineCov">       8397 :   return (mt ? luaH_getshortstr(mt, G(L)-&gt;tmname[event]) : luaO_nilobject);</span>
 <span class="lineNum">      83 </span>            : }
 <span class="lineNum">      84 </span>            : 
 <span class="lineNum">      85 </span>            : 

@@ -20,7 +20,7 @@ See the given coverage :
  - [Lua 5.1.5](cover_lua515/src/index.html),
  - [Lua 5.2.4](cover_lua524/src/index.html),
  - [Lua 5.3.5](cover_lua535/src/index.html),
- - [Lua 5.4.0-alpha](cover_lua540/src/index.html)
+ - [Lua 5.4.0-beta-rc1](cover_lua540/src/index.html)
 
 It uses the
 [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol)

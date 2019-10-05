@@ -86,6 +86,7 @@ local profile = {
 
 --[[ luajit
     luajit_compat52 = true,
+    openresty = false,
 --]]
 
 }
