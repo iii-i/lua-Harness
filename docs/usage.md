@@ -51,7 +51,7 @@ ok 3 - pass
 
 The features included (ie. compiled) in a Lua interpreter could be selected via this file
 
-``` lua
+```lua
 local profile = {
 
 --[[ compat 5.0
