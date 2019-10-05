@@ -55,7 +55,7 @@ a:	$(ALL_A)
 lcov:
 	lcov --capture -d . -o lua.info
 	rm -rf ../../../public/cover_lua540
-	genhtml -o ../../../public/cover_lua540 -t "Lua 5.4.0-alpha" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
+	genhtml -o ../../../public/cover_lua540 -t "Lua 5.4.0-beta-rc1" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
 
 $(LUA_A): $(BASE_O)
 	$(AR) $@ $(BASE_O)
@@ -136,6 +136,17 @@ SunOS solaris:
 
 # list targets that do not create files (but not all makes understand .PHONY)
 .PHONY: all $(PLATS) default o a clean depend echo none
+
+llex.o:
+	$(CC) $(CFLAGS) -Os -c llex.c
+
+lparser.o:
+	$(CC) $(CFLAGS) -Os -c lparser.c
+
+lcode.o:
+	$(CC) $(CFLAGS) -Os -c lcode.c
+
+	
 
 # DO NOT DELETE
 
