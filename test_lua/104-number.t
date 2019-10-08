@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2018, Perrad Francois
+-- Copyright (C) 2009-2019, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -110,7 +110,7 @@ error_like(function () return 3 ^ 'text' end,
            "^[^:]+:%d+: attempt to",
            "3 ^ 'text'")
 
-if profile.nocvts2n and _VERSION == 'Lua 5.3' then
+if profile.nocvts2n then
     error_like(function () return 10 + '2' end,
                "^[^:]+:%d+: attempt to",
                "10 + '2'")
