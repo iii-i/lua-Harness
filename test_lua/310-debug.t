@@ -36,6 +36,7 @@ local has_gethook54 = _VERSION >= 'Lua 5.4'
 local has_getlocal52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_getuservalue = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_getuservalue54 = _VERSION >= 'Lua 5.4'
+local has_setcstacklimit = _VERSION >= 'Lua 5.4'
 local has_setmetatable52 = _VERSION >= 'Lua 5.2' or (profile.luajit_compat52 and not ujit)
 local has_upvalueid = _VERSION >= 'Lua 5.2' or jit
 local has_upvaluejoin = _VERSION >= 'Lua 5.2' or jit
@@ -169,6 +170,19 @@ do -- setlocal
     error_like(function () debug.setlocal(42, 1, true) end,
                "bad argument #1 to 'setlocal' %(level out of range%)",
                "function setlocal (out of range)")
+end
+
+-- setcstacklimit
+if has_setcstacklimit then
+    type_ok(debug.setcstacklimit(1000), 'number', "function setcstacklimit")
+    is(debug.setcstacklimit(2000), 1000)
+    is(debug.setcstacklimit(1000000), false)
+
+    error_like(function () debug.setcstacklimit('bad') end,
+               "^[^:]+:%d+: bad argument #1 to 'setcstacklimit' %(number expected, got string%)",
+               "function setcstacklimit (bad arg)")
+else
+    is(debug.setcstacklimit, nil, "no debug.setcstacklimit")
 end
 
 -- setfenv
