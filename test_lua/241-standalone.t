@@ -32,6 +32,7 @@ local has_bytecode = not ujit
 local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
 local has_opt_E = _VERSION >= 'Lua 5.2' or jit
+local has_opt_W = _VERSION >= 'Lua 5.4'
 local banner = '^Lua'
 if jit then
     if jit.version:match'^RaptorJIT' then
@@ -241,6 +242,16 @@ cmd = lua .. [[ -l no_lib hello-241.lua 2>&1]]
 f = io.popen(cmd)
 like(f:read'*l', "^[^:]+: module 'no_lib' not found:", "-l no lib")
 f:close()
+
+if has_opt_W then
+    cmd = lua .. [[ -W -e "warn'foo'" 2>&1]]
+    f = io.popen(cmd)
+    is(f:read'*l', 'Lua warning: foo', "-W")
+    is(f:read'*l', nil)
+    f:close()
+else
+    diag("no -W")
+end
 
 os.remove('hello-241.lua') -- clean up
 done_testing()
