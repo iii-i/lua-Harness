@@ -23,7 +23,8 @@ Tests Lua UTF-8 Library
 This library was introduced in Lua 5.3.
 
 See section "UTF-8 support" in "Reference Manual"
-L<https://www.lua.org/manual/5.3/manual.html#6.5>.
+L<https://www.lua.org/manual/5.3/manual.html#6.5>,
+L<https://www.lua.org/manual/5.4/manual.html#6.5>
 
 =cut
 

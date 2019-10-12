@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2010-2019, Perrad Francois
+-- Copyright (C) 2010-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -24,7 +24,8 @@ L<http://www.lua.org/manual/5.3/manual.html#3.1>.
 See section "Lexical Conventions"
 L<https://www.lua.org/manual/5.1/manual.html#2.1>,
 L<https://www.lua.org/manual/5.2/manual.html#3.1>,
-L<https://www.lua.org/manual/5.3/manual.html#3.1>
+L<https://www.lua.org/manual/5.3/manual.html#3.1>,
+L<https://www.lua.org/manual/5.4/manual.html#3.1>
 
 =cut
 

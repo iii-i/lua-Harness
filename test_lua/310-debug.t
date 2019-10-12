@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2019, Perrad Francois
+-- Copyright (C) 2009-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -21,9 +21,10 @@
 Tests Lua Debug Library
 
 See section "The Debug Library" in "Reference Manual"
-L<https://www.lua.org/manual/5.1/manual.html#5.9>
+L<https://www.lua.org/manual/5.1/manual.html#5.9>,
 L<https://www.lua.org/manual/5.2/manual.html#6.10>,
-L<https://www.lua.org/manual/5.3/manual.html#6.10>
+L<https://www.lua.org/manual/5.3/manual.html#6.10>,
+L<https://www.lua.org/manual/5.4/manual.html#6.10>
 
 =cut
 

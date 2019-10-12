@@ -23,7 +23,8 @@ Tests Lua String Library
 See section "String Manipulation" in "Reference Manual"
 L<https://www.lua.org/manual/5.1/manual.html#5.4>,
 L<https://www.lua.org/manual/5.2/manual.html#6.4>,
-L<https://www.lua.org/manual/5.3/manual.html#6.4>
+L<https://www.lua.org/manual/5.3/manual.html#6.4>,
+L<https://www.lua.org/manual/5.4/manual.html#6.4>
 
 =cut
 

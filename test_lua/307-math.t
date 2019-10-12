@@ -23,7 +23,8 @@ Tests Lua Mathematic Library
 See section "Mathematical Functions" in "Reference Manual"
 L<https://www.lua.org/manual/5.1/manual.html#5.6>,
 L<https://www.lua.org/manual/5.2/manual.html#6.6>,
-L<https://www.lua.org/manual/5.3/manual.html#6.7>
+L<https://www.lua.org/manual/5.3/manual.html#6.7>,
+L<https://www.lua.org/manual/5.4/manual.html#6.7>
 
 =cut
 
