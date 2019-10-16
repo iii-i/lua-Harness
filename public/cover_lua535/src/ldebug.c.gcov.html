@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-10-05 12:42:04</td>
+            <td class="headerValue">2019-10-16 20:48:19</td>
             <td></td>
           </tr>
           <tr>
@@ -729,21 +729,21 @@
 <span class="lineNum">     663 </span>            : }
 <span class="lineNum">     664 </span>            : 
 <span class="lineNum">     665 </span>            : 
-<span class="lineNum">     666 </span><span class="lineCov">       1279 : void luaG_traceexec (lua_State *L) {</span>
-<span class="lineNum">     667 </span><span class="lineCov">       1279 :   CallInfo *ci = L-&gt;ci;</span>
-<span class="lineNum">     668 </span><span class="lineCov">       1279 :   lu_byte mask = L-&gt;hookmask;</span>
-<span class="lineNum">     669 </span><span class="lineCov">       1279 :   int counthook = (--L-&gt;hookcount == 0 &amp;&amp; (mask &amp; LUA_MASKCOUNT));</span>
-<span class="lineNum">     670 </span><span class="lineCov">       1279 :   if (counthook)</span>
-<span class="lineNum">     671 </span><span class="lineCov">         30 :     resethookcount(L);  /* reset count */</span>
-<span class="lineNum">     672 </span><span class="lineCov">       1249 :   else if (!(mask &amp; LUA_MASKLINE))</span>
-<span class="lineNum">     673 </span><span class="lineCov">       1249 :     return;  /* no line hook and count != 0; nothing to be done */</span>
-<span class="lineNum">     674 </span><span class="lineCov">         30 :   if (ci-&gt;callstatus &amp; CIST_HOOKYIELD) {  /* called hook last time? */</span>
+<span class="lineNum">     666 </span><span class="lineCov">       1321 : void luaG_traceexec (lua_State *L) {</span>
+<span class="lineNum">     667 </span><span class="lineCov">       1321 :   CallInfo *ci = L-&gt;ci;</span>
+<span class="lineNum">     668 </span><span class="lineCov">       1321 :   lu_byte mask = L-&gt;hookmask;</span>
+<span class="lineNum">     669 </span><span class="lineCov">       1321 :   int counthook = (--L-&gt;hookcount == 0 &amp;&amp; (mask &amp; LUA_MASKCOUNT));</span>
+<span class="lineNum">     670 </span><span class="lineCov">       1321 :   if (counthook)</span>
+<span class="lineNum">     671 </span><span class="lineCov">         31 :     resethookcount(L);  /* reset count */</span>
+<span class="lineNum">     672 </span><span class="lineCov">       1290 :   else if (!(mask &amp; LUA_MASKLINE))</span>
+<span class="lineNum">     673 </span><span class="lineCov">       1290 :     return;  /* no line hook and count != 0; nothing to be done */</span>
+<span class="lineNum">     674 </span><span class="lineCov">         31 :   if (ci-&gt;callstatus &amp; CIST_HOOKYIELD) {  /* called hook last time? */</span>
 <span class="lineNum">     675 </span><span class="lineNoCov">          0 :     ci-&gt;callstatus &amp;= ~CIST_HOOKYIELD;  /* erase mark */</span>
 <span class="lineNum">     676 </span><span class="lineNoCov">          0 :     return;  /* do not call hook again (VM yielded, so it did not move) */</span>
 <span class="lineNum">     677 </span>            :   }
-<span class="lineNum">     678 </span><span class="lineCov">         30 :   if (counthook)</span>
-<span class="lineNum">     679 </span><span class="lineCov">         30 :     luaD_hook(L, LUA_HOOKCOUNT, -1);  /* call count hook */</span>
-<span class="lineNum">     680 </span><span class="lineCov">         30 :   if (mask &amp; LUA_MASKLINE) {</span>
+<span class="lineNum">     678 </span><span class="lineCov">         31 :   if (counthook)</span>
+<span class="lineNum">     679 </span><span class="lineCov">         31 :     luaD_hook(L, LUA_HOOKCOUNT, -1);  /* call count hook */</span>
+<span class="lineNum">     680 </span><span class="lineCov">         31 :   if (mask &amp; LUA_MASKLINE) {</span>
 <span class="lineNum">     681 </span><span class="lineNoCov">          0 :     Proto *p = ci_func(ci)-&gt;p;</span>
 <span class="lineNum">     682 </span><span class="lineNoCov">          0 :     int npc = pcRel(ci-&gt;u.l.savedpc, p);</span>
 <span class="lineNum">     683 </span><span class="lineNoCov">          0 :     int newline = getfuncline(p, npc);</span>
@@ -752,8 +752,8 @@
 <span class="lineNum">     686 </span><span class="lineNoCov">          0 :         newline != getfuncline(p, pcRel(L-&gt;oldpc, p)))  /* enter a new line */</span>
 <span class="lineNum">     687 </span><span class="lineNoCov">          0 :       luaD_hook(L, LUA_HOOKLINE, newline);  /* call line hook */</span>
 <span class="lineNum">     688 </span>            :   }
-<span class="lineNum">     689 </span><span class="lineCov">         30 :   L-&gt;oldpc = ci-&gt;u.l.savedpc;</span>
-<span class="lineNum">     690 </span><span class="lineCov">         30 :   if (L-&gt;status == LUA_YIELD) {  /* did hook yield? */</span>
+<span class="lineNum">     689 </span><span class="lineCov">         31 :   L-&gt;oldpc = ci-&gt;u.l.savedpc;</span>
+<span class="lineNum">     690 </span><span class="lineCov">         31 :   if (L-&gt;status == LUA_YIELD) {  /* did hook yield? */</span>
 <span class="lineNum">     691 </span><span class="lineNoCov">          0 :     if (counthook)</span>
 <span class="lineNum">     692 </span><span class="lineNoCov">          0 :       L-&gt;hookcount = 1;  /* undo decrement to zero */</span>
 <span class="lineNum">     693 </span><span class="lineNoCov">          0 :     ci-&gt;u.l.savedpc--;  /* undo increment (resume will increment it again) */</span>
