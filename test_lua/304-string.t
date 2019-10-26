@@ -469,7 +469,7 @@ do -- rep
         error_like(function () string.rep('foo', 1e9) end,
                    "^[^:]+:%d+: resulting string too large",
                    "too large")
-    elseif _VERSION == 'Lua 5.2' or luajit21 then
+    elseif luajit21 then
         error_is(function () string.rep('foo', 1e9) end,
                  "not enough memory",
                  "too large")
