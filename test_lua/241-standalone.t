@@ -37,6 +37,8 @@ local banner = '^Lua'
 if jit then
     if jit.version:match'^RaptorJIT' then
         banner = '^RaptorJIT'
+    elseif jit.version:match'^moonjit' then
+        banner = '^moonjit'
     else
         if ujit then
             banner = '^LuaVela'

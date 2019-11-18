@@ -117,7 +117,7 @@ end
 
 do -- version
     type_ok(jit.version, 'string', "version")
-    like(jit.version, 'JIT %d%.%d%.%d')
+    like(jit.version, '^%w+ %d%.%d%.%d')
 end
 
 do -- version_num
