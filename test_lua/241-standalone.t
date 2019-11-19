@@ -33,19 +33,9 @@ local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
 local has_opt_E = _VERSION >= 'Lua 5.2' or jit
 local has_opt_W = _VERSION >= 'Lua 5.4'
-local banner = '^Lua'
-if jit then
-    if jit.version:match'^RaptorJIT' then
-        banner = '^RaptorJIT'
-    elseif jit.version:match'^moonjit' then
-        banner = '^moonjit'
-    else
-        if ujit then
-            banner = '^LuaVela'
-        else
-            banner = '^LuaJIT'
-        end
-    end
+local banner = '^[%w%s%-%.]-Copyright %(C%) %d%d%d%d'
+if jit and jit.version:match'^RaptorJIT' then
+    banner = '^[%w%s%.]- %-%- '
 end
 
 local lua = arg[-3] or arg[-1]
