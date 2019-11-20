@@ -7,12 +7,33 @@
 -- like Lua itself.
 --
 
-local has_utf8_lax = _VERSION >= 'Lua 5.4'
+local has_char54 = _VERSION >= 'Lua 5.4'
+local has_charpattern54 = _VERSION >= 'Lua 5.4'
 
 do -- char
     is(utf8.char(65, 66, 67), 'ABC', "function char")
     is(utf8.char(0x20AC), '\u{20AC}')
     is(utf8.char(), '')
+
+    is(utf8.char(0):len(), 1)
+    is(utf8.char(0x7F):len(), 1)
+    is(utf8.char(0x80):len(), 2)
+    is(utf8.char(0x7FF):len(), 2)
+    is(utf8.char(0x800):len(), 3)
+    is(utf8.char(0xFFFF):len(), 3)
+    is(utf8.char(0x10000):len(), 4)
+    is(utf8.char(0x10FFFF):len(), 4)
+    if has_char54 then
+        is(utf8.char(0x1FFFFF):len(), 4)
+        is(utf8.char(0x200000):len(), 5)
+        is(utf8.char(0x3FFFFFF):len(), 5)
+        is(utf8.char(0x4000000):len(), 6)
+        is(utf8.char(0x7FFFFFFF):len(), 6)
+    else
+        error_like(function () utf8.char(0x110000) end,
+                   "^[^:]+:%d+: bad argument #1 to 'char' %(value out of range%)",
+                   "function char (out of range)")
+    end
 
     error_like(function () utf8.char(0, -1) end,
                "^[^:]+:%d+: bad argument #2 to 'char' %(value out of range%)",
@@ -24,17 +45,17 @@ do -- char
 end
 
 do -- charpattern
-    if _VERSION == 'Lua 5.3' then
-        is(utf8.charpattern, "[\0-\x7F\xC2-\xF4][\x80-\xBF]*", "charpattern")
-    else
+    if has_charpattern54 then
         is(utf8.charpattern, "[\0-\x7F\xC2-\xFD][\x80-\xBF]*", "charpattern")
+    else
+        is(utf8.charpattern, "[\0-\x7F\xC2-\xF4][\x80-\xBF]*", "charpattern")
     end
 end
 
 do -- codes
     local ap = {}
     local ac = {}
-    for p, c in utf8.codes("A\u{20AC}3", has_utf8_lax) do
+    for p, c in utf8.codes("A\u{20AC}3") do
         ap[#ap+1] = p
         ac[#ac+1] = c
     end
@@ -65,7 +86,7 @@ do -- codepoints
     is(utf8.codepoint("A\u{20AC}3", 2), 0x20AC)
     is(utf8.codepoint("A\u{20AC}3", -1), 0x33)
     is(utf8.codepoint("A\u{20AC}3", 5), 0x33)
-    eq_array({utf8.codepoint("A\u{20AC}3", 1, 5, has_utf8_lax)}, {0x41, 0x20AC, 0x33})
+    eq_array({utf8.codepoint("A\u{20AC}3", 1, 5)}, {0x41, 0x20AC, 0x33})
     eq_array({utf8.codepoint("A\u{20AC}3", 1, 4)}, {0x41, 0x20AC})
 
     error_like(function () utf8.codepoint("A\u{20AC}3", 6) end,
@@ -89,7 +110,7 @@ do -- len
 
     is(utf8.len('A', 1), 1)
     is(utf8.len('A', 2), 0)
-    is(utf8.len('ABC', 1, 1, has_utf8_lax), 1)
+    is(utf8.len('ABC', 1, 1), 1)
     is(utf8.len('ABC', 2, 2), 1)
     is(utf8.len('ABC', -1), 1)
     is(utf8.len('ABC', -2), 2)
