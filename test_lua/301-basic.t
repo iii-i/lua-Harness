@@ -735,7 +735,7 @@ if has_warn then
         diag("io.popen not supported")
     end
 
-    local r, f = pcall(io.popen, lua .. [[ -e "warn'@on'; warn'foo'" 2>&1]])
+    r, f = pcall(io.popen, lua .. [[ -e "warn'@on'; warn'foo'" 2>&1]])
     if r then
         is(f:read'*l', 'Lua warning: foo', "warn called with popen")
         is(f:read'*l', nil)
