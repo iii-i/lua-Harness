@@ -37,7 +37,7 @@ local has_log10 = _VERSION < 'Lua 5.2' or profile.compat51 or profile.has_math_l
                   profile.compat52 or profile.compat53 or profile.has_mathx
 local has_log_with_base = _VERSION >= 'Lua 5.2' or profile.compat52
 local has_mod = profile.has_math_mod or ujit
-local nocvts2n = profile.nocvts2n
+local nocvts2n = profile.nocvts2n or jit
 
 plan'no_plan'
 
@@ -349,6 +349,17 @@ if has_integer then
     is(math.ult(2, 3), true, "function ult")
     is(math.ult(2, 2), false)
     is(math.ult(2, 1), false)
+
+    error_like(function () math.ult(3.14) end,
+               "^%S+ bad argument #1 to 'ult' %(number has no integer representation%)",
+               "function ult (float)")
+    error_like(function () math.ult(2, 3.14) end,
+               "^%S+ bad argument #2 to 'ult' %(number has no integer representation%)")
+    error_like(function () math.ult(true) end,
+               "^[^:]+:%d+: bad argument #1 to 'ult' %(number expected, got boolean%)",
+               "function ult (boolean)")
+    error_like(function () math.ult(2, true) end,
+               "^[^:]+:%d+: bad argument #2 to 'ult' %(number expected, got boolean%)")
 else
     is(math.ult, nil, "no math.ult")
 end
