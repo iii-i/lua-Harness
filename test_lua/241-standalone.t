@@ -28,7 +28,7 @@ L<https://www.lua.org/manual/5.3/manual.html#7>
 --]]
 
 require'tap'
-local has_bytecode = not ujit
+local has_bytecode = not ujit and not ravi
 local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
 local has_opt_E = _VERSION >= 'Lua 5.2' or jit
@@ -36,6 +36,8 @@ local has_opt_W = _VERSION >= 'Lua 5.4'
 local banner = '^[%w%s%-%.]-Copyright %(C%) %d%d%d%d'
 if jit and jit.version:match'^RaptorJIT' then
     banner = '^[%w%s%.]- %-%- '
+elseif ravi then
+    banner = '^Ravi %d%.%d%.%d'
 end
 
 local lua = arg[-3] or arg[-1]
@@ -80,16 +82,16 @@ if has_bytecode then
     is(f:read'*l', 'Hello World', "bytecode")
     f:close()
     os.remove('hello-241.luac') -- clean up
-end
 
-if not jit then
-    os.execute(luac .. " -s -o hello-hello-241.luac hello-241.lua hello-241.lua")
-    cmd = lua .. " hello-hello-241.luac"
-    f = io.popen(cmd)
-    is(f:read'*l', 'Hello World', "combine 1")
-    is(f:read'*l', 'Hello World', "combine 2")
-    f:close()
-    os.remove('hello-hello-241.luac') -- clean up
+    if not jit then
+        os.execute(luac .. " -s -o hello-hello-241.luac hello-241.lua hello-241.lua")
+        cmd = lua .. " hello-hello-241.luac"
+        f = io.popen(cmd)
+        is(f:read'*l', 'Hello World', "combine 1")
+        is(f:read'*l', 'Hello World', "combine 2")
+        f:close()
+        os.remove('hello-hello-241.luac') -- clean up
+    end
 end
 
 cmd = lua .. " < hello-241.lua"
@@ -107,6 +109,11 @@ f = io.popen(cmd)
 like(f:read'*l', banner, "-i")
 if ujit then
     like(f:read'*l', '^JIT:')
+end
+if ravi then
+    like(f:read'*l', '^Copyright %(C%)')
+    like(f:read'*l', '^Portions Copyright %(C%)')
+    like(f:read'*l', '^Options')
 end
 is(f:read'*l', 'Hello World')
 f:close()
@@ -182,6 +189,11 @@ f:close()
 cmd = lua .. [[ -v hello-241.lua 2>&1]]
 f = io.popen(cmd)
 like(f:read'*l', banner, "-v & script")
+if ravi then
+    like(f:read'*l', '^Copyright %(C%)')
+    like(f:read'*l', '^Portions Copyright %(C%)')
+    like(f:read'*l', '^Options')
+end
 is(f:read'*l', 'Hello World')
 f:close()
 

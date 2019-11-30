@@ -18,7 +18,7 @@ else
 end
 
 error_like(function () return ~'text' end,
-           "^[^:]+:%d+: attempt to perform bitwise operation on a string value",
+           "^[^:]+:%d+: attempt to",
            "~'text'")
 
 if profile.nocvts2n then
@@ -96,23 +96,23 @@ error_like(function () return '25' // 'text' end,
            "'25' // 'text'")
 
 error_like(function () return '3' & 'text' end,
-           "^[^:]+:%d+: attempt to perform bitwise operation on a string value",
+           "^[^:]+:%d+: attempt to",
            "'3' & 'text'")
 
 error_like(function () return '4' | 'text' end,
-           "^[^:]+:%d+: attempt to perform bitwise operation on a string value",
+           "^[^:]+:%d+: attempt to",
            "'4' | 'text'")
 
 error_like(function () return '7' ~ 'text' end,
-           "^[^:]+:%d+: attempt to perform bitwise operation on a string value",
+           "^[^:]+:%d+: attempt to",
            "'7' ~ 'text'")
 
 error_like(function () return '100' >> 'text' end,
-           "^[^:]+:%d+: attempt to perform bitwise operation on a string value",
+           "^[^:]+:%d+: attempt to",
            "'100' >> 'text'")
 
 error_like(function () return '3' << 'text' end,
-           "^[^:]+:%d+: attempt to perform bitwise operation on a string value",
+           "^[^:]+:%d+: attempt to",
            "'3' << 'text'")
 
 if profile.nocvts2n then

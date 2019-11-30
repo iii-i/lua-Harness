@@ -33,6 +33,10 @@ if jit then
     skip_all("LuaJIT")
 end
 
+if ravi then
+    skip_all("ravi")
+end
+
 local lua = arg[-3] or arg[-1]
 local luac = lua .. 'c'
 

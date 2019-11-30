@@ -100,7 +100,7 @@ if not nocvtn2s then
 end
 
 error_like(function () return 'hello' + 1 end,
-           (not nocvts2n and _VERSION >= 'Lua 5.4') and "attempt to add" or "perform arithmetic",
+           ((not nocvts2n and _VERSION >= 'Lua 5.4') or ravi) and "attempt to add" or "perform arithmetic",
            "no coercion")
 
 error_like(function ()
