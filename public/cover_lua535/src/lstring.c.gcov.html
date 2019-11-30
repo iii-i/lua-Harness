@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-10-16 20:48:19</td>
+            <td class="headerValue">2019-12-02 17:55:41</td>
             <td></td>
           </tr>
           <tr>
@@ -64,254 +64,254 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<span class="lineNum">       1 </span>            : /*
-<span class="lineNum">       2 </span>            : ** $Id: lstring.c,v 2.56.1.1 2017/04/19 17:20:42 roberto Exp $
-<span class="lineNum">       3 </span>            : ** String table (keeps all strings handled by Lua)
-<span class="lineNum">       4 </span>            : ** See Copyright Notice in lua.h
-<span class="lineNum">       5 </span>            : */
-<span class="lineNum">       6 </span>            : 
-<span class="lineNum">       7 </span>            : #define lstring_c
-<span class="lineNum">       8 </span>            : #define LUA_CORE
-<span class="lineNum">       9 </span>            : 
-<span class="lineNum">      10 </span>            : #include &quot;lprefix.h&quot;
-<span class="lineNum">      11 </span>            : 
-<span class="lineNum">      12 </span>            : 
-<span class="lineNum">      13 </span>            : #include &lt;string.h&gt;
-<span class="lineNum">      14 </span>            : 
-<span class="lineNum">      15 </span>            : #include &quot;lua.h&quot;
-<span class="lineNum">      16 </span>            : 
-<span class="lineNum">      17 </span>            : #include &quot;ldebug.h&quot;
-<span class="lineNum">      18 </span>            : #include &quot;ldo.h&quot;
-<span class="lineNum">      19 </span>            : #include &quot;lmem.h&quot;
-<span class="lineNum">      20 </span>            : #include &quot;lobject.h&quot;
-<span class="lineNum">      21 </span>            : #include &quot;lstate.h&quot;
-<span class="lineNum">      22 </span>            : #include &quot;lstring.h&quot;
-<span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span>            : 
-<span class="lineNum">      25 </span>            : #define MEMERRMSG       &quot;not enough memory&quot;
-<span class="lineNum">      26 </span>            : 
-<span class="lineNum">      27 </span>            : 
-<span class="lineNum">      28 </span>            : /*
-<span class="lineNum">      29 </span>            : ** Lua will use at most ~(2^LUAI_HASHLIMIT) bytes from a string to
-<span class="lineNum">      30 </span>            : ** compute its hash
-<span class="lineNum">      31 </span>            : */
-<span class="lineNum">      32 </span>            : #if !defined(LUAI_HASHLIMIT)
-<span class="lineNum">      33 </span>            : #define LUAI_HASHLIMIT          5
-<span class="lineNum">      34 </span>            : #endif
-<span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span>            : /*
-<span class="lineNum">      38 </span>            : ** equality for long strings
-<span class="lineNum">      39 </span>            : */
-<span class="lineNum">      40 </span><span class="lineCov">        767 : int luaS_eqlngstr (TString *a, TString *b) {</span>
-<span class="lineNum">      41 </span><span class="lineCov">        767 :   size_t len = a-&gt;u.lnglen;</span>
-<span class="lineNum">      42 </span>            :   lua_assert(a-&gt;tt == LUA_TLNGSTR &amp;&amp; b-&gt;tt == LUA_TLNGSTR);
-<span class="lineNum">      43 </span><span class="lineCov">        971 :   return (a == b) ||  /* same instance or... */</span>
-<span class="lineNum">      44 </span><span class="lineCov">        204 :     ((len == b-&gt;u.lnglen) &amp;&amp;  /* equal length and ... */</span>
-<span class="lineNum">      45 </span><span class="lineCov">        194 :      (memcmp(getstr(a), getstr(b), len) == 0));  /* equal contents */</span>
-<span class="lineNum">      46 </span>            : }
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span>            : 
-<span class="lineNum">      49 </span><span class="lineCov">     121037 : unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {</span>
-<span class="lineNum">      50 </span><span class="lineCov">     121037 :   unsigned int h = seed ^ cast(unsigned int, l);</span>
-<span class="lineNum">      51 </span><span class="lineCov">     121037 :   size_t step = (l &gt;&gt; LUAI_HASHLIMIT) + 1;</span>
-<span class="lineNum">      52 </span><span class="lineCov">     887480 :   for (; l &gt;= step; l -= step)</span>
-<span class="lineNum">      53 </span><span class="lineCov">     766443 :     h ^= ((h&lt;&lt;5) + (h&gt;&gt;2) + cast_byte(str[l - 1]));</span>
-<span class="lineNum">      54 </span><span class="lineCov">     121037 :   return h;</span>
-<span class="lineNum">      55 </span>            : }
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span><span class="lineCov">       1488 : unsigned int luaS_hashlongstr (TString *ts) {</span>
-<span class="lineNum">      59 </span>            :   lua_assert(ts-&gt;tt == LUA_TLNGSTR);
-<span class="lineNum">      60 </span><span class="lineCov">       1488 :   if (ts-&gt;extra == 0) {  /* no hash? */</span>
-<span class="lineNum">      61 </span><span class="lineCov">        389 :     ts-&gt;hash = luaS_hash(getstr(ts), ts-&gt;u.lnglen, ts-&gt;hash);</span>
-<span class="lineNum">      62 </span><span class="lineCov">        389 :     ts-&gt;extra = 1;  /* now it has its hash */</span>
-<span class="lineNum">      63 </span>            :   }
-<span class="lineNum">      64 </span><span class="lineCov">       1488 :   return ts-&gt;hash;</span>
-<span class="lineNum">      65 </span>            : }
-<span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span>            : /*
-<span class="lineNum">      69 </span>            : ** resizes the string table
-<span class="lineNum">      70 </span>            : */
-<span class="lineNum">      71 </span><span class="lineCov">        271 : void luaS_resize (lua_State *L, int newsize) {</span>
-<span class="lineNum">      72 </span>            :   int i;
-<span class="lineNum">      73 </span><span class="lineCov">        271 :   stringtable *tb = &amp;G(L)-&gt;strt;</span>
-<span class="lineNum">      74 </span><span class="lineCov">        271 :   if (newsize &gt; tb-&gt;size) {  /* grow table if needed */</span>
-<span class="lineNum">      75 </span><span class="lineCov">        270 :     luaM_reallocvector(L, tb-&gt;hash, tb-&gt;size, newsize, TString *);</span>
-<span class="lineNum">      76 </span><span class="lineCov">      49294 :     for (i = tb-&gt;size; i &lt; newsize; i++)</span>
-<span class="lineNum">      77 </span><span class="lineCov">      49024 :       tb-&gt;hash[i] = NULL;</span>
-<span class="lineNum">      78 </span>            :   }
-<span class="lineNum">      79 </span><span class="lineCov">      37135 :   for (i = 0; i &lt; tb-&gt;size; i++) {  /* rehash */</span>
-<span class="lineNum">      80 </span><span class="lineCov">      36864 :     TString *p = tb-&gt;hash[i];</span>
-<span class="lineNum">      81 </span><span class="lineCov">      36864 :     tb-&gt;hash[i] = NULL;</span>
-<span class="lineNum">      82 </span><span class="lineCov">      72085 :     while (p) {  /* for each node in the list */</span>
-<span class="lineNum">      83 </span><span class="lineCov">      35221 :       TString *hnext = p-&gt;u.hnext;  /* save next */</span>
-<span class="lineNum">      84 </span><span class="lineCov">      35221 :       unsigned int h = lmod(p-&gt;hash, newsize);  /* new position */</span>
-<span class="lineNum">      85 </span><span class="lineCov">      35221 :       p-&gt;u.hnext = tb-&gt;hash[h];  /* chain it */</span>
-<span class="lineNum">      86 </span><span class="lineCov">      35221 :       tb-&gt;hash[h] = p;</span>
-<span class="lineNum">      87 </span><span class="lineCov">      35221 :       p = hnext;</span>
-<span class="lineNum">      88 </span>            :     }
-<span class="lineNum">      89 </span>            :   }
-<span class="lineNum">      90 </span><span class="lineCov">        271 :   if (newsize &lt; tb-&gt;size) {  /* shrink table if needed */</span>
-<span class="lineNum">      91 </span>            :     /* vanishing slice should be empty */
-<span class="lineNum">      92 </span>            :     lua_assert(tb-&gt;hash[newsize] == NULL &amp;&amp; tb-&gt;hash[tb-&gt;size - 1] == NULL);
-<span class="lineNum">      93 </span><span class="lineCov">          1 :     luaM_reallocvector(L, tb-&gt;hash, tb-&gt;size, newsize, TString *);</span>
-<span class="lineNum">      94 </span>            :   }
-<span class="lineNum">      95 </span><span class="lineCov">        271 :   tb-&gt;size = newsize;</span>
-<span class="lineNum">      96 </span><span class="lineCov">        271 : }</span>
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span>            : 
-<span class="lineNum">      99 </span>            : /*
-<span class="lineNum">     100 </span>            : ** Clear API string cache. (Entries cannot be empty, so fill them with
-<span class="lineNum">     101 </span>            : ** a non-collectable string.)
-<span class="lineNum">     102 </span>            : */
-<span class="lineNum">     103 </span><span class="lineCov">        250 : void luaS_clearcache (global_State *g) {</span>
-<span class="lineNum">     104 </span>            :   int i, j;
-<span class="lineNum">     105 </span><span class="lineCov">      13500 :   for (i = 0; i &lt; STRCACHE_N; i++)</span>
-<span class="lineNum">     106 </span><span class="lineCov">      39750 :     for (j = 0; j &lt; STRCACHE_M; j++) {</span>
-<span class="lineNum">     107 </span><span class="lineCov">      26500 :     if (iswhite(g-&gt;strcache[i][j]))  /* will entry be collected? */</span>
-<span class="lineNum">     108 </span><span class="lineCov">        405 :       g-&gt;strcache[i][j] = g-&gt;memerrmsg;  /* replace it with something fixed */</span>
-<span class="lineNum">     109 </span>            :     }
-<span class="lineNum">     110 </span><span class="lineCov">        250 : }</span>
-<span class="lineNum">     111 </span>            : 
-<span class="lineNum">     112 </span>            : 
-<span class="lineNum">     113 </span>            : /*
-<span class="lineNum">     114 </span>            : ** Initialize the string table and the string cache
-<span class="lineNum">     115 </span>            : */
-<span class="lineNum">     116 </span><span class="lineCov">        111 : void luaS_init (lua_State *L) {</span>
-<span class="lineNum">     117 </span><span class="lineCov">        111 :   global_State *g = G(L);</span>
-<span class="lineNum">     118 </span>            :   int i, j;
-<span class="lineNum">     119 </span><span class="lineCov">        111 :   luaS_resize(L, MINSTRTABSIZE);  /* initial size of string table */</span>
-<span class="lineNum">     120 </span>            :   /* pre-create memory-error message */
-<span class="lineNum">     121 </span><span class="lineCov">        111 :   g-&gt;memerrmsg = luaS_newliteral(L, MEMERRMSG);</span>
-<span class="lineNum">     122 </span><span class="lineCov">        111 :   luaC_fix(L, obj2gco(g-&gt;memerrmsg));  /* it should never be collected */</span>
-<span class="lineNum">     123 </span><span class="lineCov">       5994 :   for (i = 0; i &lt; STRCACHE_N; i++)  /* fill cache with valid strings */</span>
-<span class="lineNum">     124 </span><span class="lineCov">      17649 :     for (j = 0; j &lt; STRCACHE_M; j++)</span>
-<span class="lineNum">     125 </span><span class="lineCov">      11766 :       g-&gt;strcache[i][j] = g-&gt;memerrmsg;</span>
-<span class="lineNum">     126 </span><span class="lineCov">        111 : }</span>
-<span class="lineNum">     127 </span>            : 
-<span class="lineNum">     128 </span>            : 
-<span class="lineNum">     129 </span>            : 
-<span class="lineNum">     130 </span>            : /*
-<span class="lineNum">     131 </span>            : ** creates a new string object
-<span class="lineNum">     132 </span>            : */
-<span class="lineNum">     133 </span><span class="lineCov">      49323 : static TString *createstrobj (lua_State *L, size_t l, int tag, unsigned int h) {</span>
-<span class="lineNum">     134 </span>            :   TString *ts;
-<span class="lineNum">     135 </span>            :   GCObject *o;
-<span class="lineNum">     136 </span>            :   size_t totalsize;  /* total size of TString object */
-<span class="lineNum">     137 </span><span class="lineCov">      49323 :   totalsize = sizelstring(l);</span>
-<span class="lineNum">     138 </span><span class="lineCov">      49323 :   o = luaC_newobj(L, tag, totalsize);</span>
-<span class="lineNum">     139 </span><span class="lineCov">      49323 :   ts = gco2ts(o);</span>
-<span class="lineNum">     140 </span><span class="lineCov">      49323 :   ts-&gt;hash = h;</span>
-<span class="lineNum">     141 </span><span class="lineCov">      49323 :   ts-&gt;extra = 0;</span>
-<span class="lineNum">     142 </span><span class="lineCov">      49323 :   getstr(ts)[l] = '\0';  /* ending 0 */</span>
-<span class="lineNum">     143 </span><span class="lineCov">      49323 :   return ts;</span>
-<span class="lineNum">     144 </span>            : }
-<span class="lineNum">     145 </span>            : 
-<span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineCov">       4381 : TString *luaS_createlngstrobj (lua_State *L, size_t l) {</span>
-<span class="lineNum">     148 </span><span class="lineCov">       4381 :   TString *ts = createstrobj(L, l, LUA_TLNGSTR, G(L)-&gt;seed);</span>
-<span class="lineNum">     149 </span><span class="lineCov">       4381 :   ts-&gt;u.lnglen = l;</span>
-<span class="lineNum">     150 </span><span class="lineCov">       4381 :   return ts;</span>
-<span class="lineNum">     151 </span>            : }
-<span class="lineNum">     152 </span>            : 
-<span class="lineNum">     153 </span>            : 
-<span class="lineNum">     154 </span><span class="lineCov">      41631 : void luaS_remove (lua_State *L, TString *ts) {</span>
-<span class="lineNum">     155 </span><span class="lineCov">      41631 :   stringtable *tb = &amp;G(L)-&gt;strt;</span>
-<span class="lineNum">     156 </span><span class="lineCov">      41631 :   TString **p = &amp;tb-&gt;hash[lmod(ts-&gt;hash, tb-&gt;size)];</span>
-<span class="lineNum">     157 </span><span class="lineCov">      46490 :   while (*p != ts)  /* find previous element */</span>
-<span class="lineNum">     158 </span><span class="lineCov">       4859 :     p = &amp;(*p)-&gt;u.hnext;</span>
-<span class="lineNum">     159 </span><span class="lineCov">      41631 :   *p = (*p)-&gt;u.hnext;  /* remove element from its list */</span>
-<span class="lineNum">     160 </span><span class="lineCov">      41631 :   tb-&gt;nuse--;</span>
-<span class="lineNum">     161 </span><span class="lineCov">      41631 : }</span>
-<span class="lineNum">     162 </span>            : 
-<span class="lineNum">     163 </span>            : 
-<span class="lineNum">     164 </span>            : /*
-<span class="lineNum">     165 </span>            : ** checks whether short string exists and reuses it or creates a new one
-<span class="lineNum">     166 </span>            : */
-<span class="lineNum">     167 </span><span class="lineCov">     120537 : static TString *internshrstr (lua_State *L, const char *str, size_t l) {</span>
-<span class="lineNum">     168 </span>            :   TString *ts;
-<span class="lineNum">     169 </span><span class="lineCov">     120537 :   global_State *g = G(L);</span>
-<span class="lineNum">     170 </span><span class="lineCov">     120537 :   unsigned int h = luaS_hash(str, l, g-&gt;seed);</span>
-<span class="lineNum">     171 </span><span class="lineCov">     120537 :   TString **list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];</span>
-<span class="lineNum">     172 </span>            :   lua_assert(str != NULL);  /* otherwise 'memcmp'/'memcpy' are undefined */
-<span class="lineNum">     173 </span><span class="lineCov">     172532 :   for (ts = *list; ts != NULL; ts = ts-&gt;u.hnext) {</span>
-<span class="lineNum">     174 </span><span class="lineCov">     127590 :     if (l == ts-&gt;shrlen &amp;&amp;</span>
-<span class="lineNum">     175 </span><span class="lineCov">      83513 :         (memcmp(str, getstr(ts), l * sizeof(char)) == 0)) {</span>
-<span class="lineNum">     176 </span>            :       /* found! */
-<span class="lineNum">     177 </span><span class="lineCov">      75595 :       if (isdead(g, ts))  /* dead (but not collected yet)? */</span>
-<span class="lineNum">     178 </span><span class="lineCov">         38 :         changewhite(ts);  /* resurrect it */</span>
-<span class="lineNum">     179 </span><span class="lineCov">      75595 :       return ts;</span>
-<span class="lineNum">     180 </span>            :     }
-<span class="lineNum">     181 </span>            :   }
-<span class="lineNum">     182 </span><span class="lineCov">      44942 :   if (g-&gt;strt.nuse &gt;= g-&gt;strt.size &amp;&amp; g-&gt;strt.size &lt;= MAX_INT/2) {</span>
-<span class="lineNum">     183 </span><span class="lineCov">        159 :     luaS_resize(L, g-&gt;strt.size * 2);</span>
-<span class="lineNum">     184 </span><span class="lineCov">        159 :     list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];  /* recompute with new size */</span>
-<span class="lineNum">     185 </span>            :   }
-<span class="lineNum">     186 </span><span class="lineCov">      44942 :   ts = createstrobj(L, l, LUA_TSHRSTR, h);</span>
-<span class="lineNum">     187 </span><span class="lineCov">      44942 :   memcpy(getstr(ts), str, l * sizeof(char));</span>
-<span class="lineNum">     188 </span><span class="lineCov">      44942 :   ts-&gt;shrlen = cast_byte(l);</span>
-<span class="lineNum">     189 </span><span class="lineCov">      44942 :   ts-&gt;u.hnext = *list;</span>
-<span class="lineNum">     190 </span><span class="lineCov">      44942 :   *list = ts;</span>
-<span class="lineNum">     191 </span><span class="lineCov">      44942 :   g-&gt;strt.nuse++;</span>
-<span class="lineNum">     192 </span><span class="lineCov">      44942 :   return ts;</span>
-<span class="lineNum">     193 </span>            : }
-<span class="lineNum">     194 </span>            : 
-<span class="lineNum">     195 </span>            : 
-<span class="lineNum">     196 </span>            : /*
-<span class="lineNum">     197 </span>            : ** new string (with explicit length)
-<span class="lineNum">     198 </span>            : */
-<span class="lineNum">     199 </span><span class="lineCov">     122965 : TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {</span>
-<span class="lineNum">     200 </span><span class="lineCov">     122965 :   if (l &lt;= LUAI_MAXSHORTLEN)  /* short string? */</span>
-<span class="lineNum">     201 </span><span class="lineCov">     120537 :     return internshrstr(L, str, l);</span>
-<span class="lineNum">     202 </span>            :   else {
-<span class="lineNum">     203 </span>            :     TString *ts;
-<span class="lineNum">     204 </span><span class="lineCov">       2428 :     if (l &gt;= (MAX_SIZE - sizeof(TString))/sizeof(char))</span>
-<span class="lineNum">     205 </span><span class="lineNoCov">          0 :       luaM_toobig(L);</span>
-<span class="lineNum">     206 </span><span class="lineCov">       2428 :     ts = luaS_createlngstrobj(L, l);</span>
-<span class="lineNum">     207 </span><span class="lineCov">       2428 :     memcpy(getstr(ts), str, l * sizeof(char));</span>
-<span class="lineNum">     208 </span><span class="lineCov">       2428 :     return ts;</span>
-<span class="lineNum">     209 </span>            :   }
-<span class="lineNum">     210 </span>            : }
-<span class="lineNum">     211 </span>            : 
-<span class="lineNum">     212 </span>            : 
-<span class="lineNum">     213 </span>            : /*
-<span class="lineNum">     214 </span>            : ** Create or reuse a zero-terminated string, first checking in the
-<span class="lineNum">     215 </span>            : ** cache (using the string address as a key). The cache can contain
-<span class="lineNum">     216 </span>            : ** only zero-terminated strings, so it is safe to use 'strcmp' to
-<span class="lineNum">     217 </span>            : ** check hits.
-<span class="lineNum">     218 </span>            : */
-<span class="lineNum">     219 </span><span class="lineCov">      38478 : TString *luaS_new (lua_State *L, const char *str) {</span>
-<span class="lineNum">     220 </span><span class="lineCov">      38478 :   unsigned int i = point2uint(str) % STRCACHE_N;  /* hash */</span>
-<span class="lineNum">     221 </span>            :   int j;
-<span class="lineNum">     222 </span><span class="lineCov">      38478 :   TString **p = G(L)-&gt;strcache[i];</span>
-<span class="lineNum">     223 </span><span class="lineCov">      87812 :   for (j = 0; j &lt; STRCACHE_M; j++) {</span>
-<span class="lineNum">     224 </span><span class="lineCov">      64076 :     if (strcmp(str, getstr(p[j])) == 0)  /* hit? */</span>
-<span class="lineNum">     225 </span><span class="lineCov">      14742 :       return p[j];  /* that is it */</span>
-<span class="lineNum">     226 </span>            :   }
-<span class="lineNum">     227 </span>            :   /* normal route */
-<span class="lineNum">     228 </span><span class="lineCov">      47472 :   for (j = STRCACHE_M - 1; j &gt; 0; j--)</span>
-<span class="lineNum">     229 </span><span class="lineCov">      23736 :     p[j] = p[j - 1];  /* move out last element */</span>
-<span class="lineNum">     230 </span>            :   /* new element is first in the list */
-<span class="lineNum">     231 </span><span class="lineCov">      23736 :   p[0] = luaS_newlstr(L, str, strlen(str));</span>
-<span class="lineNum">     232 </span><span class="lineCov">      23736 :   return p[0];</span>
-<span class="lineNum">     233 </span>            : }
-<span class="lineNum">     234 </span>            : 
-<span class="lineNum">     235 </span>            : 
-<span class="lineNum">     236 </span><span class="lineCov">        397 : Udata *luaS_newudata (lua_State *L, size_t s) {</span>
-<span class="lineNum">     237 </span>            :   Udata *u;
-<span class="lineNum">     238 </span>            :   GCObject *o;
-<span class="lineNum">     239 </span><span class="lineCov">        397 :   if (s &gt; MAX_SIZE - sizeof(Udata))</span>
-<span class="lineNum">     240 </span><span class="lineNoCov">          0 :     luaM_toobig(L);</span>
-<span class="lineNum">     241 </span><span class="lineCov">        397 :   o = luaC_newobj(L, LUA_TUSERDATA, sizeludata(s));</span>
-<span class="lineNum">     242 </span><span class="lineCov">        397 :   u = gco2u(o);</span>
-<span class="lineNum">     243 </span><span class="lineCov">        397 :   u-&gt;len = s;</span>
-<span class="lineNum">     244 </span><span class="lineCov">        397 :   u-&gt;metatable = NULL;</span>
-<span class="lineNum">     245 </span><span class="lineCov">        397 :   setuservalue(L, u, luaO_nilobject);</span>
-<span class="lineNum">     246 </span><span class="lineCov">        397 :   return u;</span>
-<span class="lineNum">     247 </span>            : }
-<span class="lineNum">     248 </span>            : 
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<a name="2"><span class="lineNum">       2 </span>            : ** $Id: lstring.c,v 2.56.1.1 2017/04/19 17:20:42 roberto Exp $</a>
+<a name="3"><span class="lineNum">       3 </span>            : ** String table (keeps all strings handled by Lua)</a>
+<a name="4"><span class="lineNum">       4 </span>            : ** See Copyright Notice in lua.h</a>
+<a name="5"><span class="lineNum">       5 </span>            : */</a>
+<a name="6"><span class="lineNum">       6 </span>            : </a>
+<a name="7"><span class="lineNum">       7 </span>            : #define lstring_c</a>
+<a name="8"><span class="lineNum">       8 </span>            : #define LUA_CORE</a>
+<a name="9"><span class="lineNum">       9 </span>            : </a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &quot;lprefix.h&quot;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;string.h&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &quot;lua.h&quot;</a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span>            : #include &quot;ldebug.h&quot;</a>
+<a name="18"><span class="lineNum">      18 </span>            : #include &quot;ldo.h&quot;</a>
+<a name="19"><span class="lineNum">      19 </span>            : #include &quot;lmem.h&quot;</a>
+<a name="20"><span class="lineNum">      20 </span>            : #include &quot;lobject.h&quot;</a>
+<a name="21"><span class="lineNum">      21 </span>            : #include &quot;lstate.h&quot;</a>
+<a name="22"><span class="lineNum">      22 </span>            : #include &quot;lstring.h&quot;</a>
+<a name="23"><span class="lineNum">      23 </span>            : </a>
+<a name="24"><span class="lineNum">      24 </span>            : </a>
+<a name="25"><span class="lineNum">      25 </span>            : #define MEMERRMSG       &quot;not enough memory&quot;</a>
+<a name="26"><span class="lineNum">      26 </span>            : </a>
+<a name="27"><span class="lineNum">      27 </span>            : </a>
+<a name="28"><span class="lineNum">      28 </span>            : /*</a>
+<a name="29"><span class="lineNum">      29 </span>            : ** Lua will use at most ~(2^LUAI_HASHLIMIT) bytes from a string to</a>
+<a name="30"><span class="lineNum">      30 </span>            : ** compute its hash</a>
+<a name="31"><span class="lineNum">      31 </span>            : */</a>
+<a name="32"><span class="lineNum">      32 </span>            : #if !defined(LUAI_HASHLIMIT)</a>
+<a name="33"><span class="lineNum">      33 </span>            : #define LUAI_HASHLIMIT          5</a>
+<a name="34"><span class="lineNum">      34 </span>            : #endif</a>
+<a name="35"><span class="lineNum">      35 </span>            : </a>
+<a name="36"><span class="lineNum">      36 </span>            : </a>
+<a name="37"><span class="lineNum">      37 </span>            : /*</a>
+<a name="38"><span class="lineNum">      38 </span>            : ** equality for long strings</a>
+<a name="39"><span class="lineNum">      39 </span>            : */</a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineCov">        748 : int luaS_eqlngstr (TString *a, TString *b) {</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">        748 :   size_t len = a-&gt;u.lnglen;</span></a>
+<a name="42"><span class="lineNum">      42 </span>            :   lua_assert(a-&gt;tt == LUA_TLNGSTR &amp;&amp; b-&gt;tt == LUA_TLNGSTR);</a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">        950 :   return (a == b) ||  /* same instance or... */</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">        202 :     ((len == b-&gt;u.lnglen) &amp;&amp;  /* equal length and ... */</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">        189 :      (memcmp(getstr(a), getstr(b), len) == 0));  /* equal contents */</span></a>
+<a name="46"><span class="lineNum">      46 </span>            : }</a>
+<a name="47"><span class="lineNum">      47 </span>            : </a>
+<a name="48"><span class="lineNum">      48 </span>            : </a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">     122288 : unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">     122288 :   unsigned int h = seed ^ cast(unsigned int, l);</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">     122288 :   size_t step = (l &gt;&gt; LUAI_HASHLIMIT) + 1;</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">     902750 :   for (; l &gt;= step; l -= step)</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">     780462 :     h ^= ((h&lt;&lt;5) + (h&gt;&gt;2) + cast_byte(str[l - 1]));</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">     122288 :   return h;</span></a>
+<a name="55"><span class="lineNum">      55 </span>            : }</a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       1451 : unsigned int luaS_hashlongstr (TString *ts) {</span></a>
+<a name="59"><span class="lineNum">      59 </span>            :   lua_assert(ts-&gt;tt == LUA_TLNGSTR);</a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">       1451 :   if (ts-&gt;extra == 0) {  /* no hash? */</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">        381 :     ts-&gt;hash = luaS_hash(getstr(ts), ts-&gt;u.lnglen, ts-&gt;hash);</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">        381 :     ts-&gt;extra = 1;  /* now it has its hash */</span></a>
+<a name="63"><span class="lineNum">      63 </span>            :   }</a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">       1451 :   return ts-&gt;hash;</span></a>
+<a name="65"><span class="lineNum">      65 </span>            : }</a>
+<a name="66"><span class="lineNum">      66 </span>            : </a>
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<a name="68"><span class="lineNum">      68 </span>            : /*</a>
+<a name="69"><span class="lineNum">      69 </span>            : ** resizes the string table</a>
+<a name="70"><span class="lineNum">      70 </span>            : */</a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">        271 : void luaS_resize (lua_State *L, int newsize) {</span></a>
+<a name="72"><span class="lineNum">      72 </span>            :   int i;</a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">        271 :   stringtable *tb = &amp;G(L)-&gt;strt;</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">        271 :   if (newsize &gt; tb-&gt;size) {  /* grow table if needed */</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">        270 :     luaM_reallocvector(L, tb-&gt;hash, tb-&gt;size, newsize, TString *);</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">      49294 :     for (i = tb-&gt;size; i &lt; newsize; i++)</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">      49024 :       tb-&gt;hash[i] = NULL;</span></a>
+<a name="78"><span class="lineNum">      78 </span>            :   }</a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">      37135 :   for (i = 0; i &lt; tb-&gt;size; i++) {  /* rehash */</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">      36864 :     TString *p = tb-&gt;hash[i];</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">      36864 :     tb-&gt;hash[i] = NULL;</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">      72130 :     while (p) {  /* for each node in the list */</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">      35266 :       TString *hnext = p-&gt;u.hnext;  /* save next */</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">      35266 :       unsigned int h = lmod(p-&gt;hash, newsize);  /* new position */</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">      35266 :       p-&gt;u.hnext = tb-&gt;hash[h];  /* chain it */</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">      35266 :       tb-&gt;hash[h] = p;</span></a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">      35266 :       p = hnext;</span></a>
+<a name="88"><span class="lineNum">      88 </span>            :     }</a>
+<a name="89"><span class="lineNum">      89 </span>            :   }</a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">        271 :   if (newsize &lt; tb-&gt;size) {  /* shrink table if needed */</span></a>
+<a name="91"><span class="lineNum">      91 </span>            :     /* vanishing slice should be empty */</a>
+<a name="92"><span class="lineNum">      92 </span>            :     lua_assert(tb-&gt;hash[newsize] == NULL &amp;&amp; tb-&gt;hash[tb-&gt;size - 1] == NULL);</a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">          1 :     luaM_reallocvector(L, tb-&gt;hash, tb-&gt;size, newsize, TString *);</span></a>
+<a name="94"><span class="lineNum">      94 </span>            :   }</a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">        271 :   tb-&gt;size = newsize;</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">        271 : }</span></a>
+<a name="97"><span class="lineNum">      97 </span>            : </a>
+<a name="98"><span class="lineNum">      98 </span>            : </a>
+<a name="99"><span class="lineNum">      99 </span>            : /*</a>
+<a name="100"><span class="lineNum">     100 </span>            : ** Clear API string cache. (Entries cannot be empty, so fill them with</a>
+<a name="101"><span class="lineNum">     101 </span>            : ** a non-collectable string.)</a>
+<a name="102"><span class="lineNum">     102 </span>            : */</a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">        250 : void luaS_clearcache (global_State *g) {</span></a>
+<a name="104"><span class="lineNum">     104 </span>            :   int i, j;</a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">      13500 :   for (i = 0; i &lt; STRCACHE_N; i++)</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">      39750 :     for (j = 0; j &lt; STRCACHE_M; j++) {</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">      26500 :     if (iswhite(g-&gt;strcache[i][j]))  /* will entry be collected? */</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">        409 :       g-&gt;strcache[i][j] = g-&gt;memerrmsg;  /* replace it with something fixed */</span></a>
+<a name="109"><span class="lineNum">     109 </span>            :     }</a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        250 : }</span></a>
+<a name="111"><span class="lineNum">     111 </span>            : </a>
+<a name="112"><span class="lineNum">     112 </span>            : </a>
+<a name="113"><span class="lineNum">     113 </span>            : /*</a>
+<a name="114"><span class="lineNum">     114 </span>            : ** Initialize the string table and the string cache</a>
+<a name="115"><span class="lineNum">     115 </span>            : */</a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">        111 : void luaS_init (lua_State *L) {</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">        111 :   global_State *g = G(L);</span></a>
+<a name="118"><span class="lineNum">     118 </span>            :   int i, j;</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">        111 :   luaS_resize(L, MINSTRTABSIZE);  /* initial size of string table */</span></a>
+<a name="120"><span class="lineNum">     120 </span>            :   /* pre-create memory-error message */</a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        111 :   g-&gt;memerrmsg = luaS_newliteral(L, MEMERRMSG);</span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">        111 :   luaC_fix(L, obj2gco(g-&gt;memerrmsg));  /* it should never be collected */</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">       5994 :   for (i = 0; i &lt; STRCACHE_N; i++)  /* fill cache with valid strings */</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">      17649 :     for (j = 0; j &lt; STRCACHE_M; j++)</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">      11766 :       g-&gt;strcache[i][j] = g-&gt;memerrmsg;</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">        111 : }</span></a>
+<a name="127"><span class="lineNum">     127 </span>            : </a>
+<a name="128"><span class="lineNum">     128 </span>            : </a>
+<a name="129"><span class="lineNum">     129 </span>            : </a>
+<a name="130"><span class="lineNum">     130 </span>            : /*</a>
+<a name="131"><span class="lineNum">     131 </span>            : ** creates a new string object</a>
+<a name="132"><span class="lineNum">     132 </span>            : */</a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">      49869 : static TString *createstrobj (lua_State *L, size_t l, int tag, unsigned int h) {</span></a>
+<a name="134"><span class="lineNum">     134 </span>            :   TString *ts;</a>
+<a name="135"><span class="lineNum">     135 </span>            :   GCObject *o;</a>
+<a name="136"><span class="lineNum">     136 </span>            :   size_t totalsize;  /* total size of TString object */</a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">      49869 :   totalsize = sizelstring(l);</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">      49869 :   o = luaC_newobj(L, tag, totalsize);</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">      49869 :   ts = gco2ts(o);</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">      49869 :   ts-&gt;hash = h;</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">      49869 :   ts-&gt;extra = 0;</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      49869 :   getstr(ts)[l] = '\0';  /* ending 0 */</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">      49869 :   return ts;</span></a>
+<a name="144"><span class="lineNum">     144 </span>            : }</a>
+<a name="145"><span class="lineNum">     145 </span>            : </a>
+<a name="146"><span class="lineNum">     146 </span>            : </a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">       4390 : TString *luaS_createlngstrobj (lua_State *L, size_t l) {</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">       4390 :   TString *ts = createstrobj(L, l, LUA_TLNGSTR, G(L)-&gt;seed);</span></a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">       4390 :   ts-&gt;u.lnglen = l;</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">       4390 :   return ts;</span></a>
+<a name="151"><span class="lineNum">     151 </span>            : }</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span>            : </a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">      42133 : void luaS_remove (lua_State *L, TString *ts) {</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">      42133 :   stringtable *tb = &amp;G(L)-&gt;strt;</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineCov">      42133 :   TString **p = &amp;tb-&gt;hash[lmod(ts-&gt;hash, tb-&gt;size)];</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">      47278 :   while (*p != ts)  /* find previous element */</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">       5145 :     p = &amp;(*p)-&gt;u.hnext;</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">      42133 :   *p = (*p)-&gt;u.hnext;  /* remove element from its list */</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">      42133 :   tb-&gt;nuse--;</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">      42133 : }</span></a>
+<a name="162"><span class="lineNum">     162 </span>            : </a>
+<a name="163"><span class="lineNum">     163 </span>            : </a>
+<a name="164"><span class="lineNum">     164 </span>            : /*</a>
+<a name="165"><span class="lineNum">     165 </span>            : ** checks whether short string exists and reuses it or creates a new one</a>
+<a name="166"><span class="lineNum">     166 </span>            : */</a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">     121796 : static TString *internshrstr (lua_State *L, const char *str, size_t l) {</span></a>
+<a name="168"><span class="lineNum">     168 </span>            :   TString *ts;</a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">     121796 :   global_State *g = G(L);</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineCov">     121796 :   unsigned int h = luaS_hash(str, l, g-&gt;seed);</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">     121796 :   TString **list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];</span></a>
+<a name="172"><span class="lineNum">     172 </span>            :   lua_assert(str != NULL);  /* otherwise 'memcmp'/'memcpy' are undefined */</a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">     176465 :   for (ts = *list; ts != NULL; ts = ts-&gt;u.hnext) {</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">     130986 :     if (l == ts-&gt;shrlen &amp;&amp;</span></a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">      82072 :         (memcmp(str, getstr(ts), l * sizeof(char)) == 0)) {</span></a>
+<a name="176"><span class="lineNum">     176 </span>            :       /* found! */</a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">      76317 :       if (isdead(g, ts))  /* dead (but not collected yet)? */</span></a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineCov">         84 :         changewhite(ts);  /* resurrect it */</span></a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">      76317 :       return ts;</span></a>
+<a name="180"><span class="lineNum">     180 </span>            :     }</a>
+<a name="181"><span class="lineNum">     181 </span>            :   }</a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">      45479 :   if (g-&gt;strt.nuse &gt;= g-&gt;strt.size &amp;&amp; g-&gt;strt.size &lt;= MAX_INT/2) {</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">        159 :     luaS_resize(L, g-&gt;strt.size * 2);</span></a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineCov">        159 :     list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];  /* recompute with new size */</span></a>
+<a name="185"><span class="lineNum">     185 </span>            :   }</a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">      45479 :   ts = createstrobj(L, l, LUA_TSHRSTR, h);</span></a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">      45479 :   memcpy(getstr(ts), str, l * sizeof(char));</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">      45479 :   ts-&gt;shrlen = cast_byte(l);</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">      45479 :   ts-&gt;u.hnext = *list;</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">      45479 :   *list = ts;</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">      45479 :   g-&gt;strt.nuse++;</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">      45479 :   return ts;</span></a>
+<a name="193"><span class="lineNum">     193 </span>            : }</a>
+<a name="194"><span class="lineNum">     194 </span>            : </a>
+<a name="195"><span class="lineNum">     195 </span>            : </a>
+<a name="196"><span class="lineNum">     196 </span>            : /*</a>
+<a name="197"><span class="lineNum">     197 </span>            : ** new string (with explicit length)</a>
+<a name="198"><span class="lineNum">     198 </span>            : */</a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">     124217 : TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">     124217 :   if (l &lt;= LUAI_MAXSHORTLEN)  /* short string? */</span></a>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">     121796 :     return internshrstr(L, str, l);</span></a>
+<a name="202"><span class="lineNum">     202 </span>            :   else {</a>
+<a name="203"><span class="lineNum">     203 </span>            :     TString *ts;</a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">       2421 :     if (l &gt;= (MAX_SIZE - sizeof(TString))/sizeof(char))</span></a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineNoCov">          0 :       luaM_toobig(L);</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">       2421 :     ts = luaS_createlngstrobj(L, l);</span></a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       2421 :     memcpy(getstr(ts), str, l * sizeof(char));</span></a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">       2421 :     return ts;</span></a>
+<a name="209"><span class="lineNum">     209 </span>            :   }</a>
+<a name="210"><span class="lineNum">     210 </span>            : }</a>
+<a name="211"><span class="lineNum">     211 </span>            : </a>
+<a name="212"><span class="lineNum">     212 </span>            : </a>
+<a name="213"><span class="lineNum">     213 </span>            : /*</a>
+<a name="214"><span class="lineNum">     214 </span>            : ** Create or reuse a zero-terminated string, first checking in the</a>
+<a name="215"><span class="lineNum">     215 </span>            : ** cache (using the string address as a key). The cache can contain</a>
+<a name="216"><span class="lineNum">     216 </span>            : ** only zero-terminated strings, so it is safe to use 'strcmp' to</a>
+<a name="217"><span class="lineNum">     217 </span>            : ** check hits.</a>
+<a name="218"><span class="lineNum">     218 </span>            : */</a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">      38462 : TString *luaS_new (lua_State *L, const char *str) {</span></a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">      38462 :   unsigned int i = point2uint(str) % STRCACHE_N;  /* hash */</span></a>
+<a name="221"><span class="lineNum">     221 </span>            :   int j;</a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">      38462 :   TString **p = G(L)-&gt;strcache[i];</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">      86801 :   for (j = 0; j &lt; STRCACHE_M; j++) {</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">      63203 :     if (strcmp(str, getstr(p[j])) == 0)  /* hit? */</span></a>
+<a name="225"><span class="lineNum">     225 </span><span class="lineCov">      14864 :       return p[j];  /* that is it */</span></a>
+<a name="226"><span class="lineNum">     226 </span>            :   }</a>
+<a name="227"><span class="lineNum">     227 </span>            :   /* normal route */</a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">      47196 :   for (j = STRCACHE_M - 1; j &gt; 0; j--)</span></a>
+<a name="229"><span class="lineNum">     229 </span><span class="lineCov">      23598 :     p[j] = p[j - 1];  /* move out last element */</span></a>
+<a name="230"><span class="lineNum">     230 </span>            :   /* new element is first in the list */</a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineCov">      23598 :   p[0] = luaS_newlstr(L, str, strlen(str));</span></a>
+<a name="232"><span class="lineNum">     232 </span><span class="lineCov">      23598 :   return p[0];</span></a>
+<a name="233"><span class="lineNum">     233 </span>            : }</a>
+<a name="234"><span class="lineNum">     234 </span>            : </a>
+<a name="235"><span class="lineNum">     235 </span>            : </a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">        397 : Udata *luaS_newudata (lua_State *L, size_t s) {</span></a>
+<a name="237"><span class="lineNum">     237 </span>            :   Udata *u;</a>
+<a name="238"><span class="lineNum">     238 </span>            :   GCObject *o;</a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">        397 :   if (s &gt; MAX_SIZE - sizeof(Udata))</span></a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineNoCov">          0 :     luaM_toobig(L);</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">        397 :   o = luaC_newobj(L, LUA_TUSERDATA, sizeludata(s));</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        397 :   u = gco2u(o);</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">        397 :   u-&gt;len = s;</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineCov">        397 :   u-&gt;metatable = NULL;</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">        397 :   setuservalue(L, u, luaO_nilobject);</span></a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">        397 :   return u;</span></a>
+<a name="247"><span class="lineNum">     247 </span>            : }</a>
+<a name="248"><span class="lineNum">     248 </span>            : </a>
 </pre>
       </td>
     </tr>
@@ -320,7 +320,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
   </table>
   <br>
 
