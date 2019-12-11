@@ -302,6 +302,9 @@ local function f ()
         print(a)
     end
 end
+local function g (...) -- segfault with Lua 5.4.0-beta
+    return {...}
+end
 s = nil
 ]])
     f:close()
