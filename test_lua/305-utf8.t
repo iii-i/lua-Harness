@@ -31,7 +31,8 @@ L<https://www.lua.org/manual/5.3/manual.html#6.5>.
 
 require 'tap'
 
-local has_utf8 = _VERSION >= 'Lua 5.3'
+local profile = require'profile'
+local has_utf8 = _VERSION >= 'Lua 5.3' or profile.utf8
 
 if not utf8 then
     plan(1)

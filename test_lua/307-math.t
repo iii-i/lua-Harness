@@ -31,7 +31,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.7>
 
 require'tap'
 local profile = require'profile'
-local has_integer = _VERSION >= 'Lua 5.3'
+local has_integer = _VERSION >= 'Lua 5.3' or profile.integer
 local has_mathx = _VERSION < 'Lua 5.3' or profile.compat52 or profile.compat53 or profile.has_mathx
 local has_log10 = _VERSION < 'Lua 5.2' or profile.compat51 or profile.has_math_log10 or
                   profile.compat52 or profile.compat53 or profile.has_mathx
