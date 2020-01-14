@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2019, Perrad Francois
+-- Copyright (C) 2019-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -149,7 +149,7 @@ if profile.openresty then
 end
 
 -- thread.exdata
-if profile.openresty then
+if profile.openresty or jit.version:match'moonjit' then
     dofile'lexicojit/ext.t'
 end
 

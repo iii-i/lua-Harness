@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2018-2019, Perrad Francois
+-- Copyright (C) 2018-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -122,7 +122,7 @@ end
 
 do -- version_num
     type_ok(jit.version_num, 'number', "version_num")
-    like(string.format("%06d", jit.version_num), '^0[12]0[01]%d%d$')
+    like(string.format("%06d", jit.version_num), '^0[12]0[012]%d%d$')
 end
 
 done_testing()

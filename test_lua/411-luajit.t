@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2018-2019, Perrad Francois
+-- Copyright (C) 2018-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -39,6 +39,7 @@ end
 
 local compiled_with_jit = jit.status()
 local has_jutil = pcall(require, 'jit.util')
+local has_openresty_listing = profile.openresty or jit.version:match'moonjit'
 
 plan'no_plan'
 diag(lua)
@@ -73,7 +74,7 @@ if has_jutil then
     cmd = lua .. " -bl hello-404.lua"
     f = io.popen(cmd)
     like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bl hello.lua")
-    if profile.openresty then
+    if has_openresty_listing then
         like(f:read'*l', '^KGC    0')
         like(f:read'*l', '^KGC    1')
     end
@@ -85,7 +86,7 @@ if has_jutil then
     os.execute(lua .. " -bl hello-404.lua hello-404.txt")
     f = io.open('hello-404.txt', 'r')
     like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bl hello.lua hello.txt")
-    if profile.openresty then
+    if has_openresty_listing then
         like(f:read'*l', '^KGC    0')
         like(f:read'*l', '^KGC    1')
     end
@@ -95,7 +96,7 @@ if has_jutil then
     f:close()
 end
 
-if profile.openresty then
+if has_openresty_listing then
     cmd = lua .. " -bL hello-404.lua"
     f = io.popen(cmd)
     like(f:read'*l', '^%-%- BYTECODE %-%- hello%-404%.lua', "-bL hello.lua")

@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2019, Perrad Francois
+-- Copyright (C) 2009-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -31,7 +31,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.7>
 
 require'tap'
 local profile = require'profile'
-local has_integer = _VERSION >= 'Lua 5.3' or profile.integer
+local has_integer = _VERSION >= 'Lua 5.3' or (jit and jit.version:match'moonjit') or profile.integer
 local has_mathx = _VERSION < 'Lua 5.3' or profile.compat52 or profile.compat53 or profile.has_mathx
 local has_log10 = _VERSION < 'Lua 5.2' or profile.compat51 or profile.has_math_log10 or
                   profile.compat52 or profile.compat53 or profile.has_mathx
