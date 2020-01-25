@@ -22,6 +22,8 @@ read_globals = {
     'todo',
     -- LuaVela
     'ujit',
+    -- Ravi
+    'ravi',
 }
 
 files['test_lua/000-sanity.t'].ignore = { '111', '113' }

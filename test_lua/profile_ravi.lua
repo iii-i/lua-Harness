@@ -2,6 +2,7 @@
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 ---
 
+-- luacheck: globals _VERSION
 _VERSION = 'Lua 5.3'    -- instead of 'Ravi 5.3'
 
 local profile = {
