@@ -333,6 +333,12 @@ do -- gsub
                end,
                "^[^:]+:%d+: invalid replacement value %(a boolean%)",
                "function gsub (invalid value)")
+
+    local function trim (str)
+        return (str:gsub('^%s*(.-)%s*$', '%1'))
+    end
+    is(trim('foo'), 'foo', "gsub trim")
+    is(trim('   foo  bar  '), 'foo  bar')
 end
 
 do -- len
