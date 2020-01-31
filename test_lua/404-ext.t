@@ -149,7 +149,7 @@ if profile.openresty then
 end
 
 -- thread.exdata
-if profile.openresty or jit.version:match'moonjit' then
+if pcall(require, 'ffi') and (profile.openresty or jit.version:match'moonjit') then
     dofile'lexicojit/ext.t'
 end
 
