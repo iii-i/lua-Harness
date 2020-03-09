@@ -32,6 +32,7 @@ L<https://www.lua.org/manual/5.3/manual.html#6.4>
 require'tap'
 local profile = require'profile'
 local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
+local has_dump53 = _VERSION >= 'Lua 5.3' or jit
 local has_format_a = _VERSION >= 'Lua 5.3' or profile.has_string_format_a or jit
 local has_format_p = _VERSION >= 'Lua 5.4'
 local has_format_q52 = _VERSION >= 'Lua 5.2' or jit
@@ -74,8 +75,43 @@ do -- char
 end
 
 do -- dump
-    local d = string.dump(plan)
+    local signature
+    if jit then
+        signature = "\x1bLJ"
+    elseif ravi then
+        signature = "\x1bRavi"
+    elseif _VERSION >= 'Lua 5.2' then
+        signature = "\x1bLua"
+    end
+
+    local function add (a, b)
+        return a + b
+    end
+
+    local d = string.dump(add)
     type_ok(d, 'string', "function dump")
+    local f = loadstring(d)
+    type_ok(f, 'function')
+    is(f(1, 2), 3)
+
+    if signature then
+        local sig = d:sub(1, #signature)
+        is(sig, signature)
+    end
+
+    if has_dump53 then
+        local d2 = string.dump(add, true)
+        type_ok(d2, 'string', "function dump with strip")
+        f = loadstring(d2)
+        type_ok(f, 'function')
+        is(f(1, 2), 3)
+        isnt(d2:len(), d:len())
+
+        if signature then
+            local sig = d2:sub(1, #signature)
+            is(sig, signature)
+        end
+    end
 
     error_like(function () string.dump(print) end,
                "^[^:]+:%d+: unable to dump given function",
