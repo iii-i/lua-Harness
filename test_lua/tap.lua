@@ -163,6 +163,14 @@ function error_like (code, pattern, name)
     end
 end
 
+function lives_ok (code, name)
+    local r, msg = pcall(code)
+    ok(r, name)
+    if not r then
+        diag("    " .. msg)
+    end
+end
+
 function diag (msg)
     print("# " .. msg)
 end
