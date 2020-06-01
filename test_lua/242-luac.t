@@ -222,7 +222,7 @@ if _VERSION ~= 'Lua 5.1' then -- bad format
     elseif _VERSION == 'Lua 5.3' then
         like(f:read'*l', "format mismatch in precompiled chunk", "bad format")
     else
-        like(f:read'*l', "bad binary format %(version mismatch%)", "bad format")
+        like(f:read'*l', "bad binary format %(format mismatch%)", "bad format")
     end
     f:close()
 end

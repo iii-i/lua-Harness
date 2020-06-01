@@ -1,7 +1,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2014-2019, Perrad Francois
+-- Copyright (C) 2014-2020, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -31,12 +31,12 @@ do -- char
         is(utf8.char(0x7FFFFFFF):len(), 6)
     else
         error_like(function () utf8.char(0x110000) end,
-                   "^[^:]+:%d+: bad argument #1 to 'char' %(value out of range%)",
+                   "^[^:]+:%d+: bad argument #1 to 'char' %(value out of ",
                    "function char (out of range)")
     end
 
     error_like(function () utf8.char(0, -1) end,
-               "^[^:]+:%d+: bad argument #2 to 'char' %(value out of range%)",
+               "^[^:]+:%d+: bad argument #2 to 'char' %(value out of ",
                "function char (out of range)")
 
      error_like(function () utf8.char(0, 'bad') end,
@@ -90,11 +90,11 @@ do -- codepoints
     eq_array({utf8.codepoint("A\u{20AC}3", 1, 4)}, {0x41, 0x20AC})
 
     error_like(function () utf8.codepoint("A\u{20AC}3", 6) end,
-               "^[^:]+:%d+: bad argument #3 to 'codepoint' %(out of range%)",
+               "^[^:]+:%d+: bad argument #3 to 'codepoint' %(out of ",
                "function codepoint (out of range)")
 
     error_like(function () utf8.codepoint("A\u{20AC}3", 8) end,
-               "^[^:]+:%d+: bad argument #3 to 'codepoint' %(out of range%)",
+               "^[^:]+:%d+: bad argument #3 to 'codepoint' %(out of ",
                "function codepoint (out of range)")
 
     error_like(function () utf8.codepoint("invalid\xFF", 8) end,
@@ -116,7 +116,7 @@ do -- len
     is(utf8.len('ABC', -2), 2)
 
     error_like(function () utf8.len('A', 3) end,
-               "^[^:]+:%d+: bad argument #2 to 'len' %(initial position out of string%)",
+               "^[^:]+:%d+: bad argument #2 to 'len' %(initial position out of ",
                "function len (out of range)")
 
     local len, pos = utf8.len('invalid\xFF')
@@ -163,7 +163,7 @@ do -- offset
     is(utf8.offset("A\u{20AC}3", 0, 6), 6)
 
     error_like(function () utf8.offset("A\u{20AC}3", 1, 7) end,
-               "^[^:]+:%d+: bad argument #3 to 'offset' %(position out of range%)",
+               "^[^:]+:%d+: bad argument #3 to 'offset' %(position out of ",
               "function offset (out of range)")
 
     error_like(function () utf8.offset("\x80", 1) end,
