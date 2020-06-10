@@ -147,8 +147,8 @@ f:close()
 cmd = lua .. [[ -e "error{}"  2>&1]]
 f = io.popen(cmd)
 if has_error53 then
-    is(f:read'*l', lua .. [[: (error object is a table value)]], "error")
-    is(f:read'*l', "stack traceback:", "backtrace")
+    is(f:read'l', lua .. [[: (error object is a table value)]], "error")
+    is(f:read'l', "stack traceback:", "backtrace")
 elseif has_error52 then
     is(f:read'*l', lua .. [[: (no error message)]], "error")
     is(f:read'*l', nil, "not backtrace")
