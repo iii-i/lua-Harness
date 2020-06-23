@@ -34,6 +34,7 @@ end
 local compiled_with_jit = jit.status()
 local luajit20 = jit.version_num < 20100 and not jit.version:match'RaptorJIT'
 local has_jit_opt = compiled_with_jit
+local has_jit_security = jit.security
 local has_jit_util = not ujit and not jit.version:match'RaptorJIT'
 
 plan'no_plan'
@@ -85,6 +86,20 @@ if profile.openresty then
 
     error_like(function () jit.prngstate({}) end,
                "^[^:]+:%d+: bad argument #1 to 'prngstate' %(number expected, got table%)")
+end
+
+-- security
+if has_jit_security then
+    type_ok(jit.security, 'function', "security")
+    type_ok(jit.security('prng'), 'number', "prng")
+    type_ok(jit.security('strhash'), 'number', "strhash")
+    type_ok(jit.security('strid'), 'number', "stdid")
+    type_ok(jit.security('mcode'), 'number', "mcode")
+
+    error_like(function () jit.security('foo') end,
+               "^[^:]+:%d+: bad argument #1 to 'security' %(invalid option 'foo'%)")
+else
+    is(jit.security, nil, "no jit.security")
 end
 
 do -- status
