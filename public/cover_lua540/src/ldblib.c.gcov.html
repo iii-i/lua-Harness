@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - Lua 5.4.0-beta - src/ldblib.c</title>
+  <title>LCOV - Lua 5.4.0 - src/ldblib.c</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">Lua 5.4.0-beta</td>
+            <td class="headerValue">Lua 5.4.0</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">242</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-12-02 17:55:42</td>
+            <td class="headerValue">2020-06-29 23:37:31</td>
             <td></td>
           </tr>
           <tr>
@@ -268,15 +268,15 @@
 <a name="202"><span class="lineNum">     202 </span><span class="lineCov">          3 : static int db_getlocal (lua_State *L) {</span></a>
 <a name="203"><span class="lineNum">     203 </span>            :   int arg;</a>
 <a name="204"><span class="lineNum">     204 </span><span class="lineCov">          3 :   lua_State *L1 = getthread(L, &amp;arg);</span></a>
-<a name="205"><span class="lineNum">     205 </span>            :   lua_Debug ar;</a>
-<a name="206"><span class="lineNum">     206 </span>            :   const char *name;</a>
-<a name="207"><span class="lineNum">     207 </span><span class="lineCov">          3 :   int nvar = (int)luaL_checkinteger(L, arg + 2);  /* local-variable index */</span></a>
-<a name="208"><span class="lineNum">     208 </span><span class="lineCov">          3 :   if (lua_isfunction(L, arg + 1)) {  /* function argument? */</span></a>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">          1 :     lua_pushvalue(L, arg + 1);  /* push function */</span></a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">          1 :     lua_pushstring(L, lua_getlocal(L, NULL, nvar));  /* push local name */</span></a>
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">          1 :     return 1;  /* return only name (there is no value) */</span></a>
-<a name="212"><span class="lineNum">     212 </span>            :   }</a>
-<a name="213"><span class="lineNum">     213 </span>            :   else {  /* stack-level argument */</a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineCov">          3 :   int nvar = (int)luaL_checkinteger(L, arg + 2);  /* local-variable index */</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">          3 :   if (lua_isfunction(L, arg + 1)) {  /* function argument? */</span></a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">          1 :     lua_pushvalue(L, arg + 1);  /* push function */</span></a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">          1 :     lua_pushstring(L, lua_getlocal(L, NULL, nvar));  /* push local name */</span></a>
+<a name="209"><span class="lineNum">     209 </span><span class="lineCov">          1 :     return 1;  /* return only name (there is no value) */</span></a>
+<a name="210"><span class="lineNum">     210 </span>            :   }</a>
+<a name="211"><span class="lineNum">     211 </span>            :   else {  /* stack-level argument */</a>
+<a name="212"><span class="lineNum">     212 </span>            :     lua_Debug ar;</a>
+<a name="213"><span class="lineNum">     213 </span>            :     const char *name;</a>
 <a name="214"><span class="lineNum">     214 </span><span class="lineCov">          2 :     int level = (int)luaL_checkinteger(L, arg + 1);</span></a>
 <a name="215"><span class="lineNum">     215 </span><span class="lineCov">          2 :     if (!lua_getstack(L1, level, &amp;ar))  /* out of range? */</span></a>
 <a name="216"><span class="lineNum">     216 </span><span class="lineCov">          1 :       return luaL_argerror(L, arg+1, &quot;level out of range&quot;);</span></a>
@@ -483,7 +483,7 @@
 <a name="417"><span class="lineNum">     417 </span><span class="lineCov">          1 :       return 0;</span></a>
 <a name="418"><span class="lineNum">     418 </span><span class="lineCov">          4 :     if (luaL_loadbuffer(L, buffer, strlen(buffer), &quot;=(debug command)&quot;) ||</span></a>
 <a name="419"><span class="lineNum">     419 </span><span class="lineCov">          2 :         lua_pcall(L, 0, 0, 0))</span></a>
-<a name="420"><span class="lineNum">     420 </span><span class="lineCov">          1 :       lua_writestringerror(&quot;%s\n&quot;, lua_tostring(L, -1));</span></a>
+<a name="420"><span class="lineNum">     420 </span><span class="lineCov">          1 :       lua_writestringerror(&quot;%s\n&quot;, luaL_tolstring(L, -1, NULL));</span></a>
 <a name="421"><span class="lineNum">     421 </span><span class="lineCov">          2 :     lua_settop(L, 0);  /* remove eventual returns */</span></a>
 <a name="422"><span class="lineNum">     422 </span>            :   }</a>
 <a name="423"><span class="lineNum">     423 </span>            : }</a>

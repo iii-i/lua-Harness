@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-12-02 17:55:41</td>
+            <td class="headerValue">2020-06-29 23:37:30</td>
             <td></td>
           </tr>
           <tr>
@@ -109,24 +109,24 @@
 <a name="43"><span class="lineNum">      43 </span>            : </a>
 <a name="44"><span class="lineNum">      44 </span>            : </a>
 <a name="45"><span class="lineNum">      45 </span>            : /* translate a relative string position: negative means back from end */</a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">      13323 : static size_t posrelat (ptrdiff_t pos, size_t len) {</span></a>
-<a name="47"><span class="lineNum">      47 </span><span class="lineCov">      13323 :   if (pos &gt;= 0) return (size_t)pos;</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">      13325 : static size_t posrelat (ptrdiff_t pos, size_t len) {</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">      13325 :   if (pos &gt;= 0) return (size_t)pos;</span></a>
 <a name="48"><span class="lineNum">      48 </span><span class="lineCov">          3 :   else if (0u - (size_t)pos &gt; len) return 0;</span></a>
 <a name="49"><span class="lineNum">      49 </span><span class="lineCov">          3 :   else return len - ((size_t)-pos) + 1;</span></a>
 <a name="50"><span class="lineNum">      50 </span>            : }</a>
 <a name="51"><span class="lineNum">      51 </span>            : </a>
 <a name="52"><span class="lineNum">      52 </span>            : </a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       6343 : static int str_sub (lua_State *L) {</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       6344 : static int str_sub (lua_State *L) {</span></a>
 <a name="54"><span class="lineNum">      54 </span>            :   size_t l;</a>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">       6343 :   const char *s = luaL_checklstring(L, 1, &amp;l);</span></a>
-<a name="56"><span class="lineNum">      56 </span><span class="lineCov">       6343 :   size_t start = posrelat(luaL_checkinteger(L, 2), l);</span></a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       6343 :   size_t end = posrelat(luaL_optinteger(L, 3, -1), l);</span></a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       6343 :   if (start &lt; 1) start = 1;</span></a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">       6343 :   if (end &gt; l) end = l;</span></a>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">       6343 :   if (start &lt;= end)</span></a>
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       6178 :     lua_pushlstring(L, s + start - 1, end - start + 1);</span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">       6344 :   const char *s = luaL_checklstring(L, 1, &amp;l);</span></a>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">       6344 :   size_t start = posrelat(luaL_checkinteger(L, 2), l);</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       6344 :   size_t end = posrelat(luaL_optinteger(L, 3, -1), l);</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       6344 :   if (start &lt; 1) start = 1;</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">       6344 :   if (end &gt; l) end = l;</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">       6344 :   if (start &lt;= end)</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">       6179 :     lua_pushlstring(L, s + start - 1, end - start + 1);</span></a>
 <a name="62"><span class="lineNum">      62 </span><span class="lineCov">        165 :   else lua_pushliteral(L, &quot;&quot;);</span></a>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       6343 :   return 1;</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       6344 :   return 1;</span></a>
 <a name="64"><span class="lineNum">      64 </span>            : }</a>
 <a name="65"><span class="lineNum">      65 </span>            : </a>
 <a name="66"><span class="lineNum">      66 </span>            : </a>
@@ -230,10 +230,10 @@
 <a name="164"><span class="lineNum">     164 </span>            : }</a>
 <a name="165"><span class="lineNum">     165 </span>            : </a>
 <a name="166"><span class="lineNum">     166 </span>            : </a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">         65 : static int writer (lua_State *L, const void* b, size_t size, void* B) {</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">         51 : static int writer (lua_State *L, const void* b, size_t size, void* B) {</span></a>
 <a name="168"><span class="lineNum">     168 </span>            :   (void)L;</a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineCov">         65 :   luaL_addlstring((luaL_Buffer*) B, (const char *)b, size);</span></a>
-<a name="170"><span class="lineNum">     170 </span><span class="lineCov">         65 :   return 0;</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">         51 :   luaL_addlstring((luaL_Buffer*) B, (const char *)b, size);</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineCov">         51 :   return 0;</span></a>
 <a name="171"><span class="lineNum">     171 </span>            : }</a>
 <a name="172"><span class="lineNum">     172 </span>            : </a>
 <a name="173"><span class="lineNum">     173 </span>            : </a>
@@ -297,20 +297,20 @@
 <a name="231"><span class="lineNum">     231 </span>            : }</a>
 <a name="232"><span class="lineNum">     232 </span>            : </a>
 <a name="233"><span class="lineNum">     233 </span>            : </a>
-<a name="234"><span class="lineNum">     234 </span><span class="lineCov">        118 : static int capture_to_close (MatchState *ms) {</span></a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">        118 :   int level = ms-&gt;level;</span></a>
-<a name="236"><span class="lineNum">     236 </span><span class="lineCov">        125 :   for (level--; level&gt;=0; level--)</span></a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineCov">        124 :     if (ms-&gt;capture[level].len == CAP_UNFINISHED) return level;</span></a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">        131 : static int capture_to_close (MatchState *ms) {</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">        131 :   int level = ms-&gt;level;</span></a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">        138 :   for (level--; level&gt;=0; level--)</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">        137 :     if (ms-&gt;capture[level].len == CAP_UNFINISHED) return level;</span></a>
 <a name="238"><span class="lineNum">     238 </span><span class="lineCov">          1 :   return luaL_error(ms-&gt;L, &quot;invalid pattern capture&quot;);</span></a>
 <a name="239"><span class="lineNum">     239 </span>            : }</a>
 <a name="240"><span class="lineNum">     240 </span>            : </a>
 <a name="241"><span class="lineNum">     241 </span>            : </a>
-<a name="242"><span class="lineNum">     242 </span><span class="lineCov">      15088 : static const char *classend (MatchState *ms, const char *p) {</span></a>
-<a name="243"><span class="lineNum">     243 </span><span class="lineCov">      15088 :   switch (*p++) {</span></a>
-<a name="244"><span class="lineNum">     244 </span><span class="lineCov">       1031 :     case L_ESC: {</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">       1031 :       if (p == ms-&gt;p_end)</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">      15105 : static const char *classend (MatchState *ms, const char *p) {</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">      15105 :   switch (*p++) {</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineCov">       1046 :     case L_ESC: {</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">       1046 :       if (p == ms-&gt;p_end)</span></a>
 <a name="246"><span class="lineNum">     246 </span><span class="lineCov">          1 :         luaL_error(ms-&gt;L, &quot;malformed pattern (ends with &quot; LUA_QL(&quot;%%&quot;) &quot;)&quot;);</span></a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">       1030 :       return p+1;</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">       1045 :       return p+1;</span></a>
 <a name="248"><span class="lineNum">     248 </span>            :     }</a>
 <a name="249"><span class="lineNum">     249 </span><span class="lineCov">        493 :     case '[': {</span></a>
 <a name="250"><span class="lineNum">     250 </span><span class="lineCov">        493 :       if (*p == '^') p++;</span></a>
@@ -322,30 +322,30 @@
 <a name="256"><span class="lineNum">     256 </span><span class="lineCov">        824 :       } while (*p != ']');</span></a>
 <a name="257"><span class="lineNum">     257 </span><span class="lineCov">        492 :       return p+1;</span></a>
 <a name="258"><span class="lineNum">     258 </span>            :     }</a>
-<a name="259"><span class="lineNum">     259 </span><span class="lineCov">      13564 :     default: {</span></a>
-<a name="260"><span class="lineNum">     260 </span><span class="lineCov">      13564 :       return p;</span></a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">      13566 :     default: {</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">      13566 :       return p;</span></a>
 <a name="261"><span class="lineNum">     261 </span>            :     }</a>
 <a name="262"><span class="lineNum">     262 </span>            :   }</a>
 <a name="263"><span class="lineNum">     263 </span>            : }</a>
 <a name="264"><span class="lineNum">     264 </span>            : </a>
 <a name="265"><span class="lineNum">     265 </span>            : </a>
-<a name="266"><span class="lineNum">     266 </span><span class="lineCov">       2825 : static int match_class (int c, int cl) {</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">       2852 : static int match_class (int c, int cl) {</span></a>
 <a name="267"><span class="lineNum">     267 </span>            :   int res;</a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">       2825 :   switch (tolower(cl)) {</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">       2852 :   switch (tolower(cl)) {</span></a>
 <a name="269"><span class="lineNum">     269 </span><span class="lineCov">        111 :     case 'a' : res = isalpha(c); break;</span></a>
 <a name="270"><span class="lineNum">     270 </span><span class="lineCov">         13 :     case 'c' : res = iscntrl(c); break;</span></a>
-<a name="271"><span class="lineNum">     271 </span><span class="lineCov">       1230 :     case 'd' : res = isdigit(c); break;</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">       1232 :     case 'd' : res = isdigit(c); break;</span></a>
 <a name="272"><span class="lineNum">     272 </span><span class="lineCov">         13 :     case 'g' : res = isgraph(c); break;</span></a>
 <a name="273"><span class="lineNum">     273 </span><span class="lineCov">         14 :     case 'l' : res = islower(c); break;</span></a>
 <a name="274"><span class="lineNum">     274 </span><span class="lineCov">         14 :     case 'p' : res = ispunct(c); break;</span></a>
-<a name="275"><span class="lineNum">     275 </span><span class="lineCov">         68 :     case 's' : res = isspace(c); break;</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">         93 :     case 's' : res = isspace(c); break;</span></a>
 <a name="276"><span class="lineNum">     276 </span><span class="lineCov">         14 :     case 'u' : res = isupper(c); break;</span></a>
 <a name="277"><span class="lineNum">     277 </span><span class="lineCov">        785 :     case 'w' : res = isalnum(c); break;</span></a>
 <a name="278"><span class="lineNum">     278 </span><span class="lineCov">        164 :     case 'x' : res = isxdigit(c); break;</span></a>
 <a name="279"><span class="lineNum">     279 </span><span class="lineCov">         11 :     case 'z' : res = (c == 0); break;  /* deprecated option */</span></a>
 <a name="280"><span class="lineNum">     280 </span><span class="lineCov">        388 :     default: return (cl == c);</span></a>
 <a name="281"><span class="lineNum">     281 </span>            :   }</a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineCov">       2437 :   return (islower(cl) ? res : !res);</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">       2464 :   return (islower(cl) ? res : !res);</span></a>
 <a name="283"><span class="lineNum">     283 </span>            : }</a>
 <a name="284"><span class="lineNum">     284 </span>            : </a>
 <a name="285"><span class="lineNum">     285 </span>            : </a>
@@ -372,15 +372,15 @@
 <a name="306"><span class="lineNum">     306 </span>            : }</a>
 <a name="307"><span class="lineNum">     307 </span>            : </a>
 <a name="308"><span class="lineNum">     308 </span>            : </a>
-<a name="309"><span class="lineNum">     309 </span><span class="lineCov">      20991 : static int singlematch (MatchState *ms, const char *s, const char *p,</span></a>
+<a name="309"><span class="lineNum">     309 </span><span class="lineCov">      21033 : static int singlematch (MatchState *ms, const char *s, const char *p,</span></a>
 <a name="310"><span class="lineNum">     310 </span>            :                         const char *ep) {</a>
-<a name="311"><span class="lineNum">     311 </span><span class="lineCov">      20991 :   if (s &gt;= ms-&gt;src_end)</span></a>
-<a name="312"><span class="lineNum">     312 </span><span class="lineCov">        179 :     return 0;</span></a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">      21033 :   if (s &gt;= ms-&gt;src_end)</span></a>
+<a name="312"><span class="lineNum">     312 </span><span class="lineCov">        181 :     return 0;</span></a>
 <a name="313"><span class="lineNum">     313 </span>            :   else {</a>
-<a name="314"><span class="lineNum">     314 </span><span class="lineCov">      20812 :     int c = uchar(*s);</span></a>
-<a name="315"><span class="lineNum">     315 </span><span class="lineCov">      20812 :     switch (*p) {</span></a>
-<a name="316"><span class="lineNum">     316 </span><span class="lineCov">        348 :       case '.': return 1;  /* matches any char */</span></a>
-<a name="317"><span class="lineNum">     317 </span><span class="lineCov">       2642 :       case L_ESC: return match_class(c, uchar(*(p+1)));</span></a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineCov">      20852 :     int c = uchar(*s);</span></a>
+<a name="315"><span class="lineNum">     315 </span><span class="lineCov">      20852 :     switch (*p) {</span></a>
+<a name="316"><span class="lineNum">     316 </span><span class="lineCov">        361 :       case '.': return 1;  /* matches any char */</span></a>
+<a name="317"><span class="lineNum">     317 </span><span class="lineCov">       2669 :       case L_ESC: return match_class(c, uchar(*(p+1)));</span></a>
 <a name="318"><span class="lineNum">     318 </span><span class="lineCov">       4400 :       case '[': return matchbracketclass(c, p, ep-1);</span></a>
 <a name="319"><span class="lineNum">     319 </span><span class="lineCov">      13422 :       default:  return (uchar(*p) == c);</span></a>
 <a name="320"><span class="lineNum">     320 </span>            :     }</a>
@@ -409,56 +409,56 @@
 <a name="343"><span class="lineNum">     343 </span>            : }</a>
 <a name="344"><span class="lineNum">     344 </span>            : </a>
 <a name="345"><span class="lineNum">     345 </span>            : </a>
-<a name="346"><span class="lineNum">     346 </span><span class="lineCov">        787 : static const char *max_expand (MatchState *ms, const char *s,</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">        791 : static const char *max_expand (MatchState *ms, const char *s,</span></a>
 <a name="347"><span class="lineNum">     347 </span>            :                                  const char *p, const char *ep) {</a>
-<a name="348"><span class="lineNum">     348 </span><span class="lineCov">        787 :   ptrdiff_t i = 0;  /* counts maximum expand for item */</span></a>
-<a name="349"><span class="lineNum">     349 </span><span class="lineCov">       5642 :   while (singlematch(ms, s + i, p, ep))</span></a>
-<a name="350"><span class="lineNum">     350 </span><span class="lineCov">       4855 :     i++;</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">        791 :   ptrdiff_t i = 0;  /* counts maximum expand for item */</span></a>
+<a name="349"><span class="lineNum">     349 </span><span class="lineCov">       5656 :   while (singlematch(ms, s + i, p, ep))</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">       4865 :     i++;</span></a>
 <a name="351"><span class="lineNum">     351 </span>            :   /* keeps trying to match with the maximum repetitions */</a>
-<a name="352"><span class="lineNum">     352 </span><span class="lineCov">        834 :   while (i&gt;=0) {</span></a>
-<a name="353"><span class="lineNum">     353 </span><span class="lineCov">        822 :     const char *res = match(ms, (s+i), ep+1);</span></a>
-<a name="354"><span class="lineNum">     354 </span><span class="lineCov">        822 :     if (res) return res;</span></a>
-<a name="355"><span class="lineNum">     355 </span><span class="lineCov">         47 :     i--;  /* else didn't match; reduce 1 repetition to try again */</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">        843 :   while (i&gt;=0) {</span></a>
+<a name="353"><span class="lineNum">     353 </span><span class="lineCov">        829 :     const char *res = match(ms, (s+i), ep+1);</span></a>
+<a name="354"><span class="lineNum">     354 </span><span class="lineCov">        829 :     if (res) return res;</span></a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineCov">         52 :     i--;  /* else didn't match; reduce 1 repetition to try again */</span></a>
 <a name="356"><span class="lineNum">     356 </span>            :   }</a>
-<a name="357"><span class="lineNum">     357 </span><span class="lineCov">         12 :   return NULL;</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">         14 :   return NULL;</span></a>
 <a name="358"><span class="lineNum">     358 </span>            : }</a>
 <a name="359"><span class="lineNum">     359 </span>            : </a>
 <a name="360"><span class="lineNum">     360 </span>            : </a>
-<a name="361"><span class="lineNum">     361 </span><span class="lineCov">        331 : static const char *min_expand (MatchState *ms, const char *s,</span></a>
+<a name="361"><span class="lineNum">     361 </span><span class="lineCov">        344 : static const char *min_expand (MatchState *ms, const char *s,</span></a>
 <a name="362"><span class="lineNum">     362 </span>            :                                  const char *p, const char *ep) {</a>
-<a name="363"><span class="lineNum">     363 </span><span class="lineCov">        297 :   for (;;) {</span></a>
-<a name="364"><span class="lineNum">     364 </span><span class="lineCov">        331 :     const char *res = match(ms, s, ep+1);</span></a>
-<a name="365"><span class="lineNum">     365 </span><span class="lineCov">        331 :     if (res != NULL)</span></a>
-<a name="366"><span class="lineNum">     366 </span><span class="lineCov">         34 :       return res;</span></a>
-<a name="367"><span class="lineNum">     367 </span><span class="lineCov">        297 :     else if (singlematch(ms, s, p, ep))</span></a>
-<a name="368"><span class="lineNum">     368 </span><span class="lineCov">        297 :       s++;  /* try with one more repetition */</span></a>
+<a name="363"><span class="lineNum">     363 </span><span class="lineCov">        308 :   for (;;) {</span></a>
+<a name="364"><span class="lineNum">     364 </span><span class="lineCov">        344 :     const char *res = match(ms, s, ep+1);</span></a>
+<a name="365"><span class="lineNum">     365 </span><span class="lineCov">        344 :     if (res != NULL)</span></a>
+<a name="366"><span class="lineNum">     366 </span><span class="lineCov">         36 :       return res;</span></a>
+<a name="367"><span class="lineNum">     367 </span><span class="lineCov">        308 :     else if (singlematch(ms, s, p, ep))</span></a>
+<a name="368"><span class="lineNum">     368 </span><span class="lineCov">        308 :       s++;  /* try with one more repetition */</span></a>
 <a name="369"><span class="lineNum">     369 </span><span class="lineNoCov">          0 :     else return NULL;</span></a>
 <a name="370"><span class="lineNum">     370 </span>            :   }</a>
 <a name="371"><span class="lineNum">     371 </span>            : }</a>
 <a name="372"><span class="lineNum">     372 </span>            : </a>
 <a name="373"><span class="lineNum">     373 </span>            : </a>
-<a name="374"><span class="lineNum">     374 </span><span class="lineCov">        112 : static const char *start_capture (MatchState *ms, const char *s,</span></a>
+<a name="374"><span class="lineNum">     374 </span><span class="lineCov">        114 : static const char *start_capture (MatchState *ms, const char *s,</span></a>
 <a name="375"><span class="lineNum">     375 </span>            :                                     const char *p, int what) {</a>
 <a name="376"><span class="lineNum">     376 </span>            :   const char *res;</a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        112 :   int level = ms-&gt;level;</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">        112 :   if (level &gt;= LUA_MAXCAPTURES) luaL_error(ms-&gt;L, &quot;too many captures&quot;);</span></a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">        112 :   ms-&gt;capture[level].init = s;</span></a>
-<a name="380"><span class="lineNum">     380 </span><span class="lineCov">        112 :   ms-&gt;capture[level].len = what;</span></a>
-<a name="381"><span class="lineNum">     381 </span><span class="lineCov">        112 :   ms-&gt;level = level+1;</span></a>
-<a name="382"><span class="lineNum">     382 </span><span class="lineCov">        112 :   if ((res=match(ms, s, p)) == NULL)  /* match failed? */</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        114 :   int level = ms-&gt;level;</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">        114 :   if (level &gt;= LUA_MAXCAPTURES) luaL_error(ms-&gt;L, &quot;too many captures&quot;);</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">        114 :   ms-&gt;capture[level].init = s;</span></a>
+<a name="380"><span class="lineNum">     380 </span><span class="lineCov">        114 :   ms-&gt;capture[level].len = what;</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">        114 :   ms-&gt;level = level+1;</span></a>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">        114 :   if ((res=match(ms, s, p)) == NULL)  /* match failed? */</span></a>
 <a name="383"><span class="lineNum">     383 </span><span class="lineCov">         42 :     ms-&gt;level--;  /* undo capture */</span></a>
-<a name="384"><span class="lineNum">     384 </span><span class="lineCov">        112 :   return res;</span></a>
+<a name="384"><span class="lineNum">     384 </span><span class="lineCov">        114 :   return res;</span></a>
 <a name="385"><span class="lineNum">     385 </span>            : }</a>
 <a name="386"><span class="lineNum">     386 </span>            : </a>
 <a name="387"><span class="lineNum">     387 </span>            : </a>
-<a name="388"><span class="lineNum">     388 </span><span class="lineCov">        118 : static const char *end_capture (MatchState *ms, const char *s,</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">        131 : static const char *end_capture (MatchState *ms, const char *s,</span></a>
 <a name="389"><span class="lineNum">     389 </span>            :                                   const char *p) {</a>
-<a name="390"><span class="lineNum">     390 </span><span class="lineCov">        118 :   int l = capture_to_close(ms);</span></a>
+<a name="390"><span class="lineNum">     390 </span><span class="lineCov">        131 :   int l = capture_to_close(ms);</span></a>
 <a name="391"><span class="lineNum">     391 </span>            :   const char *res;</a>
-<a name="392"><span class="lineNum">     392 </span><span class="lineCov">        117 :   ms-&gt;capture[l].len = s - ms-&gt;capture[l].init;  /* close capture */</span></a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineCov">        117 :   if ((res = match(ms, s, p)) == NULL)  /* match failed? */</span></a>
-<a name="394"><span class="lineNum">     394 </span><span class="lineCov">         49 :     ms-&gt;capture[l].len = CAP_UNFINISHED;  /* undo capture */</span></a>
-<a name="395"><span class="lineNum">     395 </span><span class="lineCov">        117 :   return res;</span></a>
+<a name="392"><span class="lineNum">     392 </span><span class="lineCov">        130 :   ms-&gt;capture[l].len = s - ms-&gt;capture[l].init;  /* close capture */</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">        130 :   if ((res = match(ms, s, p)) == NULL)  /* match failed? */</span></a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">         60 :     ms-&gt;capture[l].len = CAP_UNFINISHED;  /* undo capture */</span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">        130 :   return res;</span></a>
 <a name="396"><span class="lineNum">     396 </span>            : }</a>
 <a name="397"><span class="lineNum">     397 </span>            : </a>
 <a name="398"><span class="lineNum">     398 </span>            : </a>
@@ -473,31 +473,31 @@
 <a name="407"><span class="lineNum">     407 </span>            : }</a>
 <a name="408"><span class="lineNum">     408 </span>            : </a>
 <a name="409"><span class="lineNum">     409 </span>            : </a>
-<a name="410"><span class="lineNum">     410 </span><span class="lineCov">       3961 : static const char *match (MatchState *ms, const char *s, const char *p) {</span></a>
-<a name="411"><span class="lineNum">     411 </span><span class="lineCov">       3961 :   if (ms-&gt;matchdepth-- == 0)</span></a>
+<a name="410"><span class="lineNum">     410 </span><span class="lineCov">       3998 : static const char *match (MatchState *ms, const char *s, const char *p) {</span></a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">       3998 :   if (ms-&gt;matchdepth-- == 0)</span></a>
 <a name="412"><span class="lineNum">     412 </span><span class="lineNoCov">          0 :     luaL_error(ms-&gt;L, &quot;pattern too complex&quot;);</span></a>
-<a name="413"><span class="lineNum">     413 </span><span class="lineCov">       3961 :   init: /* using goto's to optimize tail recursion */</span></a>
-<a name="414"><span class="lineNum">     414 </span><span class="lineCov">      15966 :   if (p != ms-&gt;p_end) {  /* end of pattern? */</span></a>
-<a name="415"><span class="lineNum">     415 </span><span class="lineCov">      15382 :     switch (*p) {</span></a>
-<a name="416"><span class="lineNum">     416 </span><span class="lineCov">        112 :       case '(': {  /* start capture */</span></a>
-<a name="417"><span class="lineNum">     417 </span><span class="lineCov">        112 :         if (*(p + 1) == ')')  /* position capture? */</span></a>
+<a name="413"><span class="lineNum">     413 </span><span class="lineCov">       3998 :   init: /* using goto's to optimize tail recursion */</span></a>
+<a name="414"><span class="lineNum">     414 </span><span class="lineCov">      16014 :   if (p != ms-&gt;p_end) {  /* end of pattern? */</span></a>
+<a name="415"><span class="lineNum">     415 </span><span class="lineCov">      15430 :     switch (*p) {</span></a>
+<a name="416"><span class="lineNum">     416 </span><span class="lineCov">        114 :       case '(': {  /* start capture */</span></a>
+<a name="417"><span class="lineNum">     417 </span><span class="lineCov">        114 :         if (*(p + 1) == ')')  /* position capture? */</span></a>
 <a name="418"><span class="lineNum">     418 </span><span class="lineCov">          4 :           s = start_capture(ms, s, p + 2, CAP_POSITION);</span></a>
 <a name="419"><span class="lineNum">     419 </span>            :         else</a>
-<a name="420"><span class="lineNum">     420 </span><span class="lineCov">        108 :           s = start_capture(ms, s, p + 1, CAP_UNFINISHED);</span></a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        112 :         break;</span></a>
+<a name="420"><span class="lineNum">     420 </span><span class="lineCov">        110 :           s = start_capture(ms, s, p + 1, CAP_UNFINISHED);</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        114 :         break;</span></a>
 <a name="422"><span class="lineNum">     422 </span>            :       }</a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineCov">        118 :       case ')': {  /* end capture */</span></a>
-<a name="424"><span class="lineNum">     424 </span><span class="lineCov">        118 :         s = end_capture(ms, s, p + 1);</span></a>
-<a name="425"><span class="lineNum">     425 </span><span class="lineCov">        117 :         break;</span></a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">        131 :       case ')': {  /* end capture */</span></a>
+<a name="424"><span class="lineNum">     424 </span><span class="lineCov">        131 :         s = end_capture(ms, s, p + 1);</span></a>
+<a name="425"><span class="lineNum">     425 </span><span class="lineCov">        130 :         break;</span></a>
 <a name="426"><span class="lineNum">     426 </span>            :       }</a>
-<a name="427"><span class="lineNum">     427 </span><span class="lineCov">         86 :       case '$': {</span></a>
-<a name="428"><span class="lineNum">     428 </span><span class="lineCov">         86 :         if ((p + 1) != ms-&gt;p_end)  /* is the `$' the last char in pattern? */</span></a>
+<a name="427"><span class="lineNum">     427 </span><span class="lineCov">        102 :       case '$': {</span></a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">        102 :         if ((p + 1) != ms-&gt;p_end)  /* is the `$' the last char in pattern? */</span></a>
 <a name="429"><span class="lineNum">     429 </span><span class="lineCov">         62 :           goto dflt;  /* no; go to default */</span></a>
-<a name="430"><span class="lineNum">     430 </span><span class="lineCov">         24 :         s = (s == ms-&gt;src_end) ? s : NULL;  /* check end of string */</span></a>
-<a name="431"><span class="lineNum">     431 </span><span class="lineCov">         24 :         break;</span></a>
+<a name="430"><span class="lineNum">     430 </span><span class="lineCov">         40 :         s = (s == ms-&gt;src_end) ? s : NULL;  /* check end of string */</span></a>
+<a name="431"><span class="lineNum">     431 </span><span class="lineCov">         40 :         break;</span></a>
 <a name="432"><span class="lineNum">     432 </span>            :       }</a>
-<a name="433"><span class="lineNum">     433 </span><span class="lineCov">       1105 :       case L_ESC: {  /* escaped sequences not in the format class[*+?-]? */</span></a>
-<a name="434"><span class="lineNum">     434 </span><span class="lineCov">       1105 :         switch (*(p + 1)) {</span></a>
+<a name="433"><span class="lineNum">     433 </span><span class="lineCov">       1120 :       case L_ESC: {  /* escaped sequences not in the format class[*+?-]? */</span></a>
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">       1120 :         switch (*(p + 1)) {</span></a>
 <a name="435"><span class="lineNum">     435 </span><span class="lineCov">         15 :           case 'b': {  /* balanced string? */</span></a>
 <a name="436"><span class="lineNum">     436 </span><span class="lineCov">         15 :             s = matchbalance(ms, s, p + 2);</span></a>
 <a name="437"><span class="lineNum">     437 </span><span class="lineCov">         14 :             if (s != NULL) {</span></a>
@@ -529,22 +529,22 @@
 <a name="463"><span class="lineNum">     463 </span>            :             }</a>
 <a name="464"><span class="lineNum">     464 </span><span class="lineCov">         18 :             break;</span></a>
 <a name="465"><span class="lineNum">     465 </span>            :           }</a>
-<a name="466"><span class="lineNum">     466 </span><span class="lineCov">       1031 :           default: goto dflt;</span></a>
+<a name="466"><span class="lineNum">     466 </span><span class="lineCov">       1046 :           default: goto dflt;</span></a>
 <a name="467"><span class="lineNum">     467 </span>            :         }</a>
 <a name="468"><span class="lineNum">     468 </span><span class="lineCov">         55 :         break;</span></a>
 <a name="469"><span class="lineNum">     469 </span>            :       }</a>
-<a name="470"><span class="lineNum">     470 </span><span class="lineCov">      15054 :       default: dflt: {  /* pattern class plus optional suffix */</span></a>
-<a name="471"><span class="lineNum">     471 </span><span class="lineCov">      15054 :         const char *ep = classend(ms, p);  /* points to optional suffix */</span></a>
+<a name="470"><span class="lineNum">     470 </span><span class="lineCov">      15071 :       default: dflt: {  /* pattern class plus optional suffix */</span></a>
+<a name="471"><span class="lineNum">     471 </span><span class="lineCov">      15071 :         const char *ep = classend(ms, p);  /* points to optional suffix */</span></a>
 <a name="472"><span class="lineNum">     472 </span>            :         /* does not match at least once? */</a>
-<a name="473"><span class="lineNum">     473 </span><span class="lineCov">      15052 :         if (!singlematch(ms, s, p, ep)) {</span></a>
-<a name="474"><span class="lineNum">     474 </span><span class="lineCov">       2237 :           if (*ep == '*' || *ep == '?' || *ep == '-') {  /* accept empty? */</span></a>
-<a name="475"><span class="lineNum">     475 </span><span class="lineCov">         22 :             p = ep + 1; goto init;  /* return match(ms, s, ep + 1); */</span></a>
+<a name="473"><span class="lineNum">     473 </span><span class="lineCov">      15069 :         if (!singlematch(ms, s, p, ep)) {</span></a>
+<a name="474"><span class="lineNum">     474 </span><span class="lineCov">       2248 :           if (*ep == '*' || *ep == '?' || *ep == '-') {  /* accept empty? */</span></a>
+<a name="475"><span class="lineNum">     475 </span><span class="lineCov">         33 :             p = ep + 1; goto init;  /* return match(ms, s, ep + 1); */</span></a>
 <a name="476"><span class="lineNum">     476 </span>            :           }</a>
 <a name="477"><span class="lineNum">     477 </span>            :           else  /* '+' or no suffix */</a>
 <a name="478"><span class="lineNum">     478 </span><span class="lineCov">       2215 :             s = NULL;  /* fail */</span></a>
 <a name="479"><span class="lineNum">     479 </span>            :         }</a>
 <a name="480"><span class="lineNum">     480 </span>            :         else {  /* matched once */</a>
-<a name="481"><span class="lineNum">     481 </span><span class="lineCov">      12815 :           switch (*ep) {  /* handle optional suffix */</span></a>
+<a name="481"><span class="lineNum">     481 </span><span class="lineCov">      12821 :           switch (*ep) {  /* handle optional suffix */</span></a>
 <a name="482"><span class="lineNum">     482 </span><span class="lineCov">         27 :             case '?': {  /* optional */</span></a>
 <a name="483"><span class="lineNum">     483 </span>            :               const char *res;</a>
 <a name="484"><span class="lineNum">     484 </span><span class="lineCov">         27 :               if ((res = match(ms, s + 1, ep + 1)) != NULL)</span></a>
@@ -557,22 +557,22 @@
 <a name="491"><span class="lineNum">     491 </span><span class="lineCov">        778 :             case '+':  /* 1 or more repetitions */</span></a>
 <a name="492"><span class="lineNum">     492 </span><span class="lineCov">        778 :               s++;  /* 1 match already done */</span></a>
 <a name="493"><span class="lineNum">     493 </span>            :               /* go through */</a>
-<a name="494"><span class="lineNum">     494 </span><span class="lineCov">        787 :             case '*':  /* 0 or more repetitions */</span></a>
-<a name="495"><span class="lineNum">     495 </span><span class="lineCov">        787 :               s = max_expand(ms, s, p, ep);</span></a>
-<a name="496"><span class="lineNum">     496 </span><span class="lineCov">        787 :               break;</span></a>
-<a name="497"><span class="lineNum">     497 </span><span class="lineCov">         34 :             case '-':  /* 0 or more repetitions (minimum) */</span></a>
-<a name="498"><span class="lineNum">     498 </span><span class="lineCov">         34 :               s = min_expand(ms, s, p, ep);</span></a>
-<a name="499"><span class="lineNum">     499 </span><span class="lineCov">         34 :               break;</span></a>
+<a name="494"><span class="lineNum">     494 </span><span class="lineCov">        791 :             case '*':  /* 0 or more repetitions */</span></a>
+<a name="495"><span class="lineNum">     495 </span><span class="lineCov">        791 :               s = max_expand(ms, s, p, ep);</span></a>
+<a name="496"><span class="lineNum">     496 </span><span class="lineCov">        791 :               break;</span></a>
+<a name="497"><span class="lineNum">     497 </span><span class="lineCov">         36 :             case '-':  /* 0 or more repetitions (minimum) */</span></a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineCov">         36 :               s = min_expand(ms, s, p, ep);</span></a>
+<a name="499"><span class="lineNum">     499 </span><span class="lineCov">         36 :               break;</span></a>
 <a name="500"><span class="lineNum">     500 </span><span class="lineCov">      11967 :             default:  /* no suffix */</span></a>
 <a name="501"><span class="lineNum">     501 </span><span class="lineCov">      11967 :               s++; p = ep; goto init;  /* return match(ms, s + 1, ep); */</span></a>
 <a name="502"><span class="lineNum">     502 </span>            :           }</a>
 <a name="503"><span class="lineNum">     503 </span>            :         }</a>
-<a name="504"><span class="lineNum">     504 </span><span class="lineCov">       3063 :         break;</span></a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">       3069 :         break;</span></a>
 <a name="505"><span class="lineNum">     505 </span>            :       }</a>
 <a name="506"><span class="lineNum">     506 </span>            :     }</a>
 <a name="507"><span class="lineNum">     507 </span><span class="lineCov">        584 :   }</span></a>
-<a name="508"><span class="lineNum">     508 </span><span class="lineCov">       3955 :   ms-&gt;matchdepth++;</span></a>
-<a name="509"><span class="lineNum">     509 </span><span class="lineCov">       3955 :   return s;</span></a>
+<a name="508"><span class="lineNum">     508 </span><span class="lineCov">       3992 :   ms-&gt;matchdepth++;</span></a>
+<a name="509"><span class="lineNum">     509 </span><span class="lineCov">       3992 :   return s;</span></a>
 <a name="510"><span class="lineNum">     510 </span>            : }</a>
 <a name="511"><span class="lineNum">     511 </span>            : </a>
 <a name="512"><span class="lineNum">     512 </span>            : </a>
@@ -599,23 +599,23 @@
 <a name="533"><span class="lineNum">     533 </span>            : }</a>
 <a name="534"><span class="lineNum">     534 </span>            : </a>
 <a name="535"><span class="lineNum">     535 </span>            : </a>
-<a name="536"><span class="lineNum">     536 </span><span class="lineCov">        588 : static void push_onecapture (MatchState *ms, int i, const char *s,</span></a>
+<a name="536"><span class="lineNum">     536 </span><span class="lineCov">        590 : static void push_onecapture (MatchState *ms, int i, const char *s,</span></a>
 <a name="537"><span class="lineNum">     537 </span>            :                                                     const char *e) {</a>
-<a name="538"><span class="lineNum">     538 </span><span class="lineCov">        588 :   if (i &gt;= ms-&gt;level) {</span></a>
+<a name="538"><span class="lineNum">     538 </span><span class="lineCov">        590 :   if (i &gt;= ms-&gt;level) {</span></a>
 <a name="539"><span class="lineNum">     539 </span><span class="lineCov">        517 :     if (i == 0)  /* ms-&gt;level == 0, too */</span></a>
 <a name="540"><span class="lineNum">     540 </span><span class="lineCov">        516 :       lua_pushlstring(ms-&gt;L, s, e - s);  /* add whole match */</span></a>
 <a name="541"><span class="lineNum">     541 </span>            :     else</a>
 <a name="542"><span class="lineNum">     542 </span><span class="lineCov">          1 :       luaL_error(ms-&gt;L, &quot;invalid capture index&quot;);</span></a>
 <a name="543"><span class="lineNum">     543 </span>            :   }</a>
 <a name="544"><span class="lineNum">     544 </span>            :   else {</a>
-<a name="545"><span class="lineNum">     545 </span><span class="lineCov">         71 :     ptrdiff_t l = ms-&gt;capture[i].len;</span></a>
-<a name="546"><span class="lineNum">     546 </span><span class="lineCov">         71 :     if (l == CAP_UNFINISHED) luaL_error(ms-&gt;L, &quot;unfinished capture&quot;);</span></a>
-<a name="547"><span class="lineNum">     547 </span><span class="lineCov">         71 :     if (l == CAP_POSITION)</span></a>
+<a name="545"><span class="lineNum">     545 </span><span class="lineCov">         73 :     ptrdiff_t l = ms-&gt;capture[i].len;</span></a>
+<a name="546"><span class="lineNum">     546 </span><span class="lineCov">         73 :     if (l == CAP_UNFINISHED) luaL_error(ms-&gt;L, &quot;unfinished capture&quot;);</span></a>
+<a name="547"><span class="lineNum">     547 </span><span class="lineCov">         73 :     if (l == CAP_POSITION)</span></a>
 <a name="548"><span class="lineNum">     548 </span><span class="lineCov">          2 :       lua_pushinteger(ms-&gt;L, ms-&gt;capture[i].init - ms-&gt;src_init + 1);</span></a>
 <a name="549"><span class="lineNum">     549 </span>            :     else</a>
-<a name="550"><span class="lineNum">     550 </span><span class="lineCov">         69 :       lua_pushlstring(ms-&gt;L, ms-&gt;capture[i].init, l);</span></a>
+<a name="550"><span class="lineNum">     550 </span><span class="lineCov">         71 :       lua_pushlstring(ms-&gt;L, ms-&gt;capture[i].init, l);</span></a>
 <a name="551"><span class="lineNum">     551 </span>            :   }</a>
-<a name="552"><span class="lineNum">     552 </span><span class="lineCov">        587 : }</span></a>
+<a name="552"><span class="lineNum">     552 </span><span class="lineCov">        589 : }</span></a>
 <a name="553"><span class="lineNum">     553 </span>            : </a>
 <a name="554"><span class="lineNum">     554 </span>            : </a>
 <a name="555"><span class="lineNum">     555 </span><span class="lineCov">        548 : static int push_captures (MatchState *ms, const char *s, const char *e) {</span></a>
@@ -741,36 +741,36 @@
 <a name="675"><span class="lineNum">     675 </span>            : }</a>
 <a name="676"><span class="lineNum">     676 </span>            : </a>
 <a name="677"><span class="lineNum">     677 </span>            : </a>
-<a name="678"><span class="lineNum">     678 </span><span class="lineCov">         50 : static void add_s (MatchState *ms, luaL_Buffer *b, const char *s,</span></a>
+<a name="678"><span class="lineNum">     678 </span><span class="lineCov">         52 : static void add_s (MatchState *ms, luaL_Buffer *b, const char *s,</span></a>
 <a name="679"><span class="lineNum">     679 </span>            :                                                    const char *e) {</a>
 <a name="680"><span class="lineNum">     680 </span>            :   size_t l, i;</a>
-<a name="681"><span class="lineNum">     681 </span><span class="lineCov">         50 :   const char *news = lua_tolstring(ms-&gt;L, 3, &amp;l);</span></a>
-<a name="682"><span class="lineNum">     682 </span><span class="lineCov">        167 :   for (i = 0; i &lt; l; i++) {</span></a>
-<a name="683"><span class="lineNum">     683 </span><span class="lineCov">        119 :     if (news[i] != L_ESC)</span></a>
+<a name="681"><span class="lineNum">     681 </span><span class="lineCov">         52 :   const char *news = lua_tolstring(ms-&gt;L, 3, &amp;l);</span></a>
+<a name="682"><span class="lineNum">     682 </span><span class="lineCov">        171 :   for (i = 0; i &lt; l; i++) {</span></a>
+<a name="683"><span class="lineNum">     683 </span><span class="lineCov">        121 :     if (news[i] != L_ESC)</span></a>
 <a name="684"><span class="lineNum">     684 </span><span class="lineCov">         79 :       luaL_addchar(b, news[i]);</span></a>
 <a name="685"><span class="lineNum">     685 </span>            :     else {</a>
-<a name="686"><span class="lineNum">     686 </span><span class="lineCov">         40 :       i++;  /* skip ESC */</span></a>
-<a name="687"><span class="lineNum">     687 </span><span class="lineCov">         40 :       if (!isdigit(uchar(news[i]))) {</span></a>
+<a name="686"><span class="lineNum">     686 </span><span class="lineCov">         42 :       i++;  /* skip ESC */</span></a>
+<a name="687"><span class="lineNum">     687 </span><span class="lineCov">         42 :       if (!isdigit(uchar(news[i]))) {</span></a>
 <a name="688"><span class="lineNum">     688 </span><span class="lineCov">          5 :         if (news[i] != L_ESC)</span></a>
 <a name="689"><span class="lineNum">     689 </span><span class="lineCov">          1 :           luaL_error(ms-&gt;L, &quot;invalid use of &quot; LUA_QL(&quot;%c&quot;)</span></a>
 <a name="690"><span class="lineNum">     690 </span>            :                            &quot; in replacement string&quot;, L_ESC);</a>
 <a name="691"><span class="lineNum">     691 </span><span class="lineCov">          4 :         luaL_addchar(b, news[i]);</span></a>
 <a name="692"><span class="lineNum">     692 </span>            :       }</a>
-<a name="693"><span class="lineNum">     693 </span><span class="lineCov">         35 :       else if (news[i] == '0')</span></a>
+<a name="693"><span class="lineNum">     693 </span><span class="lineCov">         37 :       else if (news[i] == '0')</span></a>
 <a name="694"><span class="lineNum">     694 </span><span class="lineCov">         18 :           luaL_addlstring(b, s, e - s);</span></a>
 <a name="695"><span class="lineNum">     695 </span>            :       else {</a>
-<a name="696"><span class="lineNum">     696 </span><span class="lineCov">         17 :         push_onecapture(ms, news[i] - '1', s, e);</span></a>
-<a name="697"><span class="lineNum">     697 </span><span class="lineCov">         16 :         luaL_addvalue(b);  /* add capture to accumulated result */</span></a>
+<a name="696"><span class="lineNum">     696 </span><span class="lineCov">         19 :         push_onecapture(ms, news[i] - '1', s, e);</span></a>
+<a name="697"><span class="lineNum">     697 </span><span class="lineCov">         18 :         luaL_addvalue(b);  /* add capture to accumulated result */</span></a>
 <a name="698"><span class="lineNum">     698 </span>            :       }</a>
 <a name="699"><span class="lineNum">     699 </span>            :     }</a>
 <a name="700"><span class="lineNum">     700 </span>            :   }</a>
-<a name="701"><span class="lineNum">     701 </span><span class="lineCov">         48 : }</span></a>
+<a name="701"><span class="lineNum">     701 </span><span class="lineCov">         50 : }</span></a>
 <a name="702"><span class="lineNum">     702 </span>            : </a>
 <a name="703"><span class="lineNum">     703 </span>            : </a>
-<a name="704"><span class="lineNum">     704 </span><span class="lineCov">         63 : static void add_value (MatchState *ms, luaL_Buffer *b, const char *s,</span></a>
+<a name="704"><span class="lineNum">     704 </span><span class="lineCov">         65 : static void add_value (MatchState *ms, luaL_Buffer *b, const char *s,</span></a>
 <a name="705"><span class="lineNum">     705 </span>            :                                        const char *e, int tr) {</a>
-<a name="706"><span class="lineNum">     706 </span><span class="lineCov">         63 :   lua_State *L = ms-&gt;L;</span></a>
-<a name="707"><span class="lineNum">     707 </span><span class="lineCov">         63 :   switch (tr) {</span></a>
+<a name="706"><span class="lineNum">     706 </span><span class="lineCov">         65 :   lua_State *L = ms-&gt;L;</span></a>
+<a name="707"><span class="lineNum">     707 </span><span class="lineCov">         65 :   switch (tr) {</span></a>
 <a name="708"><span class="lineNum">     708 </span><span class="lineCov">          5 :     case LUA_TFUNCTION: {</span></a>
 <a name="709"><span class="lineNum">     709 </span>            :       int n;</a>
 <a name="710"><span class="lineNum">     710 </span><span class="lineCov">          5 :       lua_pushvalue(L, 3);</span></a>
@@ -783,9 +783,9 @@
 <a name="717"><span class="lineNum">     717 </span><span class="lineCov">          8 :       lua_gettable(L, 3);</span></a>
 <a name="718"><span class="lineNum">     718 </span><span class="lineCov">          8 :       break;</span></a>
 <a name="719"><span class="lineNum">     719 </span>            :     }</a>
-<a name="720"><span class="lineNum">     720 </span><span class="lineCov">         50 :     default: {  /* LUA_TNUMBER or LUA_TSTRING */</span></a>
-<a name="721"><span class="lineNum">     721 </span><span class="lineCov">         50 :       add_s(ms, b, s, e);</span></a>
-<a name="722"><span class="lineNum">     722 </span><span class="lineCov">         48 :       return;</span></a>
+<a name="720"><span class="lineNum">     720 </span><span class="lineCov">         52 :     default: {  /* LUA_TNUMBER or LUA_TSTRING */</span></a>
+<a name="721"><span class="lineNum">     721 </span><span class="lineCov">         52 :       add_s(ms, b, s, e);</span></a>
+<a name="722"><span class="lineNum">     722 </span><span class="lineCov">         50 :       return;</span></a>
 <a name="723"><span class="lineNum">     723 </span>            :     }</a>
 <a name="724"><span class="lineNum">     724 </span>            :   }</a>
 <a name="725"><span class="lineNum">     725 </span><span class="lineCov">         13 :   if (!lua_toboolean(L, -1)) {  /* nil or false? */</span></a>
@@ -798,48 +798,48 @@
 <a name="732"><span class="lineNum">     732 </span>            : }</a>
 <a name="733"><span class="lineNum">     733 </span>            : </a>
 <a name="734"><span class="lineNum">     734 </span>            : </a>
-<a name="735"><span class="lineNum">     735 </span><span class="lineCov">         30 : static int str_gsub (lua_State *L) {</span></a>
+<a name="735"><span class="lineNum">     735 </span><span class="lineCov">         32 : static int str_gsub (lua_State *L) {</span></a>
 <a name="736"><span class="lineNum">     736 </span>            :   size_t srcl, lp;</a>
-<a name="737"><span class="lineNum">     737 </span><span class="lineCov">         30 :   const char *src = luaL_checklstring(L, 1, &amp;srcl);</span></a>
-<a name="738"><span class="lineNum">     738 </span><span class="lineCov">         30 :   const char *p = luaL_checklstring(L, 2, &amp;lp);</span></a>
-<a name="739"><span class="lineNum">     739 </span><span class="lineCov">         30 :   int tr = lua_type(L, 3);</span></a>
-<a name="740"><span class="lineNum">     740 </span><span class="lineCov">         30 :   size_t max_s = luaL_optinteger(L, 4, srcl+1);</span></a>
-<a name="741"><span class="lineNum">     741 </span><span class="lineCov">         30 :   int anchor = (*p == '^');</span></a>
-<a name="742"><span class="lineNum">     742 </span><span class="lineCov">         30 :   size_t n = 0;</span></a>
+<a name="737"><span class="lineNum">     737 </span><span class="lineCov">         32 :   const char *src = luaL_checklstring(L, 1, &amp;srcl);</span></a>
+<a name="738"><span class="lineNum">     738 </span><span class="lineCov">         32 :   const char *p = luaL_checklstring(L, 2, &amp;lp);</span></a>
+<a name="739"><span class="lineNum">     739 </span><span class="lineCov">         32 :   int tr = lua_type(L, 3);</span></a>
+<a name="740"><span class="lineNum">     740 </span><span class="lineCov">         32 :   size_t max_s = luaL_optinteger(L, 4, srcl+1);</span></a>
+<a name="741"><span class="lineNum">     741 </span><span class="lineCov">         32 :   int anchor = (*p == '^');</span></a>
+<a name="742"><span class="lineNum">     742 </span><span class="lineCov">         32 :   size_t n = 0;</span></a>
 <a name="743"><span class="lineNum">     743 </span>            :   MatchState ms;</a>
 <a name="744"><span class="lineNum">     744 </span>            :   luaL_Buffer b;</a>
-<a name="745"><span class="lineNum">     745 </span><span class="lineCov">         30 :   luaL_argcheck(L, tr == LUA_TNUMBER || tr == LUA_TSTRING ||</span></a>
+<a name="745"><span class="lineNum">     745 </span><span class="lineCov">         32 :   luaL_argcheck(L, tr == LUA_TNUMBER || tr == LUA_TSTRING ||</span></a>
 <a name="746"><span class="lineNum">     746 </span>            :                    tr == LUA_TFUNCTION || tr == LUA_TTABLE, 3,</a>
 <a name="747"><span class="lineNum">     747 </span>            :                       &quot;string/function/table expected&quot;);</a>
-<a name="748"><span class="lineNum">     748 </span><span class="lineCov">         29 :   luaL_buffinit(L, &amp;b);</span></a>
-<a name="749"><span class="lineNum">     749 </span><span class="lineCov">         29 :   if (anchor) {</span></a>
-<a name="750"><span class="lineNum">     750 </span><span class="lineCov">          1 :     p++; lp--;  /* skip anchor character */</span></a>
+<a name="748"><span class="lineNum">     748 </span><span class="lineCov">         31 :   luaL_buffinit(L, &amp;b);</span></a>
+<a name="749"><span class="lineNum">     749 </span><span class="lineCov">         31 :   if (anchor) {</span></a>
+<a name="750"><span class="lineNum">     750 </span><span class="lineCov">          3 :     p++; lp--;  /* skip anchor character */</span></a>
 <a name="751"><span class="lineNum">     751 </span>            :   }</a>
-<a name="752"><span class="lineNum">     752 </span><span class="lineCov">         29 :   ms.L = L;</span></a>
-<a name="753"><span class="lineNum">     753 </span><span class="lineCov">         29 :   ms.matchdepth = MAXCCALLS;</span></a>
-<a name="754"><span class="lineNum">     754 </span><span class="lineCov">         29 :   ms.src_init = src;</span></a>
-<a name="755"><span class="lineNum">     755 </span><span class="lineCov">         29 :   ms.src_end = src+srcl;</span></a>
-<a name="756"><span class="lineNum">     756 </span><span class="lineCov">         29 :   ms.p_end = p + lp;</span></a>
-<a name="757"><span class="lineNum">     757 </span><span class="lineCov">        274 :   while (n &lt; max_s) {</span></a>
+<a name="752"><span class="lineNum">     752 </span><span class="lineCov">         31 :   ms.L = L;</span></a>
+<a name="753"><span class="lineNum">     753 </span><span class="lineCov">         31 :   ms.matchdepth = MAXCCALLS;</span></a>
+<a name="754"><span class="lineNum">     754 </span><span class="lineCov">         31 :   ms.src_init = src;</span></a>
+<a name="755"><span class="lineNum">     755 </span><span class="lineCov">         31 :   ms.src_end = src+srcl;</span></a>
+<a name="756"><span class="lineNum">     756 </span><span class="lineCov">         31 :   ms.p_end = p + lp;</span></a>
+<a name="757"><span class="lineNum">     757 </span><span class="lineCov">        276 :   while (n &lt; max_s) {</span></a>
 <a name="758"><span class="lineNum">     758 </span>            :     const char *e;</a>
-<a name="759"><span class="lineNum">     759 </span><span class="lineCov">        271 :     ms.level = 0;</span></a>
+<a name="759"><span class="lineNum">     759 </span><span class="lineCov">        273 :     ms.level = 0;</span></a>
 <a name="760"><span class="lineNum">     760 </span>            :     lua_assert(ms.matchdepth == MAXCCALLS);</a>
-<a name="761"><span class="lineNum">     761 </span><span class="lineCov">        271 :     e = match(&amp;ms, src, p);</span></a>
-<a name="762"><span class="lineNum">     762 </span><span class="lineCov">        270 :     if (e) {</span></a>
-<a name="763"><span class="lineNum">     763 </span><span class="lineCov">         63 :       n++;</span></a>
-<a name="764"><span class="lineNum">     764 </span><span class="lineCov">         63 :       add_value(&amp;ms, &amp;b, src, e, tr);</span></a>
+<a name="761"><span class="lineNum">     761 </span><span class="lineCov">        273 :     e = match(&amp;ms, src, p);</span></a>
+<a name="762"><span class="lineNum">     762 </span><span class="lineCov">        272 :     if (e) {</span></a>
+<a name="763"><span class="lineNum">     763 </span><span class="lineCov">         65 :       n++;</span></a>
+<a name="764"><span class="lineNum">     764 </span><span class="lineCov">         65 :       add_value(&amp;ms, &amp;b, src, e, tr);</span></a>
 <a name="765"><span class="lineNum">     765 </span>            :     }</a>
-<a name="766"><span class="lineNum">     766 </span><span class="lineCov">        267 :     if (e &amp;&amp; e&gt;src) /* non empty match? */</span></a>
-<a name="767"><span class="lineNum">     767 </span><span class="lineCov">         60 :       src = e;  /* skip it */</span></a>
+<a name="766"><span class="lineNum">     766 </span><span class="lineCov">        269 :     if (e &amp;&amp; e&gt;src) /* non empty match? */</span></a>
+<a name="767"><span class="lineNum">     767 </span><span class="lineCov">         62 :       src = e;  /* skip it */</span></a>
 <a name="768"><span class="lineNum">     768 </span><span class="lineCov">        207 :     else if (src &lt; ms.src_end)</span></a>
 <a name="769"><span class="lineNum">     769 </span><span class="lineCov">        186 :       luaL_addchar(&amp;b, *src++);</span></a>
 <a name="770"><span class="lineNum">     770 </span><span class="lineCov">         21 :     else break;</span></a>
-<a name="771"><span class="lineNum">     771 </span><span class="lineCov">        246 :     if (anchor) break;</span></a>
+<a name="771"><span class="lineNum">     771 </span><span class="lineCov">        248 :     if (anchor) break;</span></a>
 <a name="772"><span class="lineNum">     772 </span>            :   }</a>
-<a name="773"><span class="lineNum">     773 </span><span class="lineCov">         25 :   luaL_addlstring(&amp;b, src, ms.src_end-src);</span></a>
-<a name="774"><span class="lineNum">     774 </span><span class="lineCov">         25 :   luaL_pushresult(&amp;b);</span></a>
-<a name="775"><span class="lineNum">     775 </span><span class="lineCov">         25 :   lua_pushinteger(L, n);  /* number of substitutions */</span></a>
-<a name="776"><span class="lineNum">     776 </span><span class="lineCov">         25 :   return 2;</span></a>
+<a name="773"><span class="lineNum">     773 </span><span class="lineCov">         27 :   luaL_addlstring(&amp;b, src, ms.src_end-src);</span></a>
+<a name="774"><span class="lineNum">     774 </span><span class="lineCov">         27 :   luaL_pushresult(&amp;b);</span></a>
+<a name="775"><span class="lineNum">     775 </span><span class="lineCov">         27 :   lua_pushinteger(L, n);  /* number of substitutions */</span></a>
+<a name="776"><span class="lineNum">     776 </span><span class="lineCov">         27 :   return 2;</span></a>
 <a name="777"><span class="lineNum">     777 </span>            : }</a>
 <a name="778"><span class="lineNum">     778 </span>            : </a>
 <a name="779"><span class="lineNum">     779 </span>            : /* }====================================================== */</a>
