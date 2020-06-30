@@ -122,7 +122,7 @@ os.remove('hello-404.txt') -- clean up
 
 os.execute(lua .. " -b hello-404.lua hello-404.c")
 f = io.open('hello-404.c', 'r')
-like(f:read'*l', '^#ifdef _cplusplus$', "-b hello.lua hello.c")
+like(f:read'*l', '^#ifdef __?cplusplus$', "-b hello.lua hello.c")
 like(f:read'*l', '^extern "C"$')
 like(f:read'*l', '^#endif$')
 like(f:read'*l', '^#ifdef _WIN32$')
