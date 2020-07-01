@@ -37,6 +37,8 @@ local has_write51 = _VERSION == 'Lua 5.1' and (not profile.luajit_compat52 or uj
 local has_lines52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_read52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_read53 = _VERSION >= 'Lua 5.3' or luajit21
+local has_meta53 = _VERSION >= 'Lua 5.3'
+local has_meta54 = _VERSION >= 'Lua 5.4'
 
 local lua = arg[-3] or arg[-1]
 
@@ -52,6 +54,52 @@ end
 
 do -- stderr
     like(io.stderr, '^file %(0?[Xx]?%x+%)$', "variable stderr")
+end
+
+do -- metatable
+    local f = io.tmpfile()
+    local mt = getmetatable(f)
+    type_ok(mt, 'table', "metatable")
+
+    type_ok(mt.__gc, 'function')
+    type_ok(mt.__tostring, 'function')
+    type_ok(mt.__index, 'table')
+
+    if has_meta53 then
+        is(mt.__name, 'FILE*')
+    else
+        is(mt.__name, nil)
+    end
+
+    if has_meta54 then
+        type_ok(mt.__close, 'function')
+        type_ok(mt.__index, 'table')
+        is(mt.close, nil)
+        is(mt.flush, nil)
+        is(mt.lines, nil)
+        is(mt.read, nil)
+        is(mt.seek, nil)
+        is(mt.setvbuf, nil)
+        is(mt.write, nil)
+    else
+        is(mt.__close, nil)
+        is(mt.__index, mt)
+        type_ok(mt.close, 'function')
+        type_ok(mt.flush, 'function')
+        type_ok(mt.lines, 'function')
+        type_ok(mt.read, 'function')
+        type_ok(mt.seek, 'function')
+        type_ok(mt.setvbuf, 'function')
+        type_ok(mt.write, 'function')
+    end
+
+    type_ok(mt.__index.close, 'function')
+    type_ok(mt.__index.flush, 'function')
+    type_ok(mt.__index.lines, 'function')
+    type_ok(mt.__index.read, 'function')
+    type_ok(mt.__index.seek, 'function')
+    type_ok(mt.__index.setvbuf, 'function')
+    type_ok(mt.__index.write, 'function')
 end
 
 do -- close

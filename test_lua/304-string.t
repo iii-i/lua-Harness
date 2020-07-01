@@ -47,7 +47,56 @@ local loadstring = loadstring or load
 
 plan'no_plan'
 
-type_ok(getmetatable('ABC'), 'table', "literal string has metatable")
+do -- metatable
+    local mt = getmetatable('ABC')
+    type_ok(mt, 'table', "metatable")
+    type_ok(mt.__index, 'table')
+
+    if not profile.nocvts2n and _VERSION >= 'Lua 5.4' then
+        type_ok(mt.__add, 'function')
+        type_ok(mt.__div, 'function')
+        type_ok(mt.__idiv, 'function')
+        type_ok(mt.__mul, 'function')
+        type_ok(mt.__mod, 'function')
+        type_ok(mt.__pow, 'function')
+        type_ok(mt.__sub, 'function')
+        type_ok(mt.__unm, 'function')
+    else
+        is(mt.__add, nil)
+        is(mt.__div, nil)
+        is(mt.__idiv, nil)
+        is(mt.__mul, nil)
+        is(mt.__mod, nil)
+        is(mt.__pow, nil)
+        is(mt.__sub, nil)
+        is(mt.__unm, nil)
+    end
+
+    is(mt.__index.byte, string.byte)
+    is(mt.__index.char, string.char)
+    is(mt.__index.dump, string.dump)
+    is(mt.__index.find, string.find)
+    is(mt.__index.format, string.format)
+    is(mt.__index.gmatch, string.gmatch)
+    is(mt.__index.gsub, string.gsub)
+    is(mt.__index.len, string.len)
+    is(mt.__index.lower, string.lower)
+    is(mt.__index.match, string.match)
+    is(mt.__index.rep, string.rep)
+    is(mt.__index.reverse, string.reverse)
+    is(mt.__index.sub, string.sub)
+    is(mt.__index.upper, string.upper)
+
+    if has_pack then
+        is(mt.__index.pack, string.pack)
+        is(mt.__index.packsize, string.packsize)
+        is(mt.__index.unpack, string.unpack)
+    else
+        is(mt.__index.pack, nil)
+        is(mt.__index.packsize, nil)
+        is(mt.__index.unpack, nil)
+    end
+end
 
 do -- byte
     is(string.byte('ABC'), 65, "function byte")

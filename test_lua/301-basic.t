@@ -241,6 +241,19 @@ else
     is(getfenv, nil, "no getfenv")
 end
 
+do -- getmetatable
+    is(getmetatable(true), nil, "boolean has no metatable by default")
+    is(getmetatable(getmetatable), nil, "function has no metatable by default")
+    is(getmetatable(nil), nil, "nil has no metatable by default")
+    is(getmetatable(3.14), nil, "number has no metatable by default")
+    is(getmetatable({}), nil, "table has no metatable by default")
+    local co = coroutine.create(function () return 1 end)
+    is(getmetatable(co), nil, "thread has no metatable by default")
+
+    type_ok(getmetatable('ABC'), 'table', "string has a metatable")
+    is(getmetatable('ABC'), getmetatable('abc'), "string has a shared metatable")
+end
+
 do -- ipairs
     local a = {'a','b','c'}
     if has_ipairs53 then
@@ -647,6 +660,22 @@ if has_getfenv then
                "function setfenv (forbidden)")
 else
     is(setfenv, nil, "no setfenv")
+end
+
+do -- setmetatable
+    local mt = {}
+    local t = {}
+    is(t, setmetatable(t, mt), "setmetatable")
+    is(getmetatable(t), mt)
+    is(t, setmetatable(t, nil))
+    is(getmetatable(t), nil)
+
+    error_like(function () setmetatable(t, true) end,
+               "^[^:]+:%d+: bad argument #2 to 'setmetatable' %(nil or table expected",
+               "function setmetatable (bad arg)")
+    error_like(function () setmetatable(true, mt) end,
+               "^[^:]+:%d+: bad argument #1 to 'setmetatable' %(table expected, got boolean%)",
+               "function setmetatable (bad arg)")
 end
 
 do -- type
