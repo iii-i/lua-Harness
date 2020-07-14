@@ -57,8 +57,8 @@ a:	$(ALL_A)
 
 lcov:
 	lcov --capture -d . -o lua.info
-	rm -rf ../../../public/cover_lua535
-	genhtml -o ../../../public/cover_lua535 -t "Lua 5.3.5" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
+	rm -rf ../../../public/cover_lua536
+	genhtml -o ../../../public/cover_lua536 -t "Lua 5.3.6-rc1" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
 
 $(LUA_A): $(BASE_O)
 	$(AR) $@ $(BASE_O)
@@ -107,7 +107,7 @@ c89:
 
 
 freebsd:
-	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX -DLUA_USE_READLINE -I/usr/include/edit" SYSLIBS="-Wl,-E -ledit" CC="cc"
+	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX -I/usr/include/edit" SYSLIBS="-Wl,-E -ledit" CC="cc"
 
 generic: $(ALL)
 
