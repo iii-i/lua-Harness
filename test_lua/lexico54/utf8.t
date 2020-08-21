@@ -41,7 +41,7 @@ do -- len
     is(len, nil)
     is(pos, 2)
 
-    local len, pos = utf8.len('A\u{200000}C', 1, -1, false)
+    len, pos = utf8.len('A\u{200000}C', 1, -1, false)
     is(len, nil)
     is(pos, 2)
 end
