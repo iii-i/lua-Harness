@@ -16,6 +16,7 @@ read_globals = {
     'eq_array',
     'error_is',
     'error_like',
+    'lives_ok',
     'diag',
     'skip',
     'skip_rest',
