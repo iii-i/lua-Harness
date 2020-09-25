@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-06-29 23:37:31</td>
+            <td class="headerValue">2020-09-25 20:41:38</td>
             <td></td>
           </tr>
           <tr>
@@ -154,8 +154,8 @@
 <a name="88"><span class="lineNum">      88 </span>            : };</a>
 <a name="89"><span class="lineNum">      89 </span>            : </a>
 <a name="90"><span class="lineNum">      90 </span>            : </a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">        539 : void luaD_seterrorobj (lua_State *L, int errcode, StkId oldtop) {</span></a>
-<a name="92"><span class="lineNum">      92 </span><span class="lineCov">        539 :   switch (errcode) {</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">        541 : void luaD_seterrorobj (lua_State *L, int errcode, StkId oldtop) {</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">        541 :   switch (errcode) {</span></a>
 <a name="93"><span class="lineNum">      93 </span><span class="lineNoCov">          0 :     case LUA_ERRMEM: {  /* memory error? */</span></a>
 <a name="94"><span class="lineNum">      94 </span><span class="lineNoCov">          0 :       setsvalue2s(L, oldtop, G(L)-&gt;memerrmsg); /* reuse preregistered msg. */</span></a>
 <a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 :       break;</span></a>
@@ -168,19 +168,19 @@
 <a name="102"><span class="lineNum">     102 </span><span class="lineNoCov">          0 :       setnilvalue(s2v(oldtop));  /* no error message */</span></a>
 <a name="103"><span class="lineNum">     103 </span><span class="lineNoCov">          0 :       break;</span></a>
 <a name="104"><span class="lineNum">     104 </span>            :     }</a>
-<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        539 :     default: {</span></a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        539 :       setobjs2s(L, oldtop, L-&gt;top - 1);  /* error message on current top */</span></a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        539 :       break;</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">        541 :     default: {</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        541 :       setobjs2s(L, oldtop, L-&gt;top - 1);  /* error message on current top */</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        541 :       break;</span></a>
 <a name="108"><span class="lineNum">     108 </span>            :     }</a>
 <a name="109"><span class="lineNum">     109 </span>            :   }</a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        539 :   L-&gt;top = oldtop + 1;</span></a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        539 : }</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        541 :   L-&gt;top = oldtop + 1;</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        541 : }</span></a>
 <a name="112"><span class="lineNum">     112 </span>            : </a>
 <a name="113"><span class="lineNum">     113 </span>            : </a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">       6492 : l_noret luaD_throw (lua_State *L, int errcode) {</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       6492 :   if (L-&gt;errorJmp) {  /* thread has an error handler? */</span></a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">       6492 :     L-&gt;errorJmp-&gt;status = errcode;  /* set status */</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">       6492 :     LUAI_THROW(L, L-&gt;errorJmp);  /* jump to it */</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">       6494 : l_noret luaD_throw (lua_State *L, int errcode) {</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       6494 :   if (L-&gt;errorJmp) {  /* thread has an error handler? */</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">       6494 :     L-&gt;errorJmp-&gt;status = errcode;  /* set status */</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">       6494 :     LUAI_THROW(L, L-&gt;errorJmp);  /* jump to it */</span></a>
 <a name="118"><span class="lineNum">     118 </span>            :   }</a>
 <a name="119"><span class="lineNum">     119 </span>            :   else {  /* thread has no error handler */</a>
 <a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :     global_State *g = G(L);</span></a>
@@ -204,19 +204,19 @@
 <a name="138"><span class="lineNum">     138 </span>            : }</a>
 <a name="139"><span class="lineNum">     139 </span>            : </a>
 <a name="140"><span class="lineNum">     140 </span>            : </a>
-<a name="141"><span class="lineNum">     141 </span><span class="lineCov">       8083 : int luaD_rawrunprotected (lua_State *L, Pfunc f, void *ud) {</span></a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineCov">       8083 :   global_State *g = G(L);</span></a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       8083 :   l_uint32 oldnCcalls = g-&gt;Cstacklimit - (L-&gt;nCcalls + L-&gt;nci);</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">       8086 : int luaD_rawrunprotected (lua_State *L, Pfunc f, void *ud) {</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">       8086 :   global_State *g = G(L);</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       8086 :   l_uint32 oldnCcalls = g-&gt;Cstacklimit - (L-&gt;nCcalls + L-&gt;nci);</span></a>
 <a name="144"><span class="lineNum">     144 </span>            :   struct lua_longjmp lj;</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineCov">       8083 :   lj.status = LUA_OK;</span></a>
-<a name="146"><span class="lineNum">     146 </span><span class="lineCov">       8083 :   lj.previous = L-&gt;errorJmp;  /* chain new error handler */</span></a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineCov">       8083 :   L-&gt;errorJmp = &amp;lj;</span></a>
-<a name="148"><span class="lineNum">     148 </span><span class="lineCov">       8083 :   LUAI_TRY(L, &amp;lj,</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">       8086 :   lj.status = LUA_OK;</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">       8086 :   lj.previous = L-&gt;errorJmp;  /* chain new error handler */</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">       8086 :   L-&gt;errorJmp = &amp;lj;</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">       8086 :   LUAI_TRY(L, &amp;lj,</span></a>
 <a name="149"><span class="lineNum">     149 </span>            :     (*f)(L, ud);</a>
 <a name="150"><span class="lineNum">     150 </span>            :   );</a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">       8056 :   L-&gt;errorJmp = lj.previous;  /* restore old error handler */</span></a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">       8056 :   L-&gt;nCcalls = g-&gt;Cstacklimit - oldnCcalls - L-&gt;nci;</span></a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineCov">       8056 :   return lj.status;</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">       8059 :   L-&gt;errorJmp = lj.previous;  /* restore old error handler */</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">       8059 :   L-&gt;nCcalls = g-&gt;Cstacklimit - oldnCcalls - L-&gt;nci;</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">       8059 :   return lj.status;</span></a>
 <a name="154"><span class="lineNum">     154 </span>            : }</a>
 <a name="155"><span class="lineNum">     155 </span>            : </a>
 <a name="156"><span class="lineNum">     156 </span>            : /* }====================================================== */</a>
@@ -227,19 +227,19 @@
 <a name="161"><span class="lineNum">     161 </span>            : ** Stack reallocation</a>
 <a name="162"><span class="lineNum">     162 </span>            : ** ===================================================================</a>
 <a name="163"><span class="lineNum">     163 </span>            : */</a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineCov">       1199 : static void correctstack (lua_State *L, StkId oldstack, StkId newstack) {</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">       1205 : static void correctstack (lua_State *L, StkId oldstack, StkId newstack) {</span></a>
 <a name="165"><span class="lineNum">     165 </span>            :   CallInfo *ci;</a>
 <a name="166"><span class="lineNum">     166 </span>            :   UpVal *up;</a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">       1199 :   if (oldstack == newstack)</span></a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">        770 :     return;  /* stack address did not change */</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">       1205 :   if (oldstack == newstack)</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">        776 :     return;  /* stack address did not change */</span></a>
 <a name="169"><span class="lineNum">     169 </span><span class="lineCov">        429 :   L-&gt;top = (L-&gt;top - oldstack) + newstack;</span></a>
 <a name="170"><span class="lineNum">     170 </span><span class="lineCov">       1880 :   for (up = L-&gt;openupval; up != NULL; up = up-&gt;u.open.next)</span></a>
 <a name="171"><span class="lineNum">     171 </span><span class="lineCov">       1451 :     up-&gt;v = s2v((uplevel(up) - oldstack) + newstack);</span></a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineCov">       3050 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span></a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineCov">       2621 :     ci-&gt;top = (ci-&gt;top - oldstack) + newstack;</span></a>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">       2621 :     ci-&gt;func = (ci-&gt;func - oldstack) + newstack;</span></a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineCov">       2621 :     if (isLua(ci))</span></a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineCov">       1632 :       ci-&gt;u.l.trap = 1;  /* signal to update 'trap' in 'luaV_execute' */</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">       3049 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">       2620 :     ci-&gt;top = (ci-&gt;top - oldstack) + newstack;</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">       2620 :     ci-&gt;func = (ci-&gt;func - oldstack) + newstack;</span></a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">       2620 :     if (isLua(ci))</span></a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">       1631 :       ci-&gt;u.l.trap = 1;  /* signal to update 'trap' in 'luaV_execute' */</span></a>
 <a name="177"><span class="lineNum">     177 </span>            :   }</a>
 <a name="178"><span class="lineNum">     178 </span>            : }</a>
 <a name="179"><span class="lineNum">     179 </span>            : </a>
@@ -248,23 +248,23 @@
 <a name="182"><span class="lineNum">     182 </span>            : #define ERRORSTACKSIZE  (LUAI_MAXSTACK + 200)</a>
 <a name="183"><span class="lineNum">     183 </span>            : </a>
 <a name="184"><span class="lineNum">     184 </span>            : </a>
-<a name="185"><span class="lineNum">     185 </span><span class="lineCov">       1199 : int luaD_reallocstack (lua_State *L, int newsize, int raiseerror) {</span></a>
-<a name="186"><span class="lineNum">     186 </span><span class="lineCov">       1199 :   int lim = L-&gt;stacksize;</span></a>
-<a name="187"><span class="lineNum">     187 </span><span class="lineCov">       1199 :   StkId newstack = luaM_reallocvector(L, L-&gt;stack, lim, newsize, StackValue);</span></a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">       1205 : int luaD_reallocstack (lua_State *L, int newsize, int raiseerror) {</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">       1205 :   int lim = L-&gt;stacksize;</span></a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">       1205 :   StkId newstack = luaM_reallocvector(L, L-&gt;stack, lim, newsize, StackValue);</span></a>
 <a name="188"><span class="lineNum">     188 </span>            :   lua_assert(newsize &lt;= LUAI_MAXSTACK || newsize == ERRORSTACKSIZE);</a>
 <a name="189"><span class="lineNum">     189 </span>            :   lua_assert(L-&gt;stack_last - L-&gt;stack == L-&gt;stacksize - EXTRA_STACK);</a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">       1199 :   if (unlikely(newstack == NULL)) {  /* reallocation failed? */</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">       1205 :   if (unlikely(newstack == NULL)) {  /* reallocation failed? */</span></a>
 <a name="191"><span class="lineNum">     191 </span><span class="lineNoCov">          0 :     if (raiseerror)</span></a>
 <a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 :       luaM_error(L);</span></a>
 <a name="193"><span class="lineNum">     193 </span><span class="lineNoCov">          0 :     else return 0;  /* do not raise an error */</span></a>
 <a name="194"><span class="lineNum">     194 </span>            :   }</a>
-<a name="195"><span class="lineNum">     195 </span><span class="lineCov">      32209 :   for (; lim &lt; newsize; lim++)</span></a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineCov">      31010 :     setnilvalue(s2v(newstack + lim)); /* erase new segment */</span></a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">       1199 :   correctstack(L, L-&gt;stack, newstack);</span></a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineCov">       1199 :   L-&gt;stack = newstack;</span></a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       1199 :   L-&gt;stacksize = newsize;</span></a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       1199 :   L-&gt;stack_last = L-&gt;stack + newsize - EXTRA_STACK;</span></a>
-<a name="201"><span class="lineNum">     201 </span><span class="lineCov">       1199 :   return 1;</span></a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">      32429 :   for (; lim &lt; newsize; lim++)</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">      31224 :     setnilvalue(s2v(newstack + lim)); /* erase new segment */</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">       1205 :   correctstack(L, L-&gt;stack, newstack);</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">       1205 :   L-&gt;stack = newstack;</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       1205 :   L-&gt;stacksize = newsize;</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       1205 :   L-&gt;stack_last = L-&gt;stack + newsize - EXTRA_STACK;</span></a>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">       1205 :   return 1;</span></a>
 <a name="202"><span class="lineNum">     202 </span>            : }</a>
 <a name="203"><span class="lineNum">     203 </span>            : </a>
 <a name="204"><span class="lineNum">     204 </span>            : </a>
@@ -272,21 +272,21 @@
 <a name="206"><span class="lineNum">     206 </span>            : ** Try to grow the stack by at least 'n' elements. when 'raiseerror'</a>
 <a name="207"><span class="lineNum">     207 </span>            : ** is true, raises any error; otherwise, return 0 in case of errors.</a>
 <a name="208"><span class="lineNum">     208 </span>            : */</a>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">        572 : int luaD_growstack (lua_State *L, int n, int raiseerror) {</span></a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">        572 :   int size = L-&gt;stacksize;</span></a>
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">        572 :   int newsize = 2 * size;  /* tentative new size */</span></a>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">        572 :   if (unlikely(size &gt; LUAI_MAXSTACK)) {  /* need more space after extra size? */</span></a>
+<a name="209"><span class="lineNum">     209 </span><span class="lineCov">        575 : int luaD_growstack (lua_State *L, int n, int raiseerror) {</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">        575 :   int size = L-&gt;stacksize;</span></a>
+<a name="211"><span class="lineNum">     211 </span><span class="lineCov">        575 :   int newsize = 2 * size;  /* tentative new size */</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">        575 :   if (unlikely(size &gt; LUAI_MAXSTACK)) {  /* need more space after extra size? */</span></a>
 <a name="213"><span class="lineNum">     213 </span><span class="lineNoCov">          0 :     if (raiseerror)</span></a>
 <a name="214"><span class="lineNum">     214 </span><span class="lineNoCov">          0 :       luaD_throw(L, LUA_ERRERR);  /* error inside message handler */</span></a>
 <a name="215"><span class="lineNum">     215 </span><span class="lineNoCov">          0 :     else return 0;</span></a>
 <a name="216"><span class="lineNum">     216 </span>            :   }</a>
 <a name="217"><span class="lineNum">     217 </span>            :   else {</a>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">        572 :     int needed = cast_int(L-&gt;top - L-&gt;stack) + n + EXTRA_STACK;</span></a>
-<a name="219"><span class="lineNum">     219 </span><span class="lineCov">        572 :     if (newsize &gt; LUAI_MAXSTACK)  /* cannot cross the limit */</span></a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">        575 :     int needed = cast_int(L-&gt;top - L-&gt;stack) + n + EXTRA_STACK;</span></a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">        575 :     if (newsize &gt; LUAI_MAXSTACK)  /* cannot cross the limit */</span></a>
 <a name="220"><span class="lineNum">     220 </span><span class="lineNoCov">          0 :       newsize = LUAI_MAXSTACK;</span></a>
-<a name="221"><span class="lineNum">     221 </span><span class="lineCov">        572 :     if (newsize &lt; needed)  /* but must respect what was asked for */</span></a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">        575 :     if (newsize &lt; needed)  /* but must respect what was asked for */</span></a>
 <a name="222"><span class="lineNum">     222 </span><span class="lineNoCov">          0 :       newsize = needed;</span></a>
-<a name="223"><span class="lineNum">     223 </span><span class="lineCov">        572 :     if (unlikely(newsize &gt; LUAI_MAXSTACK)) {  /* stack overflow? */</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">        575 :     if (unlikely(newsize &gt; LUAI_MAXSTACK)) {  /* stack overflow? */</span></a>
 <a name="224"><span class="lineNum">     224 </span>            :       /* add extra size to be able to handle the error message */</a>
 <a name="225"><span class="lineNum">     225 </span><span class="lineNoCov">          0 :       luaD_reallocstack(L, ERRORSTACKSIZE, raiseerror);</span></a>
 <a name="226"><span class="lineNum">     226 </span><span class="lineNoCov">          0 :       if (raiseerror)</span></a>
@@ -294,35 +294,35 @@
 <a name="228"><span class="lineNum">     228 </span><span class="lineNoCov">          0 :       else return 0;</span></a>
 <a name="229"><span class="lineNum">     229 </span>            :     }</a>
 <a name="230"><span class="lineNum">     230 </span>            :   }  /* else no errors */</a>
-<a name="231"><span class="lineNum">     231 </span><span class="lineCov">        572 :   return luaD_reallocstack(L, newsize, raiseerror);</span></a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineCov">        575 :   return luaD_reallocstack(L, newsize, raiseerror);</span></a>
 <a name="232"><span class="lineNum">     232 </span>            : }</a>
 <a name="233"><span class="lineNum">     233 </span>            : </a>
 <a name="234"><span class="lineNum">     234 </span>            : </a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">        832 : static int stackinuse (lua_State *L) {</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">        834 : static int stackinuse (lua_State *L) {</span></a>
 <a name="236"><span class="lineNum">     236 </span>            :   CallInfo *ci;</a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineCov">        832 :   StkId lim = L-&gt;top;</span></a>
-<a name="238"><span class="lineNum">     238 </span><span class="lineCov">       4388 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span></a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">       3556 :     if (lim &lt; ci-&gt;top) lim = ci-&gt;top;</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">        834 :   StkId lim = L-&gt;top;</span></a>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">       4400 :   for (ci = L-&gt;ci; ci != NULL; ci = ci-&gt;previous) {</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">       3566 :     if (lim &lt; ci-&gt;top) lim = ci-&gt;top;</span></a>
 <a name="240"><span class="lineNum">     240 </span>            :   }</a>
 <a name="241"><span class="lineNum">     241 </span>            :   lua_assert(lim &lt;= L-&gt;stack_last);</a>
-<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        832 :   return cast_int(lim - L-&gt;stack) + 1;  /* part of stack in use */</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        834 :   return cast_int(lim - L-&gt;stack) + 1;  /* part of stack in use */</span></a>
 <a name="243"><span class="lineNum">     243 </span>            : }</a>
 <a name="244"><span class="lineNum">     244 </span>            : </a>
 <a name="245"><span class="lineNum">     245 </span>            : </a>
-<a name="246"><span class="lineNum">     246 </span><span class="lineCov">        832 : void luaD_shrinkstack (lua_State *L) {</span></a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">        832 :   int inuse = stackinuse(L);</span></a>
-<a name="248"><span class="lineNum">     248 </span><span class="lineCov">        832 :   int goodsize = inuse + (inuse / 8) + 2*EXTRA_STACK;</span></a>
-<a name="249"><span class="lineNum">     249 </span><span class="lineCov">        832 :   if (goodsize &gt; LUAI_MAXSTACK)</span></a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">        834 : void luaD_shrinkstack (lua_State *L) {</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">        834 :   int inuse = stackinuse(L);</span></a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">        834 :   int goodsize = inuse + (inuse / 8) + 2*EXTRA_STACK;</span></a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">        834 :   if (goodsize &gt; LUAI_MAXSTACK)</span></a>
 <a name="250"><span class="lineNum">     250 </span><span class="lineNoCov">          0 :     goodsize = LUAI_MAXSTACK;  /* respect stack limit */</span></a>
 <a name="251"><span class="lineNum">     251 </span>            :   /* if thread is currently not handling a stack overflow and its</a>
 <a name="252"><span class="lineNum">     252 </span>            :      good size is smaller than current size, shrink its stack */</a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">        832 :   if (inuse &lt;= (LUAI_MAXSTACK - EXTRA_STACK) &amp;&amp;</span></a>
-<a name="254"><span class="lineNum">     254 </span><span class="lineCov">        832 :       goodsize &lt; L-&gt;stacksize)</span></a>
-<a name="255"><span class="lineNum">     255 </span><span class="lineCov">        627 :     luaD_reallocstack(L, goodsize, 0);  /* ok if that fails */</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">        834 :   if (inuse &lt;= (LUAI_MAXSTACK - EXTRA_STACK) &amp;&amp;</span></a>
+<a name="254"><span class="lineNum">     254 </span><span class="lineCov">        834 :       goodsize &lt; L-&gt;stacksize)</span></a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">        630 :     luaD_reallocstack(L, goodsize, 0);  /* ok if that fails */</span></a>
 <a name="256"><span class="lineNum">     256 </span>            :   else  /* don't change stack */</a>
 <a name="257"><span class="lineNum">     257 </span>            :     condmovestack(L,{},{});  /* (change only for debugging) */</a>
-<a name="258"><span class="lineNum">     258 </span><span class="lineCov">        832 :   luaE_shrinkCI(L);  /* shrink CI list */</span></a>
-<a name="259"><span class="lineNum">     259 </span><span class="lineCov">        832 : }</span></a>
+<a name="258"><span class="lineNum">     258 </span><span class="lineCov">        834 :   luaE_shrinkCI(L);  /* shrink CI list */</span></a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">        834 : }</span></a>
 <a name="260"><span class="lineNum">     260 </span>            : </a>
 <a name="261"><span class="lineNum">     261 </span>            : </a>
 <a name="262"><span class="lineNum">     262 </span><span class="lineCov">       1055 : void luaD_inctop (lua_State *L) {</span></a>
@@ -436,25 +436,25 @@
 <a name="370"><span class="lineNum">     370 </span>            : ** expressions, multiple results for tail calls/single parameters)</a>
 <a name="371"><span class="lineNum">     371 </span>            : ** separated.</a>
 <a name="372"><span class="lineNum">     372 </span>            : */</a>
-<a name="373"><span class="lineNum">     373 </span><span class="lineCov">     106202 : static void moveresults (lua_State *L, StkId res, int nres, int wanted) {</span></a>
+<a name="373"><span class="lineNum">     373 </span><span class="lineCov">     106370 : static void moveresults (lua_State *L, StkId res, int nres, int wanted) {</span></a>
 <a name="374"><span class="lineNum">     374 </span>            :   StkId firstresult;</a>
 <a name="375"><span class="lineNum">     375 </span>            :   int i;</a>
-<a name="376"><span class="lineNum">     376 </span><span class="lineCov">     106202 :   switch (wanted) {  /* handle typical cases separately */</span></a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">      21248 :     case 0:  /* no values needed */</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">      21248 :       L-&gt;top = res;</span></a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">      21248 :       return;</span></a>
-<a name="380"><span class="lineNum">     380 </span><span class="lineCov">      18857 :     case 1:  /* one value needed */</span></a>
-<a name="381"><span class="lineNum">     381 </span><span class="lineCov">      18857 :       if (nres == 0)   /* no results? */</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">     106370 :   switch (wanted) {  /* handle typical cases separately */</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">      21310 :     case 0:  /* no values needed */</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">      21310 :       L-&gt;top = res;</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">      21310 :       return;</span></a>
+<a name="380"><span class="lineNum">     380 </span><span class="lineCov">      18960 :     case 1:  /* one value needed */</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">      18960 :       if (nres == 0)   /* no results? */</span></a>
 <a name="382"><span class="lineNum">     382 </span><span class="lineCov">         68 :         setnilvalue(s2v(res));  /* adjust with nil */</span></a>
 <a name="383"><span class="lineNum">     383 </span>            :       else</a>
-<a name="384"><span class="lineNum">     384 </span><span class="lineCov">      18789 :         setobjs2s(L, res, L-&gt;top - nres);  /* move it to proper place */</span></a>
-<a name="385"><span class="lineNum">     385 </span><span class="lineCov">      18857 :       L-&gt;top = res + 1;</span></a>
-<a name="386"><span class="lineNum">     386 </span><span class="lineCov">      18857 :       return;</span></a>
-<a name="387"><span class="lineNum">     387 </span><span class="lineCov">       6455 :     case LUA_MULTRET:</span></a>
-<a name="388"><span class="lineNum">     388 </span><span class="lineCov">       6455 :       wanted = nres;  /* we want all results */</span></a>
-<a name="389"><span class="lineNum">     389 </span><span class="lineCov">       6455 :       break;</span></a>
-<a name="390"><span class="lineNum">     390 </span><span class="lineCov">      59642 :     default:  /* multiple results (or to-be-closed variables) */</span></a>
-<a name="391"><span class="lineNum">     391 </span><span class="lineCov">      59642 :       if (hastocloseCfunc(wanted)) {  /* to-be-closed variables? */</span></a>
+<a name="384"><span class="lineNum">     384 </span><span class="lineCov">      18892 :         setobjs2s(L, res, L-&gt;top - nres);  /* move it to proper place */</span></a>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">      18960 :       L-&gt;top = res + 1;</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">      18960 :       return;</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">       6456 :     case LUA_MULTRET:</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">       6456 :       wanted = nres;  /* we want all results */</span></a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">       6456 :       break;</span></a>
+<a name="390"><span class="lineNum">     390 </span><span class="lineCov">      59644 :     default:  /* multiple results (or to-be-closed variables) */</span></a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">      59644 :       if (hastocloseCfunc(wanted)) {  /* to-be-closed variables? */</span></a>
 <a name="392"><span class="lineNum">     392 </span><span class="lineCov">          5 :         ptrdiff_t savedres = savestack(L, res);</span></a>
 <a name="393"><span class="lineNum">     393 </span><span class="lineCov">          5 :         luaF_close(L, res, LUA_OK);  /* may change the stack */</span></a>
 <a name="394"><span class="lineNum">     394 </span><span class="lineCov">          5 :         res = restorestack(L, savedres);</span></a>
@@ -462,15 +462,15 @@
 <a name="396"><span class="lineNum">     396 </span><span class="lineCov">          5 :         if (wanted == LUA_MULTRET)</span></a>
 <a name="397"><span class="lineNum">     397 </span><span class="lineCov">          3 :           wanted = nres;</span></a>
 <a name="398"><span class="lineNum">     398 </span>            :       }</a>
-<a name="399"><span class="lineNum">     399 </span><span class="lineCov">      59642 :       break;</span></a>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">      59644 :       break;</span></a>
 <a name="400"><span class="lineNum">     400 </span>            :   }</a>
-<a name="401"><span class="lineNum">     401 </span><span class="lineCov">      66097 :   firstresult = L-&gt;top - nres;  /* index of first result */</span></a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">      66100 :   firstresult = L-&gt;top - nres;  /* index of first result */</span></a>
 <a name="402"><span class="lineNum">     402 </span>            :   /* move all results to correct place */</a>
-<a name="403"><span class="lineNum">     403 </span><span class="lineCov">     191521 :   for (i = 0; i &lt; nres &amp;&amp; i &lt; wanted; i++)</span></a>
-<a name="404"><span class="lineNum">     404 </span><span class="lineCov">     125424 :     setobjs2s(L, res + i, firstresult + i);</span></a>
-<a name="405"><span class="lineNum">     405 </span><span class="lineCov">      78696 :   for (; i &lt; wanted; i++)  /* complete wanted number of results */</span></a>
+<a name="403"><span class="lineNum">     403 </span><span class="lineCov">     191529 :   for (i = 0; i &lt; nres &amp;&amp; i &lt; wanted; i++)</span></a>
+<a name="404"><span class="lineNum">     404 </span><span class="lineCov">     125429 :     setobjs2s(L, res + i, firstresult + i);</span></a>
+<a name="405"><span class="lineNum">     405 </span><span class="lineCov">      78699 :   for (; i &lt; wanted; i++)  /* complete wanted number of results */</span></a>
 <a name="406"><span class="lineNum">     406 </span><span class="lineCov">      12599 :     setnilvalue(s2v(res + i));</span></a>
-<a name="407"><span class="lineNum">     407 </span><span class="lineCov">      66097 :   L-&gt;top = res + wanted;  /* top points after the last result */</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">      66100 :   L-&gt;top = res + wanted;  /* top points after the last result */</span></a>
 <a name="408"><span class="lineNum">     408 </span>            : }</a>
 <a name="409"><span class="lineNum">     409 </span>            : </a>
 <a name="410"><span class="lineNum">     410 </span>            : </a>
@@ -478,13 +478,13 @@
 <a name="412"><span class="lineNum">     412 </span>            : ** Finishes a function call: calls hook if necessary, removes CallInfo,</a>
 <a name="413"><span class="lineNum">     413 </span>            : ** moves current number of results to proper place.</a>
 <a name="414"><span class="lineNum">     414 </span>            : */</a>
-<a name="415"><span class="lineNum">     415 </span><span class="lineCov">     106202 : void luaD_poscall (lua_State *L, CallInfo *ci, int nres) {</span></a>
-<a name="416"><span class="lineNum">     416 </span><span class="lineCov">     106202 :   if (L-&gt;hookmask)</span></a>
+<a name="415"><span class="lineNum">     415 </span><span class="lineCov">     106370 : void luaD_poscall (lua_State *L, CallInfo *ci, int nres) {</span></a>
+<a name="416"><span class="lineNum">     416 </span><span class="lineCov">     106370 :   if (L-&gt;hookmask)</span></a>
 <a name="417"><span class="lineNum">     417 </span><span class="lineCov">        431 :     L-&gt;top = rethook(L, ci, L-&gt;top - nres, nres);</span></a>
-<a name="418"><span class="lineNum">     418 </span><span class="lineCov">     106202 :   L-&gt;ci = ci-&gt;previous;  /* back to caller */</span></a>
+<a name="418"><span class="lineNum">     418 </span><span class="lineCov">     106370 :   L-&gt;ci = ci-&gt;previous;  /* back to caller */</span></a>
 <a name="419"><span class="lineNum">     419 </span>            :   /* move results to proper place */</a>
-<a name="420"><span class="lineNum">     420 </span><span class="lineCov">     106202 :   moveresults(L, ci-&gt;func, nres, ci-&gt;nresults);</span></a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">     106202 : }</span></a>
+<a name="420"><span class="lineNum">     420 </span><span class="lineCov">     106370 :   moveresults(L, ci-&gt;func, nres, ci-&gt;nresults);</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">     106370 : }</span></a>
 <a name="422"><span class="lineNum">     422 </span>            : </a>
 <a name="423"><span class="lineNum">     423 </span>            : </a>
 <a name="424"><span class="lineNum">     424 </span>            : </a>
@@ -521,54 +521,54 @@
 <a name="455"><span class="lineNum">     455 </span>            : ** When returns, all the results are on the stack, starting at the original</a>
 <a name="456"><span class="lineNum">     456 </span>            : ** function position.</a>
 <a name="457"><span class="lineNum">     457 </span>            : */</a>
-<a name="458"><span class="lineNum">     458 </span><span class="lineCov">     128175 : void luaD_call (lua_State *L, StkId func, int nresults) {</span></a>
+<a name="458"><span class="lineNum">     458 </span><span class="lineCov">     128471 : void luaD_call (lua_State *L, StkId func, int nresults) {</span></a>
 <a name="459"><span class="lineNum">     459 </span>            :   lua_CFunction f;</a>
-<a name="460"><span class="lineNum">     460 </span><span class="lineCov">     128175 :  retry:</span></a>
-<a name="461"><span class="lineNum">     461 </span><span class="lineCov">     128175 :   switch (ttypetag(s2v(func))) {</span></a>
+<a name="460"><span class="lineNum">     460 </span><span class="lineCov">     128471 :  retry:</span></a>
+<a name="461"><span class="lineNum">     461 </span><span class="lineCov">     128471 :   switch (ttypetag(s2v(func))) {</span></a>
 <a name="462"><span class="lineNum">     462 </span><span class="lineCov">        800 :     case LUA_VCCL:  /* C closure */</span></a>
 <a name="463"><span class="lineNum">     463 </span><span class="lineCov">        800 :       f = clCvalue(s2v(func))-&gt;f;</span></a>
 <a name="464"><span class="lineNum">     464 </span><span class="lineCov">        800 :       goto Cfunc;</span></a>
-<a name="465"><span class="lineNum">     465 </span><span class="lineCov">     104349 :     case LUA_VLCF:  /* light C function */</span></a>
-<a name="466"><span class="lineNum">     466 </span><span class="lineCov">     104349 :       f = fvalue(s2v(func));</span></a>
-<a name="467"><span class="lineNum">     467 </span><span class="lineCov">     105149 :      Cfunc: {</span></a>
+<a name="465"><span class="lineNum">     465 </span><span class="lineCov">     104519 :     case LUA_VLCF:  /* light C function */</span></a>
+<a name="466"><span class="lineNum">     466 </span><span class="lineCov">     104519 :       f = fvalue(s2v(func));</span></a>
+<a name="467"><span class="lineNum">     467 </span><span class="lineCov">     105319 :      Cfunc: {</span></a>
 <a name="468"><span class="lineNum">     468 </span>            :       int n;  /* number of returns */</a>
-<a name="469"><span class="lineNum">     469 </span><span class="lineCov">     105149 :       CallInfo *ci = next_ci(L);</span></a>
-<a name="470"><span class="lineNum">     470 </span><span class="lineCov">     105149 :       checkstackp(L, LUA_MINSTACK, func);  /* ensure minimum stack size */</span></a>
-<a name="471"><span class="lineNum">     471 </span><span class="lineCov">     105149 :       ci-&gt;nresults = nresults;</span></a>
-<a name="472"><span class="lineNum">     472 </span><span class="lineCov">     105149 :       ci-&gt;callstatus = CIST_C;</span></a>
-<a name="473"><span class="lineNum">     473 </span><span class="lineCov">     105149 :       ci-&gt;top = L-&gt;top + LUA_MINSTACK;</span></a>
-<a name="474"><span class="lineNum">     474 </span><span class="lineCov">     105149 :       ci-&gt;func = func;</span></a>
-<a name="475"><span class="lineNum">     475 </span><span class="lineCov">     105149 :       L-&gt;ci = ci;</span></a>
+<a name="469"><span class="lineNum">     469 </span><span class="lineCov">     105319 :       CallInfo *ci = next_ci(L);</span></a>
+<a name="470"><span class="lineNum">     470 </span><span class="lineCov">     105319 :       checkstackp(L, LUA_MINSTACK, func);  /* ensure minimum stack size */</span></a>
+<a name="471"><span class="lineNum">     471 </span><span class="lineCov">     105319 :       ci-&gt;nresults = nresults;</span></a>
+<a name="472"><span class="lineNum">     472 </span><span class="lineCov">     105319 :       ci-&gt;callstatus = CIST_C;</span></a>
+<a name="473"><span class="lineNum">     473 </span><span class="lineCov">     105319 :       ci-&gt;top = L-&gt;top + LUA_MINSTACK;</span></a>
+<a name="474"><span class="lineNum">     474 </span><span class="lineCov">     105319 :       ci-&gt;func = func;</span></a>
+<a name="475"><span class="lineNum">     475 </span><span class="lineCov">     105319 :       L-&gt;ci = ci;</span></a>
 <a name="476"><span class="lineNum">     476 </span>            :       lua_assert(ci-&gt;top &lt;= L-&gt;stack_last);</a>
-<a name="477"><span class="lineNum">     477 </span><span class="lineCov">     105149 :       if (L-&gt;hookmask &amp; LUA_MASKCALL) {</span></a>
+<a name="477"><span class="lineNum">     477 </span><span class="lineCov">     105319 :       if (L-&gt;hookmask &amp; LUA_MASKCALL) {</span></a>
 <a name="478"><span class="lineNum">     478 </span><span class="lineCov">        134 :         int narg = cast_int(L-&gt;top - func) - 1;</span></a>
 <a name="479"><span class="lineNum">     479 </span><span class="lineCov">        134 :         luaD_hook(L, LUA_HOOKCALL, -1, 1, narg);</span></a>
 <a name="480"><span class="lineNum">     480 </span>            :       }</a>
 <a name="481"><span class="lineNum">     481 </span>            :       lua_unlock(L);</a>
-<a name="482"><span class="lineNum">     482 </span><span class="lineCov">     105149 :       n = (*f)(L);  /* do the actual call */</span></a>
+<a name="482"><span class="lineNum">     482 </span><span class="lineCov">     105319 :       n = (*f)(L);  /* do the actual call */</span></a>
 <a name="483"><span class="lineNum">     483 </span>            :       lua_lock(L);</a>
 <a name="484"><span class="lineNum">     484 </span>            :       api_checknelems(L, n);</a>
-<a name="485"><span class="lineNum">     485 </span><span class="lineCov">      98947 :       luaD_poscall(L, ci, n);</span></a>
-<a name="486"><span class="lineNum">     486 </span><span class="lineCov">      98947 :       break;</span></a>
+<a name="485"><span class="lineNum">     485 </span><span class="lineCov">      99115 :       luaD_poscall(L, ci, n);</span></a>
+<a name="486"><span class="lineNum">     486 </span><span class="lineCov">      99115 :       break;</span></a>
 <a name="487"><span class="lineNum">     487 </span>            :     }</a>
-<a name="488"><span class="lineNum">     488 </span><span class="lineCov">      23019 :     case LUA_VLCL: {  /* Lua function */</span></a>
-<a name="489"><span class="lineNum">     489 </span><span class="lineCov">      23019 :       CallInfo *ci = next_ci(L);</span></a>
-<a name="490"><span class="lineNum">     490 </span><span class="lineCov">      23019 :       Proto *p = clLvalue(s2v(func))-&gt;p;</span></a>
-<a name="491"><span class="lineNum">     491 </span><span class="lineCov">      23019 :       int narg = cast_int(L-&gt;top - func) - 1;  /* number of real arguments */</span></a>
-<a name="492"><span class="lineNum">     492 </span><span class="lineCov">      23019 :       int nfixparams = p-&gt;numparams;</span></a>
-<a name="493"><span class="lineNum">     493 </span><span class="lineCov">      23019 :       int fsize = p-&gt;maxstacksize;  /* frame size */</span></a>
-<a name="494"><span class="lineNum">     494 </span><span class="lineCov">      23019 :       checkstackp(L, fsize, func);</span></a>
-<a name="495"><span class="lineNum">     495 </span><span class="lineCov">      23019 :       ci-&gt;nresults = nresults;</span></a>
-<a name="496"><span class="lineNum">     496 </span><span class="lineCov">      23019 :       ci-&gt;u.l.savedpc = p-&gt;code;  /* starting point */</span></a>
-<a name="497"><span class="lineNum">     497 </span><span class="lineCov">      23019 :       ci-&gt;callstatus = 0;</span></a>
-<a name="498"><span class="lineNum">     498 </span><span class="lineCov">      23019 :       ci-&gt;top = func + 1 + fsize;</span></a>
-<a name="499"><span class="lineNum">     499 </span><span class="lineCov">      23019 :       ci-&gt;func = func;</span></a>
-<a name="500"><span class="lineNum">     500 </span><span class="lineCov">      23019 :       L-&gt;ci = ci;</span></a>
-<a name="501"><span class="lineNum">     501 </span><span class="lineCov">      23902 :       for (; narg &lt; nfixparams; narg++)</span></a>
-<a name="502"><span class="lineNum">     502 </span><span class="lineCov">        883 :         setnilvalue(s2v(L-&gt;top++));  /* complete missing arguments */</span></a>
+<a name="488"><span class="lineNum">     488 </span><span class="lineCov">      23145 :     case LUA_VLCL: {  /* Lua function */</span></a>
+<a name="489"><span class="lineNum">     489 </span><span class="lineCov">      23145 :       CallInfo *ci = next_ci(L);</span></a>
+<a name="490"><span class="lineNum">     490 </span><span class="lineCov">      23145 :       Proto *p = clLvalue(s2v(func))-&gt;p;</span></a>
+<a name="491"><span class="lineNum">     491 </span><span class="lineCov">      23145 :       int narg = cast_int(L-&gt;top - func) - 1;  /* number of real arguments */</span></a>
+<a name="492"><span class="lineNum">     492 </span><span class="lineCov">      23145 :       int nfixparams = p-&gt;numparams;</span></a>
+<a name="493"><span class="lineNum">     493 </span><span class="lineCov">      23145 :       int fsize = p-&gt;maxstacksize;  /* frame size */</span></a>
+<a name="494"><span class="lineNum">     494 </span><span class="lineCov">      23145 :       checkstackp(L, fsize, func);</span></a>
+<a name="495"><span class="lineNum">     495 </span><span class="lineCov">      23145 :       ci-&gt;nresults = nresults;</span></a>
+<a name="496"><span class="lineNum">     496 </span><span class="lineCov">      23145 :       ci-&gt;u.l.savedpc = p-&gt;code;  /* starting point */</span></a>
+<a name="497"><span class="lineNum">     497 </span><span class="lineCov">      23145 :       ci-&gt;callstatus = 0;</span></a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineCov">      23145 :       ci-&gt;top = func + 1 + fsize;</span></a>
+<a name="499"><span class="lineNum">     499 </span><span class="lineCov">      23145 :       ci-&gt;func = func;</span></a>
+<a name="500"><span class="lineNum">     500 </span><span class="lineCov">      23145 :       L-&gt;ci = ci;</span></a>
+<a name="501"><span class="lineNum">     501 </span><span class="lineCov">      24077 :       for (; narg &lt; nfixparams; narg++)</span></a>
+<a name="502"><span class="lineNum">     502 </span><span class="lineCov">        932 :         setnilvalue(s2v(L-&gt;top++));  /* complete missing arguments */</span></a>
 <a name="503"><span class="lineNum">     503 </span>            :       lua_assert(ci-&gt;top &lt;= L-&gt;stack_last);</a>
-<a name="504"><span class="lineNum">     504 </span><span class="lineCov">      23019 :       luaV_execute(L, ci);  /* run the function */</span></a>
-<a name="505"><span class="lineNum">     505 </span><span class="lineCov">      12365 :       break;</span></a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">      23145 :       luaV_execute(L, ci);  /* run the function */</span></a>
+<a name="505"><span class="lineNum">     505 </span><span class="lineCov">      12489 :       break;</span></a>
 <a name="506"><span class="lineNum">     506 </span>            :     }</a>
 <a name="507"><span class="lineNum">     507 </span><span class="lineCov">          7 :     default: {  /* not a function */</span></a>
 <a name="508"><span class="lineNum">     508 </span><span class="lineCov">          7 :       checkstackp(L, 1, func);  /* space for metamethod */</span></a>
@@ -576,7 +576,7 @@
 <a name="510"><span class="lineNum">     510 </span><span class="lineCov">          4 :       goto retry;  /* try again with metamethod */</span></a>
 <a name="511"><span class="lineNum">     511 </span>            :     }</a>
 <a name="512"><span class="lineNum">     512 </span>            :   }</a>
-<a name="513"><span class="lineNum">     513 </span><span class="lineCov">     111312 : }</span></a>
+<a name="513"><span class="lineNum">     513 </span><span class="lineCov">     111604 : }</span></a>
 <a name="514"><span class="lineNum">     514 </span>            : </a>
 <a name="515"><span class="lineNum">     515 </span>            : </a>
 <a name="516"><span class="lineNum">     516 </span>            : /*</a>
@@ -585,13 +585,13 @@
 <a name="519"><span class="lineNum">     519 </span>            : ** force the subsequent call to invoke 'luaE_extendCI', which then</a>
 <a name="520"><span class="lineNum">     520 </span>            : ** will raise any errors.</a>
 <a name="521"><span class="lineNum">     521 </span>            : */</a>
-<a name="522"><span class="lineNum">     522 </span><span class="lineCov">       3203 : void luaD_callnoyield (lua_State *L, StkId func, int nResults) {</span></a>
-<a name="523"><span class="lineNum">     523 </span><span class="lineCov">       3203 :   incXCcalls(L);</span></a>
-<a name="524"><span class="lineNum">     524 </span><span class="lineCov">       3203 :   if (getCcalls(L) &lt;= CSTACKERR)  /* possible stack overflow? */</span></a>
+<a name="522"><span class="lineNum">     522 </span><span class="lineCov">       3206 : void luaD_callnoyield (lua_State *L, StkId func, int nResults) {</span></a>
+<a name="523"><span class="lineNum">     523 </span><span class="lineCov">       3206 :   incXCcalls(L);</span></a>
+<a name="524"><span class="lineNum">     524 </span><span class="lineCov">       3206 :   if (getCcalls(L) &lt;= CSTACKERR)  /* possible stack overflow? */</span></a>
 <a name="525"><span class="lineNum">     525 </span><span class="lineNoCov">          0 :     luaE_freeCI(L);</span></a>
-<a name="526"><span class="lineNum">     526 </span><span class="lineCov">       3203 :   luaD_call(L, func, nResults);</span></a>
-<a name="527"><span class="lineNum">     527 </span><span class="lineCov">       2689 :   decXCcalls(L);</span></a>
-<a name="528"><span class="lineNum">     528 </span><span class="lineCov">       2689 : }</span></a>
+<a name="526"><span class="lineNum">     526 </span><span class="lineCov">       3206 :   luaD_call(L, func, nResults);</span></a>
+<a name="527"><span class="lineNum">     527 </span><span class="lineCov">       2690 :   decXCcalls(L);</span></a>
+<a name="528"><span class="lineNum">     528 </span><span class="lineCov">       2690 : }</span></a>
 <a name="529"><span class="lineNum">     529 </span>            : </a>
 <a name="530"><span class="lineNum">     530 </span>            : </a>
 <a name="531"><span class="lineNum">     531 </span>            : /*</a>
@@ -805,25 +805,25 @@
 <a name="739"><span class="lineNum">     739 </span>            : ** thread information ('allowhook', etc.) and in particular</a>
 <a name="740"><span class="lineNum">     740 </span>            : ** its stack level in case of errors.</a>
 <a name="741"><span class="lineNum">     741 </span>            : */</a>
-<a name="742"><span class="lineNum">     742 </span><span class="lineCov">       1994 : int luaD_pcall (lua_State *L, Pfunc func, void *u,</span></a>
+<a name="742"><span class="lineNum">     742 </span><span class="lineCov">       1997 : int luaD_pcall (lua_State *L, Pfunc func, void *u,</span></a>
 <a name="743"><span class="lineNum">     743 </span>            :                 ptrdiff_t old_top, ptrdiff_t ef) {</a>
 <a name="744"><span class="lineNum">     744 </span>            :   int status;</a>
-<a name="745"><span class="lineNum">     745 </span><span class="lineCov">       1994 :   CallInfo *old_ci = L-&gt;ci;</span></a>
-<a name="746"><span class="lineNum">     746 </span><span class="lineCov">       1994 :   lu_byte old_allowhooks = L-&gt;allowhook;</span></a>
-<a name="747"><span class="lineNum">     747 </span><span class="lineCov">       1994 :   ptrdiff_t old_errfunc = L-&gt;errfunc;</span></a>
-<a name="748"><span class="lineNum">     748 </span><span class="lineCov">       1994 :   L-&gt;errfunc = ef;</span></a>
-<a name="749"><span class="lineNum">     749 </span><span class="lineCov">       1994 :   status = luaD_rawrunprotected(L, func, u);</span></a>
-<a name="750"><span class="lineNum">     750 </span><span class="lineCov">       1967 :   if (unlikely(status != LUA_OK)) {  /* an error occurred? */</span></a>
-<a name="751"><span class="lineNum">     751 </span><span class="lineCov">        537 :     StkId oldtop = restorestack(L, old_top);</span></a>
-<a name="752"><span class="lineNum">     752 </span><span class="lineCov">        537 :     L-&gt;ci = old_ci;</span></a>
-<a name="753"><span class="lineNum">     753 </span><span class="lineCov">        537 :     L-&gt;allowhook = old_allowhooks;</span></a>
-<a name="754"><span class="lineNum">     754 </span><span class="lineCov">        537 :     status = luaF_close(L, oldtop, status);</span></a>
-<a name="755"><span class="lineNum">     755 </span><span class="lineCov">        537 :     oldtop = restorestack(L, old_top);  /* previous call may change stack */</span></a>
-<a name="756"><span class="lineNum">     756 </span><span class="lineCov">        537 :     luaD_seterrorobj(L, status, oldtop);</span></a>
-<a name="757"><span class="lineNum">     757 </span><span class="lineCov">        537 :     luaD_shrinkstack(L);</span></a>
+<a name="745"><span class="lineNum">     745 </span><span class="lineCov">       1997 :   CallInfo *old_ci = L-&gt;ci;</span></a>
+<a name="746"><span class="lineNum">     746 </span><span class="lineCov">       1997 :   lu_byte old_allowhooks = L-&gt;allowhook;</span></a>
+<a name="747"><span class="lineNum">     747 </span><span class="lineCov">       1997 :   ptrdiff_t old_errfunc = L-&gt;errfunc;</span></a>
+<a name="748"><span class="lineNum">     748 </span><span class="lineCov">       1997 :   L-&gt;errfunc = ef;</span></a>
+<a name="749"><span class="lineNum">     749 </span><span class="lineCov">       1997 :   status = luaD_rawrunprotected(L, func, u);</span></a>
+<a name="750"><span class="lineNum">     750 </span><span class="lineCov">       1970 :   if (unlikely(status != LUA_OK)) {  /* an error occurred? */</span></a>
+<a name="751"><span class="lineNum">     751 </span><span class="lineCov">        539 :     StkId oldtop = restorestack(L, old_top);</span></a>
+<a name="752"><span class="lineNum">     752 </span><span class="lineCov">        539 :     L-&gt;ci = old_ci;</span></a>
+<a name="753"><span class="lineNum">     753 </span><span class="lineCov">        539 :     L-&gt;allowhook = old_allowhooks;</span></a>
+<a name="754"><span class="lineNum">     754 </span><span class="lineCov">        539 :     status = luaF_close(L, oldtop, status);</span></a>
+<a name="755"><span class="lineNum">     755 </span><span class="lineCov">        539 :     oldtop = restorestack(L, old_top);  /* previous call may change stack */</span></a>
+<a name="756"><span class="lineNum">     756 </span><span class="lineCov">        539 :     luaD_seterrorobj(L, status, oldtop);</span></a>
+<a name="757"><span class="lineNum">     757 </span><span class="lineCov">        539 :     luaD_shrinkstack(L);</span></a>
 <a name="758"><span class="lineNum">     758 </span>            :   }</a>
-<a name="759"><span class="lineNum">     759 </span><span class="lineCov">       1967 :   L-&gt;errfunc = old_errfunc;</span></a>
-<a name="760"><span class="lineNum">     760 </span><span class="lineCov">       1967 :   return status;</span></a>
+<a name="759"><span class="lineNum">     759 </span><span class="lineCov">       1970 :   L-&gt;errfunc = old_errfunc;</span></a>
+<a name="760"><span class="lineNum">     760 </span><span class="lineCov">       1970 :   return status;</span></a>
 <a name="761"><span class="lineNum">     761 </span>            : }</a>
 <a name="762"><span class="lineNum">     762 </span>            : </a>
 <a name="763"><span class="lineNum">     763 </span>            : </a>
