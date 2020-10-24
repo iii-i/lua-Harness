@@ -79,13 +79,19 @@ end
 
 -- prngstate
 if profile.openresty then
-    is(jit.prngstate(), 0, "prngstate")
-    is(jit.prngstate(32), 0)
-    is(jit.prngstate(5617), 32)
-    is(jit.prngstate(), 5617)
+    type_ok(jit.prngstate(), 'table', "prngstate")
+    local s1 = { 1, 2, 3, 4, 5, 6, 7, 8}
+    type_ok(jit.prngstate(s1), 'table')
+    local s2 = { 8, 7, 6, 5, 4, 3, 2, 1}
+    eq_array(jit.prngstate(s2), s1)
+    eq_array(jit.prngstate(), s2)
 
-    error_like(function () jit.prngstate({}) end,
-               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(number expected, got table%)")
+    error_like(function () jit.prngstate(1) end,
+               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(table expected, got number%)")
+elseif jit.version:match'moonjit' then
+    is(jit.prngstate(), 0, "prngstate")
+else
+    is(jit.prngstate, nil, "no jit.prngstate");
 end
 
 -- security

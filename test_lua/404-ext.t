@@ -85,6 +85,8 @@ if profile.openresty then
 
     error_like(function () clone(42) end,
                "^[^:]+:%d+: bad argument #1 to 'clone' %(table expected, got number%)")
+else
+    is(pcall(require, 'table.clone'), false, 'no table.clone')
 end
 
 -- table.isarray
@@ -104,6 +106,8 @@ if profile.openresty then
 
     error_like(function () isarray(42) end,
                "^[^:]+:%d+: bad argument #1 to 'isarray' %(table expected, got number%)")
+else
+    is(pcall(require, 'table.isarray'), false, 'no table.isarray')
 end
 
 -- table.isempty
@@ -125,6 +129,8 @@ if profile.openresty then
 
     error_like(function () isempty(42) end,
                "^[^:]+:%d+: bad argument #1 to 'isempty' %(table expected, got number%)")
+else
+    is(pcall(require, 'table.isempty'), false, 'no table.isempty')
 end
 
 -- table.nkeys
@@ -146,6 +152,8 @@ if profile.openresty then
 
     error_like(function () nkeys(42) end,
                "^[^:]+:%d+: bad argument #1 to 'nkeys' %(table expected, got number%)")
+else
+    is(pcall(require, 'table.nkeys'), false, 'no table.nkeys')
 end
 
 -- thread.exdata
