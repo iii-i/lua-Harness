@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-10-09 20:39:38</td>
+            <td class="headerValue">2020-10-25 08:53:20</td>
             <td></td>
           </tr>
           <tr>
@@ -115,17 +115,17 @@
 <a name="49"><span class="lineNum">      49 </span>            : ** Search for 'objidx' in table at index -1. ('objidx' must be an</a>
 <a name="50"><span class="lineNum">      50 </span>            : ** absolute index.) Return 1 + string at top if it found a good name.</a>
 <a name="51"><span class="lineNum">      51 </span>            : */</a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">       2702 : static int findfield (lua_State *L, int objidx, int level) {</span></a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       2702 :   if (level == 0 || !lua_istable(L, -1))</span></a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineCov">       2525 :     return 0;  /* not found */</span></a>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">        177 :   lua_pushnil(L);  /* start 'next' loop */</span></a>
-<a name="56"><span class="lineNum">      56 </span><span class="lineCov">       2855 :   while (lua_next(L, -2)) {  /* for each pair in table */</span></a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       2690 :     if (lua_type(L, -2) == LUA_TSTRING) {  /* ignore non-string keys */</span></a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       2690 :       if (lua_rawequal(L, objidx, -1)) {  /* found object? */</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">       2501 : static int findfield (lua_State *L, int objidx, int level) {</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">       2501 :   if (level == 0 || !lua_istable(L, -1))</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">       2334 :     return 0;  /* not found */</span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">        167 :   lua_pushnil(L);  /* start 'next' loop */</span></a>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">       2644 :   while (lua_next(L, -2)) {  /* for each pair in table */</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">       2489 :     if (lua_type(L, -2) == LUA_TSTRING) {  /* ignore non-string keys */</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">       2489 :       if (lua_rawequal(L, objidx, -1)) {  /* found object? */</span></a>
 <a name="59"><span class="lineNum">      59 </span><span class="lineCov">          6 :         lua_pop(L, 1);  /* remove value (but keep name) */</span></a>
 <a name="60"><span class="lineNum">      60 </span><span class="lineCov">          6 :         return 1;</span></a>
 <a name="61"><span class="lineNum">      61 </span>            :       }</a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">       2684 :       else if (findfield(L, objidx, level - 1)) {  /* try recursively */</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">       2483 :       else if (findfield(L, objidx, level - 1)) {  /* try recursively */</span></a>
 <a name="63"><span class="lineNum">      63 </span>            :         /* stack: lib_name, lib_table, field_name (top) */</a>
 <a name="64"><span class="lineNum">      64 </span><span class="lineCov">          6 :         lua_pushliteral(L, &quot;.&quot;);  /* place '.' between the two names */</span></a>
 <a name="65"><span class="lineNum">      65 </span><span class="lineCov">          6 :         lua_replace(L, -3);  /* (in the slot occupied by table) */</span></a>
@@ -133,9 +133,9 @@
 <a name="67"><span class="lineNum">      67 </span><span class="lineCov">          6 :         return 1;</span></a>
 <a name="68"><span class="lineNum">      68 </span>            :       }</a>
 <a name="69"><span class="lineNum">      69 </span>            :     }</a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">       2678 :     lua_pop(L, 1);  /* remove value */</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">       2477 :     lua_pop(L, 1);  /* remove value */</span></a>
 <a name="71"><span class="lineNum">      71 </span>            :   }</a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">        165 :   return 0;  /* not found */</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">        155 :   return 0;  /* not found */</span></a>
 <a name="73"><span class="lineNum">      73 </span>            : }</a>
 <a name="74"><span class="lineNum">      74 </span>            : </a>
 <a name="75"><span class="lineNum">      75 </span>            : </a>
@@ -1051,14 +1051,14 @@
 <a name="985"><span class="lineNum">     985 </span>            : }</a>
 <a name="986"><span class="lineNum">     986 </span>            : </a>
 <a name="987"><span class="lineNum">     987 </span>            : </a>
-<a name="988"><span class="lineNum">     988 </span><span class="lineCov">     236252 : static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {</span></a>
+<a name="988"><span class="lineNum">     988 </span><span class="lineCov">     236260 : static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {</span></a>
 <a name="989"><span class="lineNum">     989 </span>            :   (void)ud; (void)osize;  /* not used */</a>
-<a name="990"><span class="lineNum">     990 </span><span class="lineCov">     236252 :   if (nsize == 0) {</span></a>
+<a name="990"><span class="lineNum">     990 </span><span class="lineCov">     236260 :   if (nsize == 0) {</span></a>
 <a name="991"><span class="lineNum">     991 </span><span class="lineCov">     106148 :     free(ptr);</span></a>
 <a name="992"><span class="lineNum">     992 </span><span class="lineCov">     106148 :     return NULL;</span></a>
 <a name="993"><span class="lineNum">     993 </span>            :   }</a>
 <a name="994"><span class="lineNum">     994 </span>            :   else</a>
-<a name="995"><span class="lineNum">     995 </span><span class="lineCov">     130104 :     return realloc(ptr, nsize);</span></a>
+<a name="995"><span class="lineNum">     995 </span><span class="lineCov">     130112 :     return realloc(ptr, nsize);</span></a>
 <a name="996"><span class="lineNum">     996 </span>            : }</a>
 <a name="997"><span class="lineNum">     997 </span>            : </a>
 <a name="998"><span class="lineNum">     998 </span>            : </a>

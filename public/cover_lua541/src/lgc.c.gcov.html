@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-10-09 20:39:38</td>
+            <td class="headerValue">2020-10-25 08:53:20</td>
             <td></td>
           </tr>
           <tr>
@@ -188,13 +188,13 @@
 <a name="122"><span class="lineNum">     122 </span>            : #define gnodelast(h)    gnode(h, cast_sizet(sizenode(h)))</a>
 <a name="123"><span class="lineNum">     123 </span>            : </a>
 <a name="124"><span class="lineNum">     124 </span>            : </a>
-<a name="125"><span class="lineNum">     125 </span><span class="lineCov">      26975 : static GCObject **getgclist (GCObject *o) {</span></a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineCov">      26975 :   switch (o-&gt;tt) {</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">      26972 : static GCObject **getgclist (GCObject *o) {</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">      26972 :   switch (o-&gt;tt) {</span></a>
 <a name="127"><span class="lineNum">     127 </span><span class="lineCov">      12986 :     case LUA_VTABLE: return &amp;gco2t(o)-&gt;gclist;</span></a>
 <a name="128"><span class="lineNum">     128 </span><span class="lineCov">       1984 :     case LUA_VLCL: return &amp;gco2lcl(o)-&gt;gclist;</span></a>
 <a name="129"><span class="lineNum">     129 </span><span class="lineCov">       4308 :     case LUA_VCCL: return &amp;gco2ccl(o)-&gt;gclist;</span></a>
 <a name="130"><span class="lineNum">     130 </span><span class="lineCov">       2081 :     case LUA_VTHREAD: return &amp;gco2th(o)-&gt;gclist;</span></a>
-<a name="131"><span class="lineNum">     131 </span><span class="lineCov">       5616 :     case LUA_VPROTO: return &amp;gco2p(o)-&gt;gclist;</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">       5613 :     case LUA_VPROTO: return &amp;gco2p(o)-&gt;gclist;</span></a>
 <a name="132"><span class="lineNum">     132 </span><span class="lineNoCov">          0 :     case LUA_VUSERDATA: {</span></a>
 <a name="133"><span class="lineNum">     133 </span><span class="lineNoCov">          0 :       Udata *u = gco2u(o);</span></a>
 <a name="134"><span class="lineNum">     134 </span>            :       lua_assert(u-&gt;nuvalue &gt; 0);</a>
@@ -211,12 +211,12 @@
 <a name="145"><span class="lineNum">     145 </span>            : */</a>
 <a name="146"><span class="lineNum">     146 </span>            : #define linkgclist(o,p) linkgclist_(obj2gco(o), &amp;(o)-&gt;gclist, &amp;(p))</a>
 <a name="147"><span class="lineNum">     147 </span>            : </a>
-<a name="148"><span class="lineNum">     148 </span><span class="lineCov">      13908 : static void linkgclist_ (GCObject *o, GCObject **pnext, GCObject **list) {</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">      13907 : static void linkgclist_ (GCObject *o, GCObject **pnext, GCObject **list) {</span></a>
 <a name="149"><span class="lineNum">     149 </span>            :   lua_assert(!isgray(o));  /* cannot be in a gray list */</a>
-<a name="150"><span class="lineNum">     150 </span><span class="lineCov">      13908 :   *pnext = *list;</span></a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">      13908 :   *list = o;</span></a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">      13908 :   set2gray(o);  /* now it is */</span></a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineCov">      13908 : }</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">      13907 :   *pnext = *list;</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">      13907 :   *list = o;</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">      13907 :   set2gray(o);  /* now it is */</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">      13907 : }</span></a>
 <a name="154"><span class="lineNum">     154 </span>            : </a>
 <a name="155"><span class="lineNum">     155 </span>            : </a>
 <a name="156"><span class="lineNum">     156 </span>            : /*</a>
@@ -235,11 +235,11 @@
 <a name="169"><span class="lineNum">     169 </span>            : ** Other places never manipulate dead keys, because its associated empty</a>
 <a name="170"><span class="lineNum">     170 </span>            : ** value is enough to signal that the entry is logically empty.</a>
 <a name="171"><span class="lineNum">     171 </span>            : */</a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineCov">      36987 : static void clearkey (Node *n) {</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">      36996 : static void clearkey (Node *n) {</span></a>
 <a name="173"><span class="lineNum">     173 </span>            :   lua_assert(isempty(gval(n)));</a>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">      36987 :   if (keyiswhite(n))</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">      36996 :   if (keyiswhite(n))</span></a>
 <a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :     setdeadkey(n);  /* unused and unmarked key; remove it */</span></a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineCov">      36987 : }</span></a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">      36996 : }</span></a>
 <a name="177"><span class="lineNum">     177 </span>            : </a>
 <a name="178"><span class="lineNum">     178 </span>            : </a>
 <a name="179"><span class="lineNum">     179 </span>            : /*</a>
@@ -272,14 +272,14 @@
 <a name="206"><span class="lineNum">     206 </span>            : ** be done is generational mode, as its sweep does not distinguish</a>
 <a name="207"><span class="lineNum">     207 </span>            : ** whites from deads.)</a>
 <a name="208"><span class="lineNum">     208 </span>            : */</a>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">       1149 : void luaC_barrier_ (lua_State *L, GCObject *o, GCObject *v) {</span></a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">       1149 :   global_State *g = G(L);</span></a>
+<a name="209"><span class="lineNum">     209 </span><span class="lineCov">       1150 : void luaC_barrier_ (lua_State *L, GCObject *o, GCObject *v) {</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">       1150 :   global_State *g = G(L);</span></a>
 <a name="211"><span class="lineNum">     211 </span>            :   lua_assert(isblack(o) &amp;&amp; iswhite(v) &amp;&amp; !isdead(g, v) &amp;&amp; !isdead(g, o));</a>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">       1149 :   if (keepinvariant(g)) {  /* must keep invariant? */</span></a>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">       1149 :     reallymarkobject(g, v);  /* restore invariant */</span></a>
-<a name="214"><span class="lineNum">     214 </span><span class="lineCov">       1149 :     if (isold(o)) {</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">       1150 :   if (keepinvariant(g)) {  /* must keep invariant? */</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">       1150 :     reallymarkobject(g, v);  /* restore invariant */</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">       1150 :     if (isold(o)) {</span></a>
 <a name="215"><span class="lineNum">     215 </span>            :       lua_assert(!isold(v));  /* white object could not be old */</a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       1149 :       setage(v, G_OLD0);  /* restore generational invariant */</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       1150 :       setage(v, G_OLD0);  /* restore generational invariant */</span></a>
 <a name="217"><span class="lineNum">     217 </span>            :     }</a>
 <a name="218"><span class="lineNum">     218 </span>            :   }</a>
 <a name="219"><span class="lineNum">     219 </span>            :   else {  /* sweep phase */</a>
@@ -287,7 +287,7 @@
 <a name="221"><span class="lineNum">     221 </span><span class="lineNoCov">          0 :     if (g-&gt;gckind == KGC_INC)  /* incremental mode? */</span></a>
 <a name="222"><span class="lineNum">     222 </span><span class="lineNoCov">          0 :       makewhite(g, o);  /* mark 'o' as white to avoid other barriers */</span></a>
 <a name="223"><span class="lineNum">     223 </span>            :   }</a>
-<a name="224"><span class="lineNum">     224 </span><span class="lineCov">       1149 : }</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">       1150 : }</span></a>
 <a name="225"><span class="lineNum">     225 </span>            : </a>
 <a name="226"><span class="lineNum">     226 </span>            : </a>
 <a name="227"><span class="lineNum">     227 </span>            : /*</a>
@@ -322,14 +322,14 @@
 <a name="256"><span class="lineNum">     256 </span>            : ** create a new collectable object (with given type and size) and link</a>
 <a name="257"><span class="lineNum">     257 </span>            : ** it to 'allgc' list.</a>
 <a name="258"><span class="lineNum">     258 </span>            : */</a>
-<a name="259"><span class="lineNum">     259 </span><span class="lineCov">      67294 : GCObject *luaC_newobj (lua_State *L, int tt, size_t sz) {</span></a>
-<a name="260"><span class="lineNum">     260 </span><span class="lineCov">      67294 :   global_State *g = G(L);</span></a>
-<a name="261"><span class="lineNum">     261 </span><span class="lineCov">      67294 :   GCObject *o = cast(GCObject *, luaM_newobject(L, novariant(tt), sz));</span></a>
-<a name="262"><span class="lineNum">     262 </span><span class="lineCov">      67294 :   o-&gt;marked = luaC_white(g);</span></a>
-<a name="263"><span class="lineNum">     263 </span><span class="lineCov">      67294 :   o-&gt;tt = tt;</span></a>
-<a name="264"><span class="lineNum">     264 </span><span class="lineCov">      67294 :   o-&gt;next = g-&gt;allgc;</span></a>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">      67294 :   g-&gt;allgc = o;</span></a>
-<a name="266"><span class="lineNum">     266 </span><span class="lineCov">      67294 :   return o;</span></a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">      67302 : GCObject *luaC_newobj (lua_State *L, int tt, size_t sz) {</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">      67302 :   global_State *g = G(L);</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">      67302 :   GCObject *o = cast(GCObject *, luaM_newobject(L, novariant(tt), sz));</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">      67302 :   o-&gt;marked = luaC_white(g);</span></a>
+<a name="263"><span class="lineNum">     263 </span><span class="lineCov">      67302 :   o-&gt;tt = tt;</span></a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">      67302 :   o-&gt;next = g-&gt;allgc;</span></a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">      67302 :   g-&gt;allgc = o;</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">      67302 :   return o;</span></a>
 <a name="267"><span class="lineNum">     267 </span>            : }</a>
 <a name="268"><span class="lineNum">     268 </span>            : </a>
 <a name="269"><span class="lineNum">     269 </span>            : /* }====================================================== */</a>
@@ -355,12 +355,12 @@
 <a name="289"><span class="lineNum">     289 </span>            : ** for at most two levels: An upvalue cannot refer to another upvalue</a>
 <a name="290"><span class="lineNum">     290 </span>            : ** (only closures can), and a userdata's metatable must be a table.</a>
 <a name="291"><span class="lineNum">     291 </span>            : */</a>
-<a name="292"><span class="lineNum">     292 </span><span class="lineCov">      73836 : static void reallymarkobject (global_State *g, GCObject *o) {</span></a>
-<a name="293"><span class="lineNum">     293 </span><span class="lineCov">      73836 :   switch (o-&gt;tt) {</span></a>
-<a name="294"><span class="lineNum">     294 </span><span class="lineCov">      56799 :     case LUA_VSHRSTR:</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">      73845 : static void reallymarkobject (global_State *g, GCObject *o) {</span></a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">      73845 :   switch (o-&gt;tt) {</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">      56809 :     case LUA_VSHRSTR:</span></a>
 <a name="295"><span class="lineNum">     295 </span>            :     case LUA_VLNGSTR: {</a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineCov">      56799 :       set2black(o);  /* nothing to visit */</span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineCov">      56799 :       break;</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">      56809 :       set2black(o);  /* nothing to visit */</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">      56809 :       break;</span></a>
 <a name="298"><span class="lineNum">     298 </span>            :     }</a>
 <a name="299"><span class="lineNum">     299 </span><span class="lineCov">       2779 :     case LUA_VUPVAL: {</span></a>
 <a name="300"><span class="lineNum">     300 </span><span class="lineCov">       2779 :       UpVal *uv = gco2upv(o);</span></a>
@@ -382,12 +382,12 @@
 <a name="316"><span class="lineNum">     316 </span>            :     }  /* FALLTHROUGH */</a>
 <a name="317"><span class="lineNum">     317 </span>            :     case LUA_VLCL: case LUA_VCCL: case LUA_VTABLE:</a>
 <a name="318"><span class="lineNum">     318 </span>            :     case LUA_VTHREAD: case LUA_VPROTO: {</a>
-<a name="319"><span class="lineNum">     319 </span><span class="lineCov">      12834 :       linkobjgclist(o, g-&gt;gray);  /* to be visited later */</span></a>
-<a name="320"><span class="lineNum">     320 </span><span class="lineCov">      12834 :       break;</span></a>
+<a name="319"><span class="lineNum">     319 </span><span class="lineCov">      12833 :       linkobjgclist(o, g-&gt;gray);  /* to be visited later */</span></a>
+<a name="320"><span class="lineNum">     320 </span><span class="lineCov">      12833 :       break;</span></a>
 <a name="321"><span class="lineNum">     321 </span>            :     }</a>
 <a name="322"><span class="lineNum">     322 </span><span class="lineNoCov">          0 :     default: lua_assert(0); break;</span></a>
 <a name="323"><span class="lineNum">     323 </span>            :   }</a>
-<a name="324"><span class="lineNum">     324 </span><span class="lineCov">      73836 : }</span></a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">      73845 : }</span></a>
 <a name="325"><span class="lineNum">     325 </span>            : </a>
 <a name="326"><span class="lineNum">     326 </span>            : </a>
 <a name="327"><span class="lineNum">     327 </span>            : /*</a>
@@ -589,11 +589,11 @@
 <a name="523"><span class="lineNum">     523 </span><span class="lineCov">       3706 :     markvalue(g, &amp;h-&gt;array[i]);</span></a>
 <a name="524"><span class="lineNum">     524 </span><span class="lineCov">     104099 :   for (n = gnode(h, 0); n &lt; limit; n++) {  /* traverse hash part */</span></a>
 <a name="525"><span class="lineNum">     525 </span><span class="lineCov">      97738 :     if (isempty(gval(n)))  /* entry is empty? */</span></a>
-<a name="526"><span class="lineNum">     526 </span><span class="lineCov">      36987 :       clearkey(n);  /* clear its key */</span></a>
+<a name="526"><span class="lineNum">     526 </span><span class="lineCov">      36996 :       clearkey(n);  /* clear its key */</span></a>
 <a name="527"><span class="lineNum">     527 </span>            :     else {</a>
 <a name="528"><span class="lineNum">     528 </span>            :       lua_assert(!keyisnil(n));</a>
-<a name="529"><span class="lineNum">     529 </span><span class="lineCov">      60751 :       markkey(g, n);</span></a>
-<a name="530"><span class="lineNum">     530 </span><span class="lineCov">      60751 :       markvalue(g, gval(n));</span></a>
+<a name="529"><span class="lineNum">     529 </span><span class="lineCov">      60742 :       markkey(g, n);</span></a>
+<a name="530"><span class="lineNum">     530 </span><span class="lineCov">      60742 :       markvalue(g, gval(n));</span></a>
 <a name="531"><span class="lineNum">     531 </span>            :     }</a>
 <a name="532"><span class="lineNum">     532 </span>            :   }</a>
 <a name="533"><span class="lineNum">     533 </span><span class="lineCov">       6361 :   genlink(g, obj2gco(h));</span></a>
@@ -636,18 +636,18 @@
 <a name="570"><span class="lineNum">     570 </span>            : ** arrays can be larger than needed; the extra slots are filled with</a>
 <a name="571"><span class="lineNum">     571 </span>            : ** NULL, so the use of 'markobjectN')</a>
 <a name="572"><span class="lineNum">     572 </span>            : */</a>
-<a name="573"><span class="lineNum">     573 </span><span class="lineCov">       2660 : static int traverseproto (global_State *g, Proto *f) {</span></a>
+<a name="573"><span class="lineNum">     573 </span><span class="lineCov">       2658 : static int traverseproto (global_State *g, Proto *f) {</span></a>
 <a name="574"><span class="lineNum">     574 </span>            :   int i;</a>
-<a name="575"><span class="lineNum">     575 </span><span class="lineCov">       2660 :   markobjectN(g, f-&gt;source);</span></a>
-<a name="576"><span class="lineNum">     576 </span><span class="lineCov">      18961 :   for (i = 0; i &lt; f-&gt;sizek; i++)  /* mark literals */</span></a>
-<a name="577"><span class="lineNum">     577 </span><span class="lineCov">      16301 :     markvalue(g, &amp;f-&gt;k[i]);</span></a>
-<a name="578"><span class="lineNum">     578 </span><span class="lineCov">       6906 :   for (i = 0; i &lt; f-&gt;sizeupvalues; i++)  /* mark upvalue names */</span></a>
-<a name="579"><span class="lineNum">     579 </span><span class="lineCov">       4246 :     markobjectN(g, f-&gt;upvalues[i].name);</span></a>
-<a name="580"><span class="lineNum">     580 </span><span class="lineCov">       5142 :   for (i = 0; i &lt; f-&gt;sizep; i++)  /* mark nested protos */</span></a>
-<a name="581"><span class="lineNum">     581 </span><span class="lineCov">       2482 :     markobjectN(g, f-&gt;p[i]);</span></a>
-<a name="582"><span class="lineNum">     582 </span><span class="lineCov">       9725 :   for (i = 0; i &lt; f-&gt;sizelocvars; i++)  /* mark local-variable names */</span></a>
+<a name="575"><span class="lineNum">     575 </span><span class="lineCov">       2658 :   markobjectN(g, f-&gt;source);</span></a>
+<a name="576"><span class="lineNum">     576 </span><span class="lineCov">      18955 :   for (i = 0; i &lt; f-&gt;sizek; i++)  /* mark literals */</span></a>
+<a name="577"><span class="lineNum">     577 </span><span class="lineCov">      16297 :     markvalue(g, &amp;f-&gt;k[i]);</span></a>
+<a name="578"><span class="lineNum">     578 </span><span class="lineCov">       6900 :   for (i = 0; i &lt; f-&gt;sizeupvalues; i++)  /* mark upvalue names */</span></a>
+<a name="579"><span class="lineNum">     579 </span><span class="lineCov">       4242 :     markobjectN(g, f-&gt;upvalues[i].name);</span></a>
+<a name="580"><span class="lineNum">     580 </span><span class="lineCov">       5124 :   for (i = 0; i &lt; f-&gt;sizep; i++)  /* mark nested protos */</span></a>
+<a name="581"><span class="lineNum">     581 </span><span class="lineCov">       2466 :     markobjectN(g, f-&gt;p[i]);</span></a>
+<a name="582"><span class="lineNum">     582 </span><span class="lineCov">       9723 :   for (i = 0; i &lt; f-&gt;sizelocvars; i++)  /* mark local-variable names */</span></a>
 <a name="583"><span class="lineNum">     583 </span><span class="lineCov">       7065 :     markobjectN(g, f-&gt;locvars[i].varname);</span></a>
-<a name="584"><span class="lineNum">     584 </span><span class="lineCov">       2660 :   return 1 + f-&gt;sizek + f-&gt;sizeupvalues + f-&gt;sizep + f-&gt;sizelocvars;</span></a>
+<a name="584"><span class="lineNum">     584 </span><span class="lineCov">       2658 :   return 1 + f-&gt;sizek + f-&gt;sizeupvalues + f-&gt;sizep + f-&gt;sizelocvars;</span></a>
 <a name="585"><span class="lineNum">     585 </span>            : }</a>
 <a name="586"><span class="lineNum">     586 </span>            : </a>
 <a name="587"><span class="lineNum">     587 </span>            : </a>
@@ -694,14 +694,14 @@
 <a name="628"><span class="lineNum">     628 </span><span class="lineNoCov">          0 :     return 1;  /* stack not completely built yet */</span></a>
 <a name="629"><span class="lineNum">     629 </span>            :   lua_assert(g-&gt;gcstate == GCSatomic ||</a>
 <a name="630"><span class="lineNum">     630 </span>            :              th-&gt;openupval == NULL || isintwups(th));</a>
-<a name="631"><span class="lineNum">     631 </span><span class="lineCov">      18249 :   for (; o &lt; th-&gt;top; o++)  /* mark live elements in the stack */</span></a>
-<a name="632"><span class="lineNum">     632 </span><span class="lineCov">      17133 :     markvalue(g, s2v(o));</span></a>
+<a name="631"><span class="lineNum">     631 </span><span class="lineCov">      18247 :   for (; o &lt; th-&gt;top; o++)  /* mark live elements in the stack */</span></a>
+<a name="632"><span class="lineNum">     632 </span><span class="lineCov">      17131 :     markvalue(g, s2v(o));</span></a>
 <a name="633"><span class="lineNum">     633 </span><span class="lineCov">       1849 :   for (uv = th-&gt;openupval; uv != NULL; uv = uv-&gt;u.open.next)</span></a>
 <a name="634"><span class="lineNum">     634 </span><span class="lineCov">        733 :     markobject(g, uv);  /* open upvalues cannot be collected */</span></a>
 <a name="635"><span class="lineNum">     635 </span><span class="lineCov">       1116 :   if (g-&gt;gcstate == GCSatomic) {  /* final traversal? */</span></a>
 <a name="636"><span class="lineNum">     636 </span><span class="lineCov">        821 :     StkId lim = th-&gt;stack + th-&gt;stacksize;  /* real end of stack */</span></a>
-<a name="637"><span class="lineNum">     637 </span><span class="lineCov">      34334 :     for (; o &lt; lim; o++)  /* clear not-marked stack slice */</span></a>
-<a name="638"><span class="lineNum">     638 </span><span class="lineCov">      33513 :       setnilvalue(s2v(o));</span></a>
+<a name="637"><span class="lineNum">     637 </span><span class="lineCov">      34336 :     for (; o &lt; lim; o++)  /* clear not-marked stack slice */</span></a>
+<a name="638"><span class="lineNum">     638 </span><span class="lineCov">      33515 :       setnilvalue(s2v(o));</span></a>
 <a name="639"><span class="lineNum">     639 </span>            :     /* 'remarkupvals' may have removed thread from 'twups' list */</a>
 <a name="640"><span class="lineNum">     640 </span><span class="lineCov">        821 :     if (!isintwups(th) &amp;&amp; th-&gt;openupval != NULL) {</span></a>
 <a name="641"><span class="lineNum">     641 </span><span class="lineNoCov">          0 :       th-&gt;twups = g-&gt;twups;  /* link it back to the list */</span></a>
@@ -717,16 +717,16 @@
 <a name="651"><span class="lineNum">     651 </span>            : /*</a>
 <a name="652"><span class="lineNum">     652 </span>            : ** traverse one gray object, turning it to black.</a>
 <a name="653"><span class="lineNum">     653 </span>            : */</a>
-<a name="654"><span class="lineNum">     654 </span><span class="lineCov">      13284 : static lu_mem propagatemark (global_State *g) {</span></a>
-<a name="655"><span class="lineNum">     655 </span><span class="lineCov">      13284 :   GCObject *o = g-&gt;gray;</span></a>
-<a name="656"><span class="lineNum">     656 </span><span class="lineCov">      13284 :   nw2black(o);</span></a>
-<a name="657"><span class="lineNum">     657 </span><span class="lineCov">      13284 :   g-&gt;gray = *getgclist(o);  /* remove from 'gray' list */</span></a>
-<a name="658"><span class="lineNum">     658 </span><span class="lineCov">      13284 :   switch (o-&gt;tt) {</span></a>
+<a name="654"><span class="lineNum">     654 </span><span class="lineCov">      13282 : static lu_mem propagatemark (global_State *g) {</span></a>
+<a name="655"><span class="lineNum">     655 </span><span class="lineCov">      13282 :   GCObject *o = g-&gt;gray;</span></a>
+<a name="656"><span class="lineNum">     656 </span><span class="lineCov">      13282 :   nw2black(o);</span></a>
+<a name="657"><span class="lineNum">     657 </span><span class="lineCov">      13282 :   g-&gt;gray = *getgclist(o);  /* remove from 'gray' list */</span></a>
+<a name="658"><span class="lineNum">     658 </span><span class="lineCov">      13282 :   switch (o-&gt;tt) {</span></a>
 <a name="659"><span class="lineNum">     659 </span><span class="lineCov">       6362 :     case LUA_VTABLE: return traversetable(g, gco2t(o));</span></a>
 <a name="660"><span class="lineNum">     660 </span><span class="lineNoCov">          0 :     case LUA_VUSERDATA: return traverseudata(g, gco2u(o));</span></a>
 <a name="661"><span class="lineNum">     661 </span><span class="lineCov">        992 :     case LUA_VLCL: return traverseLclosure(g, gco2lcl(o));</span></a>
 <a name="662"><span class="lineNum">     662 </span><span class="lineCov">       2154 :     case LUA_VCCL: return traverseCclosure(g, gco2ccl(o));</span></a>
-<a name="663"><span class="lineNum">     663 </span><span class="lineCov">       2660 :     case LUA_VPROTO: return traverseproto(g, gco2p(o));</span></a>
+<a name="663"><span class="lineNum">     663 </span><span class="lineCov">       2658 :     case LUA_VPROTO: return traverseproto(g, gco2p(o));</span></a>
 <a name="664"><span class="lineNum">     664 </span><span class="lineCov">       1116 :     case LUA_VTHREAD: return traversethread(g, gco2th(o));</span></a>
 <a name="665"><span class="lineNum">     665 </span><span class="lineNoCov">          0 :     default: lua_assert(0); return 0;</span></a>
 <a name="666"><span class="lineNum">     666 </span>            :   }</a>
@@ -735,8 +735,8 @@
 <a name="669"><span class="lineNum">     669 </span>            : </a>
 <a name="670"><span class="lineNum">     670 </span><span class="lineCov">       2548 : static lu_mem propagateall (global_State *g) {</span></a>
 <a name="671"><span class="lineNum">     671 </span><span class="lineCov">       2548 :   lu_mem tot = 0;</span></a>
-<a name="672"><span class="lineNum">     672 </span><span class="lineCov">      11451 :   while (g-&gt;gray)</span></a>
-<a name="673"><span class="lineNum">     673 </span><span class="lineCov">       8903 :     tot += propagatemark(g);</span></a>
+<a name="672"><span class="lineNum">     672 </span><span class="lineCov">      11449 :   while (g-&gt;gray)</span></a>
+<a name="673"><span class="lineNum">     673 </span><span class="lineCov">       8901 :     tot += propagatemark(g);</span></a>
 <a name="674"><span class="lineNum">     674 </span><span class="lineCov">       2548 :   return tot;</span></a>
 <a name="675"><span class="lineNum">     675 </span>            : }</a>
 <a name="676"><span class="lineNum">     676 </span>            : </a>
@@ -1112,23 +1112,23 @@
 <a name="1046"><span class="lineNum">    1046 </span><span class="lineCov">        426 : static void sweep2old (lua_State *L, GCObject **p) {</span></a>
 <a name="1047"><span class="lineNum">    1047 </span>            :   GCObject *curr;</a>
 <a name="1048"><span class="lineNum">    1048 </span><span class="lineCov">        426 :   global_State *g = G(L);</span></a>
-<a name="1049"><span class="lineNum">    1049 </span><span class="lineCov">      40619 :   while ((curr = *p) != NULL) {</span></a>
-<a name="1050"><span class="lineNum">    1050 </span><span class="lineCov">      40193 :     if (iswhite(curr)) {  /* is 'curr' dead? */</span></a>
+<a name="1049"><span class="lineNum">    1049 </span><span class="lineCov">      40625 :   while ((curr = *p) != NULL) {</span></a>
+<a name="1050"><span class="lineNum">    1050 </span><span class="lineCov">      40199 :     if (iswhite(curr)) {  /* is 'curr' dead? */</span></a>
 <a name="1051"><span class="lineNum">    1051 </span>            :       lua_assert(isdead(g, curr));</a>
 <a name="1052"><span class="lineNum">    1052 </span><span class="lineCov">       2599 :       *p = curr-&gt;next;  /* remove 'curr' from list */</span></a>
 <a name="1053"><span class="lineNum">    1053 </span><span class="lineCov">       2599 :       freeobj(L, curr);  /* erase 'curr' */</span></a>
 <a name="1054"><span class="lineNum">    1054 </span>            :     }</a>
 <a name="1055"><span class="lineNum">    1055 </span>            :     else {  /* all surviving objects become old */</a>
-<a name="1056"><span class="lineNum">    1056 </span><span class="lineCov">      37594 :       setage(curr, G_OLD);</span></a>
-<a name="1057"><span class="lineNum">    1057 </span><span class="lineCov">      37594 :       if (curr-&gt;tt == LUA_VTHREAD) {  /* threads must be watched */</span></a>
+<a name="1056"><span class="lineNum">    1056 </span><span class="lineCov">      37600 :       setage(curr, G_OLD);</span></a>
+<a name="1057"><span class="lineNum">    1057 </span><span class="lineCov">      37600 :       if (curr-&gt;tt == LUA_VTHREAD) {  /* threads must be watched */</span></a>
 <a name="1058"><span class="lineNum">    1058 </span><span class="lineCov">        143 :         lua_State *th = gco2th(curr);</span></a>
 <a name="1059"><span class="lineNum">    1059 </span><span class="lineCov">        143 :         linkgclist(th, g-&gt;grayagain);  /* insert into 'grayagain' list */</span></a>
 <a name="1060"><span class="lineNum">    1060 </span>            :       }</a>
-<a name="1061"><span class="lineNum">    1061 </span><span class="lineCov">      37451 :       else if (curr-&gt;tt == LUA_VUPVAL &amp;&amp; upisopen(gco2upv(curr)))</span></a>
+<a name="1061"><span class="lineNum">    1061 </span><span class="lineCov">      37457 :       else if (curr-&gt;tt == LUA_VUPVAL &amp;&amp; upisopen(gco2upv(curr)))</span></a>
 <a name="1062"><span class="lineNum">    1062 </span><span class="lineCov">         16 :         set2gray(curr);  /* open upvalues are always gray */</span></a>
 <a name="1063"><span class="lineNum">    1063 </span>            :       else  /* everything else is black */</a>
-<a name="1064"><span class="lineNum">    1064 </span><span class="lineCov">      37435 :         nw2black(curr);</span></a>
-<a name="1065"><span class="lineNum">    1065 </span><span class="lineCov">      37594 :       p = &amp;curr-&gt;next;  /* go to next element */</span></a>
+<a name="1064"><span class="lineNum">    1064 </span><span class="lineCov">      37441 :         nw2black(curr);</span></a>
+<a name="1065"><span class="lineNum">    1065 </span><span class="lineCov">      37600 :       p = &amp;curr-&gt;next;  /* go to next element */</span></a>
 <a name="1066"><span class="lineNum">    1066 </span>            :     }</a>
 <a name="1067"><span class="lineNum">    1067 </span>            :   }</a>
 <a name="1068"><span class="lineNum">    1068 </span><span class="lineCov">        426 : }</span></a>
@@ -1158,23 +1158,23 @@
 <a name="1092"><span class="lineNum">    1092 </span>            :   };</a>
 <a name="1093"><span class="lineNum">    1093 </span><span class="lineCov">        965 :   int white = luaC_white(g);</span></a>
 <a name="1094"><span class="lineNum">    1094 </span>            :   GCObject *curr;</a>
-<a name="1095"><span class="lineNum">    1095 </span><span class="lineCov">      23393 :   while ((curr = *p) != limit) {</span></a>
-<a name="1096"><span class="lineNum">    1096 </span><span class="lineCov">      22428 :     if (iswhite(curr)) {  /* is 'curr' dead? */</span></a>
+<a name="1095"><span class="lineNum">    1095 </span><span class="lineCov">      23395 :   while ((curr = *p) != limit) {</span></a>
+<a name="1096"><span class="lineNum">    1096 </span><span class="lineCov">      22430 :     if (iswhite(curr)) {  /* is 'curr' dead? */</span></a>
 <a name="1097"><span class="lineNum">    1097 </span>            :       lua_assert(!isold(curr) &amp;&amp; isdead(g, curr));</a>
 <a name="1098"><span class="lineNum">    1098 </span><span class="lineCov">      17852 :       *p = curr-&gt;next;  /* remove 'curr' from list */</span></a>
 <a name="1099"><span class="lineNum">    1099 </span><span class="lineCov">      17852 :       freeobj(L, curr);  /* erase 'curr' */</span></a>
 <a name="1100"><span class="lineNum">    1100 </span>            :     }</a>
 <a name="1101"><span class="lineNum">    1101 </span>            :     else {  /* correct mark and age */</a>
-<a name="1102"><span class="lineNum">    1102 </span><span class="lineCov">       4576 :       if (getage(curr) == G_NEW) {  /* new objects go back to white */</span></a>
-<a name="1103"><span class="lineNum">    1103 </span><span class="lineCov">       4541 :         int marked = curr-&gt;marked &amp; ~maskgcbits;  /* erase GC bits */</span></a>
-<a name="1104"><span class="lineNum">    1104 </span><span class="lineCov">       4541 :         curr-&gt;marked = cast_byte(marked | G_SURVIVAL | white);</span></a>
+<a name="1102"><span class="lineNum">    1102 </span><span class="lineCov">       4578 :       if (getage(curr) == G_NEW) {  /* new objects go back to white */</span></a>
+<a name="1103"><span class="lineNum">    1103 </span><span class="lineCov">       4543 :         int marked = curr-&gt;marked &amp; ~maskgcbits;  /* erase GC bits */</span></a>
+<a name="1104"><span class="lineNum">    1104 </span><span class="lineCov">       4543 :         curr-&gt;marked = cast_byte(marked | G_SURVIVAL | white);</span></a>
 <a name="1105"><span class="lineNum">    1105 </span>            :       }</a>
 <a name="1106"><span class="lineNum">    1106 </span>            :       else {  /* all other objects will be old, and so keep their color */</a>
 <a name="1107"><span class="lineNum">    1107 </span><span class="lineCov">         35 :         setage(curr, nextage[getage(curr)]);</span></a>
 <a name="1108"><span class="lineNum">    1108 </span><span class="lineCov">         35 :         if (getage(curr) == G_OLD1 &amp;&amp; *pfirstold1 == NULL)</span></a>
 <a name="1109"><span class="lineNum">    1109 </span><span class="lineCov">         15 :           *pfirstold1 = curr;  /* first OLD1 object in the list */</span></a>
 <a name="1110"><span class="lineNum">    1110 </span>            :       }</a>
-<a name="1111"><span class="lineNum">    1111 </span><span class="lineCov">       4576 :       p = &amp;curr-&gt;next;  /* go to next element */</span></a>
+<a name="1111"><span class="lineNum">    1111 </span><span class="lineCov">       4578 :       p = &amp;curr-&gt;next;  /* go to next element */</span></a>
 <a name="1112"><span class="lineNum">    1112 </span>            :     }</a>
 <a name="1113"><span class="lineNum">    1113 </span>            :   }</a>
 <a name="1114"><span class="lineNum">    1114 </span><span class="lineCov">        965 :   return p;</span></a>
@@ -1188,8 +1188,8 @@
 <a name="1122"><span class="lineNum">    1122 </span>            : */</a>
 <a name="1123"><span class="lineNum">    1123 </span><span class="lineCov">        396 : static void whitelist (global_State *g, GCObject *p) {</span></a>
 <a name="1124"><span class="lineNum">    1124 </span><span class="lineCov">        396 :   int white = luaC_white(g);</span></a>
-<a name="1125"><span class="lineNum">    1125 </span><span class="lineCov">      53604 :   for (; p != NULL; p = p-&gt;next)</span></a>
-<a name="1126"><span class="lineNum">    1126 </span><span class="lineCov">      53208 :     p-&gt;marked = cast_byte((p-&gt;marked &amp; ~maskgcbits) | white);</span></a>
+<a name="1125"><span class="lineNum">    1125 </span><span class="lineCov">      53610 :   for (; p != NULL; p = p-&gt;next)</span></a>
+<a name="1126"><span class="lineNum">    1126 </span><span class="lineCov">      53214 :     p-&gt;marked = cast_byte((p-&gt;marked &amp; ~maskgcbits) | white);</span></a>
 <a name="1127"><span class="lineNum">    1127 </span><span class="lineCov">        396 : }</span></a>
 <a name="1128"><span class="lineNum">    1128 </span>            : </a>
 <a name="1129"><span class="lineNum">    1129 </span>            : </a>
