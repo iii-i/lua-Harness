@@ -86,8 +86,15 @@ if profile.openresty then
     eq_array(jit.prngstate(s2), s1)
     eq_array(jit.prngstate(), s2)
 
-    error_like(function () jit.prngstate(1) end,
-               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(table expected, got number%)")
+    type_ok(jit.prngstate(32), 'table', "backward compat")
+    eq_array(jit.prngstate(5617), { 32, 0, 0, 0, 0, 0, 0, 0 })
+    eq_array(jit.prngstate(), { 5617, 0, 0, 0, 0, 0, 0, 0 })
+
+    error_like(function () jit.prngstate(-1) end,
+               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(PRNG state must be an array with up to 8 integers or an integer%)")
+
+    error_like(function () jit.prngstate(false) end,
+               "^[^:]+:%d+: bad argument #1 to 'prngstate' %(table expected, got boolean%)")
 elseif jit.version:match'moonjit' then
     is(jit.prngstate(), 0, "prngstate")
 else
