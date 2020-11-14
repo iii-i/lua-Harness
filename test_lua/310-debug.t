@@ -179,9 +179,8 @@ end
 
 -- setcstacklimit
 if has_setcstacklimit then
-    type_ok(debug.setcstacklimit(1000), 'number', "function setcstacklimit")
-    is(debug.setcstacklimit(2000), 1000)
-    is(debug.setcstacklimit(1000000), false)
+    type_ok(debug.setcstacklimit(200), 'number', "function setcstacklimit")
+    is(debug.setcstacklimit(1000), 200)
 
     error_like(function () debug.setcstacklimit('bad') end,
                "^[^:]+:%d+: bad argument #1 to 'setcstacklimit' %(number expected, got string%)",
