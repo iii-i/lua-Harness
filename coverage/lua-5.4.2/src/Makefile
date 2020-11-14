@@ -26,7 +26,7 @@ MYLIBS=
 MYOBJS=
 
 # Special flags for compiler modules; -Os reduces code size.
-CMCFLAGS= -Os
+CMCFLAGS= 
 
 # == END OF USER SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE =======
 
@@ -58,8 +58,8 @@ a:	$(ALL_A)
 
 lcov:
 	lcov --capture -d . -o lua.info
-	rm -rf ../../../public/cover_lua541
-	genhtml -o ../../../public/cover_lua541 -t "Lua 5.4.1" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
+	rm -rf ../../../public/cover_lua542
+	genhtml -o ../../../public/cover_lua542 -t "Lua 5.4.2-rc1" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
 
 $(LUA_A): $(BASE_O)
 	$(AR) $@ $(BASE_O)
