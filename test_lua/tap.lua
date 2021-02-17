@@ -14,7 +14,6 @@ if pcall(require, 'Test.More') then
     return
 end
 
-local _G = _G
 local os = os
 local pcall = pcall
 local print = print
