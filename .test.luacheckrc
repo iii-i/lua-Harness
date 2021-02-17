@@ -1,4 +1,5 @@
 codes = true
+max_line_length = 132
 read_globals = {
     -- tap (subset of Test.More)
     'plan',
