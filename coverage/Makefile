@@ -11,15 +11,15 @@ lua-5.2.4.tar.gz:
 lua-5.3.6.tar.gz:
 	wget https://www.lua.org/ftp/lua-5.3.6.tar.gz
 
-lua-5.4.3-rc1.tar.gz:
-	wget https://www.lua.org/work/lua-5.4.3-rc1.tar.gz
+lua-5.4.3.tar.gz:
+	wget https://www.lua.org/ftp/lua-5.4.3.tar.gz
 
 .PHONY: extract
-extract: lua-5.1.5.tar.gz lua-5.2.4.tar.gz lua-5.3.6.tar.gz lua-5.4.3-rc1.tar.gz
+extract: lua-5.1.5.tar.gz lua-5.2.4.tar.gz lua-5.3.6.tar.gz lua-5.4.3.tar.gz
 	tar xvfz lua-5.1.5.tar.gz
 	tar xvfz lua-5.2.4.tar.gz
 	tar xvfz lua-5.3.6.tar.gz
-	tar xvfz lua-5.4.3-rc1.tar.gz
+	tar xvfz lua-5.4.3.tar.gz
 	git reset --hard # lua-5.*/src/Makefile
 
 .PHONY: build
