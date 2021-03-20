@@ -9,6 +9,8 @@
 
 ]]
 
+_dofile = _dofile or dofile     -- could be defined in profile
+
 function _retrieve_progname ()
     local i = 0
     while arg[i] do

@@ -843,7 +843,7 @@ do -- xpcall
 end
 
 if jit and pcall(require, 'ffi') then
-    dofile'lexicojit/basic.t'
+    _dofile'lexicojit/basic.t'
 end
 
 done_testing()

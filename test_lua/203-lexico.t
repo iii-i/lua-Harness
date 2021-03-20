@@ -118,19 +118,19 @@ do
 end
 
 if _VERSION >= 'Lua 5.2' or jit then
-    dofile'lexico52/lexico.t'
+    _dofile'lexico52/lexico.t'
 end
 
 if _VERSION >= 'Lua 5.3' or luajit21 then
-    dofile'lexico53/lexico.t'
+    _dofile'lexico53/lexico.t'
 end
 
 if _VERSION >= 'Lua 5.4' then
-    dofile'lexico54/lexico.t'
+    _dofile'lexico54/lexico.t'
 end
 
 if jit and pcall(require, 'ffi') then
-    dofile'lexicojit/lexico.t'
+    _dofile'lexicojit/lexico.t'
 end
 
 done_testing()
