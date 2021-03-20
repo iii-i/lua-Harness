@@ -26,7 +26,7 @@ Tests Lua Basic & IO Libraries with stdin
 
 require'test_assertion'
 
-local lua = arg[-3] or arg[-1]
+local lua = _retrieve_progname()
 
 if not pcall(io.popen, lua .. [[ -e "a=1"]]) then
     skip_all "io.popen not supported"

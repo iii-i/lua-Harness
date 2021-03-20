@@ -2,6 +2,7 @@ codes = true
 max_line_length = 132
 read_globals = {
     -- test_assertion (subset of Test.Assertion)
+    '_retrieve_progname',
     'plan',
     'done_testing',
     'skip_all',

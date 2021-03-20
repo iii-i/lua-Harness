@@ -38,7 +38,7 @@ if ravi then
     skip_all("ravi")
 end
 
-local lua = arg[-3] or arg[-1]
+local lua = _retrieve_progname()
 local luac = lua .. 'c'
 
 if not pcall(io.popen, lua .. [[ -e "a=1"]]) then

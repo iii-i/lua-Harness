@@ -9,6 +9,14 @@
 
 ]]
 
+function _retrieve_progname ()
+    local i = 0
+    while arg[i] do
+        i = i - 1
+    end
+    return arg[i + 1]
+end
+
 if pcall(require, 'Test.Assertion') then
     diag 'Test.Assertion loaded'
     return
