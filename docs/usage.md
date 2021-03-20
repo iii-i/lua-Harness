@@ -8,7 +8,7 @@
 The directory `test_lua` contains the following files:
 
 - *.t : test files written in Lua
-- tap.lua : a minimal TAP library used when [Test.Assertion](https://fperrad.frama.io/lua-TestAssertion/) is not available
+- test_assertion.lua : a minimal TAP library used when [Test.Assertion](https://fperrad.frama.io/lua-TestAssertion/) is not available
 - profile*.lua : a set of predefined profile files, `profile.lua` is loaded by default.
 - Makefile : an helper
 

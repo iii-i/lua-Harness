@@ -1,7 +1,7 @@
 codes = true
 max_line_length = 132
 read_globals = {
-    -- tap (subset of Test.Assertion)
+    -- test_assertion (subset of Test.Assertion)
     'plan',
     'done_testing',
     'skip_all',

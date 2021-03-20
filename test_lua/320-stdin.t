@@ -24,7 +24,7 @@ Tests Lua Basic & IO Libraries with stdin
 
 --]]
 
-require'tap'
+require'test_assertion'
 
 local lua = arg[-3] or arg[-1]
 
