@@ -2,6 +2,8 @@
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 ---
 
+local rolling = tonumber(jit.version:match('%d%.%d%.(%d+)')) or 0
+
 local profile = {
 
 --[[ compat 5.0
@@ -37,6 +39,7 @@ local profile = {
 -- [[ luajit
     luajit_compat52 = false,
     openresty = false,
+    string_buffer = rolling >= 1692580715,
 --]]
 
 }
@@ -46,7 +49,7 @@ package.loaded.profile = profile        -- prevents loading of default profile
 return profile
 
 --
--- Copyright (c) 2018-2019 Francois Perrad
+-- Copyright (c) 2018-2023 Francois Perrad
 --
 -- This library is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.

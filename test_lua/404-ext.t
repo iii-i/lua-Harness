@@ -34,6 +34,57 @@ end
 
 plan'no_plan'
 
+-- string.buffer
+if profile.string_buffer then
+    local r, buffer = pcall(require, 'string.buffer')
+    is_true(r, 'string.buffer')
+    is_table(buffer)
+    equals(package.loaded['string.buffer'], buffer)
+    is_function(buffer.new)
+    is_function(buffer.decode)
+    is_function(buffer.encode)
+
+    local buf = buffer.new()
+    is_userdata(buf, 'buffer.new')
+    equals(#buf, 0)
+    local s = tostring(buf)
+    equals(s, '')
+
+    buf = buf:put('a', 42)
+    equals(#buf, 3, ':put')
+    s = tostring(buf)
+    equals(s, 'a42')
+
+    buf = buf:putf('%04x', 42)
+    equals(#buf, 7, ':putf')
+    s = tostring(buf)
+    equals(s, 'a42002a')
+
+    equals(buf:get(1), 'a', ':get')
+    equals(#buf, 6)
+    equals(buf:get(2), '42')
+    buf = buf:skip(2)
+    equals(#buf, 2)
+    equals(buf:get(1), '2')
+
+    equals(#buf, 1)
+    buf = buf:reset()
+    equals(#buf, 0, ':reset')
+
+    local data = { 'foo', 42, true }
+    s = buffer.encode(data)
+    is_string(s, 'buffer.encode')
+
+    local t = buffer.decode(s)
+    is_table(t, 'buffer.decode')
+    array_equals(t, data)
+
+    error_matches(function () buffer.decode(42) end,
+            "^[^:]+:%d+: bad argument #1 to 'decode' %(string expected, got number%)")
+else
+    is_false(pcall(require, 'string.buffer'), 'no string.buffer')
+end
+
 do -- table.new
     local r, new = pcall(require, 'table.new')
     is_true(r, 'table.new')
