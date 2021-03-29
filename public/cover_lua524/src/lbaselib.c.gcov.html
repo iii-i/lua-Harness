@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-12-03 21:20:28</td>
+            <td class="headerValue">2021-03-29 18:11:10</td>
             <td></td>
           </tr>
           <tr>
@@ -252,10 +252,10 @@
 <a name="186"><span class="lineNum">     186 </span>            : }</a>
 <a name="187"><span class="lineNum">     187 </span>            : </a>
 <a name="188"><span class="lineNum">     188 </span>            : </a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">        151 : static int luaB_type (lua_State *L) {</span></a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">        151 :   luaL_checkany(L, 1);</span></a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">        150 :   lua_pushstring(L, luaL_typename(L, 1));</span></a>
-<a name="192"><span class="lineNum">     192 </span><span class="lineCov">        150 :   return 1;</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">        150 : static int luaB_type (lua_State *L) {</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">        150 :   luaL_checkany(L, 1);</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">        149 :   lua_pushstring(L, luaL_typename(L, 1));</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">        149 :   return 1;</span></a>
 <a name="193"><span class="lineNum">     193 </span>            : }</a>
 <a name="194"><span class="lineNum">     194 </span>            : </a>
 <a name="195"><span class="lineNum">     195 </span>            : </a>
@@ -432,16 +432,16 @@
 <a name="366"><span class="lineNum">     366 </span>            : }</a>
 <a name="367"><span class="lineNum">     367 </span>            : </a>
 <a name="368"><span class="lineNum">     368 </span>            : </a>
-<a name="369"><span class="lineNum">     369 </span><span class="lineCov">        516 : static int finishpcall (lua_State *L, int status) {</span></a>
-<a name="370"><span class="lineNum">     370 </span><span class="lineCov">        516 :   if (!lua_checkstack(L, 1)) {  /* no space for extra boolean? */</span></a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineCov">        514 : static int finishpcall (lua_State *L, int status) {</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineCov">        514 :   if (!lua_checkstack(L, 1)) {  /* no space for extra boolean? */</span></a>
 <a name="371"><span class="lineNum">     371 </span><span class="lineNoCov">          0 :     lua_settop(L, 0);  /* create space for return values */</span></a>
 <a name="372"><span class="lineNum">     372 </span><span class="lineNoCov">          0 :     lua_pushboolean(L, 0);</span></a>
 <a name="373"><span class="lineNum">     373 </span><span class="lineNoCov">          0 :     lua_pushstring(L, &quot;stack overflow&quot;);</span></a>
 <a name="374"><span class="lineNum">     374 </span><span class="lineNoCov">          0 :     return 2;  /* return false, msg */</span></a>
 <a name="375"><span class="lineNum">     375 </span>            :   }</a>
-<a name="376"><span class="lineNum">     376 </span><span class="lineCov">        516 :   lua_pushboolean(L, status);  /* first result (status) */</span></a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        516 :   lua_replace(L, 1);  /* put first result in first slot */</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">        516 :   return lua_gettop(L);</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">        514 :   lua_pushboolean(L, status);  /* first result (status) */</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        514 :   lua_replace(L, 1);  /* put first result in first slot */</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">        514 :   return lua_gettop(L);</span></a>
 <a name="379"><span class="lineNum">     379 </span>            : }</a>
 <a name="380"><span class="lineNum">     380 </span>            : </a>
 <a name="381"><span class="lineNum">     381 </span>            : </a>
@@ -451,13 +451,13 @@
 <a name="385"><span class="lineNum">     385 </span>            : }</a>
 <a name="386"><span class="lineNum">     386 </span>            : </a>
 <a name="387"><span class="lineNum">     387 </span>            : </a>
-<a name="388"><span class="lineNum">     388 </span><span class="lineCov">        508 : static int luaB_pcall (lua_State *L) {</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">        506 : static int luaB_pcall (lua_State *L) {</span></a>
 <a name="389"><span class="lineNum">     389 </span>            :   int status;</a>
-<a name="390"><span class="lineNum">     390 </span><span class="lineCov">        508 :   luaL_checkany(L, 1);</span></a>
-<a name="391"><span class="lineNum">     391 </span><span class="lineCov">        508 :   lua_pushnil(L);</span></a>
-<a name="392"><span class="lineNum">     392 </span><span class="lineCov">        508 :   lua_insert(L, 1);  /* create space for status result */</span></a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineCov">        508 :   status = lua_pcallk(L, lua_gettop(L) - 2, LUA_MULTRET, 0, 0, pcallcont);</span></a>
-<a name="394"><span class="lineNum">     394 </span><span class="lineCov">        507 :   return finishpcall(L, (status == LUA_OK));</span></a>
+<a name="390"><span class="lineNum">     390 </span><span class="lineCov">        506 :   luaL_checkany(L, 1);</span></a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">        506 :   lua_pushnil(L);</span></a>
+<a name="392"><span class="lineNum">     392 </span><span class="lineCov">        506 :   lua_insert(L, 1);  /* create space for status result */</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">        506 :   status = lua_pcallk(L, lua_gettop(L) - 2, LUA_MULTRET, 0, 0, pcallcont);</span></a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">        505 :   return finishpcall(L, (status == LUA_OK));</span></a>
 <a name="395"><span class="lineNum">     395 </span>            : }</a>
 <a name="396"><span class="lineNum">     396 </span>            : </a>
 <a name="397"><span class="lineNum">     397 </span>            : </a>

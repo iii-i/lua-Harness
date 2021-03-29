@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-12-03 21:20:28</td>
+            <td class="headerValue">2021-03-29 18:11:10</td>
             <td></td>
           </tr>
           <tr>
@@ -139,14 +139,14 @@
 <a name="73"><span class="lineNum">      73 </span><span class="lineCov">          8 : }</span></a>
 <a name="74"><span class="lineNum">      74 </span>            : </a>
 <a name="75"><span class="lineNum">      75 </span>            : </a>
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">         23 : static lua_State *getthread (lua_State *L, int *arg) {</span></a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">         23 :   if (lua_isthread(L, 1)) {</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">         22 : static lua_State *getthread (lua_State *L, int *arg) {</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">         22 :   if (lua_isthread(L, 1)) {</span></a>
 <a name="78"><span class="lineNum">      78 </span><span class="lineCov">          1 :     *arg = 1;</span></a>
 <a name="79"><span class="lineNum">      79 </span><span class="lineCov">          1 :     return lua_tothread(L, 1);</span></a>
 <a name="80"><span class="lineNum">      80 </span>            :   }</a>
 <a name="81"><span class="lineNum">      81 </span>            :   else {</a>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">         22 :     *arg = 0;</span></a>
-<a name="83"><span class="lineNum">      83 </span><span class="lineCov">         22 :     return L;</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">         21 :     *arg = 0;</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">         21 :     return L;</span></a>
 <a name="84"><span class="lineNum">      84 </span>            :   }</a>
 <a name="85"><span class="lineNum">      85 </span>            : }</a>
 <a name="86"><span class="lineNum">      86 </span>            : </a>
@@ -385,25 +385,25 @@
 <a name="319"><span class="lineNum">     319 </span>            : #define LEVELS1 12      /* size of the first part of the stack */</a>
 <a name="320"><span class="lineNum">     320 </span>            : #define LEVELS2 10      /* size of the second part of the stack */</a>
 <a name="321"><span class="lineNum">     321 </span>            : </a>
-<a name="322"><span class="lineNum">     322 </span><span class="lineCov">          7 : static int db_errorfb (lua_State *L) {</span></a>
+<a name="322"><span class="lineNum">     322 </span><span class="lineCov">          6 : static int db_errorfb (lua_State *L) {</span></a>
 <a name="323"><span class="lineNum">     323 </span>            :   int level;</a>
-<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          7 :   int firstpart = 1;  /* still before eventual `...' */</span></a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          6 :   int firstpart = 1;  /* still before eventual `...' */</span></a>
 <a name="325"><span class="lineNum">     325 </span>            :   int arg;</a>
-<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          7 :   lua_State *L1 = getthread(L, &amp;arg);</span></a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          6 :   lua_State *L1 = getthread(L, &amp;arg);</span></a>
 <a name="327"><span class="lineNum">     327 </span>            :   lua_Debug ar;</a>
-<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          7 :   if (lua_isnumber(L, arg+2)) {</span></a>
-<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          4 :     level = (int)lua_tointeger(L, arg+2);</span></a>
-<a name="330"><span class="lineNum">     330 </span><span class="lineCov">          4 :     lua_pop(L, 1);</span></a>
+<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          6 :   if (lua_isnumber(L, arg+2)) {</span></a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          3 :     level = (int)lua_tointeger(L, arg+2);</span></a>
+<a name="330"><span class="lineNum">     330 </span><span class="lineCov">          3 :     lua_pop(L, 1);</span></a>
 <a name="331"><span class="lineNum">     331 </span>            :   }</a>
 <a name="332"><span class="lineNum">     332 </span>            :   else</a>
 <a name="333"><span class="lineNum">     333 </span><span class="lineCov">          3 :     level = (L == L1) ? 1 : 0;  /* level 0 may be this own function */</span></a>
-<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          7 :   if (lua_gettop(L) == arg)</span></a>
+<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          6 :   if (lua_gettop(L) == arg)</span></a>
 <a name="335"><span class="lineNum">     335 </span><span class="lineCov">          1 :     lua_pushliteral(L, &quot;&quot;);</span></a>
-<a name="336"><span class="lineNum">     336 </span><span class="lineCov">          6 :   else if (!lua_isstring(L, arg+1)) return 1;  /* message is not a string */</span></a>
-<a name="337"><span class="lineNum">     337 </span><span class="lineCov">          5 :   else lua_pushliteral(L, &quot;\n&quot;);</span></a>
-<a name="338"><span class="lineNum">     338 </span><span class="lineCov">          6 :   lua_pushliteral(L, &quot;stack traceback:&quot;);</span></a>
-<a name="339"><span class="lineNum">     339 </span><span class="lineCov">         20 :   while (lua_getstack(L1, level++, &amp;ar)) {</span></a>
-<a name="340"><span class="lineNum">     340 </span><span class="lineCov">         14 :     if (level &gt; LEVELS1 &amp;&amp; firstpart) {</span></a>
+<a name="336"><span class="lineNum">     336 </span><span class="lineCov">          5 :   else if (!lua_isstring(L, arg+1)) return 1;  /* message is not a string */</span></a>
+<a name="337"><span class="lineNum">     337 </span><span class="lineCov">          4 :   else lua_pushliteral(L, &quot;\n&quot;);</span></a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">          5 :   lua_pushliteral(L, &quot;stack traceback:&quot;);</span></a>
+<a name="339"><span class="lineNum">     339 </span><span class="lineCov">         17 :   while (lua_getstack(L1, level++, &amp;ar)) {</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">         12 :     if (level &gt; LEVELS1 &amp;&amp; firstpart) {</span></a>
 <a name="341"><span class="lineNum">     341 </span>            :       /* no more than `LEVELS2' more levels? */</a>
 <a name="342"><span class="lineNum">     342 </span><span class="lineNoCov">          0 :       if (!lua_getstack(L1, level+LEVELS2, &amp;ar))</span></a>
 <a name="343"><span class="lineNum">     343 </span><span class="lineNoCov">          0 :         level--;  /* keep going */</span></a>
@@ -415,26 +415,26 @@
 <a name="349"><span class="lineNum">     349 </span><span class="lineNoCov">          0 :       firstpart = 0;</span></a>
 <a name="350"><span class="lineNum">     350 </span><span class="lineNoCov">          0 :       continue;</span></a>
 <a name="351"><span class="lineNum">     351 </span>            :     }</a>
-<a name="352"><span class="lineNum">     352 </span><span class="lineCov">         14 :     lua_pushliteral(L, &quot;\n\t&quot;);</span></a>
-<a name="353"><span class="lineNum">     353 </span><span class="lineCov">         14 :     lua_getinfo(L1, &quot;Snl&quot;, &amp;ar);</span></a>
-<a name="354"><span class="lineNum">     354 </span><span class="lineCov">         14 :     lua_pushfstring(L, &quot;%s:&quot;, ar.short_src);</span></a>
-<a name="355"><span class="lineNum">     355 </span><span class="lineCov">         14 :     if (ar.currentline &gt; 0)</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">         12 :     lua_pushliteral(L, &quot;\n\t&quot;);</span></a>
+<a name="353"><span class="lineNum">     353 </span><span class="lineCov">         12 :     lua_getinfo(L1, &quot;Snl&quot;, &amp;ar);</span></a>
+<a name="354"><span class="lineNum">     354 </span><span class="lineCov">         12 :     lua_pushfstring(L, &quot;%s:&quot;, ar.short_src);</span></a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineCov">         12 :     if (ar.currentline &gt; 0)</span></a>
 <a name="356"><span class="lineNum">     356 </span><span class="lineCov">          4 :       lua_pushfstring(L, &quot;%d:&quot;, ar.currentline);</span></a>
-<a name="357"><span class="lineNum">     357 </span><span class="lineCov">         14 :     if (*ar.namewhat != '\0')  /* is there a name? */</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">         12 :     if (*ar.namewhat != '\0')  /* is there a name? */</span></a>
 <a name="358"><span class="lineNum">     358 </span><span class="lineCov">          2 :         lua_pushfstring(L, &quot; in function &quot; LUA_QS, ar.name);</span></a>
 <a name="359"><span class="lineNum">     359 </span>            :     else {</a>
-<a name="360"><span class="lineNum">     360 </span><span class="lineCov">         12 :       if (*ar.what == 'm')  /* main? */</span></a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineCov">         10 :       if (*ar.what == 'm')  /* main? */</span></a>
 <a name="361"><span class="lineNum">     361 </span><span class="lineCov">          4 :         lua_pushfstring(L, &quot; in main chunk&quot;);</span></a>
-<a name="362"><span class="lineNum">     362 </span><span class="lineCov">          8 :       else if (*ar.what == 'C' || *ar.what == 't')</span></a>
-<a name="363"><span class="lineNum">     363 </span><span class="lineCov">          8 :         lua_pushliteral(L, &quot; ?&quot;);  /* C function or tail call */</span></a>
+<a name="362"><span class="lineNum">     362 </span><span class="lineCov">          6 :       else if (*ar.what == 'C' || *ar.what == 't')</span></a>
+<a name="363"><span class="lineNum">     363 </span><span class="lineCov">          6 :         lua_pushliteral(L, &quot; ?&quot;);  /* C function or tail call */</span></a>
 <a name="364"><span class="lineNum">     364 </span>            :       else</a>
 <a name="365"><span class="lineNum">     365 </span><span class="lineNoCov">          0 :         lua_pushfstring(L, &quot; in function &lt;%s:%d&gt;&quot;,</span></a>
 <a name="366"><span class="lineNum">     366 </span>            :                            ar.short_src, ar.linedefined);</a>
 <a name="367"><span class="lineNum">     367 </span>            :     }</a>
-<a name="368"><span class="lineNum">     368 </span><span class="lineCov">         14 :     lua_concat(L, lua_gettop(L) - arg);</span></a>
+<a name="368"><span class="lineNum">     368 </span><span class="lineCov">         12 :     lua_concat(L, lua_gettop(L) - arg);</span></a>
 <a name="369"><span class="lineNum">     369 </span>            :   }</a>
-<a name="370"><span class="lineNum">     370 </span><span class="lineCov">          6 :   lua_concat(L, lua_gettop(L) - arg);</span></a>
-<a name="371"><span class="lineNum">     371 </span><span class="lineCov">          6 :   return 1;</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineCov">          5 :   lua_concat(L, lua_gettop(L) - arg);</span></a>
+<a name="371"><span class="lineNum">     371 </span><span class="lineCov">          5 :   return 1;</span></a>
 <a name="372"><span class="lineNum">     372 </span>            : }</a>
 <a name="373"><span class="lineNum">     373 </span>            : </a>
 <a name="374"><span class="lineNum">     374 </span>            : </a>
