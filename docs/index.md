@@ -34,7 +34,7 @@ lua-Harness source can be downloaded from
 
 ## Copyright and License
 
-Copyright &copy; 2009-2020 Fran&ccedil;ois Perrad
+Copyright &copy; 2009-2021 Fran&ccedil;ois Perrad
 
 This library is licensed under the terms of the MIT/X11 license,
 like Lua itself.
