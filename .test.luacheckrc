@@ -11,6 +11,7 @@ read_globals = {
     'falsy',
     'equals',
     'not_equals',
+    'near',
     'matches',
     'is_false', 'is_nil', 'is_true',
     'is_boolean', 'is_cdata', 'is_function', 'is_number', 'is_string', 'is_table', 'is_thread', 'is_userdata',
