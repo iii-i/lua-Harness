@@ -32,7 +32,7 @@ if not pcall(io.popen, lua .. [[ -e "a=1"]]) then
     skip_all "io.popen not supported"
 end
 
-plan(12)
+plan'no_plan'
 
 do
     local f = io.open('lib-320.lua', 'w')
@@ -109,7 +109,7 @@ do
     os.remove('number-320.txt') -- clean up
 end
 
-do
+if debug then
     local f = io.open('dbg-320.txt', 'w')
     f:write("print 'ok'\n")
     f:write("error 'dbg'\n")
@@ -123,7 +123,11 @@ do
     f:close()
 
     os.remove('dbg-320.txt') -- clean up
+else
+    diag("no debug")
 end
+
+done_testing()
 
 -- Local Variables:
 --   mode: lua

@@ -37,6 +37,11 @@ read_globals = {
             'close',
         }
     },
+    debug = {
+        fields = {
+            'setcstacklimit',
+        }
+    },
 }
 
 files['test_lua/000-sanity.t'].ignore = { '111', '113' }
