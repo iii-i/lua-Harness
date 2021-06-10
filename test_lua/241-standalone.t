@@ -43,6 +43,7 @@ end
 
 local lua = _retrieve_progname()
 local luac = jit and lua or (lua .. 'c')
+local exists_luac = io.open(luac, 'r')
 
 if not pcall(io.popen, lua .. [[ -e "a=1"]]) then
     skip_all "io.popen not supported"
@@ -72,7 +73,7 @@ f = io.popen(cmd)
 matches(f:read'*l', "^[^:]+: cannot open no_file%-241%.lua", "no file")
 f:close()
 
-if has_bytecode then
+if has_bytecode and exists_luac then
     if jit then
         os.execute(lua .. " -b hello-241.lua hello-241.luac")
     else
