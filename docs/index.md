@@ -9,8 +9,8 @@ This is a test suite for Lua.
 
 This suite is usable with :
 
-- the standard [lua](http://www.lua.org/),
-- [LuaJIT](http://luajit.org/),
+- the standard [lua](https://www.lua.org/),
+- [LuaJIT](https://luajit.org/),
 - [OpenResty](https://github.com/openresty/luajit2),
 - [LuaVela](https://github.com/iponweb/luavela),
 - [RaptorJIT](https://github.com/raptorjit/raptorjit),
@@ -30,7 +30,7 @@ as output, that allows a compatibility with the Perl QA ecosystem.
 ## Download
 
 lua-Harness source can be downloaded from
-[Framagit](http://framagit.org/fperrad/lua-Harness).
+[Framagit](https://framagit.org/fperrad/lua-Harness).
 
 ## Copyright and License
 

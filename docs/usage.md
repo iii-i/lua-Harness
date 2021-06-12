@@ -14,7 +14,7 @@ The directory `test_lua` contains the following files:
 
 ## Running the whole test suite
 
-As tests produce a [TAP](http://en.wikipedia.org/wiki/Test_Anything_Protocol) output,
+As tests produce a [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol) output,
 a TAP consumer like [prove](https://perldoc.perl.org/prove.html)
 is required (`prove` comes with any Perl distribution, usually on GNU/Linux,
 `prove` is already installed).

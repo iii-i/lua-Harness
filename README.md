@@ -5,8 +5,8 @@ lua-Harness : a test suite for Lua
 Links
 -----
 
-The homepage is at <http://fperrad.frama.io/lua-Harness/>,
-and the sources are hosted at <http://framagit.org/fperrad/lua-Harness/>.
+The homepage is at <https://fperrad.frama.io/lua-Harness/>,
+and the sources are hosted at <https://framagit.org/fperrad/lua-Harness/>.
 
 Copyright and License
 ---------------------
