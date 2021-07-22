@@ -106,6 +106,10 @@ do -- close
     local r, msg = io.close(io.stderr)
     is_nil(r, "close (std)")
     equals(msg, "cannot close standard file")
+
+    r = io.close()
+    is_nil(r, "close () -- stdout")
+    equals(msg, "cannot close standard file")
 end
 
 do -- flush
@@ -152,18 +156,35 @@ end
 do -- input
     equals(io.stdin, io.input(), "function input")
     equals(io.stdin, io.input(nil))
-    local f = io.stdin
+    local save = io.stdin
     matches(io.input('file-308.txt'), '^file %(0?[Xx]?%x+%)$')
-    equals(f, io.input(f))
+    local f = io.open('file-308.txt', 'r')
+    matches(io.input(f), '^file %(0?[Xx]?%x+%)$')
+    equals(save, io.input(save)) -- restore io.stdin
+
+    error_matches(function () io.input('no-file-308.txt') end,
+            "^[^:]+:%d+: .-No such file or directory%)",
+            "function input (no file)")
 end
 
 do -- output
     equals(io.output(), io.stdout, "function output")
     equals(io.output(nil), io.stdout)
-    local f = io.stdout
-    matches(io.output('output.new'), '^file %(0?[Xx]?%x+%)$')
-    equals(f, io.output(f))
-    os.remove('output.new')
+    local save = io.stdout
+    matches(io.output('output-308.txt'), '^file %(0?[Xx]?%x+%)$')
+    local f = io.open('output-308.txt', 'w')
+    matches(tostring(f), '^file %(0?[Xx]?%x+%)$')
+    matches(io.output(f), '^file %(0?[Xx]?%x+%)$')
+    io.close()
+    equals(tostring(f), 'file (closed)')
+    if jit then
+        skip('segfault with LuaJIT') -- see https://github.com/LuaJIT/LuaJIT/issues/735
+    else
+        error_matches(function () io.close() end,
+                "^[^:]+:%d+: attempt to use a closed file")
+    end
+    equals(save, io.output(save)) -- restore io.stdout
+    os.remove('output-308.txt') -- clean up
 end
 
 do -- popen
