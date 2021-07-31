@@ -52,7 +52,7 @@ do -- metatable
     is_table(mt, "metatable")
     is_table(mt.__index)
 
-    if not profile.nocvts2n and _VERSION >= 'Lua 5.4' then
+    if (not profile.nocvts2n and _VERSION >= 'Lua 5.4') or ravi then
         is_function(mt.__add)
         is_function(mt.__div)
         is_function(mt.__idiv)

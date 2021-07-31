@@ -252,7 +252,7 @@ do -- random
     end
     matches(math.random(-19, -10), '^-1%d$', "function random 2 arg")
 
-    if _VERSION >= 'Lua 5.4' then
+    if _VERSION >= 'Lua 5.4' or ravi then
         matches(math.random(0), '^%-?%d+$', "function random 0")
     else
         if jit then
@@ -321,7 +321,7 @@ if has_integer then
     equals(math.tointeger(-12), -12, "function tointeger (number)")
     equals(math.tointeger(-12.0), -12)
     equals(math.tointeger(-12.34), nil)
-    if nocvts2n then
+    if nocvts2n and not ravi then
         equals(math.tointeger('-12'), nil, "function tointeger (string)")
         equals(math.tointeger('-12.0'), nil)
     else

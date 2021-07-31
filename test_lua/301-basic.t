@@ -97,7 +97,19 @@ if jit then
     equals(collectgarbage('setpause', 10), 200)
     equals(collectgarbage('setstepmul', 200), 200)
     equals(collectgarbage(), 0)
-elseif _VERSION == 'Lua 5.1' then
+elseif ravi then
+    equals(collectgarbage('stop'), 0, "function collectgarbage 'stop/restart/collect'")
+    equals(collectgarbage('isrunning'), false)
+    is_boolean(collectgarbage('step'))
+    equals(collectgarbage('restart'), 0)
+    equals(collectgarbage('isrunning'), true)
+    equals(collectgarbage('step'), true)
+    equals(collectgarbage('collect'), 0)
+    equals(collectgarbage('setpause', 10), 200)
+    equals(collectgarbage('setstepmul', 200), 100)
+    equals(collectgarbage(), 0)
+    equals(collectgarbage('step'), true)
+elseif _VERSION == 'Lua 5.1' or ravi then
     equals(collectgarbage('stop'), 0, "function collectgarbage 'stop/restart/collect'")
     equals(collectgarbage('restart'), 0)
     equals(collectgarbage('step'), false)

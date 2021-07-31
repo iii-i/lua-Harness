@@ -7,8 +7,8 @@
 -- like Lua itself.
 --
 
-local has_char54 = _VERSION >= 'Lua 5.4'
-local has_charpattern54 = _VERSION >= 'Lua 5.4'
+local has_char54 = _VERSION >= 'Lua 5.4' or ravi
+local has_charpattern54 = _VERSION >= 'Lua 5.4' or ravi
 
 do -- char
     equals(utf8.char(65, 66, 67), 'ABC', "function char")

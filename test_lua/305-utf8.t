@@ -41,7 +41,7 @@ if not utf8 then
 else
     plan'no_plan'
     _dofile'lexico53/utf8.t'
-    if _VERSION >= 'Lua 5.4' then
+    if _VERSION >= 'Lua 5.4' or ravi then
         _dofile'lexico54/utf8.t'
     end
     done_testing()

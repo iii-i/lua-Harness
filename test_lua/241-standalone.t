@@ -98,7 +98,15 @@ end
 
 cmd = lua .. " < hello-241.lua"
 f = io.popen(cmd)
-equals(f:read'*l', 'Hello World', "redirect")
+if ravi then
+    matches(f:read'*l', banner)
+    matches(f:read'*l', '^Copyright %(C%)')
+    matches(f:read'*l', '^Portions Copyright %(C%)')
+    matches(f:read'*l', '^Options')
+    equals(f:read'*l', '> Hello World', "redirect")
+else
+    equals(f:read'*l', 'Hello World', "redirect")
+end
 f:close()
 
 cmd = lua .. " - < hello-241.lua"
