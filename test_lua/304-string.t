@@ -288,15 +288,11 @@ do -- format
             "^[^:]+:%d+: invalid .- '%%k' to 'format'",
             "function format (invalid conversion)")
 
-    if luajit21 then
-        error_matches(function () string.format('%111s', 'toto') end,
-                "^[^:]+:%d+: invalid option '%%111' to 'format'",
-                "function format (invalid format)")
-    else
-        error_matches(function () string.format('%111s', 'toto') end,
-                "^[^:]+:%d+: invalid format %(width or precision too long%)",
-                "function format (invalid format)")
+    error_matches(function () string.format('%111s', 'toto') end,
+            "^[^:]+:%d+: invalid",
+            "function format (invalid format)")
 
+    if _VERSION < 'Lua 5.4' and not luajit21 then
         error_matches(function () string.format('%------s', 'toto') end,
                 "^[^:]+:%d+: invalid format %(repeated flags%)",
                 "function format (invalid format)")
