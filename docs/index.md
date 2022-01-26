@@ -21,7 +21,7 @@ See the given coverage :
  - [Lua 5.1.5](cover_lua515/src/index.html),
  - [Lua 5.2.4](cover_lua524/src/index.html),
  - [Lua 5.3.6](cover_lua536/src/index.html),
- - [Lua 5.4.3](cover_lua543/src/index.html)
+ - [Lua 5.4.4](cover_lua544/src/index.html)
 
 It uses the
 [Test Anything Protocol](http://en.wikipedia.org/wiki/Test_Anything_Protocol)
