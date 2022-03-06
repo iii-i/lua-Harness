@@ -30,18 +30,6 @@ read_globals = {
     'ujit',
     -- Ravi
     'ravi',
-    -- 5.4
-    'warn',
-    coroutine = {
-        fields = {
-            'close',
-        }
-    },
-    debug = {
-        fields = {
-            'setcstacklimit',
-        }
-    },
 }
 
 files['test_lua/000-sanity.t'].ignore = { '111', '113' }
