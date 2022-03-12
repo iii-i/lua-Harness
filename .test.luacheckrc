@@ -26,8 +26,6 @@ read_globals = {
     'skip',
     'skip_rest',
     'todo',
-    -- LuaVela
-    'ujit',
     -- Ravi
     'ravi',
 }

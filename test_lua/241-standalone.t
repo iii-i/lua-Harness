@@ -29,7 +29,7 @@ L<https://www.lua.org/manual/5.4/manual.html#7>
 --]]
 
 require'test_assertion'
-local has_bytecode = not ujit and not ravi
+local has_bytecode = not ravi
 local has_error52 = _VERSION >= 'Lua 5.2'
 local has_error53 = _VERSION >= 'Lua 5.3'
 local has_opt_E = _VERSION >= 'Lua 5.2' or jit
@@ -117,9 +117,6 @@ f:close()
 cmd = lua .. " -i hello-241.lua < hello-241.lua 2>&1"
 f = io.popen(cmd)
 matches(f:read'*l', banner, "-i")
-if ujit then
-    matches(f:read'*l', '^JIT:')
-end
 if ravi then
     matches(f:read'*l', '^Copyright %(C%)')
     matches(f:read'*l', '^Portions Copyright %(C%)')

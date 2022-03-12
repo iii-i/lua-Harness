@@ -12,7 +12,6 @@ This suite is usable with :
 - the standard [lua](https://www.lua.org/),
 - [LuaJIT](https://luajit.org/),
 - [OpenResty](https://github.com/openresty/luajit2),
-- [LuaVela](https://github.com/iponweb/luavela),
 - [RaptorJIT](https://github.com/raptorjit/raptorjit),
 - ...
 

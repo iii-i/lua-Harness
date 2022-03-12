@@ -27,7 +27,7 @@ See L<https://luajit.org/running.html>
 require'test_assertion'
 local profile = require'profile'
 
-if not jit or ujit then
+if not jit then
     skip_all("only with LuaJIT")
 end
 
