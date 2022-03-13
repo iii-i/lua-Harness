@@ -39,7 +39,7 @@ end
 
 local compiled_with_jit = jit.status()
 local has_jutil = pcall(require, 'jit.util')
-local has_openresty_listing = profile.openresty or jit.version:match'moonjit'
+local has_openresty_listing = profile.openresty
 
 plan'no_plan'
 diag(lua)

@@ -33,7 +33,7 @@ L<https://www.lua.org/manual/5.4/manual.html#6.5>
 require 'test_assertion'
 
 local profile = require'profile'
-local has_utf8 = _VERSION >= 'Lua 5.3' or (jit and jit.version:match'moonjit') or profile.utf8
+local has_utf8 = _VERSION >= 'Lua 5.3' or profile.utf8
 
 if not utf8 then
     plan(1)

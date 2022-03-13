@@ -95,8 +95,6 @@ if profile.openresty then
 
     error_matches(function () jit.prngstate(false) end,
             "^[^:]+:%d+: bad argument #1 to 'prngstate' %(table expected, got boolean%)")
-elseif jit.version:match'moonjit' then
-    equals(jit.prngstate(), 0, "prngstate")
 else
     is_nil(jit.prngstate, "no jit.prngstate");
 end
