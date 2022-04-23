@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-01-26 16:45:32</td>
+            <td class="headerValue">2022-04-23 17:19:02</td>
             <td></td>
           </tr>
           <tr>
@@ -184,10 +184,10 @@
 <a name="118"><span class="lineNum">     118 </span>            : /*</a>
 <a name="119"><span class="lineNum">     119 </span>            : ** try to convert a float to an integer, rounding according to 'mode'.</a>
 <a name="120"><span class="lineNum">     120 </span>            : */</a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        906 : int luaV_flttointeger (lua_Number n, lua_Integer *p, F2Imod mode) {</span></a>
-<a name="122"><span class="lineNum">     122 </span><span class="lineCov">        906 :   lua_Number f = l_floor(n);</span></a>
-<a name="123"><span class="lineNum">     123 </span><span class="lineCov">        906 :   if (n != f) {  /* not an integral value? */</span></a>
-<a name="124"><span class="lineNum">     124 </span><span class="lineCov">        798 :     if (mode == F2Ieq) return 0;  /* fails if mode demands integral value */</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        910 : int luaV_flttointeger (lua_Number n, lua_Integer *p, F2Imod mode) {</span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">        910 :   lua_Number f = l_floor(n);</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">        910 :   if (n != f) {  /* not an integral value? */</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">        802 :     if (mode == F2Ieq) return 0;  /* fails if mode demands integral value */</span></a>
 <a name="125"><span class="lineNum">     125 </span><span class="lineNoCov">          0 :     else if (mode == F2Iceil)  /* needs ceil? */</span></a>
 <a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :       f += 1;  /* convert floor to ceil (remember: n != f) */</span></a>
 <a name="127"><span class="lineNum">     127 </span>            :   }</a>
@@ -350,12 +350,12 @@
 <a name="284"><span class="lineNum">     284 </span>            : ** if 'slot' is NULL, 't' is not a table; otherwise, 'slot' points to</a>
 <a name="285"><span class="lineNum">     285 </span>            : ** t[k] entry (which must be empty).</a>
 <a name="286"><span class="lineNum">     286 </span>            : */</a>
-<a name="287"><span class="lineNum">     287 </span><span class="lineCov">      15487 : void luaV_finishget (lua_State *L, const TValue *t, TValue *key, StkId val,</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">      15381 : void luaV_finishget (lua_State *L, const TValue *t, TValue *key, StkId val,</span></a>
 <a name="288"><span class="lineNum">     288 </span>            :                       const TValue *slot) {</a>
 <a name="289"><span class="lineNum">     289 </span>            :   int loop;  /* counter to avoid infinite loops */</a>
 <a name="290"><span class="lineNum">     290 </span>            :   const TValue *tm;  /* metamethod */</a>
-<a name="291"><span class="lineNum">     291 </span><span class="lineCov">      15498 :   for (loop = 0; loop &lt; MAXTAGLOOP; loop++) {</span></a>
-<a name="292"><span class="lineNum">     292 </span><span class="lineCov">      15498 :     if (slot == NULL) {  /* 't' is not a table? */</span></a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineCov">      15392 :   for (loop = 0; loop &lt; MAXTAGLOOP; loop++) {</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">      15392 :     if (slot == NULL) {  /* 't' is not a table? */</span></a>
 <a name="293"><span class="lineNum">     293 </span>            :       lua_assert(!ttistable(t));</a>
 <a name="294"><span class="lineNum">     294 </span><span class="lineCov">       7359 :       tm = luaT_gettmbyobj(L, t, TM_INDEX);</span></a>
 <a name="295"><span class="lineNum">     295 </span><span class="lineCov">       7359 :       if (l_unlikely(notm(tm)))</span></a>
@@ -364,10 +364,10 @@
 <a name="298"><span class="lineNum">     298 </span>            :     }</a>
 <a name="299"><span class="lineNum">     299 </span>            :     else {  /* 't' is a table */</a>
 <a name="300"><span class="lineNum">     300 </span>            :       lua_assert(isempty(slot));</a>
-<a name="301"><span class="lineNum">     301 </span><span class="lineCov">       8139 :       tm = fasttm(L, hvalue(t)-&gt;metatable, TM_INDEX);  /* table's metamethod */</span></a>
-<a name="302"><span class="lineNum">     302 </span><span class="lineCov">       8139 :       if (tm == NULL) {  /* no metamethod? */</span></a>
-<a name="303"><span class="lineNum">     303 </span><span class="lineCov">       8105 :         setnilvalue(s2v(val));  /* result is nil */</span></a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineCov">       8105 :         return;</span></a>
+<a name="301"><span class="lineNum">     301 </span><span class="lineCov">       8033 :       tm = fasttm(L, hvalue(t)-&gt;metatable, TM_INDEX);  /* table's metamethod */</span></a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineCov">       8033 :       if (tm == NULL) {  /* no metamethod? */</span></a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">       7999 :         setnilvalue(s2v(val));  /* result is nil */</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">       7999 :         return;</span></a>
 <a name="305"><span class="lineNum">     305 </span>            :       }</a>
 <a name="306"><span class="lineNum">     306 </span>            :       /* else will try the metamethod */</a>
 <a name="307"><span class="lineNum">     307 </span>            :     }</a>
@@ -393,20 +393,20 @@
 <a name="327"><span class="lineNum">     327 </span>            : ** is no such entry.  (The value at 'slot' must be empty, otherwise</a>
 <a name="328"><span class="lineNum">     328 </span>            : ** 'luaV_fastget' would have done the job.)</a>
 <a name="329"><span class="lineNum">     329 </span>            : */</a>
-<a name="330"><span class="lineNum">     330 </span><span class="lineCov">      61824 : void luaV_finishset (lua_State *L, const TValue *t, TValue *key,</span></a>
+<a name="330"><span class="lineNum">     330 </span><span class="lineCov">      61823 : void luaV_finishset (lua_State *L, const TValue *t, TValue *key,</span></a>
 <a name="331"><span class="lineNum">     331 </span>            :                      TValue *val, const TValue *slot) {</a>
 <a name="332"><span class="lineNum">     332 </span>            :   int loop;  /* counter to avoid infinite loops */</a>
-<a name="333"><span class="lineNum">     333 </span><span class="lineCov">      61825 :   for (loop = 0; loop &lt; MAXTAGLOOP; loop++) {</span></a>
+<a name="333"><span class="lineNum">     333 </span><span class="lineCov">      61824 :   for (loop = 0; loop &lt; MAXTAGLOOP; loop++) {</span></a>
 <a name="334"><span class="lineNum">     334 </span>            :     const TValue *tm;  /* '__newindex' metamethod */</a>
-<a name="335"><span class="lineNum">     335 </span><span class="lineCov">      61825 :     if (slot != NULL) {  /* is 't' a table? */</span></a>
-<a name="336"><span class="lineNum">     336 </span><span class="lineCov">      61817 :       Table *h = hvalue(t);  /* save 't' table */</span></a>
+<a name="335"><span class="lineNum">     335 </span><span class="lineCov">      61824 :     if (slot != NULL) {  /* is 't' a table? */</span></a>
+<a name="336"><span class="lineNum">     336 </span><span class="lineCov">      61816 :       Table *h = hvalue(t);  /* save 't' table */</span></a>
 <a name="337"><span class="lineNum">     337 </span>            :       lua_assert(isempty(slot));  /* slot must be empty */</a>
-<a name="338"><span class="lineNum">     338 </span><span class="lineCov">      61817 :       tm = fasttm(L, h-&gt;metatable, TM_NEWINDEX);  /* get metamethod */</span></a>
-<a name="339"><span class="lineNum">     339 </span><span class="lineCov">      61817 :       if (tm == NULL) {  /* no metamethod? */</span></a>
-<a name="340"><span class="lineNum">     340 </span><span class="lineCov">      61812 :         luaH_finishset(L, h, key, slot, val);  /* set new value */</span></a>
-<a name="341"><span class="lineNum">     341 </span><span class="lineCov">      61810 :         invalidateTMcache(h);</span></a>
-<a name="342"><span class="lineNum">     342 </span><span class="lineCov">      61810 :         luaC_barrierback(L, obj2gco(h), val);</span></a>
-<a name="343"><span class="lineNum">     343 </span><span class="lineCov">      61810 :         return;</span></a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">      61816 :       tm = fasttm(L, h-&gt;metatable, TM_NEWINDEX);  /* get metamethod */</span></a>
+<a name="339"><span class="lineNum">     339 </span><span class="lineCov">      61816 :       if (tm == NULL) {  /* no metamethod? */</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">      61811 :         luaH_finishset(L, h, key, slot, val);  /* set new value */</span></a>
+<a name="341"><span class="lineNum">     341 </span><span class="lineCov">      61809 :         invalidateTMcache(h);</span></a>
+<a name="342"><span class="lineNum">     342 </span><span class="lineCov">      61809 :         luaC_barrierback(L, obj2gco(h), val);</span></a>
+<a name="343"><span class="lineNum">     343 </span><span class="lineCov">      61809 :         return;</span></a>
 <a name="344"><span class="lineNum">     344 </span>            :       }</a>
 <a name="345"><span class="lineNum">     345 </span>            :       /* else will try the metamethod */</a>
 <a name="346"><span class="lineNum">     346 </span>            :     }</a>
@@ -438,15 +438,15 @@
 <a name="372"><span class="lineNum">     372 </span>            : ** and it uses 'strcoll' (to respect locales) for each segments</a>
 <a name="373"><span class="lineNum">     373 </span>            : ** of the strings.</a>
 <a name="374"><span class="lineNum">     374 </span>            : */</a>
-<a name="375"><span class="lineNum">     375 </span><span class="lineCov">      91717 : static int l_strcmp (const TString *ls, const TString *rs) {</span></a>
-<a name="376"><span class="lineNum">     376 </span><span class="lineCov">      91717 :   const char *l = getstr(ls);</span></a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">      91717 :   size_t ll = tsslen(ls);</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">      91717 :   const char *r = getstr(rs);</span></a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">      91717 :   size_t lr = tsslen(rs);</span></a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">      91714 : static int l_strcmp (const TString *ls, const TString *rs) {</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">      91714 :   const char *l = getstr(ls);</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">      91714 :   size_t ll = tsslen(ls);</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">      91714 :   const char *r = getstr(rs);</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">      91714 :   size_t lr = tsslen(rs);</span></a>
 <a name="380"><span class="lineNum">     380 </span><span class="lineCov">          1 :   for (;;) {  /* for each segment */</span></a>
-<a name="381"><span class="lineNum">     381 </span><span class="lineCov">      91718 :     int temp = strcoll(l, r);</span></a>
-<a name="382"><span class="lineNum">     382 </span><span class="lineCov">      91718 :     if (temp != 0)  /* not equal? */</span></a>
-<a name="383"><span class="lineNum">     383 </span><span class="lineCov">      89048 :       return temp;  /* done */</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">      91715 :     int temp = strcoll(l, r);</span></a>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">      91715 :     if (temp != 0)  /* not equal? */</span></a>
+<a name="383"><span class="lineNum">     383 </span><span class="lineCov">      89045 :       return temp;  /* done */</span></a>
 <a name="384"><span class="lineNum">     384 </span>            :     else {  /* strings are equal up to a '\0' */</a>
 <a name="385"><span class="lineNum">     385 </span><span class="lineCov">       2670 :       size_t len = strlen(l);  /* index of first '\0' in both strings */</span></a>
 <a name="386"><span class="lineNum">     386 </span><span class="lineCov">       2670 :       if (len == lr)  /* 'rs' is finished? */</span></a>
@@ -583,10 +583,10 @@
 <a name="517"><span class="lineNum">     517 </span>            : /*</a>
 <a name="518"><span class="lineNum">     518 </span>            : ** return 'l &lt; r' for non-numbers.</a>
 <a name="519"><span class="lineNum">     519 </span>            : */</a>
-<a name="520"><span class="lineNum">     520 </span><span class="lineCov">      91643 : static int lessthanothers (lua_State *L, const TValue *l, const TValue *r) {</span></a>
+<a name="520"><span class="lineNum">     520 </span><span class="lineCov">      91640 : static int lessthanothers (lua_State *L, const TValue *l, const TValue *r) {</span></a>
 <a name="521"><span class="lineNum">     521 </span>            :   lua_assert(!ttisnumber(l) || !ttisnumber(r));</a>
-<a name="522"><span class="lineNum">     522 </span><span class="lineCov">      91643 :   if (ttisstring(l) &amp;&amp; ttisstring(r))  /* both are strings? */</span></a>
-<a name="523"><span class="lineNum">     523 </span><span class="lineCov">      91622 :     return l_strcmp(tsvalue(l), tsvalue(r)) &lt; 0;</span></a>
+<a name="522"><span class="lineNum">     522 </span><span class="lineCov">      91640 :   if (ttisstring(l) &amp;&amp; ttisstring(r))  /* both are strings? */</span></a>
+<a name="523"><span class="lineNum">     523 </span><span class="lineCov">      91619 :     return l_strcmp(tsvalue(l), tsvalue(r)) &lt; 0;</span></a>
 <a name="524"><span class="lineNum">     524 </span>            :   else</a>
 <a name="525"><span class="lineNum">     525 </span><span class="lineCov">         21 :     return luaT_callorderTM(L, l, r, TM_LT);</span></a>
 <a name="526"><span class="lineNum">     526 </span>            : }</a>
@@ -595,10 +595,10 @@
 <a name="529"><span class="lineNum">     529 </span>            : /*</a>
 <a name="530"><span class="lineNum">     530 </span>            : ** Main operation less than; return 'l &lt; r'.</a>
 <a name="531"><span class="lineNum">     531 </span>            : */</a>
-<a name="532"><span class="lineNum">     532 </span><span class="lineCov">      91623 : int luaV_lessthan (lua_State *L, const TValue *l, const TValue *r) {</span></a>
-<a name="533"><span class="lineNum">     533 </span><span class="lineCov">      91623 :   if (ttisnumber(l) &amp;&amp; ttisnumber(r))  /* both operands are numbers? */</span></a>
+<a name="532"><span class="lineNum">     532 </span><span class="lineCov">      91621 : int luaV_lessthan (lua_State *L, const TValue *l, const TValue *r) {</span></a>
+<a name="533"><span class="lineNum">     533 </span><span class="lineCov">      91621 :   if (ttisnumber(l) &amp;&amp; ttisnumber(r))  /* both operands are numbers? */</span></a>
 <a name="534"><span class="lineNum">     534 </span><span class="lineCov">         12 :     return LTnum(l, r);</span></a>
-<a name="535"><span class="lineNum">     535 </span><span class="lineCov">      91611 :   else return lessthanothers(L, l, r);</span></a>
+<a name="535"><span class="lineNum">     535 </span><span class="lineCov">      91609 :   else return lessthanothers(L, l, r);</span></a>
 <a name="536"><span class="lineNum">     536 </span>            : }</a>
 <a name="537"><span class="lineNum">     537 </span>            : </a>
 <a name="538"><span class="lineNum">     538 </span>            : </a>
@@ -628,11 +628,11 @@
 <a name="562"><span class="lineNum">     562 </span>            : ** Main operation for equality of Lua values; return 't1 == t2'.</a>
 <a name="563"><span class="lineNum">     563 </span>            : ** L == NULL means raw equality (no metamethods)</a>
 <a name="564"><span class="lineNum">     564 </span>            : */</a>
-<a name="565"><span class="lineNum">     565 </span><span class="lineCov">      38736 : int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {</span></a>
+<a name="565"><span class="lineNum">     565 </span><span class="lineCov">      38901 : int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {</span></a>
 <a name="566"><span class="lineNum">     566 </span>            :   const TValue *tm;</a>
-<a name="567"><span class="lineNum">     567 </span><span class="lineCov">      38736 :   if (ttypetag(t1) != ttypetag(t2)) {  /* not the same variant? */</span></a>
-<a name="568"><span class="lineNum">     568 </span><span class="lineCov">       1693 :     if (ttype(t1) != ttype(t2) || ttype(t1) != LUA_TNUMBER)</span></a>
-<a name="569"><span class="lineNum">     569 </span><span class="lineCov">       1666 :       return 0;  /* only numbers can be equal with different variants */</span></a>
+<a name="567"><span class="lineNum">     567 </span><span class="lineCov">      38901 :   if (ttypetag(t1) != ttypetag(t2)) {  /* not the same variant? */</span></a>
+<a name="568"><span class="lineNum">     568 </span><span class="lineCov">       1696 :     if (ttype(t1) != ttype(t2) || ttype(t1) != LUA_TNUMBER)</span></a>
+<a name="569"><span class="lineNum">     569 </span><span class="lineCov">       1669 :       return 0;  /* only numbers can be equal with different variants */</span></a>
 <a name="570"><span class="lineNum">     570 </span>            :     else {  /* two numbers with different variants */</a>
 <a name="571"><span class="lineNum">     571 </span>            :       /* One of them is an integer. If the other does not have an</a>
 <a name="572"><span class="lineNum">     572 </span>            :          integer value, they cannot be equal; otherwise, compare their</a>
@@ -644,13 +644,13 @@
 <a name="578"><span class="lineNum">     578 </span>            :     }</a>
 <a name="579"><span class="lineNum">     579 </span>            :   }</a>
 <a name="580"><span class="lineNum">     580 </span>            :   /* values have same type and same variant */</a>
-<a name="581"><span class="lineNum">     581 </span><span class="lineCov">      37043 :   switch (ttypetag(t1)) {</span></a>
+<a name="581"><span class="lineNum">     581 </span><span class="lineCov">      37205 :   switch (ttypetag(t1)) {</span></a>
 <a name="582"><span class="lineNum">     582 </span><span class="lineCov">        404 :     case LUA_VNIL: case LUA_VFALSE: case LUA_VTRUE: return 1;</span></a>
 <a name="583"><span class="lineNum">     583 </span><span class="lineCov">        603 :     case LUA_VNUMINT: return (ivalue(t1) == ivalue(t2));</span></a>
 <a name="584"><span class="lineNum">     584 </span><span class="lineCov">         97 :     case LUA_VNUMFLT: return luai_numeq(fltvalue(t1), fltvalue(t2));</span></a>
 <a name="585"><span class="lineNum">     585 </span><span class="lineNoCov">          0 :     case LUA_VLIGHTUSERDATA: return pvalue(t1) == pvalue(t2);</span></a>
-<a name="586"><span class="lineNum">     586 </span><span class="lineCov">       1113 :     case LUA_VLCF: return fvalue(t1) == fvalue(t2);</span></a>
-<a name="587"><span class="lineNum">     587 </span><span class="lineCov">      33090 :     case LUA_VSHRSTR: return eqshrstr(tsvalue(t1), tsvalue(t2));</span></a>
+<a name="586"><span class="lineNum">     586 </span><span class="lineCov">       1388 :     case LUA_VLCF: return fvalue(t1) == fvalue(t2);</span></a>
+<a name="587"><span class="lineNum">     587 </span><span class="lineCov">      32977 :     case LUA_VSHRSTR: return eqshrstr(tsvalue(t1), tsvalue(t2));</span></a>
 <a name="588"><span class="lineNum">     588 </span><span class="lineCov">        173 :     case LUA_VLNGSTR: return luaS_eqlngstr(tsvalue(t1), tsvalue(t2));</span></a>
 <a name="589"><span class="lineNum">     589 </span><span class="lineCov">          9 :     case LUA_VUSERDATA: {</span></a>
 <a name="590"><span class="lineNum">     590 </span><span class="lineCov">          9 :       if (uvalue(t1) == uvalue(t2)) return 1;</span></a>
@@ -1202,7 +1202,7 @@
 <a name="1136"><span class="lineNum">    1136 </span>            : #define vmbreak         break</a>
 <a name="1137"><span class="lineNum">    1137 </span>            : </a>
 <a name="1138"><span class="lineNum">    1138 </span>            : </a>
-<a name="1139"><span class="lineNum">    1139 </span><span class="lineCov">      30741 : void luaV_execute (lua_State *L, CallInfo *ci) {</span></a>
+<a name="1139"><span class="lineNum">    1139 </span><span class="lineCov">      30740 : void luaV_execute (lua_State *L, CallInfo *ci) {</span></a>
 <a name="1140"><span class="lineNum">    1140 </span>            :   LClosure *cl;</a>
 <a name="1141"><span class="lineNum">    1141 </span>            :   TValue *k;</a>
 <a name="1142"><span class="lineNum">    1142 </span>            :   StkId base;</a>
@@ -1211,13 +1211,13 @@
 <a name="1145"><span class="lineNum">    1145 </span>            : #if LUA_USE_JUMPTABLE</a>
 <a name="1146"><span class="lineNum">    1146 </span>            : #include &quot;ljumptab.h&quot;</a>
 <a name="1147"><span class="lineNum">    1147 </span>            : #endif</a>
-<a name="1148"><span class="lineNum">    1148 </span><span class="lineCov">      30741 :  startfunc:</span></a>
-<a name="1149"><span class="lineNum">    1149 </span><span class="lineCov">      30741 :   trap = L-&gt;hookmask;</span></a>
-<a name="1150"><span class="lineNum">    1150 </span><span class="lineCov">      47173 :  returning:  /* trap already set */</span></a>
-<a name="1151"><span class="lineNum">    1151 </span><span class="lineCov">      47173 :   cl = clLvalue(s2v(ci-&gt;func));</span></a>
-<a name="1152"><span class="lineNum">    1152 </span><span class="lineCov">      47173 :   k = cl-&gt;p-&gt;k;</span></a>
-<a name="1153"><span class="lineNum">    1153 </span><span class="lineCov">      47173 :   pc = ci-&gt;u.l.savedpc;</span></a>
-<a name="1154"><span class="lineNum">    1154 </span><span class="lineCov">      47173 :   if (l_unlikely(trap)) {</span></a>
+<a name="1148"><span class="lineNum">    1148 </span><span class="lineCov">      30740 :  startfunc:</span></a>
+<a name="1149"><span class="lineNum">    1149 </span><span class="lineCov">      30740 :   trap = L-&gt;hookmask;</span></a>
+<a name="1150"><span class="lineNum">    1150 </span><span class="lineCov">      47172 :  returning:  /* trap already set */</span></a>
+<a name="1151"><span class="lineNum">    1151 </span><span class="lineCov">      47172 :   cl = clLvalue(s2v(ci-&gt;func));</span></a>
+<a name="1152"><span class="lineNum">    1152 </span><span class="lineCov">      47172 :   k = cl-&gt;p-&gt;k;</span></a>
+<a name="1153"><span class="lineNum">    1153 </span><span class="lineCov">      47172 :   pc = ci-&gt;u.l.savedpc;</span></a>
+<a name="1154"><span class="lineNum">    1154 </span><span class="lineCov">      47172 :   if (l_unlikely(trap)) {</span></a>
 <a name="1155"><span class="lineNum">    1155 </span><span class="lineCov">        479 :     if (pc == cl-&gt;p-&gt;code) {  /* first instruction (not resuming)? */</span></a>
 <a name="1156"><span class="lineNum">    1156 </span><span class="lineCov">        299 :       if (cl-&gt;p-&gt;is_vararg)</span></a>
 <a name="1157"><span class="lineNum">    1157 </span><span class="lineNoCov">          0 :         trap = 0;  /* hooks will start after VARARGPREP instruction */</span></a>
@@ -1226,12 +1226,12 @@
 <a name="1160"><span class="lineNum">    1160 </span>            :     }</a>
 <a name="1161"><span class="lineNum">    1161 </span><span class="lineCov">        479 :     ci-&gt;u.l.trap = 1;  /* assume trap is on, for now */</span></a>
 <a name="1162"><span class="lineNum">    1162 </span>            :   }</a>
-<a name="1163"><span class="lineNum">    1163 </span><span class="lineCov">      47173 :   base = ci-&gt;func + 1;</span></a>
+<a name="1163"><span class="lineNum">    1163 </span><span class="lineCov">      47172 :   base = ci-&gt;func + 1;</span></a>
 <a name="1164"><span class="lineNum">    1164 </span>            :   /* main loop of interpreter */</a>
 <a name="1165"><span class="lineNum">    1165 </span>            :   for (;;) {</a>
 <a name="1166"><span class="lineNum">    1166 </span>            :     Instruction i;  /* instruction being executed */</a>
 <a name="1167"><span class="lineNum">    1167 </span>            :     StkId ra;  /* instruction's A register */</a>
-<a name="1168"><span class="lineNum">    1168 </span><span class="lineCov">      47173 :     vmfetch();</span></a>
+<a name="1168"><span class="lineNum">    1168 </span><span class="lineCov">      47172 :     vmfetch();</span></a>
 <a name="1169"><span class="lineNum">    1169 </span>            :     #if 0</a>
 <a name="1170"><span class="lineNum">    1170 </span>            :       /* low-level line tracing for debugging Lua */</a>
 <a name="1171"><span class="lineNum">    1171 </span>            :       printf(&quot;line: %d\n&quot;, luaG_getfuncline(cl-&gt;p, pcRel(pc, cl-&gt;p)));</a>
@@ -1240,7 +1240,7 @@
 <a name="1174"><span class="lineNum">    1174 </span>            :     lua_assert(base &lt;= L-&gt;top &amp;&amp; L-&gt;top &lt; L-&gt;stack_last);</a>
 <a name="1175"><span class="lineNum">    1175 </span>            :     /* invalidate top for instructions not expecting it */</a>
 <a name="1176"><span class="lineNum">    1176 </span>            :     lua_assert(isIT(i) || (cast_void(L-&gt;top = base), 1));</a>
-<a name="1177"><span class="lineNum">    1177 </span><span class="lineCov">      47173 :     vmdispatch (GET_OPCODE(i)) {</span></a>
+<a name="1177"><span class="lineNum">    1177 </span><span class="lineCov">      47172 :     vmdispatch (GET_OPCODE(i)) {</span></a>
 <a name="1178"><span class="lineNum">    1178 </span><span class="lineCov">      99594 :       vmcase(OP_MOVE) {</span></a>
 <a name="1179"><span class="lineNum">    1179 </span><span class="lineCov">      99594 :         setobjs2s(L, ra, RB(i));</span></a>
 <a name="1180"><span class="lineNum">    1180 </span><span class="lineCov">      99594 :         vmbreak;</span></a>
@@ -1270,14 +1270,14 @@
 <a name="1204"><span class="lineNum">    1204 </span><span class="lineCov">        140 :         setbfvalue(s2v(ra));</span></a>
 <a name="1205"><span class="lineNum">    1205 </span><span class="lineCov">        140 :         vmbreak;</span></a>
 <a name="1206"><span class="lineNum">    1206 </span>            :       }</a>
-<a name="1207"><span class="lineNum">    1207 </span><span class="lineCov">         47 :       vmcase(OP_LFALSESKIP) {</span></a>
-<a name="1208"><span class="lineNum">    1208 </span><span class="lineCov">         47 :         setbfvalue(s2v(ra));</span></a>
-<a name="1209"><span class="lineNum">    1209 </span><span class="lineCov">         47 :         pc++;  /* skip next instruction */</span></a>
-<a name="1210"><span class="lineNum">    1210 </span><span class="lineCov">         47 :         vmbreak;</span></a>
+<a name="1207"><span class="lineNum">    1207 </span><span class="lineCov">         45 :       vmcase(OP_LFALSESKIP) {</span></a>
+<a name="1208"><span class="lineNum">    1208 </span><span class="lineCov">         45 :         setbfvalue(s2v(ra));</span></a>
+<a name="1209"><span class="lineNum">    1209 </span><span class="lineCov">         45 :         pc++;  /* skip next instruction */</span></a>
+<a name="1210"><span class="lineNum">    1210 </span><span class="lineCov">         45 :         vmbreak;</span></a>
 <a name="1211"><span class="lineNum">    1211 </span>            :       }</a>
-<a name="1212"><span class="lineNum">    1212 </span><span class="lineCov">       7752 :       vmcase(OP_LOADTRUE) {</span></a>
-<a name="1213"><span class="lineNum">    1213 </span><span class="lineCov">       7752 :         setbtvalue(s2v(ra));</span></a>
-<a name="1214"><span class="lineNum">    1214 </span><span class="lineCov">       7752 :         vmbreak;</span></a>
+<a name="1212"><span class="lineNum">    1212 </span><span class="lineCov">       7753 :       vmcase(OP_LOADTRUE) {</span></a>
+<a name="1213"><span class="lineNum">    1213 </span><span class="lineCov">       7753 :         setbtvalue(s2v(ra));</span></a>
+<a name="1214"><span class="lineNum">    1214 </span><span class="lineCov">       7753 :         vmbreak;</span></a>
 <a name="1215"><span class="lineNum">    1215 </span>            :       }</a>
 <a name="1216"><span class="lineNum">    1216 </span><span class="lineCov">        614 :       vmcase(OP_LOADNIL) {</span></a>
 <a name="1217"><span class="lineNum">    1217 </span><span class="lineCov">        614 :         int b = GETARG_B(i);</span></a>
@@ -1297,17 +1297,17 @@
 <a name="1231"><span class="lineNum">    1231 </span><span class="lineCov">       3024 :         luaC_barrier(L, uv, s2v(ra));</span></a>
 <a name="1232"><span class="lineNum">    1232 </span><span class="lineCov">       3024 :         vmbreak;</span></a>
 <a name="1233"><span class="lineNum">    1233 </span>            :       }</a>
-<a name="1234"><span class="lineNum">    1234 </span><span class="lineCov">      49396 :       vmcase(OP_GETTABUP) {</span></a>
+<a name="1234"><span class="lineNum">    1234 </span><span class="lineCov">      49381 :       vmcase(OP_GETTABUP) {</span></a>
 <a name="1235"><span class="lineNum">    1235 </span>            :         const TValue *slot;</a>
-<a name="1236"><span class="lineNum">    1236 </span><span class="lineCov">      49396 :         TValue *upval = cl-&gt;upvals[GETARG_B(i)]-&gt;v;</span></a>
-<a name="1237"><span class="lineNum">    1237 </span><span class="lineCov">      49396 :         TValue *rc = KC(i);</span></a>
-<a name="1238"><span class="lineNum">    1238 </span><span class="lineCov">      49396 :         TString *key = tsvalue(rc);  /* key must be a string */</span></a>
-<a name="1239"><span class="lineNum">    1239 </span><span class="lineCov">      49396 :         if (luaV_fastget(L, upval, key, slot, luaH_getshortstr)) {</span></a>
+<a name="1236"><span class="lineNum">    1236 </span><span class="lineCov">      49381 :         TValue *upval = cl-&gt;upvals[GETARG_B(i)]-&gt;v;</span></a>
+<a name="1237"><span class="lineNum">    1237 </span><span class="lineCov">      49381 :         TValue *rc = KC(i);</span></a>
+<a name="1238"><span class="lineNum">    1238 </span><span class="lineCov">      49381 :         TString *key = tsvalue(rc);  /* key must be a string */</span></a>
+<a name="1239"><span class="lineNum">    1239 </span><span class="lineCov">      49381 :         if (luaV_fastget(L, upval, key, slot, luaH_getshortstr)) {</span></a>
 <a name="1240"><span class="lineNum">    1240 </span><span class="lineCov">      49275 :           setobj2s(L, ra, slot);</span></a>
 <a name="1241"><span class="lineNum">    1241 </span>            :         }</a>
 <a name="1242"><span class="lineNum">    1242 </span>            :         else</a>
-<a name="1243"><span class="lineNum">    1243 </span><span class="lineCov">        121 :           Protect(luaV_finishget(L, upval, rc, ra, slot));</span></a>
-<a name="1244"><span class="lineNum">    1244 </span><span class="lineCov">      49396 :         vmbreak;</span></a>
+<a name="1243"><span class="lineNum">    1243 </span><span class="lineCov">        106 :           Protect(luaV_finishget(L, upval, rc, ra, slot));</span></a>
+<a name="1244"><span class="lineNum">    1244 </span><span class="lineCov">      49381 :         vmbreak;</span></a>
 <a name="1245"><span class="lineNum">    1245 </span>            :       }</a>
 <a name="1246"><span class="lineNum">    1246 </span><span class="lineCov">      41851 :       vmcase(OP_GETTABLE) {</span></a>
 <a name="1247"><span class="lineNum">    1247 </span>            :         const TValue *slot;</a>
@@ -1349,18 +1349,18 @@
 <a name="1283"><span class="lineNum">    1283 </span><span class="lineCov">         60 :           Protect(luaV_finishget(L, rb, rc, ra, slot));</span></a>
 <a name="1284"><span class="lineNum">    1284 </span><span class="lineCov">      31462 :         vmbreak;</span></a>
 <a name="1285"><span class="lineNum">    1285 </span>            :       }</a>
-<a name="1286"><span class="lineNum">    1286 </span><span class="lineCov">       1482 :       vmcase(OP_SETTABUP) {</span></a>
+<a name="1286"><span class="lineNum">    1286 </span><span class="lineCov">       1481 :       vmcase(OP_SETTABUP) {</span></a>
 <a name="1287"><span class="lineNum">    1287 </span>            :         const TValue *slot;</a>
-<a name="1288"><span class="lineNum">    1288 </span><span class="lineCov">       1482 :         TValue *upval = cl-&gt;upvals[GETARG_A(i)]-&gt;v;</span></a>
-<a name="1289"><span class="lineNum">    1289 </span><span class="lineCov">       1482 :         TValue *rb = KB(i);</span></a>
-<a name="1290"><span class="lineNum">    1290 </span><span class="lineCov">       1482 :         TValue *rc = RKC(i);</span></a>
-<a name="1291"><span class="lineNum">    1291 </span><span class="lineCov">       1482 :         TString *key = tsvalue(rb);  /* key must be a string */</span></a>
-<a name="1292"><span class="lineNum">    1292 </span><span class="lineCov">       1482 :         if (luaV_fastget(L, upval, key, slot, luaH_getshortstr)) {</span></a>
+<a name="1288"><span class="lineNum">    1288 </span><span class="lineCov">       1481 :         TValue *upval = cl-&gt;upvals[GETARG_A(i)]-&gt;v;</span></a>
+<a name="1289"><span class="lineNum">    1289 </span><span class="lineCov">       1481 :         TValue *rb = KB(i);</span></a>
+<a name="1290"><span class="lineNum">    1290 </span><span class="lineCov">       1481 :         TValue *rc = RKC(i);</span></a>
+<a name="1291"><span class="lineNum">    1291 </span><span class="lineCov">       1481 :         TString *key = tsvalue(rb);  /* key must be a string */</span></a>
+<a name="1292"><span class="lineNum">    1292 </span><span class="lineCov">       1481 :         if (luaV_fastget(L, upval, key, slot, luaH_getshortstr)) {</span></a>
 <a name="1293"><span class="lineNum">    1293 </span><span class="lineCov">         20 :           luaV_finishfastset(L, upval, slot, rc);</span></a>
 <a name="1294"><span class="lineNum">    1294 </span>            :         }</a>
 <a name="1295"><span class="lineNum">    1295 </span>            :         else</a>
-<a name="1296"><span class="lineNum">    1296 </span><span class="lineCov">       1462 :           Protect(luaV_finishset(L, upval, rb, rc, slot));</span></a>
-<a name="1297"><span class="lineNum">    1297 </span><span class="lineCov">       1481 :         vmbreak;</span></a>
+<a name="1296"><span class="lineNum">    1296 </span><span class="lineCov">       1461 :           Protect(luaV_finishset(L, upval, rb, rc, slot));</span></a>
+<a name="1297"><span class="lineNum">    1297 </span><span class="lineCov">       1480 :         vmbreak;</span></a>
 <a name="1298"><span class="lineNum">    1298 </span>            :       }</a>
 <a name="1299"><span class="lineNum">    1299 </span><span class="lineCov">      82250 :       vmcase(OP_SETTABLE) {</span></a>
 <a name="1300"><span class="lineNum">    1300 </span>            :         const TValue *slot;</a>
@@ -1622,9 +1622,9 @@
 <a name="1556"><span class="lineNum">    1556 </span><span class="lineCov">          3 :         halfProtect(luaF_newtbcupval(L, ra));</span></a>
 <a name="1557"><span class="lineNum">    1557 </span><span class="lineCov">          2 :         vmbreak;</span></a>
 <a name="1558"><span class="lineNum">    1558 </span>            :       }</a>
-<a name="1559"><span class="lineNum">    1559 </span><span class="lineCov">      12339 :       vmcase(OP_JMP) {</span></a>
-<a name="1560"><span class="lineNum">    1560 </span><span class="lineCov">      12339 :         dojump(ci, i, 0);</span></a>
-<a name="1561"><span class="lineNum">    1561 </span><span class="lineCov">      12339 :         vmbreak;</span></a>
+<a name="1559"><span class="lineNum">    1559 </span><span class="lineCov">      12338 :       vmcase(OP_JMP) {</span></a>
+<a name="1560"><span class="lineNum">    1560 </span><span class="lineCov">      12338 :         dojump(ci, i, 0);</span></a>
+<a name="1561"><span class="lineNum">    1561 </span><span class="lineCov">      12338 :         vmbreak;</span></a>
 <a name="1562"><span class="lineNum">    1562 </span>            :       }</a>
 <a name="1563"><span class="lineNum">    1563 </span><span class="lineCov">       7609 :       vmcase(OP_EQ) {</span></a>
 <a name="1564"><span class="lineNum">    1564 </span>            :         int cond;</a>
@@ -1633,9 +1633,9 @@
 <a name="1567"><span class="lineNum">    1567 </span><span class="lineCov">       7606 :         docondjump();</span></a>
 <a name="1568"><span class="lineNum">    1568 </span><span class="lineCov">       7606 :         vmbreak;</span></a>
 <a name="1569"><span class="lineNum">    1569 </span>            :       }</a>
-<a name="1570"><span class="lineNum">    1570 </span><span class="lineCov">         57 :       vmcase(OP_LT) {</span></a>
-<a name="1571"><span class="lineNum">    1571 </span><span class="lineCov">         57 :         op_order(L, l_lti, LTnum, lessthanothers);</span></a>
-<a name="1572"><span class="lineNum">    1572 </span><span class="lineCov">         40 :         vmbreak;</span></a>
+<a name="1570"><span class="lineNum">    1570 </span><span class="lineCov">         56 :       vmcase(OP_LT) {</span></a>
+<a name="1571"><span class="lineNum">    1571 </span><span class="lineCov">         56 :         op_order(L, l_lti, LTnum, lessthanothers);</span></a>
+<a name="1572"><span class="lineNum">    1572 </span><span class="lineCov">         39 :         vmbreak;</span></a>
 <a name="1573"><span class="lineNum">    1573 </span>            :       }</a>
 <a name="1574"><span class="lineNum">    1574 </span><span class="lineCov">        182 :       vmcase(OP_LE) {</span></a>
 <a name="1575"><span class="lineNum">    1575 </span><span class="lineCov">        182 :         op_order(L, l_lei, LEnum, lessequalothers);</span></a>
@@ -1676,10 +1676,10 @@
 <a name="1610"><span class="lineNum">    1610 </span><span class="lineCov">          6 :         op_orderI(L, l_gei, luai_numge, 1, TM_LE);</span></a>
 <a name="1611"><span class="lineNum">    1611 </span><span class="lineNoCov">          0 :         vmbreak;</span></a>
 <a name="1612"><span class="lineNum">    1612 </span>            :       }</a>
-<a name="1613"><span class="lineNum">    1613 </span><span class="lineCov">      19552 :       vmcase(OP_TEST) {</span></a>
-<a name="1614"><span class="lineNum">    1614 </span><span class="lineCov">      19552 :         int cond = !l_isfalse(s2v(ra));</span></a>
-<a name="1615"><span class="lineNum">    1615 </span><span class="lineCov">      19552 :         docondjump();</span></a>
-<a name="1616"><span class="lineNum">    1616 </span><span class="lineCov">      19552 :         vmbreak;</span></a>
+<a name="1613"><span class="lineNum">    1613 </span><span class="lineCov">      19537 :       vmcase(OP_TEST) {</span></a>
+<a name="1614"><span class="lineNum">    1614 </span><span class="lineCov">      19537 :         int cond = !l_isfalse(s2v(ra));</span></a>
+<a name="1615"><span class="lineNum">    1615 </span><span class="lineCov">      19537 :         docondjump();</span></a>
+<a name="1616"><span class="lineNum">    1616 </span><span class="lineCov">      19537 :         vmbreak;</span></a>
 <a name="1617"><span class="lineNum">    1617 </span>            :       }</a>
 <a name="1618"><span class="lineNum">    1618 </span><span class="lineCov">          5 :       vmcase(OP_TESTSET) {</span></a>
 <a name="1619"><span class="lineNum">    1619 </span><span class="lineCov">          5 :         TValue *rb = vRB(i);</span></a>
@@ -1769,28 +1769,28 @@
 <a name="1703"><span class="lineNum">    1703 </span>            :         }</a>
 <a name="1704"><span class="lineNum">    1704 </span><span class="lineCov">      15199 :         goto ret;</span></a>
 <a name="1705"><span class="lineNum">    1705 </span>            :       }</a>
-<a name="1706"><span class="lineNum">    1706 </span><span class="lineCov">       6503 :       vmcase(OP_RETURN1) {</span></a>
-<a name="1707"><span class="lineNum">    1707 </span><span class="lineCov">       6503 :         if (l_unlikely(L-&gt;hookmask)) {</span></a>
+<a name="1706"><span class="lineNum">    1706 </span><span class="lineCov">       6502 :       vmcase(OP_RETURN1) {</span></a>
+<a name="1707"><span class="lineNum">    1707 </span><span class="lineCov">       6502 :         if (l_unlikely(L-&gt;hookmask)) {</span></a>
 <a name="1708"><span class="lineNum">    1708 </span><span class="lineNoCov">          0 :           L-&gt;top = ra + 1;</span></a>
 <a name="1709"><span class="lineNum">    1709 </span><span class="lineNoCov">          0 :           savepc(ci);</span></a>
 <a name="1710"><span class="lineNum">    1710 </span><span class="lineNoCov">          0 :           luaD_poscall(L, ci, 1);  /* no hurry... */</span></a>
 <a name="1711"><span class="lineNum">    1711 </span><span class="lineNoCov">          0 :           trap = 1;</span></a>
 <a name="1712"><span class="lineNum">    1712 </span>            :         }</a>
 <a name="1713"><span class="lineNum">    1713 </span>            :         else {  /* do the 'poscall' here */</a>
-<a name="1714"><span class="lineNum">    1714 </span><span class="lineCov">       6503 :           int nres = ci-&gt;nresults;</span></a>
-<a name="1715"><span class="lineNum">    1715 </span><span class="lineCov">       6503 :           L-&gt;ci = ci-&gt;previous;  /* back to caller */</span></a>
-<a name="1716"><span class="lineNum">    1716 </span><span class="lineCov">       6503 :           if (nres == 0)</span></a>
+<a name="1714"><span class="lineNum">    1714 </span><span class="lineCov">       6502 :           int nres = ci-&gt;nresults;</span></a>
+<a name="1715"><span class="lineNum">    1715 </span><span class="lineCov">       6502 :           L-&gt;ci = ci-&gt;previous;  /* back to caller */</span></a>
+<a name="1716"><span class="lineNum">    1716 </span><span class="lineCov">       6502 :           if (nres == 0)</span></a>
 <a name="1717"><span class="lineNum">    1717 </span><span class="lineCov">          1 :             L-&gt;top = base - 1;  /* asked for no results */</span></a>
 <a name="1718"><span class="lineNum">    1718 </span>            :           else {</a>
-<a name="1719"><span class="lineNum">    1719 </span><span class="lineCov">       6502 :             setobjs2s(L, base - 1, ra);  /* at least this result */</span></a>
-<a name="1720"><span class="lineNum">    1720 </span><span class="lineCov">       6502 :             L-&gt;top = base;</span></a>
-<a name="1721"><span class="lineNum">    1721 </span><span class="lineCov">       6502 :             for (; l_unlikely(nres &gt; 1); nres--)</span></a>
+<a name="1719"><span class="lineNum">    1719 </span><span class="lineCov">       6501 :             setobjs2s(L, base - 1, ra);  /* at least this result */</span></a>
+<a name="1720"><span class="lineNum">    1720 </span><span class="lineCov">       6501 :             L-&gt;top = base;</span></a>
+<a name="1721"><span class="lineNum">    1721 </span><span class="lineCov">       6501 :             for (; l_unlikely(nres &gt; 1); nres--)</span></a>
 <a name="1722"><span class="lineNum">    1722 </span><span class="lineNoCov">          0 :               setnilvalue(s2v(L-&gt;top++));  /* complete missing results */</span></a>
 <a name="1723"><span class="lineNum">    1723 </span>            :           }</a>
 <a name="1724"><span class="lineNum">    1724 </span>            :         }</a>
-<a name="1725"><span class="lineNum">    1725 </span><span class="lineCov">       6502 :        ret:  /* return from a Lua function */</span></a>
-<a name="1726"><span class="lineNum">    1726 </span><span class="lineCov">      23175 :         if (ci-&gt;callstatus &amp; CIST_FRESH)</span></a>
-<a name="1727"><span class="lineNum">    1727 </span><span class="lineCov">       6743 :           return;  /* end this frame */</span></a>
+<a name="1725"><span class="lineNum">    1725 </span><span class="lineCov">       6501 :        ret:  /* return from a Lua function */</span></a>
+<a name="1726"><span class="lineNum">    1726 </span><span class="lineCov">      23174 :         if (ci-&gt;callstatus &amp; CIST_FRESH)</span></a>
+<a name="1727"><span class="lineNum">    1727 </span><span class="lineCov">       6742 :           return;  /* end this frame */</span></a>
 <a name="1728"><span class="lineNum">    1728 </span>            :         else {</a>
 <a name="1729"><span class="lineNum">    1729 </span><span class="lineCov">      16432 :           ci = ci-&gt;previous;</span></a>
 <a name="1730"><span class="lineNum">    1730 </span><span class="lineCov">      16432 :           goto returning;  /* continue running caller in this frame */</span></a>

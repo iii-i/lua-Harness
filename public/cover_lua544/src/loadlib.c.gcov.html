@@ -31,13 +31,13 @@
             <td class="headerValue">Lua 5.4.4</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">207</td>
+            <td class="headerCovTableEntry">205</td>
             <td class="headerCovTableEntry">258</td>
-            <td class="headerCovTableEntryMed">80.2 %</td>
+            <td class="headerCovTableEntryMed">79.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-01-26 16:45:32</td>
+            <td class="headerValue">2022-04-23 17:19:02</td>
             <td></td>
           </tr>
           <tr>
@@ -348,12 +348,12 @@
 <a name="282"><span class="lineNum">     282 </span>            : /*</a>
 <a name="283"><span class="lineNum">     283 </span>            : ** return registry.LUA_NOENV as a boolean</a>
 <a name="284"><span class="lineNum">     284 </span>            : */</a>
-<a name="285"><span class="lineNum">     285 </span><span class="lineCov">        184 : static int noenv (lua_State *L) {</span></a>
+<a name="285"><span class="lineNum">     285 </span><span class="lineCov">         92 : static int noenv (lua_State *L) {</span></a>
 <a name="286"><span class="lineNum">     286 </span>            :   int b;</a>
-<a name="287"><span class="lineNum">     287 </span><span class="lineCov">        184 :   lua_getfield(L, LUA_REGISTRYINDEX, &quot;LUA_NOENV&quot;);</span></a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineCov">        184 :   b = lua_toboolean(L, -1);</span></a>
-<a name="289"><span class="lineNum">     289 </span><span class="lineCov">        184 :   lua_pop(L, 1);  /* remove value */</span></a>
-<a name="290"><span class="lineNum">     290 </span><span class="lineCov">        184 :   return b;</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">         92 :   lua_getfield(L, LUA_REGISTRYINDEX, &quot;LUA_NOENV&quot;);</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">         92 :   b = lua_toboolean(L, -1);</span></a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">         92 :   lua_pop(L, 1);  /* remove value */</span></a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineCov">         92 :   return b;</span></a>
 <a name="291"><span class="lineNum">     291 </span>            : }</a>
 <a name="292"><span class="lineNum">     292 </span>            : </a>
 <a name="293"><span class="lineNum">     293 </span>            : </a>
@@ -369,23 +369,23 @@
 <a name="303"><span class="lineNum">     303 </span><span class="lineCov">        184 :   if (path == NULL)  /* no versioned environment variable? */</span></a>
 <a name="304"><span class="lineNum">     304 </span><span class="lineCov">        184 :     path = getenv(envname);  /* try unversioned name */</span></a>
 <a name="305"><span class="lineNum">     305 </span><span class="lineCov">        184 :   if (path == NULL || noenv(L))  /* no environment variable? */</span></a>
-<a name="306"><span class="lineNum">     306 </span><span class="lineCov">          2 :     lua_pushstring(L, dft);  /* use default */</span></a>
-<a name="307"><span class="lineNum">     307 </span><span class="lineCov">        182 :   else if ((dftmark = strstr(path, LUA_PATH_SEP LUA_PATH_SEP)) == NULL)</span></a>
+<a name="306"><span class="lineNum">     306 </span><span class="lineCov">         93 :     lua_pushstring(L, dft);  /* use default */</span></a>
+<a name="307"><span class="lineNum">     307 </span><span class="lineCov">         91 :   else if ((dftmark = strstr(path, LUA_PATH_SEP LUA_PATH_SEP)) == NULL)</span></a>
 <a name="308"><span class="lineNum">     308 </span><span class="lineNoCov">          0 :     lua_pushstring(L, path);  /* nothing to change */</span></a>
 <a name="309"><span class="lineNum">     309 </span>            :   else {  /* path contains a &quot;;;&quot;: insert default path in its place */</a>
-<a name="310"><span class="lineNum">     310 </span><span class="lineCov">        182 :     size_t len = strlen(path);</span></a>
+<a name="310"><span class="lineNum">     310 </span><span class="lineCov">         91 :     size_t len = strlen(path);</span></a>
 <a name="311"><span class="lineNum">     311 </span>            :     luaL_Buffer b;</a>
-<a name="312"><span class="lineNum">     312 </span><span class="lineCov">        182 :     luaL_buffinit(L, &amp;b);</span></a>
-<a name="313"><span class="lineNum">     313 </span><span class="lineCov">        182 :     if (path &lt; dftmark) {  /* is there a prefix before ';;'? */</span></a>
-<a name="314"><span class="lineNum">     314 </span><span class="lineCov">         91 :       luaL_addlstring(&amp;b, path, dftmark - path);  /* add it */</span></a>
-<a name="315"><span class="lineNum">     315 </span><span class="lineCov">         91 :       luaL_addchar(&amp;b, *LUA_PATH_SEP);</span></a>
+<a name="312"><span class="lineNum">     312 </span><span class="lineCov">         91 :     luaL_buffinit(L, &amp;b);</span></a>
+<a name="313"><span class="lineNum">     313 </span><span class="lineCov">         91 :     if (path &lt; dftmark) {  /* is there a prefix before ';;'? */</span></a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineNoCov">          0 :       luaL_addlstring(&amp;b, path, dftmark - path);  /* add it */</span></a>
+<a name="315"><span class="lineNum">     315 </span><span class="lineNoCov">          0 :       luaL_addchar(&amp;b, *LUA_PATH_SEP);</span></a>
 <a name="316"><span class="lineNum">     316 </span>            :     }</a>
-<a name="317"><span class="lineNum">     317 </span><span class="lineCov">        182 :     luaL_addstring(&amp;b, dft);  /* add default */</span></a>
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">        182 :     if (dftmark &lt; path + len - 2) {  /* is there a suffix after ';;'? */</span></a>
+<a name="317"><span class="lineNum">     317 </span><span class="lineCov">         91 :     luaL_addstring(&amp;b, dft);  /* add default */</span></a>
+<a name="318"><span class="lineNum">     318 </span><span class="lineCov">         91 :     if (dftmark &lt; path + len - 2) {  /* is there a suffix after ';;'? */</span></a>
 <a name="319"><span class="lineNum">     319 </span><span class="lineCov">         91 :       luaL_addchar(&amp;b, *LUA_PATH_SEP);</span></a>
 <a name="320"><span class="lineNum">     320 </span><span class="lineCov">         91 :       luaL_addlstring(&amp;b, dftmark + 2, (path + len - 2) - dftmark);</span></a>
 <a name="321"><span class="lineNum">     321 </span>            :     }</a>
-<a name="322"><span class="lineNum">     322 </span><span class="lineCov">        182 :     luaL_pushresult(&amp;b);</span></a>
+<a name="322"><span class="lineNum">     322 </span><span class="lineCov">         91 :     luaL_pushresult(&amp;b);</span></a>
 <a name="323"><span class="lineNum">     323 </span>            :   }</a>
 <a name="324"><span class="lineNum">     324 </span>            :   setprogdir(L);</a>
 <a name="325"><span class="lineNum">     325 </span><span class="lineCov">        184 :   lua_setfield(L, -3, fieldname);  /* package[fieldname] = path value */</span></a>
@@ -497,9 +497,9 @@
 <a name="431"><span class="lineNum">     431 </span>            : */</a>
 <a name="432"><span class="lineNum">     432 </span>            : </a>
 <a name="433"><span class="lineNum">     433 </span>            : </a>
-<a name="434"><span class="lineNum">     434 </span><span class="lineCov">       1298 : static int readable (const char *filename) {</span></a>
-<a name="435"><span class="lineNum">     435 </span><span class="lineCov">       1298 :   FILE *f = fopen(filename, &quot;r&quot;);  /* try to open file */</span></a>
-<a name="436"><span class="lineNum">     436 </span><span class="lineCov">       1298 :   if (f == NULL) return 0;  /* open failed */</span></a>
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">       1151 : static int readable (const char *filename) {</span></a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">       1151 :   FILE *f = fopen(filename, &quot;r&quot;);  /* try to open file */</span></a>
+<a name="436"><span class="lineNum">     436 </span><span class="lineCov">       1151 :   if (f == NULL) return 0;  /* open failed */</span></a>
 <a name="437"><span class="lineNum">     437 </span><span class="lineCov">        100 :   fclose(f);</span></a>
 <a name="438"><span class="lineNum">     438 </span><span class="lineCov">        100 :   return 1;</span></a>
 <a name="439"><span class="lineNum">     439 </span>            : }</a>
@@ -510,21 +510,21 @@
 <a name="444"><span class="lineNum">     444 </span>            : ** the ending ';' to '\0' to create a zero-terminated string. Return</a>
 <a name="445"><span class="lineNum">     445 </span>            : ** NULL when list ends.</a>
 <a name="446"><span class="lineNum">     446 </span>            : */</a>
-<a name="447"><span class="lineNum">     447 </span><span class="lineCov">       1438 : static const char *getnextfilename (char **path, char *end) {</span></a>
+<a name="447"><span class="lineNum">     447 </span><span class="lineCov">       1291 : static const char *getnextfilename (char **path, char *end) {</span></a>
 <a name="448"><span class="lineNum">     448 </span>            :   char *sep;</a>
-<a name="449"><span class="lineNum">     449 </span><span class="lineCov">       1438 :   char *name = *path;</span></a>
-<a name="450"><span class="lineNum">     450 </span><span class="lineCov">       1438 :   if (name == end)</span></a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">       1291 :   char *name = *path;</span></a>
+<a name="450"><span class="lineNum">     450 </span><span class="lineCov">       1291 :   if (name == end)</span></a>
 <a name="451"><span class="lineNum">     451 </span><span class="lineCov">        140 :     return NULL;  /* no more names */</span></a>
-<a name="452"><span class="lineNum">     452 </span><span class="lineCov">       1298 :   else if (*name == '\0') {  /* from previous iteration? */</span></a>
-<a name="453"><span class="lineNum">     453 </span><span class="lineCov">       1058 :     *name = *LUA_PATH_SEP;  /* restore separator */</span></a>
-<a name="454"><span class="lineNum">     454 </span><span class="lineCov">       1058 :     name++;  /* skip it */</span></a>
+<a name="452"><span class="lineNum">     452 </span><span class="lineCov">       1151 :   else if (*name == '\0') {  /* from previous iteration? */</span></a>
+<a name="453"><span class="lineNum">     453 </span><span class="lineCov">        911 :     *name = *LUA_PATH_SEP;  /* restore separator */</span></a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">        911 :     name++;  /* skip it */</span></a>
 <a name="455"><span class="lineNum">     455 </span>            :   }</a>
-<a name="456"><span class="lineNum">     456 </span><span class="lineCov">       1298 :   sep = strchr(name, *LUA_PATH_SEP);  /* find next separator */</span></a>
-<a name="457"><span class="lineNum">     457 </span><span class="lineCov">       1298 :   if (sep == NULL)  /* separator not found? */</span></a>
+<a name="456"><span class="lineNum">     456 </span><span class="lineCov">       1151 :   sep = strchr(name, *LUA_PATH_SEP);  /* find next separator */</span></a>
+<a name="457"><span class="lineNum">     457 </span><span class="lineCov">       1151 :   if (sep == NULL)  /* separator not found? */</span></a>
 <a name="458"><span class="lineNum">     458 </span><span class="lineCov">        140 :     sep = end;  /* name goes until the end */</span></a>
-<a name="459"><span class="lineNum">     459 </span><span class="lineCov">       1298 :   *sep = '\0';  /* finish file name */</span></a>
-<a name="460"><span class="lineNum">     460 </span><span class="lineCov">       1298 :   *path = sep;  /* will start next search from here */</span></a>
-<a name="461"><span class="lineNum">     461 </span><span class="lineCov">       1298 :   return name;</span></a>
+<a name="459"><span class="lineNum">     459 </span><span class="lineCov">       1151 :   *sep = '\0';  /* finish file name */</span></a>
+<a name="460"><span class="lineNum">     460 </span><span class="lineCov">       1151 :   *path = sep;  /* will start next search from here */</span></a>
+<a name="461"><span class="lineNum">     461 </span><span class="lineCov">       1151 :   return name;</span></a>
 <a name="462"><span class="lineNum">     462 </span>            : }</a>
 <a name="463"><span class="lineNum">     463 </span>            : </a>
 <a name="464"><span class="lineNum">     464 </span>            : </a>
@@ -561,8 +561,8 @@
 <a name="495"><span class="lineNum">     495 </span><span class="lineCov">        240 :   luaL_addchar(&amp;buff, '\0');</span></a>
 <a name="496"><span class="lineNum">     496 </span><span class="lineCov">        240 :   pathname = luaL_buffaddr(&amp;buff);  /* writable list of file names */</span></a>
 <a name="497"><span class="lineNum">     497 </span><span class="lineCov">        240 :   endpathname = pathname + luaL_bufflen(&amp;buff) - 1;</span></a>
-<a name="498"><span class="lineNum">     498 </span><span class="lineCov">       1438 :   while ((filename = getnextfilename(&amp;pathname, endpathname)) != NULL) {</span></a>
-<a name="499"><span class="lineNum">     499 </span><span class="lineCov">       1298 :     if (readable(filename))  /* does file exist and is readable? */</span></a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineCov">       1291 :   while ((filename = getnextfilename(&amp;pathname, endpathname)) != NULL) {</span></a>
+<a name="499"><span class="lineNum">     499 </span><span class="lineCov">       1151 :     if (readable(filename))  /* does file exist and is readable? */</span></a>
 <a name="500"><span class="lineNum">     500 </span><span class="lineCov">        100 :       return lua_pushstring(L, filename);  /* save and return name */</span></a>
 <a name="501"><span class="lineNum">     501 </span>            :   }</a>
 <a name="502"><span class="lineNum">     502 </span><span class="lineCov">        140 :   luaL_pushresult(&amp;buff);  /* push path to create error message */</span></a>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-01-26 16:45:32</td>
+            <td class="headerValue">2022-04-23 17:19:02</td>
             <td></td>
           </tr>
           <tr>
@@ -542,14 +542,14 @@
 <a name="476"><span class="lineNum">     476 </span>            : #define next_ci(L)  (L-&gt;ci-&gt;next ? L-&gt;ci-&gt;next : luaE_extendCI(L))</a>
 <a name="477"><span class="lineNum">     477 </span>            : </a>
 <a name="478"><span class="lineNum">     478 </span>            : </a>
-<a name="479"><span class="lineNum">     479 </span><span class="lineCov">     128942 : l_sinline CallInfo *prepCallInfo (lua_State *L, StkId func, int nret,</span></a>
+<a name="479"><span class="lineNum">     479 </span><span class="lineCov">     128941 : l_sinline CallInfo *prepCallInfo (lua_State *L, StkId func, int nret,</span></a>
 <a name="480"><span class="lineNum">     480 </span>            :                                                 int mask, StkId top) {</a>
-<a name="481"><span class="lineNum">     481 </span><span class="lineCov">     128942 :   CallInfo *ci = L-&gt;ci = next_ci(L);  /* new frame */</span></a>
-<a name="482"><span class="lineNum">     482 </span><span class="lineCov">     128942 :   ci-&gt;func = func;</span></a>
-<a name="483"><span class="lineNum">     483 </span><span class="lineCov">     128942 :   ci-&gt;nresults = nret;</span></a>
-<a name="484"><span class="lineNum">     484 </span><span class="lineCov">     128942 :   ci-&gt;callstatus = mask;</span></a>
-<a name="485"><span class="lineNum">     485 </span><span class="lineCov">     128942 :   ci-&gt;top = top;</span></a>
-<a name="486"><span class="lineNum">     486 </span><span class="lineCov">     128942 :   return ci;</span></a>
+<a name="481"><span class="lineNum">     481 </span><span class="lineCov">     128941 :   CallInfo *ci = L-&gt;ci = next_ci(L);  /* new frame */</span></a>
+<a name="482"><span class="lineNum">     482 </span><span class="lineCov">     128941 :   ci-&gt;func = func;</span></a>
+<a name="483"><span class="lineNum">     483 </span><span class="lineCov">     128941 :   ci-&gt;nresults = nret;</span></a>
+<a name="484"><span class="lineNum">     484 </span><span class="lineCov">     128941 :   ci-&gt;callstatus = mask;</span></a>
+<a name="485"><span class="lineNum">     485 </span><span class="lineCov">     128941 :   ci-&gt;top = top;</span></a>
+<a name="486"><span class="lineNum">     486 </span><span class="lineCov">     128941 :   return ci;</span></a>
 <a name="487"><span class="lineNum">     487 </span>            : }</a>
 <a name="488"><span class="lineNum">     488 </span>            : </a>
 <a name="489"><span class="lineNum">     489 </span>            : </a>
@@ -628,28 +628,28 @@
 <a name="562"><span class="lineNum">     562 </span>            : ** returns NULL, with all the results on the stack, starting at the</a>
 <a name="563"><span class="lineNum">     563 </span>            : ** original function position.</a>
 <a name="564"><span class="lineNum">     564 </span>            : */</a>
-<a name="565"><span class="lineNum">     565 </span><span class="lineCov">     128828 : CallInfo *luaD_precall (lua_State *L, StkId func, int nresults) {</span></a>
-<a name="566"><span class="lineNum">     566 </span><span class="lineCov">     128828 :  retry:</span></a>
-<a name="567"><span class="lineNum">     567 </span><span class="lineCov">     128828 :   switch (ttypetag(s2v(func))) {</span></a>
+<a name="565"><span class="lineNum">     565 </span><span class="lineCov">     128827 : CallInfo *luaD_precall (lua_State *L, StkId func, int nresults) {</span></a>
+<a name="566"><span class="lineNum">     566 </span><span class="lineCov">     128827 :  retry:</span></a>
+<a name="567"><span class="lineNum">     567 </span><span class="lineCov">     128827 :   switch (ttypetag(s2v(func))) {</span></a>
 <a name="568"><span class="lineNum">     568 </span><span class="lineCov">        789 :     case LUA_VCCL:  /* C closure */</span></a>
 <a name="569"><span class="lineNum">     569 </span><span class="lineCov">        789 :       precallC(L, func, nresults, clCvalue(s2v(func))-&gt;f);</span></a>
 <a name="570"><span class="lineNum">     570 </span><span class="lineCov">        736 :       return NULL;</span></a>
 <a name="571"><span class="lineNum">     571 </span><span class="lineCov">     104396 :     case LUA_VLCF:  /* light C function */</span></a>
 <a name="572"><span class="lineNum">     572 </span><span class="lineCov">     104396 :       precallC(L, func, nresults, fvalue(s2v(func)));</span></a>
 <a name="573"><span class="lineNum">     573 </span><span class="lineCov">      98256 :       return NULL;</span></a>
-<a name="574"><span class="lineNum">     574 </span><span class="lineCov">      23636 :     case LUA_VLCL: {  /* Lua function */</span></a>
+<a name="574"><span class="lineNum">     574 </span><span class="lineCov">      23635 :     case LUA_VLCL: {  /* Lua function */</span></a>
 <a name="575"><span class="lineNum">     575 </span>            :       CallInfo *ci;</a>
-<a name="576"><span class="lineNum">     576 </span><span class="lineCov">      23636 :       Proto *p = clLvalue(s2v(func))-&gt;p;</span></a>
-<a name="577"><span class="lineNum">     577 </span><span class="lineCov">      23636 :       int narg = cast_int(L-&gt;top - func) - 1;  /* number of real arguments */</span></a>
-<a name="578"><span class="lineNum">     578 </span><span class="lineCov">      23636 :       int nfixparams = p-&gt;numparams;</span></a>
-<a name="579"><span class="lineNum">     579 </span><span class="lineCov">      23636 :       int fsize = p-&gt;maxstacksize;  /* frame size */</span></a>
-<a name="580"><span class="lineNum">     580 </span><span class="lineCov">      23636 :       checkstackGCp(L, fsize, func);</span></a>
-<a name="581"><span class="lineNum">     581 </span><span class="lineCov">      23636 :       L-&gt;ci = ci = prepCallInfo(L, func, nresults, 0, func + 1 + fsize);</span></a>
-<a name="582"><span class="lineNum">     582 </span><span class="lineCov">      23636 :       ci-&gt;u.l.savedpc = p-&gt;code;  /* starting point */</span></a>
-<a name="583"><span class="lineNum">     583 </span><span class="lineCov">      24576 :       for (; narg &lt; nfixparams; narg++)</span></a>
+<a name="576"><span class="lineNum">     576 </span><span class="lineCov">      23635 :       Proto *p = clLvalue(s2v(func))-&gt;p;</span></a>
+<a name="577"><span class="lineNum">     577 </span><span class="lineCov">      23635 :       int narg = cast_int(L-&gt;top - func) - 1;  /* number of real arguments */</span></a>
+<a name="578"><span class="lineNum">     578 </span><span class="lineCov">      23635 :       int nfixparams = p-&gt;numparams;</span></a>
+<a name="579"><span class="lineNum">     579 </span><span class="lineCov">      23635 :       int fsize = p-&gt;maxstacksize;  /* frame size */</span></a>
+<a name="580"><span class="lineNum">     580 </span><span class="lineCov">      23635 :       checkstackGCp(L, fsize, func);</span></a>
+<a name="581"><span class="lineNum">     581 </span><span class="lineCov">      23635 :       L-&gt;ci = ci = prepCallInfo(L, func, nresults, 0, func + 1 + fsize);</span></a>
+<a name="582"><span class="lineNum">     582 </span><span class="lineCov">      23635 :       ci-&gt;u.l.savedpc = p-&gt;code;  /* starting point */</span></a>
+<a name="583"><span class="lineNum">     583 </span><span class="lineCov">      24575 :       for (; narg &lt; nfixparams; narg++)</span></a>
 <a name="584"><span class="lineNum">     584 </span><span class="lineCov">        940 :         setnilvalue(s2v(L-&gt;top++));  /* complete missing arguments */</span></a>
 <a name="585"><span class="lineNum">     585 </span>            :       lua_assert(ci-&gt;top &lt;= L-&gt;stack_last);</a>
-<a name="586"><span class="lineNum">     586 </span><span class="lineCov">      23636 :       return ci;</span></a>
+<a name="586"><span class="lineNum">     586 </span><span class="lineCov">      23635 :       return ci;</span></a>
 <a name="587"><span class="lineNum">     587 </span>            :     }</a>
 <a name="588"><span class="lineNum">     588 </span><span class="lineCov">          7 :     default: {  /* not a function */</span></a>
 <a name="589"><span class="lineNum">     589 </span><span class="lineCov">          7 :       func = luaD_tryfuncTM(L, func);  /* try to get '__call' metamethod */</span></a>
@@ -665,17 +665,17 @@
 <a name="599"><span class="lineNum">     599 </span>            : ** number of recursive invocations in the C stack) or nyci (the same</a>
 <a name="600"><span class="lineNum">     600 </span>            : ** plus increment number of non-yieldable calls).</a>
 <a name="601"><span class="lineNum">     601 </span>            : */</a>
-<a name="602"><span class="lineNum">     602 </span><span class="lineCov">      55815 : l_sinline void ccall (lua_State *L, StkId func, int nResults, int inc) {</span></a>
+<a name="602"><span class="lineNum">     602 </span><span class="lineCov">      55814 : l_sinline void ccall (lua_State *L, StkId func, int nResults, int inc) {</span></a>
 <a name="603"><span class="lineNum">     603 </span>            :   CallInfo *ci;</a>
-<a name="604"><span class="lineNum">     604 </span><span class="lineCov">      55815 :   L-&gt;nCcalls += inc;</span></a>
-<a name="605"><span class="lineNum">     605 </span><span class="lineCov">      55815 :   if (l_unlikely(getCcalls(L) &gt;= LUAI_MAXCCALLS))</span></a>
+<a name="604"><span class="lineNum">     604 </span><span class="lineCov">      55814 :   L-&gt;nCcalls += inc;</span></a>
+<a name="605"><span class="lineNum">     605 </span><span class="lineCov">      55814 :   if (l_unlikely(getCcalls(L) &gt;= LUAI_MAXCCALLS))</span></a>
 <a name="606"><span class="lineNum">     606 </span><span class="lineNoCov">          0 :     luaE_checkcstack(L);</span></a>
-<a name="607"><span class="lineNum">     607 </span><span class="lineCov">      55815 :   if ((ci = luaD_precall(L, func, nResults)) != NULL) {  /* Lua function? */</span></a>
-<a name="608"><span class="lineNum">     608 </span><span class="lineCov">       7197 :     ci-&gt;callstatus = CIST_FRESH;  /* mark that it is a &quot;fresh&quot; execute */</span></a>
-<a name="609"><span class="lineNum">     609 </span><span class="lineCov">       7197 :     luaV_execute(L, ci);  /* call it */</span></a>
+<a name="607"><span class="lineNum">     607 </span><span class="lineCov">      55814 :   if ((ci = luaD_precall(L, func, nResults)) != NULL) {  /* Lua function? */</span></a>
+<a name="608"><span class="lineNum">     608 </span><span class="lineCov">       7196 :     ci-&gt;callstatus = CIST_FRESH;  /* mark that it is a &quot;fresh&quot; execute */</span></a>
+<a name="609"><span class="lineNum">     609 </span><span class="lineCov">       7196 :     luaV_execute(L, ci);  /* call it */</span></a>
 <a name="610"><span class="lineNum">     610 </span>            :   }</a>
-<a name="611"><span class="lineNum">     611 </span><span class="lineCov">      55247 :   L-&gt;nCcalls -= inc;</span></a>
-<a name="612"><span class="lineNum">     612 </span><span class="lineCov">      55247 : }</span></a>
+<a name="611"><span class="lineNum">     611 </span><span class="lineCov">      55246 :   L-&gt;nCcalls -= inc;</span></a>
+<a name="612"><span class="lineNum">     612 </span><span class="lineCov">      55246 : }</span></a>
 <a name="613"><span class="lineNum">     613 </span>            : </a>
 <a name="614"><span class="lineNum">     614 </span>            : </a>
 <a name="615"><span class="lineNum">     615 </span>            : /*</a>
@@ -689,9 +689,9 @@
 <a name="623"><span class="lineNum">     623 </span>            : /*</a>
 <a name="624"><span class="lineNum">     624 </span>            : ** Similar to 'luaD_call', but does not allow yields during the call.</a>
 <a name="625"><span class="lineNum">     625 </span>            : */</a>
-<a name="626"><span class="lineNum">     626 </span><span class="lineCov">       3194 : void luaD_callnoyield (lua_State *L, StkId func, int nResults) {</span></a>
-<a name="627"><span class="lineNum">     627 </span><span class="lineCov">       3194 :   ccall(L, func, nResults, nyci);</span></a>
-<a name="628"><span class="lineNum">     628 </span><span class="lineCov">       2679 : }</span></a>
+<a name="626"><span class="lineNum">     626 </span><span class="lineCov">       3193 : void luaD_callnoyield (lua_State *L, StkId func, int nResults) {</span></a>
+<a name="627"><span class="lineNum">     627 </span><span class="lineCov">       3193 :   ccall(L, func, nResults, nyci);</span></a>
+<a name="628"><span class="lineNum">     628 </span><span class="lineCov">       2678 : }</span></a>
 <a name="629"><span class="lineNum">     629 </span>            : </a>
 <a name="630"><span class="lineNum">     630 </span>            : </a>
 <a name="631"><span class="lineNum">     631 </span>            : /*</a>
