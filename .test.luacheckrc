@@ -35,6 +35,7 @@ files['test_lua/001-if.t'].ignore = { '111', '113', '511' }
 files['test_lua/002-table.t'].ignore = { '111', '113' }
 files['test_lua/014-fornum.t'].ignore = { '512' }
 files['test_lua/201-assign.t'].ignore = { '411/my_i', '531', '532' }
+files['test_lua/202-expr.t'].ignore = { '581' }
 files['test_lua/211-scope.t'].ignore = { '421' }
 files['test_lua/231-metatable.t'].ignore = { '421', '431' }
 files['test_lua/308-io.t'].ignore = { '512' }
