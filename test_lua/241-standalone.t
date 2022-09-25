@@ -190,7 +190,8 @@ f:close()
 
 cmd = lua .. [[ -v 2>&1]]
 f = io.popen(cmd)
-matches(f:read'*l', banner, "-v")
+local copyright = f:read'*l'
+matches(copyright, banner, "-v")
 f:close()
 
 cmd = lua .. [[ -v hello-241.lua 2>&1]]
@@ -251,6 +252,26 @@ equals(f:read'*l', 'function', "-l foo")
 f:close()
 
 os.remove('foo.lua') -- clean up
+
+if _VERSION >= 'Lua 5.4' and copyright >= 'Lua 5.4.4' then
+    f = io.open('foo.lua', 'w')
+    f:write([[
+return function () end
+]])
+    f:close()
+
+    cmd = lua .. [[ -lFOO=foo -e "print(type(FOO))"]]
+    f = io.popen(cmd)
+    equals(f:read'*l', 'function', "-lFOO=foo")
+    f:close()
+
+    cmd = lua .. [[ -l FOO=foo -e "print(type(FOO))"]]
+    f = io.popen(cmd)
+    equals(f:read'*l', 'function', "-l FOO=foo")
+    f:close()
+
+    os.remove('foo.lua') -- clean up
+end
 
 cmd = lua .. [[ -l lpeg -e "print(1)" 2>&1]]
 f = io.popen(cmd)
