@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-04-23 17:19:00</td>
+            <td class="headerValue">2022-10-23 09:46:30</td>
             <td></td>
           </tr>
           <tr>
@@ -120,17 +120,17 @@
 <a name="54"><span class="lineNum">      54 </span>            : static l_noret lexerror (LexState *ls, const char *msg, int token);</a>
 <a name="55"><span class="lineNum">      55 </span>            : </a>
 <a name="56"><span class="lineNum">      56 </span>            : </a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     343944 : static void save (LexState *ls, int c) {</span></a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">     343944 :   Mbuffer *b = ls-&gt;buff;</span></a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">     343944 :   if (luaZ_bufflen(b) + 1 &gt; luaZ_sizebuffer(b)) {</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">     344289 : static void save (LexState *ls, int c) {</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">     344289 :   Mbuffer *b = ls-&gt;buff;</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">     344289 :   if (luaZ_bufflen(b) + 1 &gt; luaZ_sizebuffer(b)) {</span></a>
 <a name="60"><span class="lineNum">      60 </span>            :     size_t newsize;</a>
 <a name="61"><span class="lineNum">      61 </span><span class="lineCov">         76 :     if (luaZ_sizebuffer(b) &gt;= MAX_SIZE/2)</span></a>
 <a name="62"><span class="lineNum">      62 </span><span class="lineNoCov">          0 :       lexerror(ls, &quot;lexical element too long&quot;, 0);</span></a>
 <a name="63"><span class="lineNum">      63 </span><span class="lineCov">         76 :     newsize = luaZ_sizebuffer(b) * 2;</span></a>
 <a name="64"><span class="lineNum">      64 </span><span class="lineCov">         76 :     luaZ_resizebuffer(ls-&gt;L, b, newsize);</span></a>
 <a name="65"><span class="lineNum">      65 </span>            :   }</a>
-<a name="66"><span class="lineNum">      66 </span><span class="lineCov">     343944 :   b-&gt;buffer[luaZ_bufflen(b)++] = cast(char, c);</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">     343944 : }</span></a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">     344289 :   b-&gt;buffer[luaZ_bufflen(b)++] = cast(char, c);</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">     344289 : }</span></a>
 <a name="68"><span class="lineNum">      68 </span>            : </a>
 <a name="69"><span class="lineNum">      69 </span>            : </a>
 <a name="70"><span class="lineNum">      70 </span><span class="lineCov">        111 : void luaX_init (lua_State *L) {</span></a>
@@ -190,23 +190,23 @@
 <a name="124"><span class="lineNum">     124 </span>            : ** it will not be collected until the end of the compilation</a>
 <a name="125"><span class="lineNum">     125 </span>            : ** (by that time it should be anchored somewhere)</a>
 <a name="126"><span class="lineNum">     126 </span>            : */</a>
-<a name="127"><span class="lineNum">     127 </span><span class="lineCov">      55296 : TString *luaX_newstring (LexState *ls, const char *str, size_t l) {</span></a>
-<a name="128"><span class="lineNum">     128 </span><span class="lineCov">      55296 :   lua_State *L = ls-&gt;L;</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">      55350 : TString *luaX_newstring (LexState *ls, const char *str, size_t l) {</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">      55350 :   lua_State *L = ls-&gt;L;</span></a>
 <a name="129"><span class="lineNum">     129 </span>            :   TValue *o;  /* entry for 'str' */</a>
-<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      55296 :   TString *ts = luaS_newlstr(L, str, l);  /* create new string */</span></a>
-<a name="131"><span class="lineNum">     131 </span><span class="lineCov">      55296 :   setsvalue2s(L, L-&gt;top++, ts);  /* temporarily anchor it in stack */</span></a>
-<a name="132"><span class="lineNum">     132 </span><span class="lineCov">      55296 :   o = luaH_set(L, ls-&gt;h, L-&gt;top - 1);</span></a>
-<a name="133"><span class="lineNum">     133 </span><span class="lineCov">      55296 :   if (ttisnil(o)) {  /* not in use yet? */</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      55350 :   TString *ts = luaS_newlstr(L, str, l);  /* create new string */</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">      55350 :   setsvalue2s(L, L-&gt;top++, ts);  /* temporarily anchor it in stack */</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">      55350 :   o = luaH_set(L, ls-&gt;h, L-&gt;top - 1);</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">      55350 :   if (ttisnil(o)) {  /* not in use yet? */</span></a>
 <a name="134"><span class="lineNum">     134 </span>            :     /* boolean value does not need GC barrier;</a>
 <a name="135"><span class="lineNum">     135 </span>            :        table has no metatable, so it does not need to invalidate cache */</a>
-<a name="136"><span class="lineNum">     136 </span><span class="lineCov">      14659 :     setbvalue(o, 1);  /* t[string] = true */</span></a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineCov">      14659 :     luaC_checkGC(L);</span></a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineCov">      14666 :     setbvalue(o, 1);  /* t[string] = true */</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">      14666 :     luaC_checkGC(L);</span></a>
 <a name="138"><span class="lineNum">     138 </span>            :   }</a>
 <a name="139"><span class="lineNum">     139 </span>            :   else {  /* string already present */</a>
-<a name="140"><span class="lineNum">     140 </span><span class="lineCov">      40637 :     ts = tsvalue(keyfromval(o));  /* re-use value previously stored */</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">      40684 :     ts = tsvalue(keyfromval(o));  /* re-use value previously stored */</span></a>
 <a name="141"><span class="lineNum">     141 </span>            :   }</a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      55296 :   L-&gt;top--;  /* remove string from stack */</span></a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineCov">      55296 :   return ts;</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      55350 :   L-&gt;top--;  /* remove string from stack */</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">      55350 :   return ts;</span></a>
 <a name="144"><span class="lineNum">     144 </span>            : }</a>
 <a name="145"><span class="lineNum">     145 </span>            : </a>
 <a name="146"><span class="lineNum">     146 </span>            : </a>
@@ -214,15 +214,15 @@
 <a name="148"><span class="lineNum">     148 </span>            : ** increment line number and skips newline sequence (any of</a>
 <a name="149"><span class="lineNum">     149 </span>            : ** \n, \r, \n\r, or \r\n)</a>
 <a name="150"><span class="lineNum">     150 </span>            : */</a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">      26182 : static void inclinenumber (LexState *ls) {</span></a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">      26182 :   int old = ls-&gt;current;</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">      26203 : static void inclinenumber (LexState *ls) {</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">      26203 :   int old = ls-&gt;current;</span></a>
 <a name="153"><span class="lineNum">     153 </span>            :   lua_assert(currIsNewline(ls));</a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineCov">      26182 :   next(ls);  /* skip '\n' or '\r' */</span></a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">      26182 :   if (currIsNewline(ls) &amp;&amp; ls-&gt;current != old)</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">      26203 :   next(ls);  /* skip '\n' or '\r' */</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">      26203 :   if (currIsNewline(ls) &amp;&amp; ls-&gt;current != old)</span></a>
 <a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :     next(ls);  /* skip '\n\r' or '\r\n' */</span></a>
-<a name="157"><span class="lineNum">     157 </span><span class="lineCov">      26182 :   if (++ls-&gt;linenumber &gt;= MAX_INT)</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">      26203 :   if (++ls-&gt;linenumber &gt;= MAX_INT)</span></a>
 <a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :     lexerror(ls, &quot;chunk has too many lines&quot;, 0);</span></a>
-<a name="159"><span class="lineNum">     159 </span><span class="lineCov">      26182 : }</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">      26203 : }</span></a>
 <a name="160"><span class="lineNum">     160 </span>            : </a>
 <a name="161"><span class="lineNum">     161 </span>            : </a>
 <a name="162"><span class="lineNum">     162 </span><span class="lineCov">        510 : void luaX_setinput (lua_State *L, LexState *ls, ZIO *z, TString *source,</span></a>
@@ -249,12 +249,12 @@
 <a name="183"><span class="lineNum">     183 </span>            : */</a>
 <a name="184"><span class="lineNum">     184 </span>            : </a>
 <a name="185"><span class="lineNum">     185 </span>            : </a>
-<a name="186"><span class="lineNum">     186 </span><span class="lineCov">      12951 : static int check_next1 (LexState *ls, int c) {</span></a>
-<a name="187"><span class="lineNum">     187 </span><span class="lineCov">      12951 :   if (ls-&gt;current == c) {</span></a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineCov">       3194 :     next(ls);</span></a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">       3194 :     return 1;</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">      12973 : static int check_next1 (LexState *ls, int c) {</span></a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">      12973 :   if (ls-&gt;current == c) {</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">       3198 :     next(ls);</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">       3198 :     return 1;</span></a>
 <a name="190"><span class="lineNum">     190 </span>            :   }</a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">       9757 :   else return 0;</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">       9775 :   else return 0;</span></a>
 <a name="192"><span class="lineNum">     192 </span>            : }</a>
 <a name="193"><span class="lineNum">     193 </span>            : </a>
 <a name="194"><span class="lineNum">     194 </span>            : </a>
@@ -314,29 +314,29 @@
 <a name="248"><span class="lineNum">     248 </span>            : ** If sequence is well formed, return its number of '='s + 2; otherwise,</a>
 <a name="249"><span class="lineNum">     249 </span>            : ** return 1 if there is no '='s or 0 otherwise (an unfinished '[==...').</a>
 <a name="250"><span class="lineNum">     250 </span>            : */</a>
-<a name="251"><span class="lineNum">     251 </span><span class="lineCov">       2040 : static size_t skip_sep (LexState *ls) {</span></a>
-<a name="252"><span class="lineNum">     252 </span><span class="lineCov">       2040 :   size_t count = 0;</span></a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       2040 :   int s = ls-&gt;current;</span></a>
+<a name="251"><span class="lineNum">     251 </span><span class="lineCov">       2046 : static size_t skip_sep (LexState *ls) {</span></a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">       2046 :   size_t count = 0;</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       2046 :   int s = ls-&gt;current;</span></a>
 <a name="254"><span class="lineNum">     254 </span>            :   lua_assert(s == '[' || s == ']');</a>
-<a name="255"><span class="lineNum">     255 </span><span class="lineCov">       2040 :   save_and_next(ls);</span></a>
-<a name="256"><span class="lineNum">     256 </span><span class="lineCov">       2053 :   while (ls-&gt;current == '=') {</span></a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">       2046 :   save_and_next(ls);</span></a>
+<a name="256"><span class="lineNum">     256 </span><span class="lineCov">       2059 :   while (ls-&gt;current == '=') {</span></a>
 <a name="257"><span class="lineNum">     257 </span><span class="lineCov">         13 :     save_and_next(ls);</span></a>
 <a name="258"><span class="lineNum">     258 </span><span class="lineCov">         13 :     count++;</span></a>
 <a name="259"><span class="lineNum">     259 </span>            :   }</a>
-<a name="260"><span class="lineNum">     260 </span><span class="lineCov">       2040 :   return (ls-&gt;current == s) ? count + 2</span></a>
-<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       2792 :          : (count == 0) ? 1</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">       2046 :   return (ls-&gt;current == s) ? count + 2</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       2798 :          : (count == 0) ? 1</span></a>
 <a name="262"><span class="lineNum">     262 </span><span class="lineCov">        752 :          : 0;</span></a>
 <a name="263"><span class="lineNum">     263 </span>            : </a>
 <a name="264"><span class="lineNum">     264 </span>            : }</a>
 <a name="265"><span class="lineNum">     265 </span>            : </a>
 <a name="266"><span class="lineNum">     266 </span>            : </a>
-<a name="267"><span class="lineNum">     267 </span><span class="lineCov">        644 : static void read_long_string (LexState *ls, SemInfo *seminfo, size_t sep) {</span></a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">        644 :   int line = ls-&gt;linenumber;  /* initial line (for error message) */</span></a>
-<a name="269"><span class="lineNum">     269 </span><span class="lineCov">        644 :   save_and_next(ls);  /* skip 2nd '[' */</span></a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineCov">        644 :   if (currIsNewline(ls))  /* string starts with a newline? */</span></a>
-<a name="271"><span class="lineNum">     271 </span><span class="lineCov">        272 :     inclinenumber(ls);  /* skip it */</span></a>
+<a name="267"><span class="lineNum">     267 </span><span class="lineCov">        647 : static void read_long_string (LexState *ls, SemInfo *seminfo, size_t sep) {</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">        647 :   int line = ls-&gt;linenumber;  /* initial line (for error message) */</span></a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">        647 :   save_and_next(ls);  /* skip 2nd '[' */</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">        647 :   if (currIsNewline(ls))  /* string starts with a newline? */</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">        273 :     inclinenumber(ls);  /* skip it */</span></a>
 <a name="272"><span class="lineNum">     272 </span>            :   for (;;) {</a>
-<a name="273"><span class="lineNum">     273 </span><span class="lineCov">      47107 :     switch (ls-&gt;current) {</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">      47198 :     switch (ls-&gt;current) {</span></a>
 <a name="274"><span class="lineNum">     274 </span><span class="lineCov">          2 :       case EOZ: {  /* error */</span></a>
 <a name="275"><span class="lineNum">     275 </span><span class="lineCov">          2 :         const char *what = (seminfo ? &quot;string&quot; : &quot;comment&quot;);</span></a>
 <a name="276"><span class="lineNum">     276 </span><span class="lineCov">          2 :         const char *msg = luaO_pushfstring(ls-&gt;L,</span></a>
@@ -344,29 +344,29 @@
 <a name="278"><span class="lineNum">     278 </span><span class="lineCov">          2 :         lexerror(ls, msg, TK_EOS);</span></a>
 <a name="279"><span class="lineNum">     279 </span>            :         break;  /* to avoid warnings */</a>
 <a name="280"><span class="lineNum">     280 </span>            :       }</a>
-<a name="281"><span class="lineNum">     281 </span><span class="lineCov">        649 :       case ']': {</span></a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineCov">        649 :         if (skip_sep(ls) == sep) {</span></a>
-<a name="283"><span class="lineNum">     283 </span><span class="lineCov">        642 :           save_and_next(ls);  /* skip 2nd ']' */</span></a>
-<a name="284"><span class="lineNum">     284 </span><span class="lineCov">        642 :           goto endloop;</span></a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">        652 :       case ']': {</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">        652 :         if (skip_sep(ls) == sep) {</span></a>
+<a name="283"><span class="lineNum">     283 </span><span class="lineCov">        645 :           save_and_next(ls);  /* skip 2nd ']' */</span></a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">        645 :           goto endloop;</span></a>
 <a name="285"><span class="lineNum">     285 </span>            :         }</a>
 <a name="286"><span class="lineNum">     286 </span><span class="lineCov">          7 :         break;</span></a>
 <a name="287"><span class="lineNum">     287 </span>            :       }</a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineCov">       2014 :       case '\n': case '\r': {</span></a>
-<a name="289"><span class="lineNum">     289 </span><span class="lineCov">       2014 :         save(ls, '\n');</span></a>
-<a name="290"><span class="lineNum">     290 </span><span class="lineCov">       2014 :         inclinenumber(ls);</span></a>
-<a name="291"><span class="lineNum">     291 </span><span class="lineCov">       2014 :         if (!seminfo) luaZ_resetbuffer(ls-&gt;buff);  /* avoid wasting space */</span></a>
-<a name="292"><span class="lineNum">     292 </span><span class="lineCov">       2014 :         break;</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">       2015 :       case '\n': case '\r': {</span></a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">       2015 :         save(ls, '\n');</span></a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineCov">       2015 :         inclinenumber(ls);</span></a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineCov">       2015 :         if (!seminfo) luaZ_resetbuffer(ls-&gt;buff);  /* avoid wasting space */</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">       2015 :         break;</span></a>
 <a name="293"><span class="lineNum">     293 </span>            :       }</a>
-<a name="294"><span class="lineNum">     294 </span><span class="lineCov">      44442 :       default: {</span></a>
-<a name="295"><span class="lineNum">     295 </span><span class="lineCov">      44442 :         if (seminfo) save_and_next(ls);</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">      44529 :       default: {</span></a>
+<a name="295"><span class="lineNum">     295 </span><span class="lineCov">      44529 :         if (seminfo) save_and_next(ls);</span></a>
 <a name="296"><span class="lineNum">     296 </span><span class="lineCov">      38575 :         else next(ls);</span></a>
 <a name="297"><span class="lineNum">     297 </span>            :       }</a>
 <a name="298"><span class="lineNum">     298 </span>            :     }</a>
-<a name="299"><span class="lineNum">     299 </span><span class="lineCov">        642 :   } endloop:</span></a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">        642 :   if (seminfo)</span></a>
-<a name="301"><span class="lineNum">     301 </span><span class="lineCov">        154 :     seminfo-&gt;ts = luaX_newstring(ls, luaZ_buffer(ls-&gt;buff) + sep,</span></a>
-<a name="302"><span class="lineNum">     302 </span><span class="lineCov">        154 :                                      luaZ_bufflen(ls-&gt;buff) - 2 * sep);</span></a>
-<a name="303"><span class="lineNum">     303 </span><span class="lineCov">        642 : }</span></a>
+<a name="299"><span class="lineNum">     299 </span><span class="lineCov">        645 :   } endloop:</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">        645 :   if (seminfo)</span></a>
+<a name="301"><span class="lineNum">     301 </span><span class="lineCov">        157 :     seminfo-&gt;ts = luaX_newstring(ls, luaZ_buffer(ls-&gt;buff) + sep,</span></a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineCov">        157 :                                      luaZ_bufflen(ls-&gt;buff) - 2 * sep);</span></a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">        645 : }</span></a>
 <a name="304"><span class="lineNum">     304 </span>            : </a>
 <a name="305"><span class="lineNum">     305 </span>            : </a>
 <a name="306"><span class="lineNum">     306 </span><span class="lineCov">        585 : static void esccheck (LexState *ls, int c, const char *msg) {</span></a>
@@ -432,10 +432,10 @@
 <a name="366"><span class="lineNum">     366 </span>            : }</a>
 <a name="367"><span class="lineNum">     367 </span>            : </a>
 <a name="368"><span class="lineNum">     368 </span>            : </a>
-<a name="369"><span class="lineNum">     369 </span><span class="lineCov">       7573 : static void read_string (LexState *ls, int del, SemInfo *seminfo) {</span></a>
-<a name="370"><span class="lineNum">     370 </span><span class="lineCov">       7573 :   save_and_next(ls);  /* keep delimiter (for error messages) */</span></a>
-<a name="371"><span class="lineNum">     371 </span><span class="lineCov">      91557 :   while (ls-&gt;current != del) {</span></a>
-<a name="372"><span class="lineNum">     372 </span><span class="lineCov">      83995 :     switch (ls-&gt;current) {</span></a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineCov">       7584 : static void read_string (LexState *ls, int del, SemInfo *seminfo) {</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineCov">       7584 :   save_and_next(ls);  /* keep delimiter (for error messages) */</span></a>
+<a name="371"><span class="lineNum">     371 </span><span class="lineCov">      91638 :   while (ls-&gt;current != del) {</span></a>
+<a name="372"><span class="lineNum">     372 </span><span class="lineCov">      84065 :     switch (ls-&gt;current) {</span></a>
 <a name="373"><span class="lineNum">     373 </span><span class="lineCov">          3 :       case EOZ:</span></a>
 <a name="374"><span class="lineNum">     374 </span><span class="lineCov">          3 :         lexerror(ls, &quot;unfinished string&quot;, TK_EOS);</span></a>
 <a name="375"><span class="lineNum">     375 </span>            :         break;  /* to avoid warnings */</a>
@@ -485,34 +485,34 @@
 <a name="419"><span class="lineNum">     419 </span>            :          /* go through */</a>
 <a name="420"><span class="lineNum">     420 </span><span class="lineCov">        505 :        no_save: break;</span></a>
 <a name="421"><span class="lineNum">     421 </span>            :       }</a>
-<a name="422"><span class="lineNum">     422 </span><span class="lineCov">      83479 :       default:</span></a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineCov">      83479 :         save_and_next(ls);</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineCov">      83549 :       default:</span></a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">      83549 :         save_and_next(ls);</span></a>
 <a name="424"><span class="lineNum">     424 </span>            :     }</a>
 <a name="425"><span class="lineNum">     425 </span>            :   }</a>
-<a name="426"><span class="lineNum">     426 </span><span class="lineCov">       7562 :   save_and_next(ls);  /* skip delimiter */</span></a>
-<a name="427"><span class="lineNum">     427 </span><span class="lineCov">      15124 :   seminfo-&gt;ts = luaX_newstring(ls, luaZ_buffer(ls-&gt;buff) + 1,</span></a>
-<a name="428"><span class="lineNum">     428 </span><span class="lineCov">       7562 :                                    luaZ_bufflen(ls-&gt;buff) - 2);</span></a>
-<a name="429"><span class="lineNum">     429 </span><span class="lineCov">       7562 : }</span></a>
+<a name="426"><span class="lineNum">     426 </span><span class="lineCov">       7573 :   save_and_next(ls);  /* skip delimiter */</span></a>
+<a name="427"><span class="lineNum">     427 </span><span class="lineCov">      15146 :   seminfo-&gt;ts = luaX_newstring(ls, luaZ_buffer(ls-&gt;buff) + 1,</span></a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">       7573 :                                    luaZ_bufflen(ls-&gt;buff) - 2);</span></a>
+<a name="429"><span class="lineNum">     429 </span><span class="lineCov">       7573 : }</span></a>
 <a name="430"><span class="lineNum">     430 </span>            : </a>
 <a name="431"><span class="lineNum">     431 </span>            : </a>
-<a name="432"><span class="lineNum">     432 </span><span class="lineCov">     104149 : static int llex (LexState *ls, SemInfo *seminfo) {</span></a>
-<a name="433"><span class="lineNum">     433 </span><span class="lineCov">     104149 :   luaZ_resetbuffer(ls-&gt;buff);</span></a>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">     104248 : static int llex (LexState *ls, SemInfo *seminfo) {</span></a>
+<a name="433"><span class="lineNum">     433 </span><span class="lineCov">     104248 :   luaZ_resetbuffer(ls-&gt;buff);</span></a>
 <a name="434"><span class="lineNum">     434 </span>            :   for (;;) {</a>
-<a name="435"><span class="lineNum">     435 </span><span class="lineCov">     272000 :     switch (ls-&gt;current) {</span></a>
-<a name="436"><span class="lineNum">     436 </span><span class="lineCov">      23894 :       case '\n': case '\r': {  /* line breaks */</span></a>
-<a name="437"><span class="lineNum">     437 </span><span class="lineCov">      23894 :         inclinenumber(ls);</span></a>
-<a name="438"><span class="lineNum">     438 </span><span class="lineCov">      23894 :         break;</span></a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">     272198 :     switch (ls-&gt;current) {</span></a>
+<a name="436"><span class="lineNum">     436 </span><span class="lineCov">      23913 :       case '\n': case '\r': {  /* line breaks */</span></a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineCov">      23913 :         inclinenumber(ls);</span></a>
+<a name="438"><span class="lineNum">     438 </span><span class="lineCov">      23913 :         break;</span></a>
 <a name="439"><span class="lineNum">     439 </span>            :       }</a>
-<a name="440"><span class="lineNum">     440 </span><span class="lineCov">     141322 :       case ' ': case '\f': case '\t': case '\v': {  /* spaces */</span></a>
-<a name="441"><span class="lineNum">     441 </span><span class="lineCov">     141322 :         next(ls);</span></a>
-<a name="442"><span class="lineNum">     442 </span><span class="lineCov">     141322 :         break;</span></a>
+<a name="440"><span class="lineNum">     440 </span><span class="lineCov">     141401 :       case ' ': case '\f': case '\t': case '\v': {  /* spaces */</span></a>
+<a name="441"><span class="lineNum">     441 </span><span class="lineCov">     141401 :         next(ls);</span></a>
+<a name="442"><span class="lineNum">     442 </span><span class="lineCov">     141401 :         break;</span></a>
 <a name="443"><span class="lineNum">     443 </span>            :       }</a>
-<a name="444"><span class="lineNum">     444 </span><span class="lineCov">       3025 :       case '-': {  /* '-' or '--' (comment) */</span></a>
-<a name="445"><span class="lineNum">     445 </span><span class="lineCov">       3025 :         next(ls);</span></a>
-<a name="446"><span class="lineNum">     446 </span><span class="lineCov">       3025 :         if (ls-&gt;current != '-') return '-';</span></a>
+<a name="444"><span class="lineNum">     444 </span><span class="lineCov">       3026 :       case '-': {  /* '-' or '--' (comment) */</span></a>
+<a name="445"><span class="lineNum">     445 </span><span class="lineCov">       3026 :         next(ls);</span></a>
+<a name="446"><span class="lineNum">     446 </span><span class="lineCov">       3026 :         if (ls-&gt;current != '-') return '-';</span></a>
 <a name="447"><span class="lineNum">     447 </span>            :         /* else is a comment */</a>
-<a name="448"><span class="lineNum">     448 </span><span class="lineCov">       2636 :         next(ls);</span></a>
-<a name="449"><span class="lineNum">     449 </span><span class="lineCov">       2636 :         if (ls-&gt;current == '[') {  /* long comment? */</span></a>
+<a name="448"><span class="lineNum">     448 </span><span class="lineCov">       2637 :         next(ls);</span></a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">       2637 :         if (ls-&gt;current == '[') {  /* long comment? */</span></a>
 <a name="450"><span class="lineNum">     450 </span><span class="lineCov">        489 :           size_t sep = skip_sep(ls);</span></a>
 <a name="451"><span class="lineNum">     451 </span><span class="lineCov">        489 :           luaZ_resetbuffer(ls-&gt;buff);  /* 'skip_sep' may dirty the buffer */</span></a>
 <a name="452"><span class="lineNum">     452 </span><span class="lineCov">        489 :           if (sep &gt;= 2) {</span></a>
@@ -522,24 +522,24 @@
 <a name="456"><span class="lineNum">     456 </span>            :           }</a>
 <a name="457"><span class="lineNum">     457 </span>            :         }</a>
 <a name="458"><span class="lineNum">     458 </span>            :         /* else short comment */</a>
-<a name="459"><span class="lineNum">     459 </span><span class="lineCov">      43400 :         while (!currIsNewline(ls) &amp;&amp; ls-&gt;current != EOZ)</span></a>
-<a name="460"><span class="lineNum">     460 </span><span class="lineCov">      41253 :           next(ls);  /* skip until end of line (or end of file) */</span></a>
-<a name="461"><span class="lineNum">     461 </span><span class="lineCov">       2147 :         break;</span></a>
+<a name="459"><span class="lineNum">     459 </span><span class="lineCov">      43410 :         while (!currIsNewline(ls) &amp;&amp; ls-&gt;current != EOZ)</span></a>
+<a name="460"><span class="lineNum">     460 </span><span class="lineCov">      41262 :           next(ls);  /* skip until end of line (or end of file) */</span></a>
+<a name="461"><span class="lineNum">     461 </span><span class="lineCov">       2148 :         break;</span></a>
 <a name="462"><span class="lineNum">     462 </span>            :       }</a>
-<a name="463"><span class="lineNum">     463 </span><span class="lineCov">        902 :       case '[': {  /* long string or simply '[' */</span></a>
-<a name="464"><span class="lineNum">     464 </span><span class="lineCov">        902 :         size_t sep = skip_sep(ls);</span></a>
-<a name="465"><span class="lineNum">     465 </span><span class="lineCov">        902 :         if (sep &gt;= 2) {</span></a>
-<a name="466"><span class="lineNum">     466 </span><span class="lineCov">        155 :           read_long_string(ls, seminfo, sep);</span></a>
-<a name="467"><span class="lineNum">     467 </span><span class="lineCov">        154 :           return TK_STRING;</span></a>
+<a name="463"><span class="lineNum">     463 </span><span class="lineCov">        905 :       case '[': {  /* long string or simply '[' */</span></a>
+<a name="464"><span class="lineNum">     464 </span><span class="lineCov">        905 :         size_t sep = skip_sep(ls);</span></a>
+<a name="465"><span class="lineNum">     465 </span><span class="lineCov">        905 :         if (sep &gt;= 2) {</span></a>
+<a name="466"><span class="lineNum">     466 </span><span class="lineCov">        158 :           read_long_string(ls, seminfo, sep);</span></a>
+<a name="467"><span class="lineNum">     467 </span><span class="lineCov">        157 :           return TK_STRING;</span></a>
 <a name="468"><span class="lineNum">     468 </span>            :         }</a>
 <a name="469"><span class="lineNum">     469 </span><span class="lineCov">        747 :         else if (sep == 0)  /* '[=...' missing second bracket */</span></a>
 <a name="470"><span class="lineNum">     470 </span><span class="lineCov">          1 :           lexerror(ls, &quot;invalid long string delimiter&quot;, TK_STRING);</span></a>
 <a name="471"><span class="lineNum">     471 </span><span class="lineCov">        746 :         return '[';</span></a>
 <a name="472"><span class="lineNum">     472 </span>            :       }</a>
-<a name="473"><span class="lineNum">     473 </span><span class="lineCov">       4993 :       case '=': {</span></a>
-<a name="474"><span class="lineNum">     474 </span><span class="lineCov">       4993 :         next(ls);</span></a>
-<a name="475"><span class="lineNum">     475 </span><span class="lineCov">       4993 :         if (check_next1(ls, '=')) return TK_EQ;</span></a>
-<a name="476"><span class="lineNum">     476 </span><span class="lineCov">       4568 :         else return '=';</span></a>
+<a name="473"><span class="lineNum">     473 </span><span class="lineCov">       4999 :       case '=': {</span></a>
+<a name="474"><span class="lineNum">     474 </span><span class="lineCov">       4999 :         next(ls);</span></a>
+<a name="475"><span class="lineNum">     475 </span><span class="lineCov">       4999 :         if (check_next1(ls, '=')) return TK_EQ;</span></a>
+<a name="476"><span class="lineNum">     476 </span><span class="lineCov">       4574 :         else return '=';</span></a>
 <a name="477"><span class="lineNum">     477 </span>            :       }</a>
 <a name="478"><span class="lineNum">     478 </span><span class="lineCov">        147 :       case '&lt;': {</span></a>
 <a name="479"><span class="lineNum">     479 </span><span class="lineCov">        147 :         next(ls);</span></a>
@@ -547,9 +547,9 @@
 <a name="481"><span class="lineNum">     481 </span><span class="lineCov">         65 :         else if (check_next1(ls, '&lt;')) return TK_SHL;</span></a>
 <a name="482"><span class="lineNum">     482 </span><span class="lineCov">         45 :         else return '&lt;';</span></a>
 <a name="483"><span class="lineNum">     483 </span>            :       }</a>
-<a name="484"><span class="lineNum">     484 </span><span class="lineCov">        250 :       case '&gt;': {</span></a>
-<a name="485"><span class="lineNum">     485 </span><span class="lineCov">        250 :         next(ls);</span></a>
-<a name="486"><span class="lineNum">     486 </span><span class="lineCov">        250 :         if (check_next1(ls, '=')) return TK_GE;</span></a>
+<a name="484"><span class="lineNum">     484 </span><span class="lineCov">        252 :       case '&gt;': {</span></a>
+<a name="485"><span class="lineNum">     485 </span><span class="lineCov">        252 :         next(ls);</span></a>
+<a name="486"><span class="lineNum">     486 </span><span class="lineCov">        252 :         if (check_next1(ls, '=')) return TK_GE;</span></a>
 <a name="487"><span class="lineNum">     487 </span><span class="lineCov">         56 :         else if (check_next1(ls, '&gt;')) return TK_SHR;</span></a>
 <a name="488"><span class="lineNum">     488 </span><span class="lineCov">         36 :         else return '&gt;';</span></a>
 <a name="489"><span class="lineNum">     489 </span>            :       }</a>
@@ -563,23 +563,23 @@
 <a name="497"><span class="lineNum">     497 </span><span class="lineCov">        265 :         if (check_next1(ls, '=')) return TK_NE;</span></a>
 <a name="498"><span class="lineNum">     498 </span><span class="lineCov">         32 :         else return '~';</span></a>
 <a name="499"><span class="lineNum">     499 </span>            :       }</a>
-<a name="500"><span class="lineNum">     500 </span><span class="lineCov">        555 :       case ':': {</span></a>
-<a name="501"><span class="lineNum">     501 </span><span class="lineCov">        555 :         next(ls);</span></a>
-<a name="502"><span class="lineNum">     502 </span><span class="lineCov">        555 :         if (check_next1(ls, ':')) return TK_DBCOLON;</span></a>
-<a name="503"><span class="lineNum">     503 </span><span class="lineCov">        539 :         else return ':';</span></a>
+<a name="500"><span class="lineNum">     500 </span><span class="lineCov">        561 :       case ':': {</span></a>
+<a name="501"><span class="lineNum">     501 </span><span class="lineCov">        561 :         next(ls);</span></a>
+<a name="502"><span class="lineNum">     502 </span><span class="lineCov">        561 :         if (check_next1(ls, ':')) return TK_DBCOLON;</span></a>
+<a name="503"><span class="lineNum">     503 </span><span class="lineCov">        545 :         else return ':';</span></a>
 <a name="504"><span class="lineNum">     504 </span>            :       }</a>
-<a name="505"><span class="lineNum">     505 </span><span class="lineCov">       7573 :       case '&quot;': case '\'': {  /* short literal strings */</span></a>
-<a name="506"><span class="lineNum">     506 </span><span class="lineCov">       7573 :         read_string(ls, ls-&gt;current, seminfo);</span></a>
-<a name="507"><span class="lineNum">     507 </span><span class="lineCov">       7562 :         return TK_STRING;</span></a>
+<a name="505"><span class="lineNum">     505 </span><span class="lineCov">       7584 :       case '&quot;': case '\'': {  /* short literal strings */</span></a>
+<a name="506"><span class="lineNum">     506 </span><span class="lineCov">       7584 :         read_string(ls, ls-&gt;current, seminfo);</span></a>
+<a name="507"><span class="lineNum">     507 </span><span class="lineCov">       7573 :         return TK_STRING;</span></a>
 <a name="508"><span class="lineNum">     508 </span>            :       }</a>
-<a name="509"><span class="lineNum">     509 </span><span class="lineCov">       4416 :       case '.': {  /* '.', '..', '...', or number */</span></a>
-<a name="510"><span class="lineNum">     510 </span><span class="lineCov">       4416 :         save_and_next(ls);</span></a>
-<a name="511"><span class="lineNum">     511 </span><span class="lineCov">       4416 :         if (check_next1(ls, '.')) {</span></a>
-<a name="512"><span class="lineNum">     512 </span><span class="lineCov">       2136 :           if (check_next1(ls, '.'))</span></a>
+<a name="509"><span class="lineNum">     509 </span><span class="lineCov">       4422 :       case '.': {  /* '.', '..', '...', or number */</span></a>
+<a name="510"><span class="lineNum">     510 </span><span class="lineCov">       4422 :         save_and_next(ls);</span></a>
+<a name="511"><span class="lineNum">     511 </span><span class="lineCov">       4422 :         if (check_next1(ls, '.')) {</span></a>
+<a name="512"><span class="lineNum">     512 </span><span class="lineCov">       2138 :           if (check_next1(ls, '.'))</span></a>
 <a name="513"><span class="lineNum">     513 </span><span class="lineCov">         39 :             return TK_DOTS;   /* '...' */</span></a>
-<a name="514"><span class="lineNum">     514 </span><span class="lineCov">       2097 :           else return TK_CONCAT;   /* '..' */</span></a>
+<a name="514"><span class="lineNum">     514 </span><span class="lineCov">       2099 :           else return TK_CONCAT;   /* '..' */</span></a>
 <a name="515"><span class="lineNum">     515 </span>            :         }</a>
-<a name="516"><span class="lineNum">     516 </span><span class="lineCov">       2280 :         else if (!lisdigit(ls-&gt;current)) return '.';</span></a>
+<a name="516"><span class="lineNum">     516 </span><span class="lineCov">       2284 :         else if (!lisdigit(ls-&gt;current)) return '.';</span></a>
 <a name="517"><span class="lineNum">     517 </span><span class="lineCov">          1 :         else return read_numeral(ls, seminfo);</span></a>
 <a name="518"><span class="lineNum">     518 </span>            :       }</a>
 <a name="519"><span class="lineNum">     519 </span><span class="lineCov">       3694 :       case '0': case '1': case '2': case '3': case '4':</span></a>
@@ -589,25 +589,25 @@
 <a name="523"><span class="lineNum">     523 </span><span class="lineCov">        477 :       case EOZ: {</span></a>
 <a name="524"><span class="lineNum">     524 </span><span class="lineCov">        477 :         return TK_EOS;</span></a>
 <a name="525"><span class="lineNum">     525 </span>            :       }</a>
-<a name="526"><span class="lineNum">     526 </span><span class="lineCov">      80419 :       default: {</span></a>
-<a name="527"><span class="lineNum">     527 </span><span class="lineCov">      80419 :         if (lislalpha(ls-&gt;current)) {  /* identifier or reserved word? */</span></a>
+<a name="526"><span class="lineNum">     526 </span><span class="lineCov">      80484 :       default: {</span></a>
+<a name="527"><span class="lineNum">     527 </span><span class="lineCov">      80484 :         if (lislalpha(ls-&gt;current)) {  /* identifier or reserved word? */</span></a>
 <a name="528"><span class="lineNum">     528 </span>            :           TString *ts;</a>
 <a name="529"><span class="lineNum">     529 </span>            :           do {</a>
-<a name="530"><span class="lineNum">     530 </span><span class="lineCov">     218739 :             save_and_next(ls);</span></a>
-<a name="531"><span class="lineNum">     531 </span><span class="lineCov">     218739 :           } while (lislalnum(ls-&gt;current));</span></a>
-<a name="532"><span class="lineNum">     532 </span><span class="lineCov">      46600 :           ts = luaX_newstring(ls, luaZ_buffer(ls-&gt;buff),</span></a>
-<a name="533"><span class="lineNum">     533 </span><span class="lineCov">      46600 :                                   luaZ_bufflen(ls-&gt;buff));</span></a>
-<a name="534"><span class="lineNum">     534 </span><span class="lineCov">      46600 :           seminfo-&gt;ts = ts;</span></a>
-<a name="535"><span class="lineNum">     535 </span><span class="lineCov">      46600 :           if (isreserved(ts))  /* reserved word? */</span></a>
-<a name="536"><span class="lineNum">     536 </span><span class="lineCov">      15503 :             return ts-&gt;extra - 1 + FIRST_RESERVED;</span></a>
+<a name="530"><span class="lineNum">     530 </span><span class="lineCov">     218886 :             save_and_next(ls);</span></a>
+<a name="531"><span class="lineNum">     531 </span><span class="lineCov">     218886 :           } while (lislalnum(ls-&gt;current));</span></a>
+<a name="532"><span class="lineNum">     532 </span><span class="lineCov">      46640 :           ts = luaX_newstring(ls, luaZ_buffer(ls-&gt;buff),</span></a>
+<a name="533"><span class="lineNum">     533 </span><span class="lineCov">      46640 :                                   luaZ_bufflen(ls-&gt;buff));</span></a>
+<a name="534"><span class="lineNum">     534 </span><span class="lineCov">      46640 :           seminfo-&gt;ts = ts;</span></a>
+<a name="535"><span class="lineNum">     535 </span><span class="lineCov">      46640 :           if (isreserved(ts))  /* reserved word? */</span></a>
+<a name="536"><span class="lineNum">     536 </span><span class="lineCov">      15508 :             return ts-&gt;extra - 1 + FIRST_RESERVED;</span></a>
 <a name="537"><span class="lineNum">     537 </span>            :           else {</a>
-<a name="538"><span class="lineNum">     538 </span><span class="lineCov">      31097 :             return TK_NAME;</span></a>
+<a name="538"><span class="lineNum">     538 </span><span class="lineCov">      31132 :             return TK_NAME;</span></a>
 <a name="539"><span class="lineNum">     539 </span>            :           }</a>
 <a name="540"><span class="lineNum">     540 </span>            :         }</a>
 <a name="541"><span class="lineNum">     541 </span>            :         else {  /* single-char tokens (+ - / ...) */</a>
-<a name="542"><span class="lineNum">     542 </span><span class="lineCov">      33819 :           int c = ls-&gt;current;</span></a>
-<a name="543"><span class="lineNum">     543 </span><span class="lineCov">      33819 :           next(ls);</span></a>
-<a name="544"><span class="lineNum">     544 </span><span class="lineCov">      33819 :           return c;</span></a>
+<a name="542"><span class="lineNum">     542 </span><span class="lineCov">      33844 :           int c = ls-&gt;current;</span></a>
+<a name="543"><span class="lineNum">     543 </span><span class="lineCov">      33844 :           next(ls);</span></a>
+<a name="544"><span class="lineNum">     544 </span><span class="lineCov">      33844 :           return c;</span></a>
 <a name="545"><span class="lineNum">     545 </span>            :         }</a>
 <a name="546"><span class="lineNum">     546 </span>            :       }</a>
 <a name="547"><span class="lineNum">     547 </span>            :     }</a>
@@ -615,15 +615,15 @@
 <a name="549"><span class="lineNum">     549 </span>            : }</a>
 <a name="550"><span class="lineNum">     550 </span>            : </a>
 <a name="551"><span class="lineNum">     551 </span>            : </a>
-<a name="552"><span class="lineNum">     552 </span><span class="lineCov">     104149 : void luaX_next (LexState *ls) {</span></a>
-<a name="553"><span class="lineNum">     553 </span><span class="lineCov">     104149 :   ls-&gt;lastline = ls-&gt;linenumber;</span></a>
-<a name="554"><span class="lineNum">     554 </span><span class="lineCov">     104149 :   if (ls-&gt;lookahead.token != TK_EOS) {  /* is there a look-ahead token? */</span></a>
+<a name="552"><span class="lineNum">     552 </span><span class="lineCov">     104248 : void luaX_next (LexState *ls) {</span></a>
+<a name="553"><span class="lineNum">     553 </span><span class="lineCov">     104248 :   ls-&gt;lastline = ls-&gt;linenumber;</span></a>
+<a name="554"><span class="lineNum">     554 </span><span class="lineCov">     104248 :   if (ls-&gt;lookahead.token != TK_EOS) {  /* is there a look-ahead token? */</span></a>
 <a name="555"><span class="lineNum">     555 </span><span class="lineCov">        516 :     ls-&gt;t = ls-&gt;lookahead;  /* use this one */</span></a>
 <a name="556"><span class="lineNum">     556 </span><span class="lineCov">        516 :     ls-&gt;lookahead.token = TK_EOS;  /* and discharge it */</span></a>
 <a name="557"><span class="lineNum">     557 </span>            :   }</a>
 <a name="558"><span class="lineNum">     558 </span>            :   else</a>
-<a name="559"><span class="lineNum">     559 </span><span class="lineCov">     103633 :     ls-&gt;t.token = llex(ls, &amp;ls-&gt;t.seminfo);  /* read next token */</span></a>
-<a name="560"><span class="lineNum">     560 </span><span class="lineCov">     104134 : }</span></a>
+<a name="559"><span class="lineNum">     559 </span><span class="lineCov">     103732 :     ls-&gt;t.token = llex(ls, &amp;ls-&gt;t.seminfo);  /* read next token */</span></a>
+<a name="560"><span class="lineNum">     560 </span><span class="lineCov">     104233 : }</span></a>
 <a name="561"><span class="lineNum">     561 </span>            : </a>
 <a name="562"><span class="lineNum">     562 </span>            : </a>
 <a name="563"><span class="lineNum">     563 </span><span class="lineCov">        516 : int luaX_lookahead (LexState *ls) {</span></a>
@@ -640,7 +640,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
   </table>
   <br>
 
