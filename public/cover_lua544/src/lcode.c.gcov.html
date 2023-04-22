@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-23 09:46:31</td>
+            <td class="headerValue">2023-04-22 14:13:49</td>
             <td></td>
           </tr>
           <tr>
@@ -270,15 +270,15 @@
 <a name="204"><span class="lineNum">     204 </span>            : /*</a>
 <a name="205"><span class="lineNum">     205 </span>            : ** Code a 'return' instruction</a>
 <a name="206"><span class="lineNum">     206 </span>            : */</a>
-<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       3436 : void luaK_ret (FuncState *fs, int first, int nret) {</span></a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">       3434 : void luaK_ret (FuncState *fs, int first, int nret) {</span></a>
 <a name="208"><span class="lineNum">     208 </span>            :   OpCode op;</a>
-<a name="209"><span class="lineNum">     209 </span><span class="lineCov">       3436 :   switch (nret) {</span></a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">       2400 :     case 0: op = OP_RETURN0; break;</span></a>
+<a name="209"><span class="lineNum">     209 </span><span class="lineCov">       3434 :   switch (nret) {</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">       2398 :     case 0: op = OP_RETURN0; break;</span></a>
 <a name="211"><span class="lineNum">     211 </span><span class="lineCov">        825 :     case 1: op = OP_RETURN1; break;</span></a>
 <a name="212"><span class="lineNum">     212 </span><span class="lineCov">        211 :     default: op = OP_RETURN; break;</span></a>
 <a name="213"><span class="lineNum">     213 </span>            :   }</a>
-<a name="214"><span class="lineNum">     214 </span><span class="lineCov">       3436 :   luaK_codeABC(fs, op, first, nret + 1, 0);</span></a>
-<a name="215"><span class="lineNum">     215 </span><span class="lineCov">       3436 : }</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">       3434 :   luaK_codeABC(fs, op, first, nret + 1, 0);</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">       3434 : }</span></a>
 <a name="216"><span class="lineNum">     216 </span>            : </a>
 <a name="217"><span class="lineNum">     217 </span>            : </a>
 <a name="218"><span class="lineNum">     218 </span>            : /*</a>
@@ -392,10 +392,10 @@
 <a name="326"><span class="lineNum">     326 </span>            : ** in 'lineinfo' signals the existence of this absolute information.)</a>
 <a name="327"><span class="lineNum">     327 </span>            : ** Otherwise, store the difference from last line in 'lineinfo'.</a>
 <a name="328"><span class="lineNum">     328 </span>            : */</a>
-<a name="329"><span class="lineNum">     329 </span><span class="lineCov">      76384 : static void savelineinfo (FuncState *fs, Proto *f, int line) {</span></a>
-<a name="330"><span class="lineNum">     330 </span><span class="lineCov">      76384 :   int linedif = line - fs-&gt;previousline;</span></a>
-<a name="331"><span class="lineNum">     331 </span><span class="lineCov">      76384 :   int pc = fs-&gt;pc - 1;  /* last instruction coded */</span></a>
-<a name="332"><span class="lineNum">     332 </span><span class="lineCov">      76384 :   if (abs(linedif) &gt;= LIMLINEDIFF || fs-&gt;iwthabs++ &gt;= MAXIWTHABS) {</span></a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">      76380 : static void savelineinfo (FuncState *fs, Proto *f, int line) {</span></a>
+<a name="330"><span class="lineNum">     330 </span><span class="lineCov">      76380 :   int linedif = line - fs-&gt;previousline;</span></a>
+<a name="331"><span class="lineNum">     331 </span><span class="lineCov">      76380 :   int pc = fs-&gt;pc - 1;  /* last instruction coded */</span></a>
+<a name="332"><span class="lineNum">     332 </span><span class="lineCov">      76380 :   if (abs(linedif) &gt;= LIMLINEDIFF || fs-&gt;iwthabs++ &gt;= MAXIWTHABS) {</span></a>
 <a name="333"><span class="lineNum">     333 </span><span class="lineCov">        211 :     luaM_growvector(fs-&gt;ls-&gt;L, f-&gt;abslineinfo, fs-&gt;nabslineinfo,</span></a>
 <a name="334"><span class="lineNum">     334 </span>            :                     f-&gt;sizeabslineinfo, AbsLineInfo, MAX_INT, &quot;lines&quot;);</a>
 <a name="335"><span class="lineNum">     335 </span><span class="lineCov">        211 :     f-&gt;abslineinfo[fs-&gt;nabslineinfo].pc = pc;</span></a>
@@ -403,11 +403,11 @@
 <a name="337"><span class="lineNum">     337 </span><span class="lineCov">        211 :     linedif = ABSLINEINFO;  /* signal that there is absolute information */</span></a>
 <a name="338"><span class="lineNum">     338 </span><span class="lineCov">        211 :     fs-&gt;iwthabs = 1;  /* restart counter */</span></a>
 <a name="339"><span class="lineNum">     339 </span>            :   }</a>
-<a name="340"><span class="lineNum">     340 </span><span class="lineCov">      76384 :   luaM_growvector(fs-&gt;ls-&gt;L, f-&gt;lineinfo, pc, f-&gt;sizelineinfo, ls_byte,</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">      76380 :   luaM_growvector(fs-&gt;ls-&gt;L, f-&gt;lineinfo, pc, f-&gt;sizelineinfo, ls_byte,</span></a>
 <a name="341"><span class="lineNum">     341 </span>            :                   MAX_INT, &quot;opcodes&quot;);</a>
-<a name="342"><span class="lineNum">     342 </span><span class="lineCov">      76384 :   f-&gt;lineinfo[pc] = linedif;</span></a>
-<a name="343"><span class="lineNum">     343 </span><span class="lineCov">      76384 :   fs-&gt;previousline = line;  /* last line saved */</span></a>
-<a name="344"><span class="lineNum">     344 </span><span class="lineCov">      76384 : }</span></a>
+<a name="342"><span class="lineNum">     342 </span><span class="lineCov">      76380 :   f-&gt;lineinfo[pc] = linedif;</span></a>
+<a name="343"><span class="lineNum">     343 </span><span class="lineCov">      76380 :   fs-&gt;previousline = line;  /* last line saved */</span></a>
+<a name="344"><span class="lineNum">     344 </span><span class="lineCov">      76380 : }</span></a>
 <a name="345"><span class="lineNum">     345 </span>            : </a>
 <a name="346"><span class="lineNum">     346 </span>            : </a>
 <a name="347"><span class="lineNum">     347 </span>            : /*</a>
@@ -445,14 +445,14 @@
 <a name="379"><span class="lineNum">     379 </span>            : ** Emit instruction 'i', checking for array sizes and saving also its</a>
 <a name="380"><span class="lineNum">     380 </span>            : ** line information. Return 'i' position.</a>
 <a name="381"><span class="lineNum">     381 </span>            : */</a>
-<a name="382"><span class="lineNum">     382 </span><span class="lineCov">      61923 : int luaK_code (FuncState *fs, Instruction i) {</span></a>
-<a name="383"><span class="lineNum">     383 </span><span class="lineCov">      61923 :   Proto *f = fs-&gt;f;</span></a>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">      61919 : int luaK_code (FuncState *fs, Instruction i) {</span></a>
+<a name="383"><span class="lineNum">     383 </span><span class="lineCov">      61919 :   Proto *f = fs-&gt;f;</span></a>
 <a name="384"><span class="lineNum">     384 </span>            :   /* put new instruction in code array */</a>
-<a name="385"><span class="lineNum">     385 </span><span class="lineCov">      61923 :   luaM_growvector(fs-&gt;ls-&gt;L, f-&gt;code, fs-&gt;pc, f-&gt;sizecode, Instruction,</span></a>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">      61919 :   luaM_growvector(fs-&gt;ls-&gt;L, f-&gt;code, fs-&gt;pc, f-&gt;sizecode, Instruction,</span></a>
 <a name="386"><span class="lineNum">     386 </span>            :                   MAX_INT, &quot;opcodes&quot;);</a>
-<a name="387"><span class="lineNum">     387 </span><span class="lineCov">      61923 :   f-&gt;code[fs-&gt;pc++] = i;</span></a>
-<a name="388"><span class="lineNum">     388 </span><span class="lineCov">      61923 :   savelineinfo(fs, f, fs-&gt;ls-&gt;lastline);</span></a>
-<a name="389"><span class="lineNum">     389 </span><span class="lineCov">      61923 :   return fs-&gt;pc - 1;  /* index of new instruction */</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">      61919 :   f-&gt;code[fs-&gt;pc++] = i;</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">      61919 :   savelineinfo(fs, f, fs-&gt;ls-&gt;lastline);</span></a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">      61919 :   return fs-&gt;pc - 1;  /* index of new instruction */</span></a>
 <a name="390"><span class="lineNum">     390 </span>            : }</a>
 <a name="391"><span class="lineNum">     391 </span>            : </a>
 <a name="392"><span class="lineNum">     392 </span>            : </a>
@@ -460,11 +460,11 @@
 <a name="394"><span class="lineNum">     394 </span>            : ** Format and emit an 'iABC' instruction. (Assertions check consistency</a>
 <a name="395"><span class="lineNum">     395 </span>            : ** of parameters versus opcode.)</a>
 <a name="396"><span class="lineNum">     396 </span>            : */</a>
-<a name="397"><span class="lineNum">     397 </span><span class="lineCov">      45152 : int luaK_codeABCk (FuncState *fs, OpCode o, int a, int b, int c, int k) {</span></a>
+<a name="397"><span class="lineNum">     397 </span><span class="lineCov">      45148 : int luaK_codeABCk (FuncState *fs, OpCode o, int a, int b, int c, int k) {</span></a>
 <a name="398"><span class="lineNum">     398 </span>            :   lua_assert(getOpMode(o) == iABC);</a>
 <a name="399"><span class="lineNum">     399 </span>            :   lua_assert(a &lt;= MAXARG_A &amp;&amp; b &lt;= MAXARG_B &amp;&amp;</a>
 <a name="400"><span class="lineNum">     400 </span>            :              c &lt;= MAXARG_C &amp;&amp; (k &amp; ~1) == 0);</a>
-<a name="401"><span class="lineNum">     401 </span><span class="lineCov">      45152 :   return luaK_code(fs, CREATE_ABCk(o, a, b, c, k));</span></a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">      45148 :   return luaK_code(fs, CREATE_ABCk(o, a, b, c, k));</span></a>
 <a name="402"><span class="lineNum">     402 </span>            : }</a>
 <a name="403"><span class="lineNum">     403 </span>            : </a>
 <a name="404"><span class="lineNum">     404 </span>            : </a>
@@ -1867,35 +1867,35 @@
 <a name="1801"><span class="lineNum">    1801 </span>            : ** Do a final pass over the code of a function, doing small peephole</a>
 <a name="1802"><span class="lineNum">    1802 </span>            : ** optimizations and adjustments.</a>
 <a name="1803"><span class="lineNum">    1803 </span>            : */</a>
-<a name="1804"><span class="lineNum">    1804 </span><span class="lineCov">       2309 : void luaK_finish (FuncState *fs) {</span></a>
+<a name="1804"><span class="lineNum">    1804 </span><span class="lineCov">       2307 : void luaK_finish (FuncState *fs) {</span></a>
 <a name="1805"><span class="lineNum">    1805 </span>            :   int i;</a>
-<a name="1806"><span class="lineNum">    1806 </span><span class="lineCov">       2309 :   Proto *p = fs-&gt;f;</span></a>
-<a name="1807"><span class="lineNum">    1807 </span><span class="lineCov">      63760 :   for (i = 0; i &lt; fs-&gt;pc; i++) {</span></a>
-<a name="1808"><span class="lineNum">    1808 </span><span class="lineCov">      61451 :     Instruction *pc = &amp;p-&gt;code[i];</span></a>
+<a name="1806"><span class="lineNum">    1806 </span><span class="lineCov">       2307 :   Proto *p = fs-&gt;f;</span></a>
+<a name="1807"><span class="lineNum">    1807 </span><span class="lineCov">      63754 :   for (i = 0; i &lt; fs-&gt;pc; i++) {</span></a>
+<a name="1808"><span class="lineNum">    1808 </span><span class="lineCov">      61447 :     Instruction *pc = &amp;p-&gt;code[i];</span></a>
 <a name="1809"><span class="lineNum">    1809 </span>            :     lua_assert(i == 0 || isOT(*(pc - 1)) == isIT(*pc));</a>
-<a name="1810"><span class="lineNum">    1810 </span><span class="lineCov">      61451 :     switch (GET_OPCODE(*pc)) {</span></a>
-<a name="1811"><span class="lineNum">    1811 </span><span class="lineCov">       3222 :       case OP_RETURN0: case OP_RETURN1: {</span></a>
-<a name="1812"><span class="lineNum">    1812 </span><span class="lineCov">       3222 :         if (!(fs-&gt;needclose || p-&gt;is_vararg))</span></a>
+<a name="1810"><span class="lineNum">    1810 </span><span class="lineCov">      61447 :     switch (GET_OPCODE(*pc)) {</span></a>
+<a name="1811"><span class="lineNum">    1811 </span><span class="lineCov">       3220 :       case OP_RETURN0: case OP_RETURN1: {</span></a>
+<a name="1812"><span class="lineNum">    1812 </span><span class="lineCov">       3220 :         if (!(fs-&gt;needclose || p-&gt;is_vararg))</span></a>
 <a name="1813"><span class="lineNum">    1813 </span><span class="lineCov">       2255 :           break;  /* no extra work */</span></a>
 <a name="1814"><span class="lineNum">    1814 </span>            :         /* else use OP_RETURN to do the extra work */</a>
-<a name="1815"><span class="lineNum">    1815 </span><span class="lineCov">        967 :         SET_OPCODE(*pc, OP_RETURN);</span></a>
+<a name="1815"><span class="lineNum">    1815 </span><span class="lineCov">        965 :         SET_OPCODE(*pc, OP_RETURN);</span></a>
 <a name="1816"><span class="lineNum">    1816 </span>            :       }  /* FALLTHROUGH */</a>
-<a name="1817"><span class="lineNum">    1817 </span><span class="lineCov">       1370 :       case OP_RETURN: case OP_TAILCALL: {</span></a>
-<a name="1818"><span class="lineNum">    1818 </span><span class="lineCov">       1370 :         if (fs-&gt;needclose)</span></a>
+<a name="1817"><span class="lineNum">    1817 </span><span class="lineCov">       1368 :       case OP_RETURN: case OP_TAILCALL: {</span></a>
+<a name="1818"><span class="lineNum">    1818 </span><span class="lineCov">       1368 :         if (fs-&gt;needclose)</span></a>
 <a name="1819"><span class="lineNum">    1819 </span><span class="lineCov">        336 :           SETARG_k(*pc, 1);  /* signal that it needs to close */</span></a>
-<a name="1820"><span class="lineNum">    1820 </span><span class="lineCov">       1370 :         if (p-&gt;is_vararg)</span></a>
-<a name="1821"><span class="lineNum">    1821 </span><span class="lineCov">       1098 :           SETARG_C(*pc, p-&gt;numparams + 1);  /* signal that it is vararg */</span></a>
-<a name="1822"><span class="lineNum">    1822 </span><span class="lineCov">       1370 :         break;</span></a>
+<a name="1820"><span class="lineNum">    1820 </span><span class="lineCov">       1368 :         if (p-&gt;is_vararg)</span></a>
+<a name="1821"><span class="lineNum">    1821 </span><span class="lineCov">       1096 :           SETARG_C(*pc, p-&gt;numparams + 1);  /* signal that it is vararg */</span></a>
+<a name="1822"><span class="lineNum">    1822 </span><span class="lineCov">       1368 :         break;</span></a>
 <a name="1823"><span class="lineNum">    1823 </span>            :       }</a>
 <a name="1824"><span class="lineNum">    1824 </span><span class="lineCov">       2867 :       case OP_JMP: {</span></a>
 <a name="1825"><span class="lineNum">    1825 </span><span class="lineCov">       2867 :         int target = finaltarget(p-&gt;code, i);</span></a>
 <a name="1826"><span class="lineNum">    1826 </span><span class="lineCov">       2867 :         fixjump(fs, i, target);</span></a>
 <a name="1827"><span class="lineNum">    1827 </span><span class="lineCov">       2867 :         break;</span></a>
 <a name="1828"><span class="lineNum">    1828 </span>            :       }</a>
-<a name="1829"><span class="lineNum">    1829 </span><span class="lineCov">      54959 :       default: break;</span></a>
+<a name="1829"><span class="lineNum">    1829 </span><span class="lineCov">      54957 :       default: break;</span></a>
 <a name="1830"><span class="lineNum">    1830 </span>            :     }</a>
 <a name="1831"><span class="lineNum">    1831 </span>            :   }</a>
-<a name="1832"><span class="lineNum">    1832 </span><span class="lineCov">       2309 : }</span></a>
+<a name="1832"><span class="lineNum">    1832 </span><span class="lineCov">       2307 : }</span></a>
 </pre>
       </td>
     </tr>
