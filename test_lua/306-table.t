@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2023, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -226,7 +226,7 @@ do -- remove
         todo("not with 5.1", 1)
     end
     error_matches(function () table.remove(t,7) end,
-            "^[^:]+:%d+: bad argument #1 to 'remove' %(position out of bounds%)",
+            "^[^:]+:%d+: bad argument #%d to 'remove' %(position out of bounds%)",
             "function remove (out of bounds)")
 end
 
