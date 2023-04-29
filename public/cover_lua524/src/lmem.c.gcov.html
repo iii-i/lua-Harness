@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-04-22 14:13:43</td>
+            <td class="headerValue">2023-04-29 21:28:47</td>
             <td></td>
           </tr>
           <tr>
@@ -138,17 +138,17 @@
 <a name="72"><span class="lineNum">      72 </span>            : /*</a>
 <a name="73"><span class="lineNum">      73 </span>            : ** generic allocation routine.</a>
 <a name="74"><span class="lineNum">      74 </span>            : */</a>
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">     249640 : void *luaM_realloc_ (lua_State *L, void *block, size_t osize, size_t nsize) {</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">     249606 : void *luaM_realloc_ (lua_State *L, void *block, size_t osize, size_t nsize) {</span></a>
 <a name="76"><span class="lineNum">      76 </span>            :   void *newblock;</a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">     249640 :   global_State *g = G(L);</span></a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">     249640 :   size_t realosize = (block) ? osize : 0;</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">     249606 :   global_State *g = G(L);</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">     249606 :   size_t realosize = (block) ? osize : 0;</span></a>
 <a name="79"><span class="lineNum">      79 </span>            :   lua_assert((realosize == 0) == (block == NULL));</a>
 <a name="80"><span class="lineNum">      80 </span>            : #if defined(HARDMEMTESTS)</a>
 <a name="81"><span class="lineNum">      81 </span>            :   if (nsize &gt; realosize &amp;&amp; g-&gt;gcrunning)</a>
 <a name="82"><span class="lineNum">      82 </span>            :     luaC_fullgc(L, 1);  /* force a GC whenever possible */</a>
 <a name="83"><span class="lineNum">      83 </span>            : #endif</a>
-<a name="84"><span class="lineNum">      84 </span><span class="lineCov">     249640 :   newblock = (*g-&gt;frealloc)(g-&gt;ud, block, osize, nsize);</span></a>
-<a name="85"><span class="lineNum">      85 </span><span class="lineCov">     249640 :   if (newblock == NULL &amp;&amp; nsize &gt; 0) {</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">     249606 :   newblock = (*g-&gt;frealloc)(g-&gt;ud, block, osize, nsize);</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">     249606 :   if (newblock == NULL &amp;&amp; nsize &gt; 0) {</span></a>
 <a name="86"><span class="lineNum">      86 </span>            :     api_check(L, nsize &gt; realosize,</a>
 <a name="87"><span class="lineNum">      87 </span>            :                  &quot;realloc cannot fail when shrinking a block&quot;);</a>
 <a name="88"><span class="lineNum">      88 </span><span class="lineNoCov">          0 :     if (g-&gt;gcrunning) {</span></a>
@@ -159,8 +159,8 @@
 <a name="93"><span class="lineNum">      93 </span><span class="lineNoCov">          0 :       luaD_throw(L, LUA_ERRMEM);</span></a>
 <a name="94"><span class="lineNum">      94 </span>            :   }</a>
 <a name="95"><span class="lineNum">      95 </span>            :   lua_assert((nsize == 0) == (newblock == NULL));</a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">     249640 :   g-&gt;GCdebt = (g-&gt;GCdebt + nsize) - realosize;</span></a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">     249640 :   return newblock;</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">     249606 :   g-&gt;GCdebt = (g-&gt;GCdebt + nsize) - realosize;</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">     249606 :   return newblock;</span></a>
 <a name="98"><span class="lineNum">      98 </span>            : }</a>
 <a name="99"><span class="lineNum">      99 </span>            : </a>
 </pre>

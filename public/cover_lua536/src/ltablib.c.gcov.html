@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-04-22 14:13:46</td>
+            <td class="headerValue">2023-04-29 21:28:48</td>
             <td></td>
           </tr>
           <tr>
@@ -350,18 +350,18 @@
 <a name="284"><span class="lineNum">     284 </span>            : ** Return true iff value at stack index 'a' is less than the value at</a>
 <a name="285"><span class="lineNum">     285 </span>            : ** index 'b' (according to the order of the sort).</a>
 <a name="286"><span class="lineNum">     286 </span>            : */</a>
-<a name="287"><span class="lineNum">     287 </span><span class="lineCov">      91615 : static int sort_comp (lua_State *L, int a, int b) {</span></a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineCov">      91615 :   if (lua_isnil(L, 2))  /* no function? */</span></a>
-<a name="289"><span class="lineNum">     289 </span><span class="lineCov">      91609 :     return lua_compare(L, a, b, LUA_OPLT);  /* a &lt; b */</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">      91617 : static int sort_comp (lua_State *L, int a, int b) {</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">      91617 :   if (lua_isnil(L, 2))  /* no function? */</span></a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">      91610 :     return lua_compare(L, a, b, LUA_OPLT);  /* a &lt; b */</span></a>
 <a name="290"><span class="lineNum">     290 </span>            :   else {  /* function */</a>
 <a name="291"><span class="lineNum">     291 </span>            :     int res;</a>
-<a name="292"><span class="lineNum">     292 </span><span class="lineCov">          6 :     lua_pushvalue(L, 2);    /* push function */</span></a>
-<a name="293"><span class="lineNum">     293 </span><span class="lineCov">          6 :     lua_pushvalue(L, a-1);  /* -1 to compensate function */</span></a>
-<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          6 :     lua_pushvalue(L, b-2);  /* -2 to compensate function and 'a' */</span></a>
-<a name="295"><span class="lineNum">     295 </span><span class="lineCov">          6 :     lua_call(L, 2, 1);      /* call function */</span></a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          6 :     res = lua_toboolean(L, -1);  /* get result */</span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          6 :     lua_pop(L, 1);          /* pop result */</span></a>
-<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          6 :     return res;</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">          7 :     lua_pushvalue(L, 2);    /* push function */</span></a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">          7 :     lua_pushvalue(L, a-1);  /* -1 to compensate function */</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          7 :     lua_pushvalue(L, b-2);  /* -2 to compensate function and 'a' */</span></a>
+<a name="295"><span class="lineNum">     295 </span><span class="lineCov">          7 :     lua_call(L, 2, 1);      /* call function */</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          7 :     res = lua_toboolean(L, -1);  /* get result */</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          7 :     lua_pop(L, 1);          /* pop result */</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          7 :     return res;</span></a>
 <a name="299"><span class="lineNum">     299 </span>            :   }</a>
 <a name="300"><span class="lineNum">     300 </span>            : }</a>
 <a name="301"><span class="lineNum">     301 </span>            : </a>
@@ -429,9 +429,9 @@
 <a name="363"><span class="lineNum">     363 </span><span class="lineCov">      20509 :     lua_geti(L, 1, lo);</span></a>
 <a name="364"><span class="lineNum">     364 </span><span class="lineCov">      20509 :     lua_geti(L, 1, up);</span></a>
 <a name="365"><span class="lineNum">     365 </span><span class="lineCov">      20509 :     if (sort_comp(L, -1, -2))  /* a[up] &lt; a[lo]? */</span></a>
-<a name="366"><span class="lineNum">     366 </span><span class="lineCov">      10257 :       set2(L, lo, up);  /* swap a[lo] - a[up] */</span></a>
+<a name="366"><span class="lineNum">     366 </span><span class="lineCov">      10256 :       set2(L, lo, up);  /* swap a[lo] - a[up] */</span></a>
 <a name="367"><span class="lineNum">     367 </span>            :     else</a>
-<a name="368"><span class="lineNum">     368 </span><span class="lineCov">      10252 :       lua_pop(L, 2);  /* remove both values */</span></a>
+<a name="368"><span class="lineNum">     368 </span><span class="lineCov">      10253 :       lua_pop(L, 2);  /* remove both values */</span></a>
 <a name="369"><span class="lineNum">     369 </span><span class="lineCov">      20509 :     if (up - lo == 1)  /* only 2 elements? */</span></a>
 <a name="370"><span class="lineNum">     370 </span><span class="lineCov">       6602 :       return;  /* already sorted */</span></a>
 <a name="371"><span class="lineNum">     371 </span><span class="lineCov">      13907 :     if (up - lo &lt; RANLIMIT || rnd == 0)  /* small interval or no randomize? */</span></a>
@@ -441,14 +441,14 @@
 <a name="375"><span class="lineNum">     375 </span><span class="lineCov">      13907 :     lua_geti(L, 1, p);</span></a>
 <a name="376"><span class="lineNum">     376 </span><span class="lineCov">      13907 :     lua_geti(L, 1, lo);</span></a>
 <a name="377"><span class="lineNum">     377 </span><span class="lineCov">      13907 :     if (sort_comp(L, -2, -1))  /* a[p] &lt; a[lo]? */</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">       4638 :       set2(L, p, lo);  /* swap a[p] - a[lo] */</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">       4636 :       set2(L, p, lo);  /* swap a[p] - a[lo] */</span></a>
 <a name="379"><span class="lineNum">     379 </span>            :     else {</a>
-<a name="380"><span class="lineNum">     380 </span><span class="lineCov">       9269 :       lua_pop(L, 1);  /* remove a[lo] */</span></a>
-<a name="381"><span class="lineNum">     381 </span><span class="lineCov">       9269 :       lua_geti(L, 1, up);</span></a>
-<a name="382"><span class="lineNum">     382 </span><span class="lineCov">       9269 :       if (sort_comp(L, -1, -2))  /* a[up] &lt; a[p]? */</span></a>
-<a name="383"><span class="lineNum">     383 </span><span class="lineCov">       4634 :         set2(L, p, up);  /* swap a[up] - a[p] */</span></a>
+<a name="380"><span class="lineNum">     380 </span><span class="lineCov">       9271 :       lua_pop(L, 1);  /* remove a[lo] */</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">       9271 :       lua_geti(L, 1, up);</span></a>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">       9271 :       if (sort_comp(L, -1, -2))  /* a[up] &lt; a[p]? */</span></a>
+<a name="383"><span class="lineNum">     383 </span><span class="lineCov">       4637 :         set2(L, p, up);  /* swap a[up] - a[p] */</span></a>
 <a name="384"><span class="lineNum">     384 </span>            :       else</a>
-<a name="385"><span class="lineNum">     385 </span><span class="lineCov">       4635 :         lua_pop(L, 2);</span></a>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">       4634 :         lua_pop(L, 2);</span></a>
 <a name="386"><span class="lineNum">     386 </span>            :     }</a>
 <a name="387"><span class="lineNum">     387 </span><span class="lineCov">      13907 :     if (up - lo == 2)  /* only 3 elements? */</span></a>
 <a name="388"><span class="lineNum">     388 </span><span class="lineCov">       3970 :       return;  /* already sorted */</span></a>
