@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-04-29 21:28:48</td>
+            <td class="headerValue">2023-05-14 15:17:43</td>
             <td></td>
           </tr>
           <tr>
@@ -470,26 +470,26 @@
 <a name="404"><span class="lineNum">     404 </span>            : ** Main operation for equality of Lua values; return 't1 == t2'.</a>
 <a name="405"><span class="lineNum">     405 </span>            : ** L == NULL means raw equality (no metamethods)</a>
 <a name="406"><span class="lineNum">     406 </span>            : */</a>
-<a name="407"><span class="lineNum">     407 </span><span class="lineCov">      53359 : int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">      53216 : int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {</span></a>
 <a name="408"><span class="lineNum">     408 </span>            :   const TValue *tm;</a>
-<a name="409"><span class="lineNum">     409 </span><span class="lineCov">      53359 :   if (ttype(t1) != ttype(t2)) {  /* not the same variant? */</span></a>
-<a name="410"><span class="lineNum">     410 </span><span class="lineCov">       7194 :     if (ttnov(t1) != ttnov(t2) || ttnov(t1) != LUA_TNUMBER)</span></a>
-<a name="411"><span class="lineNum">     411 </span><span class="lineCov">       7147 :       return 0;  /* only numbers can be equal with different variants */</span></a>
+<a name="409"><span class="lineNum">     409 </span><span class="lineCov">      53216 :   if (ttype(t1) != ttype(t2)) {  /* not the same variant? */</span></a>
+<a name="410"><span class="lineNum">     410 </span><span class="lineCov">       6848 :     if (ttnov(t1) != ttnov(t2) || ttnov(t1) != LUA_TNUMBER)</span></a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">       6801 :       return 0;  /* only numbers can be equal with different variants */</span></a>
 <a name="412"><span class="lineNum">     412 </span>            :     else {  /* two numbers with different variants */</a>
 <a name="413"><span class="lineNum">     413 </span>            :       lua_Integer i1, i2;  /* compare them as integers */</a>
 <a name="414"><span class="lineNum">     414 </span><span class="lineCov">         47 :       return (tointeger(t1, &amp;i1) &amp;&amp; tointeger(t2, &amp;i2) &amp;&amp; i1 == i2);</span></a>
 <a name="415"><span class="lineNum">     415 </span>            :     }</a>
 <a name="416"><span class="lineNum">     416 </span>            :   }</a>
 <a name="417"><span class="lineNum">     417 </span>            :   /* values have same type and same variant */</a>
-<a name="418"><span class="lineNum">     418 </span><span class="lineCov">      46165 :   switch (ttype(t1)) {</span></a>
+<a name="418"><span class="lineNum">     418 </span><span class="lineCov">      46368 :   switch (ttype(t1)) {</span></a>
 <a name="419"><span class="lineNum">     419 </span><span class="lineCov">        185 :     case LUA_TNIL: return 1;</span></a>
 <a name="420"><span class="lineNum">     420 </span><span class="lineCov">       2922 :     case LUA_TNUMINT: return (ivalue(t1) == ivalue(t2));</span></a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        223 :     case LUA_TNUMFLT: return luai_numeq(fltvalue(t1), fltvalue(t2));</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        226 :     case LUA_TNUMFLT: return luai_numeq(fltvalue(t1), fltvalue(t2));</span></a>
 <a name="422"><span class="lineNum">     422 </span><span class="lineCov">        315 :     case LUA_TBOOLEAN: return bvalue(t1) == bvalue(t2);  /* true must be 1 !! */</span></a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineCov">       3131 :     case LUA_TLIGHTUSERDATA: return pvalue(t1) == pvalue(t2);</span></a>
-<a name="424"><span class="lineNum">     424 </span><span class="lineCov">        903 :     case LUA_TLCF: return fvalue(t1) == fvalue(t2);</span></a>
-<a name="425"><span class="lineNum">     425 </span><span class="lineCov">      35922 :     case LUA_TSHRSTR: return eqshrstr(tsvalue(t1), tsvalue(t2));</span></a>
-<a name="426"><span class="lineNum">     426 </span><span class="lineCov">        762 :     case LUA_TLNGSTR: return luaS_eqlngstr(tsvalue(t1), tsvalue(t2));</span></a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">       3189 :     case LUA_TLIGHTUSERDATA: return pvalue(t1) == pvalue(t2);</span></a>
+<a name="424"><span class="lineNum">     424 </span><span class="lineCov">        948 :     case LUA_TLCF: return fvalue(t1) == fvalue(t2);</span></a>
+<a name="425"><span class="lineNum">     425 </span><span class="lineCov">      36009 :     case LUA_TSHRSTR: return eqshrstr(tsvalue(t1), tsvalue(t2));</span></a>
+<a name="426"><span class="lineNum">     426 </span><span class="lineCov">        772 :     case LUA_TLNGSTR: return luaS_eqlngstr(tsvalue(t1), tsvalue(t2));</span></a>
 <a name="427"><span class="lineNum">     427 </span><span class="lineCov">         11 :     case LUA_TUSERDATA: {</span></a>
 <a name="428"><span class="lineNum">     428 </span><span class="lineCov">         11 :       if (uvalue(t1) == uvalue(t2)) return 1;</span></a>
 <a name="429"><span class="lineNum">     429 </span><span class="lineCov">          1 :       else if (L == NULL) return 0;</span></a>
@@ -676,16 +676,16 @@
 <a name="610"><span class="lineNum">     610 </span><span class="lineCov">       3025 : static LClosure *getcached (Proto *p, UpVal **encup, StkId base) {</span></a>
 <a name="611"><span class="lineNum">     611 </span><span class="lineCov">       3025 :   LClosure *c = p-&gt;cache;</span></a>
 <a name="612"><span class="lineNum">     612 </span><span class="lineCov">       3025 :   if (c != NULL) {  /* is there a cached closure? */</span></a>
-<a name="613"><span class="lineNum">     613 </span><span class="lineCov">        862 :     int nup = p-&gt;sizeupvalues;</span></a>
-<a name="614"><span class="lineNum">     614 </span><span class="lineCov">        862 :     Upvaldesc *uv = p-&gt;upvalues;</span></a>
+<a name="613"><span class="lineNum">     613 </span><span class="lineCov">        856 :     int nup = p-&gt;sizeupvalues;</span></a>
+<a name="614"><span class="lineNum">     614 </span><span class="lineCov">        856 :     Upvaldesc *uv = p-&gt;upvalues;</span></a>
 <a name="615"><span class="lineNum">     615 </span>            :     int i;</a>
-<a name="616"><span class="lineNum">     616 </span><span class="lineCov">       1116 :     for (i = 0; i &lt; nup; i++) {  /* check whether it has right upvalues */</span></a>
-<a name="617"><span class="lineNum">     617 </span><span class="lineCov">       1114 :       TValue *v = uv[i].instack ? base + uv[i].idx : encup[uv[i].idx]-&gt;v;</span></a>
-<a name="618"><span class="lineNum">     618 </span><span class="lineCov">       1114 :       if (c-&gt;upvals[i]-&gt;v != v)</span></a>
-<a name="619"><span class="lineNum">     619 </span><span class="lineCov">        860 :         return NULL;  /* wrong upvalue; cannot reuse closure */</span></a>
+<a name="616"><span class="lineNum">     616 </span><span class="lineCov">       1110 :     for (i = 0; i &lt; nup; i++) {  /* check whether it has right upvalues */</span></a>
+<a name="617"><span class="lineNum">     617 </span><span class="lineCov">       1108 :       TValue *v = uv[i].instack ? base + uv[i].idx : encup[uv[i].idx]-&gt;v;</span></a>
+<a name="618"><span class="lineNum">     618 </span><span class="lineCov">       1108 :       if (c-&gt;upvals[i]-&gt;v != v)</span></a>
+<a name="619"><span class="lineNum">     619 </span><span class="lineCov">        854 :         return NULL;  /* wrong upvalue; cannot reuse closure */</span></a>
 <a name="620"><span class="lineNum">     620 </span>            :     }</a>
 <a name="621"><span class="lineNum">     621 </span>            :   }</a>
-<a name="622"><span class="lineNum">     622 </span><span class="lineCov">       2165 :   return c;  /* return cached closure (or NULL if no cached closure) */</span></a>
+<a name="622"><span class="lineNum">     622 </span><span class="lineCov">       2171 :   return c;  /* return cached closure (or NULL if no cached closure) */</span></a>
 <a name="623"><span class="lineNum">     623 </span>            : }</a>
 <a name="624"><span class="lineNum">     624 </span>            : </a>
 <a name="625"><span class="lineNum">     625 </span>            : </a>
@@ -712,7 +712,7 @@
 <a name="646"><span class="lineNum">     646 </span>            :     /* new closure is white, so we do not need a barrier here */</a>
 <a name="647"><span class="lineNum">     647 </span>            :   }</a>
 <a name="648"><span class="lineNum">     648 </span><span class="lineCov">       3023 :   if (!isblack(p))  /* cache will not break GC invariant? */</span></a>
-<a name="649"><span class="lineNum">     649 </span><span class="lineCov">       2091 :     p-&gt;cache = ncl;  /* save it on cache for reuse */</span></a>
+<a name="649"><span class="lineNum">     649 </span><span class="lineCov">       2089 :     p-&gt;cache = ncl;  /* save it on cache for reuse */</span></a>
 <a name="650"><span class="lineNum">     650 </span><span class="lineCov">       3023 : }</span></a>
 <a name="651"><span class="lineNum">     651 </span>            : </a>
 <a name="652"><span class="lineNum">     652 </span>            : </a>
