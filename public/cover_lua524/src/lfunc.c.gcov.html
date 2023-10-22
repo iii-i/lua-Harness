@@ -31,13 +31,13 @@
             <td class="headerValue">Lua 5.2.4</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">92</td>
             <td class="headerCovTableEntry">93</td>
-            <td class="headerCovTableEntryHi">98.9 %</td>
+            <td class="headerCovTableEntry">93</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-05-14 15:17:42</td>
+            <td class="headerValue">2023-10-22 21:59:18</td>
             <td></td>
           </tr>
           <tr>
@@ -121,7 +121,7 @@
 <a name="55"><span class="lineNum">      55 </span>            :     lua_assert(!isold(o) || isold(obj2gco(L)));</a>
 <a name="56"><span class="lineNum">      56 </span><span class="lineCov">       9459 :     if (p-&gt;v == level) {  /* found a corresponding upvalue? */</span></a>
 <a name="57"><span class="lineNum">      57 </span><span class="lineCov">       1164 :       if (isdead(g, o))  /* is it dead? */</span></a>
-<a name="58"><span class="lineNum">      58 </span><span class="lineNoCov">          0 :         changewhite(o);  /* resurrect it */</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          1 :         changewhite(o);  /* resurrect it */</span></a>
 <a name="59"><span class="lineNum">      59 </span><span class="lineCov">       1164 :       return p;</span></a>
 <a name="60"><span class="lineNum">      60 </span>            :     }</a>
 <a name="61"><span class="lineNum">      61 </span><span class="lineCov">       8295 :     pp = &amp;p-&gt;next;</span></a>
@@ -147,7 +147,7 @@
 <a name="81"><span class="lineNum">      81 </span>            : </a>
 <a name="82"><span class="lineNum">      82 </span><span class="lineCov">       6048 : void luaF_freeupval (lua_State *L, UpVal *uv) {</span></a>
 <a name="83"><span class="lineNum">      83 </span><span class="lineCov">       6048 :   if (uv-&gt;v != &amp;uv-&gt;u.value)  /* is it open? */</span></a>
-<a name="84"><span class="lineNum">      84 </span><span class="lineCov">          3 :     unlinkupval(uv);  /* remove from open list */</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">          4 :     unlinkupval(uv);  /* remove from open list */</span></a>
 <a name="85"><span class="lineNum">      85 </span><span class="lineCov">       6048 :   luaM_free(L, uv);  /* free upvalue */</span></a>
 <a name="86"><span class="lineNum">      86 </span><span class="lineCov">       6048 : }</span></a>
 <a name="87"><span class="lineNum">      87 </span>            : </a>
@@ -160,41 +160,41 @@
 <a name="94"><span class="lineNum">      94 </span>            :     lua_assert(!isblack(o) &amp;&amp; uv-&gt;v != &amp;uv-&gt;u.value);</a>
 <a name="95"><span class="lineNum">      95 </span><span class="lineCov">       5706 :     L-&gt;openupval = uv-&gt;next;  /* remove from `open' list */</span></a>
 <a name="96"><span class="lineNum">      96 </span><span class="lineCov">       5706 :     if (isdead(g, o))</span></a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">          2 :       luaF_freeupval(L, uv);  /* free upvalue */</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">          3 :       luaF_freeupval(L, uv);  /* free upvalue */</span></a>
 <a name="98"><span class="lineNum">      98 </span>            :     else {</a>
-<a name="99"><span class="lineNum">      99 </span><span class="lineCov">       5704 :       unlinkupval(uv);  /* remove upvalue from 'uvhead' list */</span></a>
-<a name="100"><span class="lineNum">     100 </span><span class="lineCov">       5704 :       setobj(L, &amp;uv-&gt;u.value, uv-&gt;v);  /* move value to upvalue slot */</span></a>
-<a name="101"><span class="lineNum">     101 </span><span class="lineCov">       5704 :       uv-&gt;v = &amp;uv-&gt;u.value;  /* now current value lives here */</span></a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">       5704 :       gch(o)-&gt;next = g-&gt;allgc;  /* link upvalue into 'allgc' list */</span></a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineCov">       5704 :       g-&gt;allgc = o;</span></a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">       5704 :       luaC_checkupvalcolor(g, uv);</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">       5703 :       unlinkupval(uv);  /* remove upvalue from 'uvhead' list */</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">       5703 :       setobj(L, &amp;uv-&gt;u.value, uv-&gt;v);  /* move value to upvalue slot */</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">       5703 :       uv-&gt;v = &amp;uv-&gt;u.value;  /* now current value lives here */</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">       5703 :       gch(o)-&gt;next = g-&gt;allgc;  /* link upvalue into 'allgc' list */</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">       5703 :       g-&gt;allgc = o;</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">       5703 :       luaC_checkupvalcolor(g, uv);</span></a>
 <a name="105"><span class="lineNum">     105 </span>            :     }</a>
 <a name="106"><span class="lineNum">     106 </span>            :   }</a>
 <a name="107"><span class="lineNum">     107 </span><span class="lineCov">       2059 : }</span></a>
 <a name="108"><span class="lineNum">     108 </span>            : </a>
 <a name="109"><span class="lineNum">     109 </span>            : </a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">       2210 : Proto *luaF_newproto (lua_State *L) {</span></a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">       2210 :   Proto *f = &amp;luaC_newobj(L, LUA_TPROTO, sizeof(Proto), NULL, 0)-&gt;p;</span></a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">       2210 :   f-&gt;k = NULL;</span></a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">       2210 :   f-&gt;sizek = 0;</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">       2210 :   f-&gt;p = NULL;</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       2210 :   f-&gt;sizep = 0;</span></a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">       2210 :   f-&gt;code = NULL;</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">       2210 :   f-&gt;cache = NULL;</span></a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">       2210 :   f-&gt;sizecode = 0;</span></a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       2210 :   f-&gt;lineinfo = NULL;</span></a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">       2210 :   f-&gt;sizelineinfo = 0;</span></a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">       2210 :   f-&gt;upvalues = NULL;</span></a>
-<a name="122"><span class="lineNum">     122 </span><span class="lineCov">       2210 :   f-&gt;sizeupvalues = 0;</span></a>
-<a name="123"><span class="lineNum">     123 </span><span class="lineCov">       2210 :   f-&gt;numparams = 0;</span></a>
-<a name="124"><span class="lineNum">     124 </span><span class="lineCov">       2210 :   f-&gt;is_vararg = 0;</span></a>
-<a name="125"><span class="lineNum">     125 </span><span class="lineCov">       2210 :   f-&gt;maxstacksize = 0;</span></a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineCov">       2210 :   f-&gt;locvars = NULL;</span></a>
-<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       2210 :   f-&gt;sizelocvars = 0;</span></a>
-<a name="128"><span class="lineNum">     128 </span><span class="lineCov">       2210 :   f-&gt;linedefined = 0;</span></a>
-<a name="129"><span class="lineNum">     129 </span><span class="lineCov">       2210 :   f-&gt;lastlinedefined = 0;</span></a>
-<a name="130"><span class="lineNum">     130 </span><span class="lineCov">       2210 :   f-&gt;source = NULL;</span></a>
-<a name="131"><span class="lineNum">     131 </span><span class="lineCov">       2210 :   return f;</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">       2211 : Proto *luaF_newproto (lua_State *L) {</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">       2211 :   Proto *f = &amp;luaC_newobj(L, LUA_TPROTO, sizeof(Proto), NULL, 0)-&gt;p;</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">       2211 :   f-&gt;k = NULL;</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">       2211 :   f-&gt;sizek = 0;</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">       2211 :   f-&gt;p = NULL;</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       2211 :   f-&gt;sizep = 0;</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">       2211 :   f-&gt;code = NULL;</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">       2211 :   f-&gt;cache = NULL;</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">       2211 :   f-&gt;sizecode = 0;</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       2211 :   f-&gt;lineinfo = NULL;</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">       2211 :   f-&gt;sizelineinfo = 0;</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">       2211 :   f-&gt;upvalues = NULL;</span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">       2211 :   f-&gt;sizeupvalues = 0;</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">       2211 :   f-&gt;numparams = 0;</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">       2211 :   f-&gt;is_vararg = 0;</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">       2211 :   f-&gt;maxstacksize = 0;</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">       2211 :   f-&gt;locvars = NULL;</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       2211 :   f-&gt;sizelocvars = 0;</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">       2211 :   f-&gt;linedefined = 0;</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">       2211 :   f-&gt;lastlinedefined = 0;</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">       2211 :   f-&gt;source = NULL;</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">       2211 :   return f;</span></a>
 <a name="132"><span class="lineNum">     132 </span>            : }</a>
 <a name="133"><span class="lineNum">     133 </span>            : </a>
 <a name="134"><span class="lineNum">     134 </span>            : </a>
