@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2023, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -35,6 +35,7 @@ local profile = require'profile'
 local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
 local has_write51 = _VERSION == 'Lua 5.1' and not profile.luajit_compat52
 local has_lines52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
+local has_lines54 = _VERSION >= 'Lua 5.4'
 local has_read52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_read53 = _VERSION >= 'Lua 5.3' or luajit21
 local has_meta53 = _VERSION >= 'Lua 5.3'
@@ -215,6 +216,15 @@ do -- lines
     error_matches(function () io.lines('file-308.no') end,
             "No such file or directory",
             "function lines(no filename)")
+
+    if has_lines54 then
+        local iter, nil1, nil2, file = io.lines('file-308.txt')
+        is_function(iter)
+        is_nil(nil1)
+        is_nil(nil2)
+        equals(io.type(file), 'file', "file created by lines")
+        file:close()
+    end
 end
 
 do -- tmpfile
