@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2024, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -32,6 +32,7 @@ L<https://www.lua.org/manual/5.4/manual.html#6.10>
 
 require 'test_assertion'
 local profile = require'profile'
+local has_dump53 = _VERSION >= 'Lua 5.3' or jit
 local has_getfenv = _VERSION == 'Lua 5.1'
 local has_gethook54 = _VERSION >= 'Lua 5.4'
 local has_getlocal52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
@@ -41,6 +42,7 @@ local has_setcstacklimit = _VERSION >= 'Lua 5.4'
 local has_setmetatable52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_upvalueid = _VERSION >= 'Lua 5.2' or jit
 local has_upvaluejoin = _VERSION >= 'Lua 5.2' or jit
+local loadstring = loadstring or load
 
 if not debug then
     skip_all("no debug")
@@ -86,6 +88,13 @@ do -- getinfo
     error_matches(function () debug.getinfo(equals, 'X') end,
             "bad argument #2 to 'getinfo' %(invalid option%)",
             "function getinfo (bad opt)")
+
+    local f1 = loadstring('print[[hello]]')
+    is_table(debug.getinfo(f1, 'L'))
+    if has_dump53 then
+        local f2 = loadstring(string.dump(f1, true))
+        is_table(debug.getinfo(f2, 'L'), "segfault 5.4.4 to 5.4.7-rc1")
+    end
 end
 
 do -- getlocal
