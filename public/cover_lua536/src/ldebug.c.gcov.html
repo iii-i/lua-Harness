@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-04-28 10:23:15</td>
+            <td class="headerValue">2024-06-29 17:17:29</td>
             <td></td>
           </tr>
           <tr>
@@ -125,14 +125,14 @@
 <span id="L59"><span class="lineNum">      59</span>              : ** purposes. (It exchanges 'func' and 'extra'; so, when called again,</span>
 <span id="L60"><span class="lineNum">      60</span>              : ** after debugging, it also &quot;re-restores&quot; ** 'func' to its altered value.</span>
 <span id="L61"><span class="lineNum">      61</span>              : */</span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">         566 : static void swapextra (lua_State *L) {</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">         566 :   if (L-&gt;status == LUA_YIELD) {</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">         570 : static void swapextra (lua_State *L) {</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">         570 :   if (L-&gt;status == LUA_YIELD) {</span></span>
 <span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC tlaBgUNC">           0 :     CallInfo *ci = L-&gt;ci;  /* get function that yielded */</span></span>
 <span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :     StkId temp = ci-&gt;func;  /* exchange its 'func' and 'extra' values */</span></span>
 <span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :     ci-&gt;func = restorestack(L, ci-&gt;extra);</span></span>
 <span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :     ci-&gt;extra = savestack(L, temp);</span></span>
 <span id="L68"><span class="lineNum">      68</span>              :   }</span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC tlaBgGNC">         566 : }</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC tlaBgGNC">         570 : }</span></span>
 <span id="L70"><span class="lineNum">      70</span>              : </span>
 <span id="L71"><span class="lineNum">      71</span>              : </span>
 <span id="L72"><span class="lineNum">      72</span>              : /*</span>
@@ -293,23 +293,23 @@
 <span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">         192 : }</span></span>
 <span id="L228"><span class="lineNum">     228</span>              : </span>
 <span id="L229"><span class="lineNum">     229</span>              : </span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           1 : static void collectvalidlines (lua_State *L, Closure *f) {</span></span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">           1 :   if (noLuaClosure(f)) {</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           3 : static void collectvalidlines (lua_State *L, Closure *f) {</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">           3 :   if (noLuaClosure(f)) {</span></span>
 <span id="L232"><span class="lineNum">     232</span> <span class="tlaUNC tlaBgUNC">           0 :     setnilvalue(L-&gt;top);</span></span>
 <span id="L233"><span class="lineNum">     233</span> <span class="tlaUNC">           0 :     api_incr_top(L);</span></span>
 <span id="L234"><span class="lineNum">     234</span>              :   }</span>
 <span id="L235"><span class="lineNum">     235</span>              :   else {</span>
 <span id="L236"><span class="lineNum">     236</span>              :     int i;</span>
 <span id="L237"><span class="lineNum">     237</span>              :     TValue v;</span>
-<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC tlaBgGNC">           1 :     int *lineinfo = f-&gt;l.p-&gt;lineinfo;</span></span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">           1 :     Table *t = luaH_new(L);  /* new table to store active lines */</span></span>
-<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">           1 :     sethvalue(L, L-&gt;top, t);  /* push it on stack */</span></span>
-<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">           1 :     api_incr_top(L);</span></span>
-<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">           1 :     setbvalue(&amp;v, 1);  /* boolean 'true' to be the value of all indices */</span></span>
-<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">          26 :     for (i = 0; i &lt; f-&gt;l.p-&gt;sizelineinfo; i++)  /* for all lines with code */</span></span>
-<span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">          25 :       luaH_setint(L, t, lineinfo[i], &amp;v);  /* table[line] = true */</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC tlaBgGNC">           3 :     int *lineinfo = f-&gt;l.p-&gt;lineinfo;</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">           3 :     Table *t = luaH_new(L);  /* new table to store active lines */</span></span>
+<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">           3 :     sethvalue(L, L-&gt;top, t);  /* push it on stack */</span></span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">           3 :     api_incr_top(L);</span></span>
+<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">           3 :     setbvalue(&amp;v, 1);  /* boolean 'true' to be the value of all indices */</span></span>
+<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">          32 :     for (i = 0; i &lt; f-&gt;l.p-&gt;sizelineinfo; i++)  /* for all lines with code */</span></span>
+<span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">          29 :       luaH_setint(L, t, lineinfo[i], &amp;v);  /* table[line] = true */</span></span>
 <span id="L245"><span class="lineNum">     245</span>              :   }</span>
-<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">           3 : }</span></span>
 <span id="L247"><span class="lineNum">     247</span>              : </span>
 <span id="L248"><span class="lineNum">     248</span>              : </span>
 <span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">          86 : static const char *getfuncname (lua_State *L, CallInfo *ci, const char **name) {</span></span>
@@ -326,11 +326,11 @@
 <span id="L260"><span class="lineNum">     260</span>              : }</span>
 <span id="L261"><span class="lineNum">     261</span>              : </span>
 <span id="L262"><span class="lineNum">     262</span>              : </span>
-<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">         279 : static int auxgetinfo (lua_State *L, const char *what, lua_Debug *ar,</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">         281 : static int auxgetinfo (lua_State *L, const char *what, lua_Debug *ar,</span></span>
 <span id="L264"><span class="lineNum">     264</span>              :                        Closure *f, CallInfo *ci) {</span>
-<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         279 :   int status = 1;</span></span>
-<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         784 :   for (; *what; what++) {</span></span>
-<span id="L267"><span class="lineNum">     267</span> <span class="tlaGNC">         505 :     switch (*what) {</span></span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         281 :   int status = 1;</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         788 :   for (; *what; what++) {</span></span>
+<span id="L267"><span class="lineNum">     267</span> <span class="tlaGNC">         507 :     switch (*what) {</span></span>
 <span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">         192 :       case 'S': {</span></span>
 <span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">         192 :         funcinfo(ar, f);</span></span>
 <span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">         192 :         break;</span></span>
@@ -363,46 +363,46 @@
 <span id="L297"><span class="lineNum">     297</span>              :         }</span>
 <span id="L298"><span class="lineNum">     298</span> <span class="tlaGNC">          86 :         break;</span></span>
 <span id="L299"><span class="lineNum">     299</span>              :       }</span>
-<span id="L300"><span class="lineNum">     300</span> <span class="tlaGNC">          17 :       case 'L':</span></span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaGNC">          19 :       case 'L':</span></span>
 <span id="L301"><span class="lineNum">     301</span>              :       case 'f':  /* handled by lua_getinfo */</span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">          17 :         break;</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">          19 :         break;</span></span>
 <span id="L303"><span class="lineNum">     303</span> <span class="tlaGNC">           1 :       default: status = 0;  /* invalid option */</span></span>
 <span id="L304"><span class="lineNum">     304</span>              :     }</span>
 <span id="L305"><span class="lineNum">     305</span>              :   }</span>
-<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">         279 :   return status;</span></span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">         281 :   return status;</span></span>
 <span id="L307"><span class="lineNum">     307</span>              : }</span>
 <span id="L308"><span class="lineNum">     308</span>              : </span>
 <span id="L309"><span class="lineNum">     309</span>              : </span>
-<span id="L310"><span class="lineNum">     310</span> <span class="tlaGNC">         279 : LUA_API int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar) {</span></span>
+<span id="L310"><span class="lineNum">     310</span> <span class="tlaGNC">         281 : LUA_API int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar) {</span></span>
 <span id="L311"><span class="lineNum">     311</span>              :   int status;</span>
 <span id="L312"><span class="lineNum">     312</span>              :   Closure *cl;</span>
 <span id="L313"><span class="lineNum">     313</span>              :   CallInfo *ci;</span>
 <span id="L314"><span class="lineNum">     314</span>              :   StkId func;</span>
 <span id="L315"><span class="lineNum">     315</span>              :   lua_lock(L);</span>
-<span id="L316"><span class="lineNum">     316</span> <span class="tlaGNC">         279 :   swapextra(L);</span></span>
-<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">         279 :   if (*what == '&gt;') {</span></span>
-<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">           3 :     ci = NULL;</span></span>
-<span id="L319"><span class="lineNum">     319</span> <span class="tlaGNC">           3 :     func = L-&gt;top - 1;</span></span>
+<span id="L316"><span class="lineNum">     316</span> <span class="tlaGNC">         281 :   swapextra(L);</span></span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">         281 :   if (*what == '&gt;') {</span></span>
+<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">           5 :     ci = NULL;</span></span>
+<span id="L319"><span class="lineNum">     319</span> <span class="tlaGNC">           5 :     func = L-&gt;top - 1;</span></span>
 <span id="L320"><span class="lineNum">     320</span>              :     api_check(L, ttisfunction(func), &quot;function expected&quot;);</span>
-<span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">           3 :     what++;  /* skip the '&gt;' */</span></span>
-<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">           3 :     L-&gt;top--;  /* pop function */</span></span>
+<span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">           5 :     what++;  /* skip the '&gt;' */</span></span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">           5 :     L-&gt;top--;  /* pop function */</span></span>
 <span id="L323"><span class="lineNum">     323</span>              :   }</span>
 <span id="L324"><span class="lineNum">     324</span>              :   else {</span>
 <span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">         276 :     ci = ar-&gt;i_ci;</span></span>
 <span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">         276 :     func = ci-&gt;func;</span></span>
 <span id="L327"><span class="lineNum">     327</span>              :     lua_assert(ttisfunction(ci-&gt;func));</span>
 <span id="L328"><span class="lineNum">     328</span>              :   }</span>
-<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">         279 :   cl = ttisclosure(func) ? clvalue(func) : NULL;</span></span>
-<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">         279 :   status = auxgetinfo(L, what, ar, cl, ci);</span></span>
-<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">         279 :   if (strchr(what, 'f')) {</span></span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">         281 :   cl = ttisclosure(func) ? clvalue(func) : NULL;</span></span>
+<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">         281 :   status = auxgetinfo(L, what, ar, cl, ci);</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">         281 :   if (strchr(what, 'f')) {</span></span>
 <span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">          16 :     setobjs2s(L, L-&gt;top, func);</span></span>
 <span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">          16 :     api_incr_top(L);</span></span>
 <span id="L334"><span class="lineNum">     334</span>              :   }</span>
-<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">         279 :   swapextra(L);  /* correct before option 'L', which can raise a mem. error */</span></span>
-<span id="L336"><span class="lineNum">     336</span> <span class="tlaGNC">         279 :   if (strchr(what, 'L'))</span></span>
-<span id="L337"><span class="lineNum">     337</span> <span class="tlaGNC">           1 :     collectvalidlines(L, cl);</span></span>
+<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">         281 :   swapextra(L);  /* correct before option 'L', which can raise a mem. error */</span></span>
+<span id="L336"><span class="lineNum">     336</span> <span class="tlaGNC">         281 :   if (strchr(what, 'L'))</span></span>
+<span id="L337"><span class="lineNum">     337</span> <span class="tlaGNC">           3 :     collectvalidlines(L, cl);</span></span>
 <span id="L338"><span class="lineNum">     338</span>              :   lua_unlock(L);</span>
-<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">         279 :   return status;</span></span>
+<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">         281 :   return status;</span></span>
 <span id="L340"><span class="lineNum">     340</span>              : }</span>
 <span id="L341"><span class="lineNum">     341</span>              : </span>
 <span id="L342"><span class="lineNum">     342</span>              : </span>

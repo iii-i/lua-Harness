@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-04-28 10:23:15</td>
+            <td class="headerValue">2024-06-29 17:17:29</td>
             <td></td>
           </tr>
           <tr>
@@ -103,31 +103,31 @@
 <span id="L37"><span class="lineNum">      37</span>              : /*</span>
 <span id="L38"><span class="lineNum">      38</span>              : ** equality for long strings</span>
 <span id="L39"><span class="lineNum">      39</span>              : */</span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC tlaBgGNC">         754 : int luaS_eqlngstr (TString *a, TString *b) {</span></span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">         754 :   size_t len = a-&gt;u.lnglen;</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC tlaBgGNC">         751 : int luaS_eqlngstr (TString *a, TString *b) {</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">         751 :   size_t len = a-&gt;u.lnglen;</span></span>
 <span id="L42"><span class="lineNum">      42</span>              :   lua_assert(a-&gt;tt == LUA_TLNGSTR &amp;&amp; b-&gt;tt == LUA_TLNGSTR);</span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">         956 :   return (a == b) ||  /* same instance or... */</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">         202 :     ((len == b-&gt;u.lnglen) &amp;&amp;  /* equal length and ... */</span></span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">         186 :      (memcmp(getstr(a), getstr(b), len) == 0));  /* equal contents */</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">         950 :   return (a == b) ||  /* same instance or... */</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">         199 :     ((len == b-&gt;u.lnglen) &amp;&amp;  /* equal length and ... */</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">         187 :      (memcmp(getstr(a), getstr(b), len) == 0));  /* equal contents */</span></span>
 <span id="L46"><span class="lineNum">      46</span>              : }</span>
 <span id="L47"><span class="lineNum">      47</span>              : </span>
 <span id="L48"><span class="lineNum">      48</span>              : </span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">      126843 : unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">      126843 :   unsigned int h = seed ^ cast(unsigned int, l);</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">      126843 :   size_t step = (l &gt;&gt; LUAI_HASHLIMIT) + 1;</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">      944106 :   for (; l &gt;= step; l -= step)</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">      817263 :     h ^= ((h&lt;&lt;5) + (h&gt;&gt;2) + cast_byte(str[l - 1]));</span></span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">      126843 :   return h;</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">      126922 : unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">      126922 :   unsigned int h = seed ^ cast(unsigned int, l);</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">      126922 :   size_t step = (l &gt;&gt; LUAI_HASHLIMIT) + 1;</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">      944619 :   for (; l &gt;= step; l -= step)</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">      817697 :     h ^= ((h&lt;&lt;5) + (h&gt;&gt;2) + cast_byte(str[l - 1]));</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">      126922 :   return h;</span></span>
 <span id="L55"><span class="lineNum">      55</span>              : }</span>
 <span id="L56"><span class="lineNum">      56</span>              : </span>
 <span id="L57"><span class="lineNum">      57</span>              : </span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">        1452 : unsigned int luaS_hashlongstr (TString *ts) {</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">        1455 : unsigned int luaS_hashlongstr (TString *ts) {</span></span>
 <span id="L59"><span class="lineNum">      59</span>              :   lua_assert(ts-&gt;tt == LUA_TLNGSTR);</span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">        1452 :   if (ts-&gt;extra == 0) {  /* no hash? */</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">        1455 :   if (ts-&gt;extra == 0) {  /* no hash? */</span></span>
 <span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">         386 :     ts-&gt;hash = luaS_hash(getstr(ts), ts-&gt;u.lnglen, ts-&gt;hash);</span></span>
 <span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">         386 :     ts-&gt;extra = 1;  /* now it has its hash */</span></span>
 <span id="L63"><span class="lineNum">      63</span>              :   }</span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">        1452 :   return ts-&gt;hash;</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">        1455 :   return ts-&gt;hash;</span></span>
 <span id="L65"><span class="lineNum">      65</span>              : }</span>
 <span id="L66"><span class="lineNum">      66</span>              : </span>
 <span id="L67"><span class="lineNum">      67</span>              : </span>
@@ -145,12 +145,12 @@
 <span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">       68123 :   for (i = 0; i &lt; tb-&gt;size; i++) {  /* rehash */</span></span>
 <span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">       67840 :     TString *p = tb-&gt;hash[i];</span></span>
 <span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">       67840 :     tb-&gt;hash[i] = NULL;</span></span>
-<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">      118430 :     while (p) {  /* for each node in the list */</span></span>
-<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">       50590 :       TString *hnext = p-&gt;u.hnext;  /* save next */</span></span>
-<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">       50590 :       unsigned int h = lmod(p-&gt;hash, newsize);  /* new position */</span></span>
-<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">       50590 :       p-&gt;u.hnext = tb-&gt;hash[h];  /* chain it */</span></span>
-<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">       50590 :       tb-&gt;hash[h] = p;</span></span>
-<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">       50590 :       p = hnext;</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">      118436 :     while (p) {  /* for each node in the list */</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">       50596 :       TString *hnext = p-&gt;u.hnext;  /* save next */</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">       50596 :       unsigned int h = lmod(p-&gt;hash, newsize);  /* new position */</span></span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">       50596 :       p-&gt;u.hnext = tb-&gt;hash[h];  /* chain it */</span></span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">       50596 :       tb-&gt;hash[h] = p;</span></span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">       50596 :       p = hnext;</span></span>
 <span id="L88"><span class="lineNum">      88</span>              :     }</span>
 <span id="L89"><span class="lineNum">      89</span>              :   }</span>
 <span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">         283 :   if (newsize &lt; tb-&gt;size) {  /* shrink table if needed */</span></span>
@@ -171,7 +171,7 @@
 <span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">       13230 :   for (i = 0; i &lt; STRCACHE_N; i++)</span></span>
 <span id="L106"><span class="lineNum">     106</span> <span class="tlaGNC">       38955 :     for (j = 0; j &lt; STRCACHE_M; j++) {</span></span>
 <span id="L107"><span class="lineNum">     107</span> <span class="tlaGNC">       25970 :     if (iswhite(g-&gt;strcache[i][j]))  /* will entry be collected? */</span></span>
-<span id="L108"><span class="lineNum">     108</span> <span class="tlaGNC">         354 :       g-&gt;strcache[i][j] = g-&gt;memerrmsg;  /* replace it with something fixed */</span></span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaGNC">         365 :       g-&gt;strcache[i][j] = g-&gt;memerrmsg;  /* replace it with something fixed */</span></span>
 <span id="L109"><span class="lineNum">     109</span>              :     }</span>
 <span id="L110"><span class="lineNum">     110</span> <span class="tlaGNC">         245 : }</span></span>
 <span id="L111"><span class="lineNum">     111</span>              : </span>
@@ -196,82 +196,82 @@
 <span id="L130"><span class="lineNum">     130</span>              : /*</span>
 <span id="L131"><span class="lineNum">     131</span>              : ** creates a new string object</span>
 <span id="L132"><span class="lineNum">     132</span>              : */</span>
-<span id="L133"><span class="lineNum">     133</span> <span class="tlaGNC">       50301 : static TString *createstrobj (lua_State *L, size_t l, int tag, unsigned int h) {</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaGNC">       50312 : static TString *createstrobj (lua_State *L, size_t l, int tag, unsigned int h) {</span></span>
 <span id="L134"><span class="lineNum">     134</span>              :   TString *ts;</span>
 <span id="L135"><span class="lineNum">     135</span>              :   GCObject *o;</span>
 <span id="L136"><span class="lineNum">     136</span>              :   size_t totalsize;  /* total size of TString object */</span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">       50301 :   totalsize = sizelstring(l);</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">       50301 :   o = luaC_newobj(L, tag, totalsize);</span></span>
-<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">       50301 :   ts = gco2ts(o);</span></span>
-<span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">       50301 :   ts-&gt;hash = h;</span></span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">       50301 :   ts-&gt;extra = 0;</span></span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">       50301 :   getstr(ts)[l] = '\0';  /* ending 0 */</span></span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">       50301 :   return ts;</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">       50312 :   totalsize = sizelstring(l);</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">       50312 :   o = luaC_newobj(L, tag, totalsize);</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">       50312 :   ts = gco2ts(o);</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">       50312 :   ts-&gt;hash = h;</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">       50312 :   ts-&gt;extra = 0;</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">       50312 :   getstr(ts)[l] = '\0';  /* ending 0 */</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">       50312 :   return ts;</span></span>
 <span id="L144"><span class="lineNum">     144</span>              : }</span>
 <span id="L145"><span class="lineNum">     145</span>              : </span>
 <span id="L146"><span class="lineNum">     146</span>              : </span>
-<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">        4930 : TString *luaS_createlngstrobj (lua_State *L, size_t l) {</span></span>
-<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">        4930 :   TString *ts = createstrobj(L, l, LUA_TLNGSTR, G(L)-&gt;seed);</span></span>
-<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">        4930 :   ts-&gt;u.lnglen = l;</span></span>
-<span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">        4930 :   return ts;</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">        4931 : TString *luaS_createlngstrobj (lua_State *L, size_t l) {</span></span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">        4931 :   TString *ts = createstrobj(L, l, LUA_TLNGSTR, G(L)-&gt;seed);</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">        4931 :   ts-&gt;u.lnglen = l;</span></span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">        4931 :   return ts;</span></span>
 <span id="L151"><span class="lineNum">     151</span>              : }</span>
 <span id="L152"><span class="lineNum">     152</span>              : </span>
 <span id="L153"><span class="lineNum">     153</span>              : </span>
-<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">       41908 : void luaS_remove (lua_State *L, TString *ts) {</span></span>
-<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">       41908 :   stringtable *tb = &amp;G(L)-&gt;strt;</span></span>
-<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">       41908 :   TString **p = &amp;tb-&gt;hash[lmod(ts-&gt;hash, tb-&gt;size)];</span></span>
-<span id="L157"><span class="lineNum">     157</span> <span class="tlaGNC">       48842 :   while (*p != ts)  /* find previous element */</span></span>
-<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">        6934 :     p = &amp;(*p)-&gt;u.hnext;</span></span>
-<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">       41908 :   *p = (*p)-&gt;u.hnext;  /* remove element from its list */</span></span>
-<span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">       41908 :   tb-&gt;nuse--;</span></span>
-<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">       41908 : }</span></span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">       41918 : void luaS_remove (lua_State *L, TString *ts) {</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">       41918 :   stringtable *tb = &amp;G(L)-&gt;strt;</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">       41918 :   TString **p = &amp;tb-&gt;hash[lmod(ts-&gt;hash, tb-&gt;size)];</span></span>
+<span id="L157"><span class="lineNum">     157</span> <span class="tlaGNC">       49062 :   while (*p != ts)  /* find previous element */</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">        7144 :     p = &amp;(*p)-&gt;u.hnext;</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">       41918 :   *p = (*p)-&gt;u.hnext;  /* remove element from its list */</span></span>
+<span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">       41918 :   tb-&gt;nuse--;</span></span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">       41918 : }</span></span>
 <span id="L162"><span class="lineNum">     162</span>              : </span>
 <span id="L163"><span class="lineNum">     163</span>              : </span>
 <span id="L164"><span class="lineNum">     164</span>              : /*</span>
 <span id="L165"><span class="lineNum">     165</span>              : ** checks whether short string exists and reuses it or creates a new one</span>
 <span id="L166"><span class="lineNum">     166</span>              : */</span>
-<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">      126351 : static TString *internshrstr (lua_State *L, const char *str, size_t l) {</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">      126430 : static TString *internshrstr (lua_State *L, const char *str, size_t l) {</span></span>
 <span id="L168"><span class="lineNum">     168</span>              :   TString *ts;</span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">      126351 :   global_State *g = G(L);</span></span>
-<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">      126351 :   unsigned int h = luaS_hash(str, l, g-&gt;seed);</span></span>
-<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">      126351 :   TString **list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">      126430 :   global_State *g = G(L);</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">      126430 :   unsigned int h = luaS_hash(str, l, g-&gt;seed);</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">      126430 :   TString **list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];</span></span>
 <span id="L172"><span class="lineNum">     172</span>              :   lua_assert(str != NULL);  /* otherwise 'memcmp'/'memcpy' are undefined */</span>
-<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">      176899 :   for (ts = *list; ts != NULL; ts = ts-&gt;u.hnext) {</span></span>
-<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">      131528 :     if (l == ts-&gt;shrlen &amp;&amp;</span></span>
-<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">       86469 :         (memcmp(str, getstr(ts), l * sizeof(char)) == 0)) {</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">      180643 :   for (ts = *list; ts != NULL; ts = ts-&gt;u.hnext) {</span></span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">      135262 :     if (l == ts-&gt;shrlen &amp;&amp;</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">       88604 :         (memcmp(str, getstr(ts), l * sizeof(char)) == 0)) {</span></span>
 <span id="L176"><span class="lineNum">     176</span>              :       /* found! */</span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">       80980 :       if (isdead(g, ts))  /* dead (but not collected yet)? */</span></span>
-<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">          49 :         changewhite(ts);  /* resurrect it */</span></span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">       80980 :       return ts;</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">       81049 :       if (isdead(g, ts))  /* dead (but not collected yet)? */</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">          56 :         changewhite(ts);  /* resurrect it */</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">       81049 :       return ts;</span></span>
 <span id="L180"><span class="lineNum">     180</span>              :     }</span>
 <span id="L181"><span class="lineNum">     181</span>              :   }</span>
-<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">       45371 :   if (g-&gt;strt.nuse &gt;= g-&gt;strt.size &amp;&amp; g-&gt;strt.size &lt;= MAX_INT/2) {</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">       45381 :   if (g-&gt;strt.nuse &gt;= g-&gt;strt.size &amp;&amp; g-&gt;strt.size &lt;= MAX_INT/2) {</span></span>
 <span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">         166 :     luaS_resize(L, g-&gt;strt.size * 2);</span></span>
 <span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">         166 :     list = &amp;g-&gt;strt.hash[lmod(h, g-&gt;strt.size)];  /* recompute with new size */</span></span>
 <span id="L185"><span class="lineNum">     185</span>              :   }</span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">       45371 :   ts = createstrobj(L, l, LUA_TSHRSTR, h);</span></span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">       45371 :   memcpy(getstr(ts), str, l * sizeof(char));</span></span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">       45371 :   ts-&gt;shrlen = cast_byte(l);</span></span>
-<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">       45371 :   ts-&gt;u.hnext = *list;</span></span>
-<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">       45371 :   *list = ts;</span></span>
-<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">       45371 :   g-&gt;strt.nuse++;</span></span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">       45371 :   return ts;</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">       45381 :   ts = createstrobj(L, l, LUA_TSHRSTR, h);</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">       45381 :   memcpy(getstr(ts), str, l * sizeof(char));</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">       45381 :   ts-&gt;shrlen = cast_byte(l);</span></span>
+<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">       45381 :   ts-&gt;u.hnext = *list;</span></span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">       45381 :   *list = ts;</span></span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">       45381 :   g-&gt;strt.nuse++;</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">       45381 :   return ts;</span></span>
 <span id="L193"><span class="lineNum">     193</span>              : }</span>
 <span id="L194"><span class="lineNum">     194</span>              : </span>
 <span id="L195"><span class="lineNum">     195</span>              : </span>
 <span id="L196"><span class="lineNum">     196</span>              : /*</span>
 <span id="L197"><span class="lineNum">     197</span>              : ** new string (with explicit length)</span>
 <span id="L198"><span class="lineNum">     198</span>              : */</span>
-<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">      129258 : TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {</span></span>
-<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">      129258 :   if (l &lt;= LUAI_MAXSHORTLEN)  /* short string? */</span></span>
-<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">      126351 :     return internshrstr(L, str, l);</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">      129338 : TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">      129338 :   if (l &lt;= LUAI_MAXSHORTLEN)  /* short string? */</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">      126430 :     return internshrstr(L, str, l);</span></span>
 <span id="L202"><span class="lineNum">     202</span>              :   else {</span>
 <span id="L203"><span class="lineNum">     203</span>              :     TString *ts;</span>
-<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">        2907 :     if (l &gt;= (MAX_SIZE - sizeof(TString))/sizeof(char))</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">        2908 :     if (l &gt;= (MAX_SIZE - sizeof(TString))/sizeof(char))</span></span>
 <span id="L205"><span class="lineNum">     205</span> <span class="tlaUNC tlaBgUNC">           0 :       luaM_toobig(L);</span></span>
-<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC tlaBgGNC">        2907 :     ts = luaS_createlngstrobj(L, l);</span></span>
-<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">        2907 :     memcpy(getstr(ts), str, l * sizeof(char));</span></span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">        2907 :     return ts;</span></span>
+<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC tlaBgGNC">        2908 :     ts = luaS_createlngstrobj(L, l);</span></span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">        2908 :     memcpy(getstr(ts), str, l * sizeof(char));</span></span>
+<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">        2908 :     return ts;</span></span>
 <span id="L209"><span class="lineNum">     209</span>              :   }</span>
 <span id="L210"><span class="lineNum">     210</span>              : }</span>
 <span id="L211"><span class="lineNum">     211</span>              : </span>
@@ -282,20 +282,20 @@
 <span id="L216"><span class="lineNum">     216</span>              : ** only zero-terminated strings, so it is safe to use 'strcmp' to</span>
 <span id="L217"><span class="lineNum">     217</span>              : ** check hits.</span>
 <span id="L218"><span class="lineNum">     218</span>              : */</span>
-<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">       37907 : TString *luaS_new (lua_State *L, const char *str) {</span></span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">       37907 :   unsigned int i = point2uint(str) % STRCACHE_N;  /* hash */</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">       37916 : TString *luaS_new (lua_State *L, const char *str) {</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">       37916 :   unsigned int i = point2uint(str) % STRCACHE_N;  /* hash */</span></span>
 <span id="L221"><span class="lineNum">     221</span>              :   int j;</span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">       37907 :   TString **p = G(L)-&gt;strcache[i];</span></span>
-<span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">       86556 :   for (j = 0; j &lt; STRCACHE_M; j++) {</span></span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">       63499 :     if (strcmp(str, getstr(p[j])) == 0)  /* hit? */</span></span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">       14850 :       return p[j];  /* that is it */</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">       37916 :   TString **p = G(L)-&gt;strcache[i];</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">       86617 :   for (j = 0; j &lt; STRCACHE_M; j++) {</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">       63540 :     if (strcmp(str, getstr(p[j])) == 0)  /* hit? */</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">       14839 :       return p[j];  /* that is it */</span></span>
 <span id="L226"><span class="lineNum">     226</span>              :   }</span>
 <span id="L227"><span class="lineNum">     227</span>              :   /* normal route */</span>
-<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC">       46114 :   for (j = STRCACHE_M - 1; j &gt; 0; j--)</span></span>
-<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">       23057 :     p[j] = p[j - 1];  /* move out last element */</span></span>
+<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC">       46154 :   for (j = STRCACHE_M - 1; j &gt; 0; j--)</span></span>
+<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">       23077 :     p[j] = p[j - 1];  /* move out last element */</span></span>
 <span id="L230"><span class="lineNum">     230</span>              :   /* new element is first in the list */</span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">       23057 :   p[0] = luaS_newlstr(L, str, strlen(str));</span></span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">       23057 :   return p[0];</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">       23077 :   p[0] = luaS_newlstr(L, str, strlen(str));</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">       23077 :   return p[0];</span></span>
 <span id="L233"><span class="lineNum">     233</span>              : }</span>
 <span id="L234"><span class="lineNum">     234</span>              : </span>
 <span id="L235"><span class="lineNum">     235</span>              : </span>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-04-28 10:23:12</td>
+            <td class="headerValue">2024-06-29 17:17:26</td>
             <td></td>
           </tr>
           <tr>
@@ -231,19 +231,19 @@
 <span id="L165"><span class="lineNum">     165</span>              : ** before opening the actual file; so, if there is a memory error, the</span>
 <span id="L166"><span class="lineNum">     166</span>              : ** file is not left opened.</span>
 <span id="L167"><span class="lineNum">     167</span>              : */</span>
-<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">         384 : static LStream *newprefile (lua_State *L) {</span></span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">         384 :   LStream *p = (LStream *)lua_newuserdata(L, sizeof(LStream));</span></span>
-<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">         384 :   p-&gt;closef = NULL;  /* mark file handle as 'closed' */</span></span>
-<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">         384 :   luaL_setmetatable(L, LUA_FILEHANDLE);</span></span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">         384 :   return p;</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">         387 : static LStream *newprefile (lua_State *L) {</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">         387 :   LStream *p = (LStream *)lua_newuserdata(L, sizeof(LStream));</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">         387 :   p-&gt;closef = NULL;  /* mark file handle as 'closed' */</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">         387 :   luaL_setmetatable(L, LUA_FILEHANDLE);</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">         387 :   return p;</span></span>
 <span id="L173"><span class="lineNum">     173</span>              : }</span>
 <span id="L174"><span class="lineNum">     174</span>              : </span>
 <span id="L175"><span class="lineNum">     175</span>              : </span>
-<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">         356 : static int aux_close (lua_State *L) {</span></span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">         356 :   LStream *p = tolstream(L);</span></span>
-<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">         356 :   lua_CFunction cf = p-&gt;closef;</span></span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         356 :   p-&gt;closef = NULL;  /* mark stream as closed */</span></span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">         356 :   return (*cf)(L);  /* close it */</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">         359 : static int aux_close (lua_State *L) {</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">         359 :   LStream *p = tolstream(L);</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">         359 :   lua_CFunction cf = p-&gt;closef;</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         359 :   p-&gt;closef = NULL;  /* mark stream as closed */</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">         359 :   return (*cf)(L);  /* close it */</span></span>
 <span id="L181"><span class="lineNum">     181</span>              : }</span>
 <span id="L182"><span class="lineNum">     182</span>              : </span>
 <span id="L183"><span class="lineNum">     183</span>              : </span>
@@ -255,11 +255,11 @@
 <span id="L189"><span class="lineNum">     189</span>              : }</span>
 <span id="L190"><span class="lineNum">     190</span>              : </span>
 <span id="L191"><span class="lineNum">     191</span>              : </span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">         357 : static int f_gc (lua_State *L) {</span></span>
-<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">         357 :   LStream *p = tolstream(L);</span></span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">         357 :   if (!isclosed(p) &amp;&amp; p-&gt;f != NULL)</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">         242 :     aux_close(L);  /* ignore closed and incompletely open files */</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">         357 :   return 0;</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">         360 : static int f_gc (lua_State *L) {</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">         360 :   LStream *p = tolstream(L);</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">         360 :   if (!isclosed(p) &amp;&amp; p-&gt;f != NULL)</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">         245 :     aux_close(L);  /* ignore closed and incompletely open files */</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">         360 :   return 0;</span></span>
 <span id="L197"><span class="lineNum">     197</span>              : }</span>
 <span id="L198"><span class="lineNum">     198</span>              : </span>
 <span id="L199"><span class="lineNum">     199</span>              : </span>
@@ -686,48 +686,48 @@
 <span id="L620"><span class="lineNum">     620</span>              : };</span>
 <span id="L621"><span class="lineNum">     621</span>              : </span>
 <span id="L622"><span class="lineNum">     622</span>              : </span>
-<span id="L623"><span class="lineNum">     623</span> <span class="tlaGNC">          86 : static void createmeta (lua_State *L) {</span></span>
-<span id="L624"><span class="lineNum">     624</span> <span class="tlaGNC">          86 :   luaL_newmetatable(L, LUA_FILEHANDLE);  /* create metatable for file handles */</span></span>
-<span id="L625"><span class="lineNum">     625</span> <span class="tlaGNC">          86 :   lua_pushvalue(L, -1);  /* push metatable */</span></span>
-<span id="L626"><span class="lineNum">     626</span> <span class="tlaGNC">          86 :   lua_setfield(L, -2, &quot;__index&quot;);  /* metatable.__index = metatable */</span></span>
-<span id="L627"><span class="lineNum">     627</span> <span class="tlaGNC">          86 :   luaL_setfuncs(L, flib, 0);  /* add file methods to new metatable */</span></span>
-<span id="L628"><span class="lineNum">     628</span> <span class="tlaGNC">          86 :   lua_pop(L, 1);  /* pop new metatable */</span></span>
-<span id="L629"><span class="lineNum">     629</span> <span class="tlaGNC">          86 : }</span></span>
+<span id="L623"><span class="lineNum">     623</span> <span class="tlaGNC">          87 : static void createmeta (lua_State *L) {</span></span>
+<span id="L624"><span class="lineNum">     624</span> <span class="tlaGNC">          87 :   luaL_newmetatable(L, LUA_FILEHANDLE);  /* create metatable for file handles */</span></span>
+<span id="L625"><span class="lineNum">     625</span> <span class="tlaGNC">          87 :   lua_pushvalue(L, -1);  /* push metatable */</span></span>
+<span id="L626"><span class="lineNum">     626</span> <span class="tlaGNC">          87 :   lua_setfield(L, -2, &quot;__index&quot;);  /* metatable.__index = metatable */</span></span>
+<span id="L627"><span class="lineNum">     627</span> <span class="tlaGNC">          87 :   luaL_setfuncs(L, flib, 0);  /* add file methods to new metatable */</span></span>
+<span id="L628"><span class="lineNum">     628</span> <span class="tlaGNC">          87 :   lua_pop(L, 1);  /* pop new metatable */</span></span>
+<span id="L629"><span class="lineNum">     629</span> <span class="tlaGNC">          87 : }</span></span>
 <span id="L630"><span class="lineNum">     630</span>              : </span>
 <span id="L631"><span class="lineNum">     631</span>              : </span>
 <span id="L632"><span class="lineNum">     632</span>              : /*</span>
 <span id="L633"><span class="lineNum">     633</span>              : ** function to (not) close the standard files stdin, stdout, and stderr</span>
 <span id="L634"><span class="lineNum">     634</span>              : */</span>
-<span id="L635"><span class="lineNum">     635</span> <span class="tlaGNC">         234 : static int io_noclose (lua_State *L) {</span></span>
-<span id="L636"><span class="lineNum">     636</span> <span class="tlaGNC">         234 :   LStream *p = tolstream(L);</span></span>
-<span id="L637"><span class="lineNum">     637</span> <span class="tlaGNC">         234 :   p-&gt;closef = &amp;io_noclose;  /* keep file opened */</span></span>
-<span id="L638"><span class="lineNum">     638</span> <span class="tlaGNC">         234 :   lua_pushnil(L);</span></span>
-<span id="L639"><span class="lineNum">     639</span> <span class="tlaGNC">         234 :   lua_pushliteral(L, &quot;cannot close standard file&quot;);</span></span>
-<span id="L640"><span class="lineNum">     640</span> <span class="tlaGNC">         234 :   return 2;</span></span>
+<span id="L635"><span class="lineNum">     635</span> <span class="tlaGNC">         237 : static int io_noclose (lua_State *L) {</span></span>
+<span id="L636"><span class="lineNum">     636</span> <span class="tlaGNC">         237 :   LStream *p = tolstream(L);</span></span>
+<span id="L637"><span class="lineNum">     637</span> <span class="tlaGNC">         237 :   p-&gt;closef = &amp;io_noclose;  /* keep file opened */</span></span>
+<span id="L638"><span class="lineNum">     638</span> <span class="tlaGNC">         237 :   lua_pushnil(L);</span></span>
+<span id="L639"><span class="lineNum">     639</span> <span class="tlaGNC">         237 :   lua_pushliteral(L, &quot;cannot close standard file&quot;);</span></span>
+<span id="L640"><span class="lineNum">     640</span> <span class="tlaGNC">         237 :   return 2;</span></span>
 <span id="L641"><span class="lineNum">     641</span>              : }</span>
 <span id="L642"><span class="lineNum">     642</span>              : </span>
 <span id="L643"><span class="lineNum">     643</span>              : </span>
-<span id="L644"><span class="lineNum">     644</span> <span class="tlaGNC">         258 : static void createstdfile (lua_State *L, FILE *f, const char *k,</span></span>
+<span id="L644"><span class="lineNum">     644</span> <span class="tlaGNC">         261 : static void createstdfile (lua_State *L, FILE *f, const char *k,</span></span>
 <span id="L645"><span class="lineNum">     645</span>              :                            const char *fname) {</span>
-<span id="L646"><span class="lineNum">     646</span> <span class="tlaGNC">         258 :   LStream *p = newprefile(L);</span></span>
-<span id="L647"><span class="lineNum">     647</span> <span class="tlaGNC">         258 :   p-&gt;f = f;</span></span>
-<span id="L648"><span class="lineNum">     648</span> <span class="tlaGNC">         258 :   p-&gt;closef = &amp;io_noclose;</span></span>
-<span id="L649"><span class="lineNum">     649</span> <span class="tlaGNC">         258 :   if (k != NULL) {</span></span>
-<span id="L650"><span class="lineNum">     650</span> <span class="tlaGNC">         172 :     lua_pushvalue(L, -1);</span></span>
-<span id="L651"><span class="lineNum">     651</span> <span class="tlaGNC">         172 :     lua_setfield(L, LUA_REGISTRYINDEX, k);  /* add file to registry */</span></span>
+<span id="L646"><span class="lineNum">     646</span> <span class="tlaGNC">         261 :   LStream *p = newprefile(L);</span></span>
+<span id="L647"><span class="lineNum">     647</span> <span class="tlaGNC">         261 :   p-&gt;f = f;</span></span>
+<span id="L648"><span class="lineNum">     648</span> <span class="tlaGNC">         261 :   p-&gt;closef = &amp;io_noclose;</span></span>
+<span id="L649"><span class="lineNum">     649</span> <span class="tlaGNC">         261 :   if (k != NULL) {</span></span>
+<span id="L650"><span class="lineNum">     650</span> <span class="tlaGNC">         174 :     lua_pushvalue(L, -1);</span></span>
+<span id="L651"><span class="lineNum">     651</span> <span class="tlaGNC">         174 :     lua_setfield(L, LUA_REGISTRYINDEX, k);  /* add file to registry */</span></span>
 <span id="L652"><span class="lineNum">     652</span>              :   }</span>
-<span id="L653"><span class="lineNum">     653</span> <span class="tlaGNC">         258 :   lua_setfield(L, -2, fname);  /* add file to module */</span></span>
-<span id="L654"><span class="lineNum">     654</span> <span class="tlaGNC">         258 : }</span></span>
+<span id="L653"><span class="lineNum">     653</span> <span class="tlaGNC">         261 :   lua_setfield(L, -2, fname);  /* add file to module */</span></span>
+<span id="L654"><span class="lineNum">     654</span> <span class="tlaGNC">         261 : }</span></span>
 <span id="L655"><span class="lineNum">     655</span>              : </span>
 <span id="L656"><span class="lineNum">     656</span>              : </span>
-<span id="L657"><span class="lineNum">     657</span> <span class="tlaGNC">          86 : LUAMOD_API int luaopen_io (lua_State *L) {</span></span>
-<span id="L658"><span class="lineNum">     658</span> <span class="tlaGNC">          86 :   luaL_newlib(L, iolib);  /* new module */</span></span>
-<span id="L659"><span class="lineNum">     659</span> <span class="tlaGNC">          86 :   createmeta(L);</span></span>
+<span id="L657"><span class="lineNum">     657</span> <span class="tlaGNC">          87 : LUAMOD_API int luaopen_io (lua_State *L) {</span></span>
+<span id="L658"><span class="lineNum">     658</span> <span class="tlaGNC">          87 :   luaL_newlib(L, iolib);  /* new module */</span></span>
+<span id="L659"><span class="lineNum">     659</span> <span class="tlaGNC">          87 :   createmeta(L);</span></span>
 <span id="L660"><span class="lineNum">     660</span>              :   /* create (and set) default files */</span>
-<span id="L661"><span class="lineNum">     661</span> <span class="tlaGNC">          86 :   createstdfile(L, stdin, IO_INPUT, &quot;stdin&quot;);</span></span>
-<span id="L662"><span class="lineNum">     662</span> <span class="tlaGNC">          86 :   createstdfile(L, stdout, IO_OUTPUT, &quot;stdout&quot;);</span></span>
-<span id="L663"><span class="lineNum">     663</span> <span class="tlaGNC">          86 :   createstdfile(L, stderr, NULL, &quot;stderr&quot;);</span></span>
-<span id="L664"><span class="lineNum">     664</span> <span class="tlaGNC">          86 :   return 1;</span></span>
+<span id="L661"><span class="lineNum">     661</span> <span class="tlaGNC">          87 :   createstdfile(L, stdin, IO_INPUT, &quot;stdin&quot;);</span></span>
+<span id="L662"><span class="lineNum">     662</span> <span class="tlaGNC">          87 :   createstdfile(L, stdout, IO_OUTPUT, &quot;stdout&quot;);</span></span>
+<span id="L663"><span class="lineNum">     663</span> <span class="tlaGNC">          87 :   createstdfile(L, stderr, NULL, &quot;stderr&quot;);</span></span>
+<span id="L664"><span class="lineNum">     664</span> <span class="tlaGNC">          87 :   return 1;</span></span>
 <span id="L665"><span class="lineNum">     665</span>              : }</span>
 <span id="L666"><span class="lineNum">     666</span>              : </span>
         </pre>

@@ -1,0 +1,682 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Lua 5.4.7 - src/lobject.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - lobject.c</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Lua 5.4.7</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">90.9&nbsp;%</td>
+            <td class="headerCovTableEntry">241</td>
+            <td class="headerCovTableEntry">219</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2024-06-29 17:17:33</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : /*</span>
+<span id="L2"><span class="lineNum">       2</span>              : ** $Id: lobject.c $</span>
+<span id="L3"><span class="lineNum">       3</span>              : ** Some generic functions over Lua objects</span>
+<span id="L4"><span class="lineNum">       4</span>              : ** See Copyright Notice in lua.h</span>
+<span id="L5"><span class="lineNum">       5</span>              : */</span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span>              : #define lobject_c</span>
+<span id="L8"><span class="lineNum">       8</span>              : #define LUA_CORE</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &quot;lprefix.h&quot;</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &lt;locale.h&gt;</span>
+<span id="L14"><span class="lineNum">      14</span>              : #include &lt;math.h&gt;</span>
+<span id="L15"><span class="lineNum">      15</span>              : #include &lt;stdarg.h&gt;</span>
+<span id="L16"><span class="lineNum">      16</span>              : #include &lt;stdio.h&gt;</span>
+<span id="L17"><span class="lineNum">      17</span>              : #include &lt;stdlib.h&gt;</span>
+<span id="L18"><span class="lineNum">      18</span>              : #include &lt;string.h&gt;</span>
+<span id="L19"><span class="lineNum">      19</span>              : </span>
+<span id="L20"><span class="lineNum">      20</span>              : #include &quot;lua.h&quot;</span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span>              : #include &quot;lctype.h&quot;</span>
+<span id="L23"><span class="lineNum">      23</span>              : #include &quot;ldebug.h&quot;</span>
+<span id="L24"><span class="lineNum">      24</span>              : #include &quot;ldo.h&quot;</span>
+<span id="L25"><span class="lineNum">      25</span>              : #include &quot;lmem.h&quot;</span>
+<span id="L26"><span class="lineNum">      26</span>              : #include &quot;lobject.h&quot;</span>
+<span id="L27"><span class="lineNum">      27</span>              : #include &quot;lstate.h&quot;</span>
+<span id="L28"><span class="lineNum">      28</span>              : #include &quot;lstring.h&quot;</span>
+<span id="L29"><span class="lineNum">      29</span>              : #include &quot;lvm.h&quot;</span>
+<span id="L30"><span class="lineNum">      30</span>              : </span>
+<span id="L31"><span class="lineNum">      31</span>              : </span>
+<span id="L32"><span class="lineNum">      32</span>              : /*</span>
+<span id="L33"><span class="lineNum">      33</span>              : ** Computes ceil(log2(x))</span>
+<span id="L34"><span class="lineNum">      34</span>              : */</span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC tlaBgGNC">       29667 : int luaO_ceillog2 (unsigned int x) {</span></span>
+<span id="L36"><span class="lineNum">      36</span>              :   static const lu_byte log_2[256] = {  /* log_2[i] = ceil(log2(i - 1)) */</span>
+<span id="L37"><span class="lineNum">      37</span>              :     0,1,2,2,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,</span>
+<span id="L38"><span class="lineNum">      38</span>              :     6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,</span>
+<span id="L39"><span class="lineNum">      39</span>              :     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,</span>
+<span id="L40"><span class="lineNum">      40</span>              :     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,</span>
+<span id="L41"><span class="lineNum">      41</span>              :     8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,</span>
+<span id="L42"><span class="lineNum">      42</span>              :     8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,</span>
+<span id="L43"><span class="lineNum">      43</span>              :     8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,</span>
+<span id="L44"><span class="lineNum">      44</span>              :     8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8</span>
+<span id="L45"><span class="lineNum">      45</span>              :   };</span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">       29667 :   int l = 0;</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">       29667 :   x--;</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">       29718 :   while (x &gt;= 256) { l += 8; x &gt;&gt;= 8; }</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">       29667 :   return l + log_2[x];</span></span>
+<span id="L50"><span class="lineNum">      50</span>              : }</span>
+<span id="L51"><span class="lineNum">      51</span>              : </span>
+<span id="L52"><span class="lineNum">      52</span>              : </span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">         155 : static lua_Integer intarith (lua_State *L, int op, lua_Integer v1,</span></span>
+<span id="L54"><span class="lineNum">      54</span>              :                                                    lua_Integer v2) {</span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">         155 :   switch (op) {</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           8 :     case LUA_OPADD: return intop(+, v1, v2);</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           2 :     case LUA_OPSUB:return intop(-, v1, v2);</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           4 :     case LUA_OPMUL:return intop(*, v1, v2);</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           4 :     case LUA_OPMOD: return luaV_mod(L, v1, v2);</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           6 :     case LUA_OPIDIV: return luaV_idiv(L, v1, v2);</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           1 :     case LUA_OPBAND: return intop(&amp;, v1, v2);</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           1 :     case LUA_OPBOR: return intop(|, v1, v2);</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           1 :     case LUA_OPBXOR: return intop(^, v1, v2);</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           1 :     case LUA_OPSHL: return luaV_shiftl(v1, v2);</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           1 :     case LUA_OPSHR: return luaV_shiftr(v1, v2);</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">         125 :     case LUA_OPUNM: return intop(-, 0, v1);</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           1 :     case LUA_OPBNOT: return intop(^, ~l_castS2U(0), v1);</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC tlaBgUNC">           0 :     default: lua_assert(0); return 0;</span></span>
+<span id="L69"><span class="lineNum">      69</span>              :   }</span>
+<span id="L70"><span class="lineNum">      70</span>              : }</span>
+<span id="L71"><span class="lineNum">      71</span>              : </span>
+<span id="L72"><span class="lineNum">      72</span>              : </span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC tlaBgGNC">          49 : static lua_Number numarith (lua_State *L, int op, lua_Number v1,</span></span>
+<span id="L74"><span class="lineNum">      74</span>              :                                                   lua_Number v2) {</span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">          49 :   switch (op) {</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           2 :     case LUA_OPADD: return luai_numadd(L, v1, v2);</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">           4 :     case LUA_OPSUB: return luai_numsub(L, v1, v2);</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">           7 :     case LUA_OPMUL: return luai_nummul(L, v1, v2);</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">           7 :     case LUA_OPDIV: return luai_numdiv(L, v1, v2);</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">           6 :     case LUA_OPPOW: return luai_numpow(L, v1, v2);</span></span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">           4 :     case LUA_OPIDIV: return luai_numidiv(L, v1, v2);</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">          18 :     case LUA_OPUNM: return luai_numunm(L, v1);</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           1 :     case LUA_OPMOD: return luaV_modf(L, v1, v2);</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaUNC tlaBgUNC">           0 :     default: lua_assert(0); return 0;</span></span>
+<span id="L85"><span class="lineNum">      85</span>              :   }</span>
+<span id="L86"><span class="lineNum">      86</span>              : }</span>
+<span id="L87"><span class="lineNum">      87</span>              : </span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC tlaBgGNC">         204 : int luaO_rawarith (lua_State *L, int op, const TValue *p1, const TValue *p2,</span></span>
+<span id="L90"><span class="lineNum">      90</span>              :                    TValue *res) {</span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">         204 :   switch (op) {</span></span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">           6 :     case LUA_OPBAND: case LUA_OPBOR: case LUA_OPBXOR:</span></span>
+<span id="L93"><span class="lineNum">      93</span>              :     case LUA_OPSHL: case LUA_OPSHR:</span>
+<span id="L94"><span class="lineNum">      94</span>              :     case LUA_OPBNOT: {  /* operate only on integers */</span>
+<span id="L95"><span class="lineNum">      95</span>              :       lua_Integer i1; lua_Integer i2;</span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">           6 :       if (tointegerns(p1, &amp;i1) &amp;&amp; tointegerns(p2, &amp;i2)) {</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">           6 :         setivalue(res, intarith(L, op, i1, i2));</span></span>
+<span id="L98"><span class="lineNum">      98</span> <span class="tlaGNC">           6 :         return 1;</span></span>
+<span id="L99"><span class="lineNum">      99</span>              :       }</span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC tlaBgUNC">           0 :       else return 0;  /* fail */</span></span>
+<span id="L101"><span class="lineNum">     101</span>              :     }</span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaGNC tlaBgGNC">          13 :     case LUA_OPDIV: case LUA_OPPOW: {  /* operate only on floats */</span></span>
+<span id="L103"><span class="lineNum">     103</span>              :       lua_Number n1; lua_Number n2;</span>
+<span id="L104"><span class="lineNum">     104</span> <span class="tlaGNC">          13 :       if (tonumberns(p1, n1) &amp;&amp; tonumberns(p2, n2)) {</span></span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">          13 :         setfltvalue(res, numarith(L, op, n1, n2));</span></span>
+<span id="L106"><span class="lineNum">     106</span> <span class="tlaGNC">          13 :         return 1;</span></span>
+<span id="L107"><span class="lineNum">     107</span>              :       }</span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaUNC tlaBgUNC">           0 :       else return 0;  /* fail */</span></span>
+<span id="L109"><span class="lineNum">     109</span>              :     }</span>
+<span id="L110"><span class="lineNum">     110</span> <span class="tlaGNC tlaBgGNC">         185 :     default: {  /* other operations */</span></span>
+<span id="L111"><span class="lineNum">     111</span>              :       lua_Number n1; lua_Number n2;</span>
+<span id="L112"><span class="lineNum">     112</span> <span class="tlaGNC">         185 :       if (ttisinteger(p1) &amp;&amp; ttisinteger(p2)) {</span></span>
+<span id="L113"><span class="lineNum">     113</span> <span class="tlaGNC">         149 :         setivalue(res, intarith(L, op, ivalue(p1), ivalue(p2)));</span></span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaGNC">         149 :         return 1;</span></span>
+<span id="L115"><span class="lineNum">     115</span>              :       }</span>
+<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC">          36 :       else if (tonumberns(p1, n1) &amp;&amp; tonumberns(p2, n2)) {</span></span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">          36 :         setfltvalue(res, numarith(L, op, n1, n2));</span></span>
+<span id="L118"><span class="lineNum">     118</span> <span class="tlaGNC">          36 :         return 1;</span></span>
+<span id="L119"><span class="lineNum">     119</span>              :       }</span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaUNC tlaBgUNC">           0 :       else return 0;  /* fail */</span></span>
+<span id="L121"><span class="lineNum">     121</span>              :     }</span>
+<span id="L122"><span class="lineNum">     122</span>              :   }</span>
+<span id="L123"><span class="lineNum">     123</span>              : }</span>
+<span id="L124"><span class="lineNum">     124</span>              : </span>
+<span id="L125"><span class="lineNum">     125</span>              : </span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC tlaBgGNC">          30 : void luaO_arith (lua_State *L, int op, const TValue *p1, const TValue *p2,</span></span>
+<span id="L127"><span class="lineNum">     127</span>              :                  StkId res) {</span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">          30 :   if (!luaO_rawarith(L, op, p1, p2, s2v(res))) {</span></span>
+<span id="L129"><span class="lineNum">     129</span>              :     /* could not perform raw operation; try metamethod */</span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC tlaBgUNC">           0 :     luaT_trybinTM(L, p1, p2, res, cast(TMS, (op - LUA_OPADD) + TM_ADD));</span></span>
+<span id="L131"><span class="lineNum">     131</span>              :   }</span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC tlaBgGNC">          30 : }</span></span>
+<span id="L133"><span class="lineNum">     133</span>              : </span>
+<span id="L134"><span class="lineNum">     134</span>              : </span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">         906 : int luaO_hexavalue (int c) {</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">         906 :   if (lisdigit(c)) return c - '0';</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">         286 :   else return (ltolower(c) - 'a') + 10;</span></span>
+<span id="L138"><span class="lineNum">     138</span>              : }</span>
+<span id="L139"><span class="lineNum">     139</span>              : </span>
+<span id="L140"><span class="lineNum">     140</span>              : </span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        3859 : static int isneg (const char **s) {</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">        3859 :   if (**s == '-') { (*s)++; return 1; }</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">        3838 :   else if (**s == '+') (*s)++;</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">        3838 :   return 0;</span></span>
+<span id="L145"><span class="lineNum">     145</span>              : }</span>
+<span id="L146"><span class="lineNum">     146</span>              : </span>
+<span id="L147"><span class="lineNum">     147</span>              : </span>
+<span id="L148"><span class="lineNum">     148</span>              : </span>
+<span id="L149"><span class="lineNum">     149</span>              : /*</span>
+<span id="L150"><span class="lineNum">     150</span>              : ** {==================================================================</span>
+<span id="L151"><span class="lineNum">     151</span>              : ** Lua's implementation for 'lua_strx2number'</span>
+<span id="L152"><span class="lineNum">     152</span>              : ** ===================================================================</span>
+<span id="L153"><span class="lineNum">     153</span>              : */</span>
+<span id="L154"><span class="lineNum">     154</span>              : </span>
+<span id="L155"><span class="lineNum">     155</span>              : #if !defined(lua_strx2number)</span>
+<span id="L156"><span class="lineNum">     156</span>              : </span>
+<span id="L157"><span class="lineNum">     157</span>              : /* maximum number of significant digits to read (to avoid overflows</span>
+<span id="L158"><span class="lineNum">     158</span>              :    even with single floats) */</span>
+<span id="L159"><span class="lineNum">     159</span>              : #define MAXSIGDIG       30</span>
+<span id="L160"><span class="lineNum">     160</span>              : </span>
+<span id="L161"><span class="lineNum">     161</span>              : /*</span>
+<span id="L162"><span class="lineNum">     162</span>              : ** convert a hexadecimal numeric string to a number, following</span>
+<span id="L163"><span class="lineNum">     163</span>              : ** C99 specification for 'strtod'</span>
+<span id="L164"><span class="lineNum">     164</span>              : */</span>
+<span id="L165"><span class="lineNum">     165</span>              : static lua_Number lua_strx2number (const char *s, char **endptr) {</span>
+<span id="L166"><span class="lineNum">     166</span>              :   int dot = lua_getlocaledecpoint();</span>
+<span id="L167"><span class="lineNum">     167</span>              :   lua_Number r = l_mathop(0.0);  /* result (accumulator) */</span>
+<span id="L168"><span class="lineNum">     168</span>              :   int sigdig = 0;  /* number of significant digits */</span>
+<span id="L169"><span class="lineNum">     169</span>              :   int nosigdig = 0;  /* number of non-significant digits */</span>
+<span id="L170"><span class="lineNum">     170</span>              :   int e = 0;  /* exponent correction */</span>
+<span id="L171"><span class="lineNum">     171</span>              :   int neg;  /* 1 if number is negative */</span>
+<span id="L172"><span class="lineNum">     172</span>              :   int hasdot = 0;  /* true after seen a dot */</span>
+<span id="L173"><span class="lineNum">     173</span>              :   *endptr = cast_charp(s);  /* nothing is valid yet */</span>
+<span id="L174"><span class="lineNum">     174</span>              :   while (lisspace(cast_uchar(*s))) s++;  /* skip initial spaces */</span>
+<span id="L175"><span class="lineNum">     175</span>              :   neg = isneg(&amp;s);  /* check sign */</span>
+<span id="L176"><span class="lineNum">     176</span>              :   if (!(*s == '0' &amp;&amp; (*(s + 1) == 'x' || *(s + 1) == 'X')))  /* check '0x' */</span>
+<span id="L177"><span class="lineNum">     177</span>              :     return l_mathop(0.0);  /* invalid format (no '0x') */</span>
+<span id="L178"><span class="lineNum">     178</span>              :   for (s += 2; ; s++) {  /* skip '0x' and read numeral */</span>
+<span id="L179"><span class="lineNum">     179</span>              :     if (*s == dot) {</span>
+<span id="L180"><span class="lineNum">     180</span>              :       if (hasdot) break;  /* second dot? stop loop */</span>
+<span id="L181"><span class="lineNum">     181</span>              :       else hasdot = 1;</span>
+<span id="L182"><span class="lineNum">     182</span>              :     }</span>
+<span id="L183"><span class="lineNum">     183</span>              :     else if (lisxdigit(cast_uchar(*s))) {</span>
+<span id="L184"><span class="lineNum">     184</span>              :       if (sigdig == 0 &amp;&amp; *s == '0')  /* non-significant digit (zero)? */</span>
+<span id="L185"><span class="lineNum">     185</span>              :         nosigdig++;</span>
+<span id="L186"><span class="lineNum">     186</span>              :       else if (++sigdig &lt;= MAXSIGDIG)  /* can read it without overflow? */</span>
+<span id="L187"><span class="lineNum">     187</span>              :           r = (r * l_mathop(16.0)) + luaO_hexavalue(*s);</span>
+<span id="L188"><span class="lineNum">     188</span>              :       else e++; /* too many digits; ignore, but still count for exponent */</span>
+<span id="L189"><span class="lineNum">     189</span>              :       if (hasdot) e--;  /* decimal digit? correct exponent */</span>
+<span id="L190"><span class="lineNum">     190</span>              :     }</span>
+<span id="L191"><span class="lineNum">     191</span>              :     else break;  /* neither a dot nor a digit */</span>
+<span id="L192"><span class="lineNum">     192</span>              :   }</span>
+<span id="L193"><span class="lineNum">     193</span>              :   if (nosigdig + sigdig == 0)  /* no digits? */</span>
+<span id="L194"><span class="lineNum">     194</span>              :     return l_mathop(0.0);  /* invalid format */</span>
+<span id="L195"><span class="lineNum">     195</span>              :   *endptr = cast_charp(s);  /* valid up to here */</span>
+<span id="L196"><span class="lineNum">     196</span>              :   e *= 4;  /* each digit multiplies/divides value by 2^4 */</span>
+<span id="L197"><span class="lineNum">     197</span>              :   if (*s == 'p' || *s == 'P') {  /* exponent part? */</span>
+<span id="L198"><span class="lineNum">     198</span>              :     int exp1 = 0;  /* exponent value */</span>
+<span id="L199"><span class="lineNum">     199</span>              :     int neg1;  /* exponent sign */</span>
+<span id="L200"><span class="lineNum">     200</span>              :     s++;  /* skip 'p' */</span>
+<span id="L201"><span class="lineNum">     201</span>              :     neg1 = isneg(&amp;s);  /* sign */</span>
+<span id="L202"><span class="lineNum">     202</span>              :     if (!lisdigit(cast_uchar(*s)))</span>
+<span id="L203"><span class="lineNum">     203</span>              :       return l_mathop(0.0);  /* invalid; must have at least one digit */</span>
+<span id="L204"><span class="lineNum">     204</span>              :     while (lisdigit(cast_uchar(*s)))  /* read exponent */</span>
+<span id="L205"><span class="lineNum">     205</span>              :       exp1 = exp1 * 10 + *(s++) - '0';</span>
+<span id="L206"><span class="lineNum">     206</span>              :     if (neg1) exp1 = -exp1;</span>
+<span id="L207"><span class="lineNum">     207</span>              :     e += exp1;</span>
+<span id="L208"><span class="lineNum">     208</span>              :     *endptr = cast_charp(s);  /* valid up to here */</span>
+<span id="L209"><span class="lineNum">     209</span>              :   }</span>
+<span id="L210"><span class="lineNum">     210</span>              :   if (neg) r = -r;</span>
+<span id="L211"><span class="lineNum">     211</span>              :   return l_mathop(ldexp)(r, e);</span>
+<span id="L212"><span class="lineNum">     212</span>              : }</span>
+<span id="L213"><span class="lineNum">     213</span>              : </span>
+<span id="L214"><span class="lineNum">     214</span>              : #endif</span>
+<span id="L215"><span class="lineNum">     215</span>              : /* }====================================================== */</span>
+<span id="L216"><span class="lineNum">     216</span>              : </span>
+<span id="L217"><span class="lineNum">     217</span>              : </span>
+<span id="L218"><span class="lineNum">     218</span>              : /* maximum length of a numeral to be converted to a number */</span>
+<span id="L219"><span class="lineNum">     219</span>              : #if !defined (L_MAXLENNUM)</span>
+<span id="L220"><span class="lineNum">     220</span>              : #define L_MAXLENNUM     200</span>
+<span id="L221"><span class="lineNum">     221</span>              : #endif</span>
+<span id="L222"><span class="lineNum">     222</span>              : </span>
+<span id="L223"><span class="lineNum">     223</span>              : /*</span>
+<span id="L224"><span class="lineNum">     224</span>              : ** Convert string 's' to a Lua number (put in 'result'). Return NULL on</span>
+<span id="L225"><span class="lineNum">     225</span>              : ** fail or the address of the ending '\0' on success. ('mode' == 'x')</span>
+<span id="L226"><span class="lineNum">     226</span>              : ** means a hexadecimal numeral.</span>
+<span id="L227"><span class="lineNum">     227</span>              : */</span>
+<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC">         280 : static const char *l_str2dloc (const char *s, lua_Number *result, int mode) {</span></span>
+<span id="L229"><span class="lineNum">     229</span>              :   char *endptr;</span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">          21 :   *result = (mode == 'x') ? lua_strx2number(s, &amp;endptr)  /* try to convert */</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         280 :                           : lua_str2number(s, &amp;endptr);</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">         280 :   if (endptr == s) return NULL;  /* nothing recognized? */</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">         243 :   while (lisspace(cast_uchar(*endptr))) endptr++;  /* skip trailing spaces */</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         241 :   return (*endptr == '\0') ? endptr : NULL;  /* OK iff no trailing chars */</span></span>
+<span id="L235"><span class="lineNum">     235</span>              : }</span>
+<span id="L236"><span class="lineNum">     236</span>              : </span>
+<span id="L237"><span class="lineNum">     237</span>              : </span>
+<span id="L238"><span class="lineNum">     238</span>              : /*</span>
+<span id="L239"><span class="lineNum">     239</span>              : ** Convert string 's' to a Lua number (put in 'result') handling the</span>
+<span id="L240"><span class="lineNum">     240</span>              : ** current locale.</span>
+<span id="L241"><span class="lineNum">     241</span>              : ** This function accepts both the current locale or a dot as the radix</span>
+<span id="L242"><span class="lineNum">     242</span>              : ** mark. If the conversion fails, it may mean number has a dot but</span>
+<span id="L243"><span class="lineNum">     243</span>              : ** locale accepts something else. In that case, the code copies 's'</span>
+<span id="L244"><span class="lineNum">     244</span>              : ** to a buffer (because 's' is read-only), changes the dot to the</span>
+<span id="L245"><span class="lineNum">     245</span>              : ** current locale radix mark, and tries to convert again.</span>
+<span id="L246"><span class="lineNum">     246</span>              : ** The variable 'mode' checks for special characters in the string:</span>
+<span id="L247"><span class="lineNum">     247</span>              : ** - 'n' means 'inf' or 'nan' (which should be rejected)</span>
+<span id="L248"><span class="lineNum">     248</span>              : ** - 'x' means a hexadecimal numeral</span>
+<span id="L249"><span class="lineNum">     249</span>              : ** - '.' just optimizes the search for the common case (no special chars)</span>
+<span id="L250"><span class="lineNum">     250</span>              : */</span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">         280 : static const char *l_str2d (const char *s, lua_Number *result) {</span></span>
+<span id="L252"><span class="lineNum">     252</span>              :   const char *endptr;</span>
+<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">         280 :   const char *pmode = strpbrk(s, &quot;.xXnN&quot;);  /* look for special chars */</span></span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC">         280 :   int mode = pmode ? ltolower(cast_uchar(*pmode)) : 0;</span></span>
+<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">         280 :   if (mode == 'n')  /* reject 'inf' and 'nan' */</span></span>
+<span id="L256"><span class="lineNum">     256</span> <span class="tlaUNC tlaBgUNC">           0 :     return NULL;</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC tlaBgGNC">         280 :   endptr = l_str2dloc(s, result, mode);  /* try to convert */</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">         280 :   if (endptr == NULL) {  /* failed? may be a different locale */</span></span>
+<span id="L259"><span class="lineNum">     259</span>              :     char buff[L_MAXLENNUM + 1];</span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">          41 :     const char *pdot = strchr(s, '.');</span></span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">          41 :     if (pdot == NULL || strlen(s) &gt; L_MAXLENNUM)</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">          41 :       return NULL;  /* string too long or no dot; fail */</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaUNC tlaBgUNC">           0 :     strcpy(buff, s);  /* copy string to buffer */</span></span>
+<span id="L264"><span class="lineNum">     264</span> <span class="tlaUNC">           0 :     buff[pdot - s] = lua_getlocaledecpoint();  /* correct decimal point */</span></span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaUNC">           0 :     endptr = l_str2dloc(buff, result, mode);  /* try again */</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaUNC">           0 :     if (endptr != NULL)</span></span>
+<span id="L267"><span class="lineNum">     267</span> <span class="tlaUNC">           0 :       endptr = s + (endptr - buff);  /* make relative to 's' */</span></span>
+<span id="L268"><span class="lineNum">     268</span>              :   }</span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC tlaBgGNC">         239 :   return endptr;</span></span>
+<span id="L270"><span class="lineNum">     270</span>              : }</span>
+<span id="L271"><span class="lineNum">     271</span>              : </span>
+<span id="L272"><span class="lineNum">     272</span>              : </span>
+<span id="L273"><span class="lineNum">     273</span>              : #define MAXBY10         cast(lua_Unsigned, LUA_MAXINTEGER / 10)</span>
+<span id="L274"><span class="lineNum">     274</span>              : #define MAXLASTD        cast_int(LUA_MAXINTEGER % 10)</span>
+<span id="L275"><span class="lineNum">     275</span>              : </span>
+<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">        3859 : static const char *l_str2int (const char *s, lua_Integer *result) {</span></span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">        3859 :   lua_Unsigned a = 0;</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">        3859 :   int empty = 1;</span></span>
+<span id="L279"><span class="lineNum">     279</span>              :   int neg;</span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">        3861 :   while (lisspace(cast_uchar(*s))) s++;  /* skip initial spaces */</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">        3859 :   neg = isneg(&amp;s);</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">        3859 :   if (s[0] == '0' &amp;&amp;</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">         917 :       (s[1] == 'x' || s[1] == 'X')) {  /* hex? */</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">         115 :     s += 2;  /* skip '0x' */</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">         576 :     for (; lisxdigit(cast_uchar(*s)); s++) {</span></span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaGNC">         461 :       a = a * 16 + luaO_hexavalue(*s);</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">         461 :       empty = 0;</span></span>
+<span id="L288"><span class="lineNum">     288</span>              :     }</span>
+<span id="L289"><span class="lineNum">     289</span>              :   }</span>
+<span id="L290"><span class="lineNum">     290</span>              :   else {  /* decimal */</span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaGNC">        8189 :     for (; lisdigit(cast_uchar(*s)); s++) {</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">        4445 :       int d = *s - '0';</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">        4445 :       if (a &gt;= MAXBY10 &amp;&amp; (a &gt; MAXBY10 || d &gt; MAXLASTD + neg))  /* overflow? */</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC tlaBgUNC">           0 :         return NULL;  /* do not accept it (as integer) */</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC tlaBgGNC">        4445 :       a = a * 10 + d;</span></span>
+<span id="L296"><span class="lineNum">     296</span> <span class="tlaGNC">        4445 :       empty = 0;</span></span>
+<span id="L297"><span class="lineNum">     297</span>              :     }</span>
+<span id="L298"><span class="lineNum">     298</span>              :   }</span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">        3859 :   while (lisspace(cast_uchar(*s))) s++;  /* skip trailing spaces */</span></span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaGNC">        3859 :   if (empty || *s != '\0') return NULL;  /* something wrong in the numeral */</span></span>
+<span id="L301"><span class="lineNum">     301</span>              :   else {</span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">        3579 :     *result = l_castU2S((neg) ? 0u - a : a);</span></span>
+<span id="L303"><span class="lineNum">     303</span> <span class="tlaGNC">        3579 :     return s;</span></span>
+<span id="L304"><span class="lineNum">     304</span>              :   }</span>
+<span id="L305"><span class="lineNum">     305</span>              : }</span>
+<span id="L306"><span class="lineNum">     306</span>              : </span>
+<span id="L307"><span class="lineNum">     307</span>              : </span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">        3859 : size_t luaO_str2num (const char *s, TValue *o) {</span></span>
+<span id="L309"><span class="lineNum">     309</span>              :   lua_Integer i; lua_Number n;</span>
+<span id="L310"><span class="lineNum">     310</span>              :   const char *e;</span>
+<span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">        3859 :   if ((e = l_str2int(s, &amp;i)) != NULL) {  /* try as an integer */</span></span>
+<span id="L312"><span class="lineNum">     312</span> <span class="tlaGNC">        3579 :     setivalue(o, i);</span></span>
+<span id="L313"><span class="lineNum">     313</span>              :   }</span>
+<span id="L314"><span class="lineNum">     314</span> <span class="tlaGNC">         280 :   else if ((e = l_str2d(s, &amp;n)) != NULL) {  /* else try as a float */</span></span>
+<span id="L315"><span class="lineNum">     315</span> <span class="tlaGNC">         239 :     setfltvalue(o, n);</span></span>
+<span id="L316"><span class="lineNum">     316</span>              :   }</span>
+<span id="L317"><span class="lineNum">     317</span>              :   else</span>
+<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">          41 :     return 0;  /* conversion failed */</span></span>
+<span id="L319"><span class="lineNum">     319</span> <span class="tlaGNC">        3818 :   return (e - s) + 1;  /* success; return string size */</span></span>
+<span id="L320"><span class="lineNum">     320</span>              : }</span>
+<span id="L321"><span class="lineNum">     321</span>              : </span>
+<span id="L322"><span class="lineNum">     322</span>              : </span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">          84 : int luaO_utf8esc (char *buff, unsigned long x) {</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">          84 :   int n = 1;  /* number of bytes put in buffer (backwards) */</span></span>
+<span id="L325"><span class="lineNum">     325</span>              :   lua_assert(x &lt;= 0x7FFFFFFFu);</span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">          84 :   if (x &lt; 0x80)  /* ascii? */</span></span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaGNC">          11 :     buff[UTF8BUFFSZ - 1] = cast_char(x);</span></span>
+<span id="L328"><span class="lineNum">     328</span>              :   else {  /* need continuation bytes */</span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">          73 :     unsigned int mfb = 0x3f;  /* maximum that fits in first byte */</span></span>
+<span id="L330"><span class="lineNum">     330</span>              :     do {  /* add continuation bytes */</span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">         181 :       buff[UTF8BUFFSZ - (n++)] = cast_char(0x80 | (x &amp; 0x3f));</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">         181 :       x &gt;&gt;= 6;  /* remove added bits */</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">         181 :       mfb &gt;&gt;= 1;  /* now there is one less bit available in first byte */</span></span>
+<span id="L334"><span class="lineNum">     334</span> <span class="tlaGNC">         181 :     } while (x &gt; mfb);  /* still needs continuation byte? */</span></span>
+<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">          73 :     buff[UTF8BUFFSZ - n] = cast_char((~mfb &lt;&lt; 1) | x);  /* add first byte */</span></span>
+<span id="L336"><span class="lineNum">     336</span>              :   }</span>
+<span id="L337"><span class="lineNum">     337</span> <span class="tlaGNC">          84 :   return n;</span></span>
+<span id="L338"><span class="lineNum">     338</span>              : }</span>
+<span id="L339"><span class="lineNum">     339</span>              : </span>
+<span id="L340"><span class="lineNum">     340</span>              : </span>
+<span id="L341"><span class="lineNum">     341</span>              : /*</span>
+<span id="L342"><span class="lineNum">     342</span>              : ** Maximum length of the conversion of a number to a string. Must be</span>
+<span id="L343"><span class="lineNum">     343</span>              : ** enough to accommodate both LUA_INTEGER_FMT and LUA_NUMBER_FMT.</span>
+<span id="L344"><span class="lineNum">     344</span>              : ** (For a long long int, this is 19 digits plus a sign and a final '\0',</span>
+<span id="L345"><span class="lineNum">     345</span>              : ** adding to 21. For a long double, it can go to a sign, 33 digits,</span>
+<span id="L346"><span class="lineNum">     346</span>              : ** the dot, an exponent letter, an exponent sign, 5 exponent digits,</span>
+<span id="L347"><span class="lineNum">     347</span>              : ** and a final '\0', adding to 43.)</span>
+<span id="L348"><span class="lineNum">     348</span>              : */</span>
+<span id="L349"><span class="lineNum">     349</span>              : #define MAXNUMBER2STR   44</span>
+<span id="L350"><span class="lineNum">     350</span>              : </span>
+<span id="L351"><span class="lineNum">     351</span>              : </span>
+<span id="L352"><span class="lineNum">     352</span>              : /*</span>
+<span id="L353"><span class="lineNum">     353</span>              : ** Convert a number object to a string, adding it to a buffer</span>
+<span id="L354"><span class="lineNum">     354</span>              : */</span>
+<span id="L355"><span class="lineNum">     355</span> <span class="tlaGNC">        2793 : static int tostringbuff (TValue *obj, char *buff) {</span></span>
+<span id="L356"><span class="lineNum">     356</span>              :   int len;</span>
+<span id="L357"><span class="lineNum">     357</span>              :   lua_assert(ttisnumber(obj));</span>
+<span id="L358"><span class="lineNum">     358</span> <span class="tlaGNC">        2793 :   if (ttisinteger(obj))</span></span>
+<span id="L359"><span class="lineNum">     359</span> <span class="tlaGNC">        2766 :     len = lua_integer2str(buff, MAXNUMBER2STR, ivalue(obj));</span></span>
+<span id="L360"><span class="lineNum">     360</span>              :   else {</span>
+<span id="L361"><span class="lineNum">     361</span> <span class="tlaGNC">          27 :     len = lua_number2str(buff, MAXNUMBER2STR, fltvalue(obj));</span></span>
+<span id="L362"><span class="lineNum">     362</span> <span class="tlaGNC">          27 :     if (buff[strspn(buff, &quot;-0123456789&quot;)] == '\0') {  /* looks like an int? */</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">          22 :       buff[len++] = lua_getlocaledecpoint();</span></span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaGNC">          22 :       buff[len++] = '0';  /* adds '.0' to result */</span></span>
+<span id="L365"><span class="lineNum">     365</span>              :     }</span>
+<span id="L366"><span class="lineNum">     366</span>              :   }</span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaGNC">        2793 :   return len;</span></span>
+<span id="L368"><span class="lineNum">     368</span>              : }</span>
+<span id="L369"><span class="lineNum">     369</span>              : </span>
+<span id="L370"><span class="lineNum">     370</span>              : </span>
+<span id="L371"><span class="lineNum">     371</span>              : /*</span>
+<span id="L372"><span class="lineNum">     372</span>              : ** Convert a number object to a Lua string, replacing the value at 'obj'</span>
+<span id="L373"><span class="lineNum">     373</span>              : */</span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">          10 : void luaO_tostring (lua_State *L, TValue *obj) {</span></span>
+<span id="L375"><span class="lineNum">     375</span>              :   char buff[MAXNUMBER2STR];</span>
+<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">          10 :   int len = tostringbuff(obj, buff);</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">          10 :   setsvalue(L, obj, luaS_newlstr(L, buff, len));</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">          10 : }</span></span>
+<span id="L379"><span class="lineNum">     379</span>              : </span>
+<span id="L380"><span class="lineNum">     380</span>              : </span>
+<span id="L381"><span class="lineNum">     381</span>              : </span>
+<span id="L382"><span class="lineNum">     382</span>              : </span>
+<span id="L383"><span class="lineNum">     383</span>              : /*</span>
+<span id="L384"><span class="lineNum">     384</span>              : ** {==================================================================</span>
+<span id="L385"><span class="lineNum">     385</span>              : ** 'luaO_pushvfstring'</span>
+<span id="L386"><span class="lineNum">     386</span>              : ** ===================================================================</span>
+<span id="L387"><span class="lineNum">     387</span>              : */</span>
+<span id="L388"><span class="lineNum">     388</span>              : </span>
+<span id="L389"><span class="lineNum">     389</span>              : /*</span>
+<span id="L390"><span class="lineNum">     390</span>              : ** Size for buffer space used by 'luaO_pushvfstring'. It should be</span>
+<span id="L391"><span class="lineNum">     391</span>              : ** (LUA_IDSIZE + MAXNUMBER2STR) + a minimal space for basic messages,</span>
+<span id="L392"><span class="lineNum">     392</span>              : ** so that 'luaG_addinfo' can work directly on the buffer.</span>
+<span id="L393"><span class="lineNum">     393</span>              : */</span>
+<span id="L394"><span class="lineNum">     394</span>              : #define BUFVFS          (LUA_IDSIZE + MAXNUMBER2STR + 95)</span>
+<span id="L395"><span class="lineNum">     395</span>              : </span>
+<span id="L396"><span class="lineNum">     396</span>              : /* buffer used by 'luaO_pushvfstring' */</span>
+<span id="L397"><span class="lineNum">     397</span>              : typedef struct BuffFS {</span>
+<span id="L398"><span class="lineNum">     398</span>              :   lua_State *L;</span>
+<span id="L399"><span class="lineNum">     399</span>              :   int pushed;  /* true if there is a part of the result on the stack */</span>
+<span id="L400"><span class="lineNum">     400</span>              :   int blen;  /* length of partial string in 'space' */</span>
+<span id="L401"><span class="lineNum">     401</span>              :   char space[BUFVFS];  /* holds last part of the result */</span>
+<span id="L402"><span class="lineNum">     402</span>              : } BuffFS;</span>
+<span id="L403"><span class="lineNum">     403</span>              : </span>
+<span id="L404"><span class="lineNum">     404</span>              : </span>
+<span id="L405"><span class="lineNum">     405</span>              : /*</span>
+<span id="L406"><span class="lineNum">     406</span>              : ** Push given string to the stack, as part of the result, and</span>
+<span id="L407"><span class="lineNum">     407</span>              : ** join it to previous partial result if there is one.</span>
+<span id="L408"><span class="lineNum">     408</span>              : ** It may call 'luaV_concat' while using one slot from EXTRA_STACK.</span>
+<span id="L409"><span class="lineNum">     409</span>              : ** This call cannot invoke metamethods, as both operands must be</span>
+<span id="L410"><span class="lineNum">     410</span>              : ** strings. It can, however, raise an error if the result is too</span>
+<span id="L411"><span class="lineNum">     411</span>              : ** long. In that case, 'luaV_concat' frees the extra slot before</span>
+<span id="L412"><span class="lineNum">     412</span>              : ** raising the error.</span>
+<span id="L413"><span class="lineNum">     413</span>              : */</span>
+<span id="L414"><span class="lineNum">     414</span> <span class="tlaGNC">        4137 : static void pushstr (BuffFS *buff, const char *str, size_t lstr) {</span></span>
+<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">        4137 :   lua_State *L = buff-&gt;L;</span></span>
+<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC">        4137 :   setsvalue2s(L, L-&gt;top.p, luaS_newlstr(L, str, lstr));</span></span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaGNC">        4137 :   L-&gt;top.p++;  /* may use one slot from EXTRA_STACK */</span></span>
+<span id="L418"><span class="lineNum">     418</span> <span class="tlaGNC">        4137 :   if (!buff-&gt;pushed)  /* no previous string on the stack? */</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">        4047 :     buff-&gt;pushed = 1;  /* now there is one */</span></span>
+<span id="L420"><span class="lineNum">     420</span>              :   else  /* join previous string with new one */</span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          90 :     luaV_concat(L, 2);</span></span>
+<span id="L422"><span class="lineNum">     422</span> <span class="tlaGNC">        4137 : }</span></span>
+<span id="L423"><span class="lineNum">     423</span>              : </span>
+<span id="L424"><span class="lineNum">     424</span>              : </span>
+<span id="L425"><span class="lineNum">     425</span>              : /*</span>
+<span id="L426"><span class="lineNum">     426</span>              : ** empty the buffer space into the stack</span>
+<span id="L427"><span class="lineNum">     427</span>              : */</span>
+<span id="L428"><span class="lineNum">     428</span> <span class="tlaGNC">        4092 : static void clearbuff (BuffFS *buff) {</span></span>
+<span id="L429"><span class="lineNum">     429</span> <span class="tlaGNC">        4092 :   pushstr(buff, buff-&gt;space, buff-&gt;blen);  /* push buffer contents */</span></span>
+<span id="L430"><span class="lineNum">     430</span> <span class="tlaGNC">        4092 :   buff-&gt;blen = 0;  /* space now is empty */</span></span>
+<span id="L431"><span class="lineNum">     431</span> <span class="tlaGNC">        4092 : }</span></span>
+<span id="L432"><span class="lineNum">     432</span>              : </span>
+<span id="L433"><span class="lineNum">     433</span>              : </span>
+<span id="L434"><span class="lineNum">     434</span>              : /*</span>
+<span id="L435"><span class="lineNum">     435</span>              : ** Get a space of size 'sz' in the buffer. If buffer has not enough</span>
+<span id="L436"><span class="lineNum">     436</span>              : ** space, empty it. 'sz' must fit in an empty buffer.</span>
+<span id="L437"><span class="lineNum">     437</span>              : */</span>
+<span id="L438"><span class="lineNum">     438</span> <span class="tlaGNC">       15582 : static char *getbuff (BuffFS *buff, int sz) {</span></span>
+<span id="L439"><span class="lineNum">     439</span>              :   lua_assert(buff-&gt;blen &lt;= BUFVFS); lua_assert(sz &lt;= BUFVFS);</span>
+<span id="L440"><span class="lineNum">     440</span> <span class="tlaGNC">       15582 :   if (sz &gt; BUFVFS - buff-&gt;blen)  /* not enough space? */</span></span>
+<span id="L441"><span class="lineNum">     441</span> <span class="tlaUNC tlaBgUNC">           0 :     clearbuff(buff);</span></span>
+<span id="L442"><span class="lineNum">     442</span> <span class="tlaGNC tlaBgGNC">       15582 :   return buff-&gt;space + buff-&gt;blen;</span></span>
+<span id="L443"><span class="lineNum">     443</span>              : }</span>
+<span id="L444"><span class="lineNum">     444</span>              : </span>
+<span id="L445"><span class="lineNum">     445</span>              : </span>
+<span id="L446"><span class="lineNum">     446</span>              : #define addsize(b,sz)   ((b)-&gt;blen += (sz))</span>
+<span id="L447"><span class="lineNum">     447</span>              : </span>
+<span id="L448"><span class="lineNum">     448</span>              : </span>
+<span id="L449"><span class="lineNum">     449</span>              : /*</span>
+<span id="L450"><span class="lineNum">     450</span>              : ** Add 'str' to the buffer. If string is larger than the buffer space,</span>
+<span id="L451"><span class="lineNum">     451</span>              : ** push the string directly to the stack.</span>
+<span id="L452"><span class="lineNum">     452</span>              : */</span>
+<span id="L453"><span class="lineNum">     453</span> <span class="tlaGNC">       12828 : static void addstr2buff (BuffFS *buff, const char *str, size_t slen) {</span></span>
+<span id="L454"><span class="lineNum">     454</span> <span class="tlaGNC">       12828 :   if (slen &lt;= BUFVFS) {  /* does string fit into buffer? */</span></span>
+<span id="L455"><span class="lineNum">     455</span> <span class="tlaGNC">       12783 :     char *bf = getbuff(buff, cast_int(slen));</span></span>
+<span id="L456"><span class="lineNum">     456</span> <span class="tlaGNC">       12783 :     memcpy(bf, str, slen);  /* add string to buffer */</span></span>
+<span id="L457"><span class="lineNum">     457</span> <span class="tlaGNC">       12783 :     addsize(buff, cast_int(slen));</span></span>
+<span id="L458"><span class="lineNum">     458</span>              :   }</span>
+<span id="L459"><span class="lineNum">     459</span>              :   else {  /* string larger than buffer */</span>
+<span id="L460"><span class="lineNum">     460</span> <span class="tlaGNC">          45 :     clearbuff(buff);  /* string comes after buffer's content */</span></span>
+<span id="L461"><span class="lineNum">     461</span> <span class="tlaGNC">          45 :     pushstr(buff, str, slen);  /* push string */</span></span>
+<span id="L462"><span class="lineNum">     462</span>              :   }</span>
+<span id="L463"><span class="lineNum">     463</span> <span class="tlaGNC">       12828 : }</span></span>
+<span id="L464"><span class="lineNum">     464</span>              : </span>
+<span id="L465"><span class="lineNum">     465</span>              : </span>
+<span id="L466"><span class="lineNum">     466</span>              : /*</span>
+<span id="L467"><span class="lineNum">     467</span>              : ** Add a numeral to the buffer.</span>
+<span id="L468"><span class="lineNum">     468</span>              : */</span>
+<span id="L469"><span class="lineNum">     469</span> <span class="tlaGNC">        2783 : static void addnum2buff (BuffFS *buff, TValue *num) {</span></span>
+<span id="L470"><span class="lineNum">     470</span> <span class="tlaGNC">        2783 :   char *numbuff = getbuff(buff, MAXNUMBER2STR);</span></span>
+<span id="L471"><span class="lineNum">     471</span> <span class="tlaGNC">        2783 :   int len = tostringbuff(num, numbuff);  /* format number into 'numbuff' */</span></span>
+<span id="L472"><span class="lineNum">     472</span> <span class="tlaGNC">        2783 :   addsize(buff, len);</span></span>
+<span id="L473"><span class="lineNum">     473</span> <span class="tlaGNC">        2783 : }</span></span>
+<span id="L474"><span class="lineNum">     474</span>              : </span>
+<span id="L475"><span class="lineNum">     475</span>              : </span>
+<span id="L476"><span class="lineNum">     476</span>              : /*</span>
+<span id="L477"><span class="lineNum">     477</span>              : ** this function handles only '%d', '%c', '%f', '%p', '%s', and '%%'</span>
+<span id="L478"><span class="lineNum">     478</span>              :    conventional formats, plus Lua-specific '%I' and '%U'</span>
+<span id="L479"><span class="lineNum">     479</span>              : */</span>
+<span id="L480"><span class="lineNum">     480</span> <span class="tlaGNC">        4047 : const char *luaO_pushvfstring (lua_State *L, const char *fmt, va_list argp) {</span></span>
+<span id="L481"><span class="lineNum">     481</span>              :   BuffFS buff;  /* holds last part of the result */</span>
+<span id="L482"><span class="lineNum">     482</span>              :   const char *e;  /* points to next '%' */</span>
+<span id="L483"><span class="lineNum">     483</span> <span class="tlaGNC">        4047 :   buff.pushed = buff.blen = 0;</span></span>
+<span id="L484"><span class="lineNum">     484</span> <span class="tlaGNC">        4047 :   buff.L = L;</span></span>
+<span id="L485"><span class="lineNum">     485</span> <span class="tlaGNC">        9837 :   while ((e = strchr(fmt, '%')) != NULL) {</span></span>
+<span id="L486"><span class="lineNum">     486</span> <span class="tlaGNC">        5790 :     addstr2buff(&amp;buff, fmt, e - fmt);  /* add 'fmt' up to '%' */</span></span>
+<span id="L487"><span class="lineNum">     487</span> <span class="tlaGNC">        5790 :     switch (*(e + 1)) {  /* conversion specifier */</span></span>
+<span id="L488"><span class="lineNum">     488</span> <span class="tlaGNC">        2949 :       case 's': {  /* zero-terminated string */</span></span>
+<span id="L489"><span class="lineNum">     489</span> <span class="tlaGNC">        2949 :         const char *s = va_arg(argp, char *);</span></span>
+<span id="L490"><span class="lineNum">     490</span> <span class="tlaGNC">        2949 :         if (s == NULL) s = &quot;(null)&quot;;</span></span>
+<span id="L491"><span class="lineNum">     491</span> <span class="tlaGNC">        2949 :         addstr2buff(&amp;buff, s, strlen(s));</span></span>
+<span id="L492"><span class="lineNum">     492</span> <span class="tlaGNC">        2949 :         break;</span></span>
+<span id="L493"><span class="lineNum">     493</span>              :       }</span>
+<span id="L494"><span class="lineNum">     494</span> <span class="tlaGNC">          15 :       case 'c': {  /* an 'int' as a character */</span></span>
+<span id="L495"><span class="lineNum">     495</span> <span class="tlaGNC">          15 :         char c = cast_uchar(va_arg(argp, int));</span></span>
+<span id="L496"><span class="lineNum">     496</span> <span class="tlaGNC">          15 :         addstr2buff(&amp;buff, &amp;c, sizeof(char));</span></span>
+<span id="L497"><span class="lineNum">     497</span> <span class="tlaGNC">          15 :         break;</span></span>
+<span id="L498"><span class="lineNum">     498</span>              :       }</span>
+<span id="L499"><span class="lineNum">     499</span> <span class="tlaGNC">         553 :       case 'd': {  /* an 'int' */</span></span>
+<span id="L500"><span class="lineNum">     500</span>              :         TValue num;</span>
+<span id="L501"><span class="lineNum">     501</span> <span class="tlaGNC">         553 :         setivalue(&amp;num, va_arg(argp, int));</span></span>
+<span id="L502"><span class="lineNum">     502</span> <span class="tlaGNC">         553 :         addnum2buff(&amp;buff, &amp;num);</span></span>
+<span id="L503"><span class="lineNum">     503</span> <span class="tlaGNC">         553 :         break;</span></span>
+<span id="L504"><span class="lineNum">     504</span>              :       }</span>
+<span id="L505"><span class="lineNum">     505</span> <span class="tlaGNC">        2203 :       case 'I': {  /* a 'lua_Integer' */</span></span>
+<span id="L506"><span class="lineNum">     506</span>              :         TValue num;</span>
+<span id="L507"><span class="lineNum">     507</span> <span class="tlaGNC">        2203 :         setivalue(&amp;num, cast(lua_Integer, va_arg(argp, l_uacInt)));</span></span>
+<span id="L508"><span class="lineNum">     508</span> <span class="tlaGNC">        2203 :         addnum2buff(&amp;buff, &amp;num);</span></span>
+<span id="L509"><span class="lineNum">     509</span> <span class="tlaGNC">        2203 :         break;</span></span>
+<span id="L510"><span class="lineNum">     510</span>              :       }</span>
+<span id="L511"><span class="lineNum">     511</span> <span class="tlaGNC">          27 :       case 'f': {  /* a 'lua_Number' */</span></span>
+<span id="L512"><span class="lineNum">     512</span>              :         TValue num;</span>
+<span id="L513"><span class="lineNum">     513</span> <span class="tlaGNC">          27 :         setfltvalue(&amp;num, cast_num(va_arg(argp, l_uacNumber)));</span></span>
+<span id="L514"><span class="lineNum">     514</span> <span class="tlaGNC">          27 :         addnum2buff(&amp;buff, &amp;num);</span></span>
+<span id="L515"><span class="lineNum">     515</span> <span class="tlaGNC">          27 :         break;</span></span>
+<span id="L516"><span class="lineNum">     516</span>              :       }</span>
+<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">          16 :       case 'p': {  /* a pointer */</span></span>
+<span id="L518"><span class="lineNum">     518</span> <span class="tlaGNC">          16 :         const int sz = 3 * sizeof(void*) + 8; /* enough space for '%p' */</span></span>
+<span id="L519"><span class="lineNum">     519</span> <span class="tlaGNC">          16 :         char *bf = getbuff(&amp;buff, sz);</span></span>
+<span id="L520"><span class="lineNum">     520</span> <span class="tlaGNC">          16 :         void *p = va_arg(argp, void *);</span></span>
+<span id="L521"><span class="lineNum">     521</span> <span class="tlaGNC">          16 :         int len = lua_pointer2str(bf, sz, p);</span></span>
+<span id="L522"><span class="lineNum">     522</span> <span class="tlaGNC">          16 :         addsize(&amp;buff, len);</span></span>
+<span id="L523"><span class="lineNum">     523</span> <span class="tlaGNC">          16 :         break;</span></span>
+<span id="L524"><span class="lineNum">     524</span>              :       }</span>
+<span id="L525"><span class="lineNum">     525</span> <span class="tlaGNC">          19 :       case 'U': {  /* a 'long' as a UTF-8 sequence */</span></span>
+<span id="L526"><span class="lineNum">     526</span>              :         char bf[UTF8BUFFSZ];</span>
+<span id="L527"><span class="lineNum">     527</span> <span class="tlaGNC">          19 :         int len = luaO_utf8esc(bf, va_arg(argp, long));</span></span>
+<span id="L528"><span class="lineNum">     528</span> <span class="tlaGNC">          19 :         addstr2buff(&amp;buff, bf + UTF8BUFFSZ - len, len);</span></span>
+<span id="L529"><span class="lineNum">     529</span> <span class="tlaGNC">          19 :         break;</span></span>
+<span id="L530"><span class="lineNum">     530</span>              :       }</span>
+<span id="L531"><span class="lineNum">     531</span> <span class="tlaGNC">           8 :       case '%': {</span></span>
+<span id="L532"><span class="lineNum">     532</span> <span class="tlaGNC">           8 :         addstr2buff(&amp;buff, &quot;%&quot;, 1);</span></span>
+<span id="L533"><span class="lineNum">     533</span> <span class="tlaGNC">           8 :         break;</span></span>
+<span id="L534"><span class="lineNum">     534</span>              :       }</span>
+<span id="L535"><span class="lineNum">     535</span> <span class="tlaUNC tlaBgUNC">           0 :       default: {</span></span>
+<span id="L536"><span class="lineNum">     536</span> <span class="tlaUNC">           0 :         luaG_runerror(L, &quot;invalid option '%%%c' to 'lua_pushfstring'&quot;,</span></span>
+<span id="L537"><span class="lineNum">     537</span> <span class="tlaUNC">           0 :                          *(e + 1));</span></span>
+<span id="L538"><span class="lineNum">     538</span>              :       }</span>
+<span id="L539"><span class="lineNum">     539</span>              :     }</span>
+<span id="L540"><span class="lineNum">     540</span> <span class="tlaGNC tlaBgGNC">        5790 :     fmt = e + 2;  /* skip '%' and the specifier */</span></span>
+<span id="L541"><span class="lineNum">     541</span>              :   }</span>
+<span id="L542"><span class="lineNum">     542</span> <span class="tlaGNC">        4047 :   addstr2buff(&amp;buff, fmt, strlen(fmt));  /* rest of 'fmt' */</span></span>
+<span id="L543"><span class="lineNum">     543</span> <span class="tlaGNC">        4047 :   clearbuff(&amp;buff);  /* empty buffer into the stack */</span></span>
+<span id="L544"><span class="lineNum">     544</span>              :   lua_assert(buff.pushed == 1);</span>
+<span id="L545"><span class="lineNum">     545</span> <span class="tlaGNC">        4047 :   return getstr(tsvalue(s2v(L-&gt;top.p - 1)));</span></span>
+<span id="L546"><span class="lineNum">     546</span>              : }</span>
+<span id="L547"><span class="lineNum">     547</span>              : </span>
+<span id="L548"><span class="lineNum">     548</span>              : </span>
+<span id="L549"><span class="lineNum">     549</span> <span class="tlaGNC">         525 : const char *luaO_pushfstring (lua_State *L, const char *fmt, ...) {</span></span>
+<span id="L550"><span class="lineNum">     550</span>              :   const char *msg;</span>
+<span id="L551"><span class="lineNum">     551</span>              :   va_list argp;</span>
+<span id="L552"><span class="lineNum">     552</span> <span class="tlaGNC">         525 :   va_start(argp, fmt);</span></span>
+<span id="L553"><span class="lineNum">     553</span> <span class="tlaGNC">         525 :   msg = luaO_pushvfstring(L, fmt, argp);</span></span>
+<span id="L554"><span class="lineNum">     554</span> <span class="tlaGNC">         525 :   va_end(argp);</span></span>
+<span id="L555"><span class="lineNum">     555</span> <span class="tlaGNC">         525 :   return msg;</span></span>
+<span id="L556"><span class="lineNum">     556</span>              : }</span>
+<span id="L557"><span class="lineNum">     557</span>              : </span>
+<span id="L558"><span class="lineNum">     558</span>              : /* }================================================================== */</span>
+<span id="L559"><span class="lineNum">     559</span>              : </span>
+<span id="L560"><span class="lineNum">     560</span>              : </span>
+<span id="L561"><span class="lineNum">     561</span>              : #define RETS    &quot;...&quot;</span>
+<span id="L562"><span class="lineNum">     562</span>              : #define PRE     &quot;[string \&quot;&quot;</span>
+<span id="L563"><span class="lineNum">     563</span>              : #define POS     &quot;\&quot;]&quot;</span>
+<span id="L564"><span class="lineNum">     564</span>              : </span>
+<span id="L565"><span class="lineNum">     565</span>              : #define addstr(a,b,l)   ( memcpy(a,b,(l) * sizeof(char)), a += (l) )</span>
+<span id="L566"><span class="lineNum">     566</span>              : </span>
+<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">         531 : void luaO_chunkid (char *out, const char *source, size_t srclen) {</span></span>
+<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">         531 :   size_t bufflen = LUA_IDSIZE;  /* free space in buffer */</span></span>
+<span id="L569"><span class="lineNum">     569</span> <span class="tlaGNC">         531 :   if (*source == '=') {  /* 'literal' source */</span></span>
+<span id="L570"><span class="lineNum">     570</span> <span class="tlaGNC">          62 :     if (srclen &lt;= bufflen)  /* small enough? */</span></span>
+<span id="L571"><span class="lineNum">     571</span> <span class="tlaGNC">          62 :       memcpy(out, source + 1, srclen * sizeof(char));</span></span>
+<span id="L572"><span class="lineNum">     572</span>              :     else {  /* truncate it */</span>
+<span id="L573"><span class="lineNum">     573</span> <span class="tlaUNC tlaBgUNC">           0 :       addstr(out, source + 1, bufflen - 1);</span></span>
+<span id="L574"><span class="lineNum">     574</span> <span class="tlaUNC">           0 :       *out = '\0';</span></span>
+<span id="L575"><span class="lineNum">     575</span>              :     }</span>
+<span id="L576"><span class="lineNum">     576</span>              :   }</span>
+<span id="L577"><span class="lineNum">     577</span> <span class="tlaGNC tlaBgGNC">         469 :   else if (*source == '@') {  /* file name */</span></span>
+<span id="L578"><span class="lineNum">     578</span> <span class="tlaGNC">         427 :     if (srclen &lt;= bufflen)  /* small enough? */</span></span>
+<span id="L579"><span class="lineNum">     579</span> <span class="tlaGNC">         427 :       memcpy(out, source + 1, srclen * sizeof(char));</span></span>
+<span id="L580"><span class="lineNum">     580</span>              :     else {  /* add '...' before rest of name */</span>
+<span id="L581"><span class="lineNum">     581</span> <span class="tlaUNC tlaBgUNC">           0 :       addstr(out, RETS, LL(RETS));</span></span>
+<span id="L582"><span class="lineNum">     582</span> <span class="tlaUNC">           0 :       bufflen -= LL(RETS);</span></span>
+<span id="L583"><span class="lineNum">     583</span> <span class="tlaUNC">           0 :       memcpy(out, source + 1 + srclen - bufflen, bufflen * sizeof(char));</span></span>
+<span id="L584"><span class="lineNum">     584</span>              :     }</span>
+<span id="L585"><span class="lineNum">     585</span>              :   }</span>
+<span id="L586"><span class="lineNum">     586</span>              :   else {  /* string; format as [string &quot;source&quot;] */</span>
+<span id="L587"><span class="lineNum">     587</span> <span class="tlaGNC tlaBgGNC">          42 :     const char *nl = strchr(source, '\n');  /* find first new line (if any) */</span></span>
+<span id="L588"><span class="lineNum">     588</span> <span class="tlaGNC">          42 :     addstr(out, PRE, LL(PRE));  /* add prefix */</span></span>
+<span id="L589"><span class="lineNum">     589</span> <span class="tlaGNC">          42 :     bufflen -= LL(PRE RETS POS) + 1;  /* save space for prefix+suffix+'\0' */</span></span>
+<span id="L590"><span class="lineNum">     590</span> <span class="tlaGNC">          42 :     if (srclen &lt; bufflen &amp;&amp; nl == NULL) {  /* small one-line source? */</span></span>
+<span id="L591"><span class="lineNum">     591</span> <span class="tlaGNC">          32 :       addstr(out, source, srclen);  /* keep it */</span></span>
+<span id="L592"><span class="lineNum">     592</span>              :     }</span>
+<span id="L593"><span class="lineNum">     593</span>              :     else {</span>
+<span id="L594"><span class="lineNum">     594</span> <span class="tlaGNC">          10 :       if (nl != NULL) srclen = nl - source;  /* stop at first newline */</span></span>
+<span id="L595"><span class="lineNum">     595</span> <span class="tlaGNC">          10 :       if (srclen &gt; bufflen) srclen = bufflen;</span></span>
+<span id="L596"><span class="lineNum">     596</span> <span class="tlaGNC">          10 :       addstr(out, source, srclen);</span></span>
+<span id="L597"><span class="lineNum">     597</span> <span class="tlaGNC">          10 :       addstr(out, RETS, LL(RETS));</span></span>
+<span id="L598"><span class="lineNum">     598</span>              :     }</span>
+<span id="L599"><span class="lineNum">     599</span> <span class="tlaGNC">          42 :     memcpy(out, POS, (LL(POS) + 1) * sizeof(char));</span></span>
+<span id="L600"><span class="lineNum">     600</span>              :   }</span>
+<span id="L601"><span class="lineNum">     601</span> <span class="tlaGNC">         531 : }</span></span>
+<span id="L602"><span class="lineNum">     602</span>              : </span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
