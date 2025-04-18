@@ -19,7 +19,7 @@
                 <table cellpadding=1 border=0 width="100%">
           <tr>
             <td width="10%" class="headerItem">Current view:</td>
-            <td width="10%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - lcorolib.c</td>
+            <td width="10%" class="headerValue"><a href="../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory src">src</a> - lcorolib.c</td>
             <td width="5%"></td>
             <td width="5%"></td>
             <td width="5%" class="headerCovTableHead">Coverage</td>
@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-06-29 17:17:33</td>
+            <td class="headerValue">2025-04-18 21:12:03</td>
             <td></td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
-            <td class="headerValueLeg">            Lines:
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
             <span class="coverLegendCov">hit</span>
             <span class="coverLegendNoCov">not hit</span>
 </td>
@@ -84,7 +84,7 @@
 <span id="L18"><span class="lineNum">      18</span>              : #include &quot;lualib.h&quot;</span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC tlaBgGNC">        5957 : static lua_State *getco (lua_State *L) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">        5957 : static lua_State *getco (lua_State *L) {</span></span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">        5957 :   lua_State *co = lua_tothread(L, 1);</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">        5957 :   luaL_argexpected(L, co, 1, &quot;thread&quot;);</span></span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">        5954 :   return co;</span></span>
@@ -98,18 +98,18 @@
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">        5972 : static int auxresume (lua_State *L, lua_State *co, int narg) {</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :   int status, nres;</span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">        5972 :   if (l_unlikely(!lua_checkstack(co, narg))) {</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC tlaBgUNC">           0 :     lua_pushliteral(L, &quot;too many arguments to resume&quot;);</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     lua_pushliteral(L, &quot;too many arguments to resume&quot;);</span></span>
 <span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :     return -1;  /* error flag */</span></span>
 <span id="L37"><span class="lineNum">      37</span>              :   }</span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC tlaBgGNC">        5972 :   lua_xmove(L, co, narg);</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">        5972 :   lua_xmove(L, co, narg);</span></span>
 <span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">        5972 :   status = lua_resume(co, L, narg, &amp;nres);</span></span>
 <span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">        5972 :   if (l_likely(status == LUA_OK || status == LUA_YIELD)) {</span></span>
 <span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">        5968 :     if (l_unlikely(!lua_checkstack(L, nres + 1))) {</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC tlaBgUNC">           0 :       lua_pop(co, nres);  /* remove results anyway */</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :       lua_pop(co, nres);  /* remove results anyway */</span></span>
 <span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :       lua_pushliteral(L, &quot;too many results to resume&quot;);</span></span>
 <span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :       return -1;  /* error flag */</span></span>
 <span id="L45"><span class="lineNum">      45</span>              :     }</span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC tlaBgGNC">        5968 :     lua_xmove(co, L, nres);  /* move yielded values */</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">        5968 :     lua_xmove(co, L, nres);  /* move yielded values */</span></span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">        5968 :     return nres;</span></span>
 <span id="L48"><span class="lineNum">      48</span>              :   }</span>
 <span id="L49"><span class="lineNum">      49</span>              :   else {</span>
@@ -199,20 +199,20 @@
 <span id="L133"><span class="lineNum">     133</span> <span class="tlaGNC">           5 :       case LUA_OK: {</span></span>
 <span id="L134"><span class="lineNum">     134</span>              :         lua_Debug ar;</span>
 <span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">           5 :         if (lua_getstack(co, 0, &amp;ar))  /* does it have frames? */</span></span>
-<span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC tlaBgUNC">           0 :           return COS_NORM;  /* it is running */</span></span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC tlaBgGNC">           5 :         else if (lua_gettop(co) == 0)</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC">           0 :           return COS_NORM;  /* it is running */</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">           5 :         else if (lua_gettop(co) == 0)</span></span>
 <span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">           3 :             return COS_DEAD;</span></span>
 <span id="L139"><span class="lineNum">     139</span>              :         else</span>
 <span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">           2 :           return COS_YIELD;  /* initial state */</span></span>
 <span id="L141"><span class="lineNum">     141</span>              :       }</span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC tlaBgUNC">           0 :       default:  /* some error occurred */</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :       default:  /* some error occurred */</span></span>
 <span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :         return COS_DEAD;</span></span>
 <span id="L144"><span class="lineNum">     144</span>              :     }</span>
 <span id="L145"><span class="lineNum">     145</span>              :   }</span>
 <span id="L146"><span class="lineNum">     146</span>              : }</span>
 <span id="L147"><span class="lineNum">     147</span>              : </span>
 <span id="L148"><span class="lineNum">     148</span>              : </span>
-<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC tlaBgGNC">           5 : static int luaB_costatus (lua_State *L) {</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">           5 : static int luaB_costatus (lua_State *L) {</span></span>
 <span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">           5 :   lua_State *co = getco(L);</span></span>
 <span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">           4 :   lua_pushstring(L, statname[auxstatus(L, co)]);</span></span>
 <span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">           4 :   return 1;</span></span>
@@ -244,12 +244,12 @@
 <span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">           2 :         return 1;</span></span>
 <span id="L179"><span class="lineNum">     179</span>              :       }</span>
 <span id="L180"><span class="lineNum">     180</span>              :       else {</span>
-<span id="L181"><span class="lineNum">     181</span> <span class="tlaUNC tlaBgUNC">           0 :         lua_pushboolean(L, 0);</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaUNC">           0 :         lua_pushboolean(L, 0);</span></span>
 <span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 :         lua_xmove(co, L, 1);  /* move error message */</span></span>
 <span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 :         return 2;</span></span>
 <span id="L184"><span class="lineNum">     184</span>              :       }</span>
 <span id="L185"><span class="lineNum">     185</span>              :     }</span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC tlaBgGNC">           1 :     default:  /* normal or running coroutine */</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">           1 :     default:  /* normal or running coroutine */</span></span>
 <span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">           1 :       return luaL_error(L, &quot;cannot close a %s coroutine&quot;, statname[status]);</span></span>
 <span id="L188"><span class="lineNum">     188</span>              :   }</span>
 <span id="L189"><span class="lineNum">     189</span>              : }</span>

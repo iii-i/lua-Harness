@@ -19,7 +19,7 @@
                 <table cellpadding=1 border=0 width="100%">
           <tr>
             <td width="10%" class="headerItem">Current view:</td>
-            <td width="10%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - ltablib.c</td>
+            <td width="10%" class="headerValue"><a href="../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory src">src</a> - ltablib.c</td>
             <td width="5%"></td>
             <td width="5%"></td>
             <td width="5%" class="headerCovTableHead">Coverage</td>
@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-06-29 17:17:29</td>
+            <td class="headerValue">2025-04-18 21:11:59</td>
             <td></td>
           </tr>
           <tr>
             <td class="headerItem">Legend:</td>
-            <td class="headerValueLeg">            Lines:
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
             <span class="coverLegendCov">hit</span>
             <span class="coverLegendNoCov">not hit</span>
 </td>
@@ -99,7 +99,7 @@
 <span id="L33"><span class="lineNum">      33</span>              : #define aux_getn(L,n,w) (checktab(L, n, (w) | TAB_L), luaL_len(L, n))</span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC tlaBgUNC">           0 : static int checkfield (lua_State *L, const char *key, int n) {</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 : static int checkfield (lua_State *L, const char *key, int n) {</span></span>
 <span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :   lua_pushstring(L, key);</span></span>
 <span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :   return (lua_rawget(L, -n) != LUA_TNIL);</span></span>
 <span id="L39"><span class="lineNum">      39</span>              : }</span>
@@ -109,17 +109,17 @@
 <span id="L43"><span class="lineNum">      43</span>              : ** Check that 'arg' either is a table or can behave like one (that is,</span>
 <span id="L44"><span class="lineNum">      44</span>              : ** has a metatable with the required metamethods)</span>
 <span id="L45"><span class="lineNum">      45</span>              : */</span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC tlaBgGNC">       17971 : static void checktab (lua_State *L, int arg, int what) {</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">       17971 : static void checktab (lua_State *L, int arg, int what) {</span></span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">       17971 :   if (lua_type(L, arg) != LUA_TTABLE) {  /* is it not a table? */</span></span>
 <span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           1 :     int n = 1;  /* number of elements to pop */</span></span>
 <span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           1 :     if (lua_getmetatable(L, arg) &amp;&amp;  /* must have metatable */</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC tlaBgUNC">           0 :         (!(what &amp; TAB_R) || checkfield(L, &quot;__index&quot;, ++n)) &amp;&amp;</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :         (!(what &amp; TAB_R) || checkfield(L, &quot;__index&quot;, ++n)) &amp;&amp;</span></span>
 <span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :         (!(what &amp; TAB_W) || checkfield(L, &quot;__newindex&quot;, ++n)) &amp;&amp;</span></span>
 <span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :         (!(what &amp; TAB_L) || checkfield(L, &quot;__len&quot;, ++n))) {</span></span>
 <span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :       lua_pop(L, n);  /* pop metatable and tested metamethods */</span></span>
 <span id="L54"><span class="lineNum">      54</span>              :     }</span>
 <span id="L55"><span class="lineNum">      55</span>              :     else</span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC tlaBgGNC">           1 :       luaL_checktype(L, arg, LUA_TTABLE);  /* force an error */</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           1 :       luaL_checktype(L, arg, LUA_TTABLE);  /* force an error */</span></span>
 <span id="L57"><span class="lineNum">      57</span>              :   }</span>
 <span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">       17970 : }</span></span>
 <span id="L59"><span class="lineNum">      59</span>              : </span>
@@ -277,8 +277,8 @@
 <span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">           6 :   if (i &gt; e) return 0;  /* empty range */</span></span>
 <span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">           5 :   n = (lua_Unsigned)e - i;  /* number of elements minus 1 (avoid overflows) */</span></span>
 <span id="L213"><span class="lineNum">     213</span> <span class="tlaGNC">           5 :   if (n &gt;= (unsigned int)INT_MAX  || !lua_checkstack(L, (int)(++n)))</span></span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaUNC tlaBgUNC">           0 :     return luaL_error(L, &quot;too many results to unpack&quot;);</span></span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC tlaBgGNC">          13 :   for (; i &lt; e; i++) {  /* push arg[i..e - 1] (to avoid overflows) */</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaUNC">           0 :     return luaL_error(L, &quot;too many results to unpack&quot;);</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">          13 :   for (; i &lt; e; i++) {  /* push arg[i..e - 1] (to avoid overflows) */</span></span>
 <span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">           8 :     lua_geti(L, 1, i);</span></span>
 <span id="L217"><span class="lineNum">     217</span>              :   }</span>
 <span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           5 :   lua_geti(L, 1, e);  /* push last element */</span></span>
@@ -321,7 +321,7 @@
 <span id="L255"><span class="lineNum">     255</span>              : ** anything without risking overflows. A safe way to use their values</span>
 <span id="L256"><span class="lineNum">     256</span>              : ** is to copy them to an array of a known type and use the array values.</span>
 <span id="L257"><span class="lineNum">     257</span>              : */</span>
-<span id="L258"><span class="lineNum">     258</span> <span class="tlaUNC tlaBgUNC">           0 : static unsigned int l_randomizePivot (void) {</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaUNC">           0 : static unsigned int l_randomizePivot (void) {</span></span>
 <span id="L259"><span class="lineNum">     259</span> <span class="tlaUNC">           0 :   clock_t c = clock();</span></span>
 <span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 :   time_t t = time(NULL);</span></span>
 <span id="L261"><span class="lineNum">     261</span>              :   unsigned int buff[sof(c) + sof(t)];</span>
@@ -340,19 +340,19 @@
 <span id="L274"><span class="lineNum">     274</span>              : #define RANLIMIT        100u</span>
 <span id="L275"><span class="lineNum">     275</span>              : </span>
 <span id="L276"><span class="lineNum">     276</span>              : </span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC tlaBgGNC">       43024 : static void set2 (lua_State *L, IdxT i, IdxT j) {</span></span>
-<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">       43024 :   lua_seti(L, 1, i);</span></span>
-<span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC">       43024 :   lua_seti(L, 1, j);</span></span>
-<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">       43024 : }</span></span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">       43022 : static void set2 (lua_State *L, IdxT i, IdxT j) {</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">       43022 :   lua_seti(L, 1, i);</span></span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC">       43022 :   lua_seti(L, 1, j);</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">       43022 : }</span></span>
 <span id="L281"><span class="lineNum">     281</span>              : </span>
 <span id="L282"><span class="lineNum">     282</span>              : </span>
 <span id="L283"><span class="lineNum">     283</span>              : /*</span>
 <span id="L284"><span class="lineNum">     284</span>              : ** Return true iff value at stack index 'a' is less than the value at</span>
 <span id="L285"><span class="lineNum">     285</span>              : ** index 'b' (according to the order of the sort).</span>
 <span id="L286"><span class="lineNum">     286</span>              : */</span>
-<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">       91617 : static int sort_comp (lua_State *L, int a, int b) {</span></span>
-<span id="L288"><span class="lineNum">     288</span> <span class="tlaGNC">       91617 :   if (lua_isnil(L, 2))  /* no function? */</span></span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">       91610 :     return lua_compare(L, a, b, LUA_OPLT);  /* a &lt; b */</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">       91618 : static int sort_comp (lua_State *L, int a, int b) {</span></span>
+<span id="L288"><span class="lineNum">     288</span> <span class="tlaGNC">       91618 :   if (lua_isnil(L, 2))  /* no function? */</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">       91611 :     return lua_compare(L, a, b, LUA_OPLT);  /* a &lt; b */</span></span>
 <span id="L290"><span class="lineNum">     290</span>              :   else {  /* function */</span>
 <span id="L291"><span class="lineNum">     291</span>              :     int res;</span>
 <span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">           7 :     lua_pushvalue(L, 2);    /* push function */</span></span>
@@ -388,8 +388,8 @@
 <span id="L322"><span class="lineNum">     322</span>              :     /* next loop: repeat --j while P &lt; a[j] */</span>
 <span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">       23964 :     while (lua_geti(L, 1, --j), sort_comp(L, -3, -1)) {</span></span>
 <span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">       10404 :       if (j &lt; i)  /* j &lt; i  but  a[j] &gt; P ?? */</span></span>
-<span id="L325"><span class="lineNum">     325</span> <span class="tlaUNC tlaBgUNC">           0 :         luaL_error(L, &quot;invalid order function for sorting&quot;);</span></span>
-<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC tlaBgGNC">       10404 :       lua_pop(L, 1);  /* remove a[j] */</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaUNC">           0 :         luaL_error(L, &quot;invalid order function for sorting&quot;);</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">       10404 :       lua_pop(L, 1);  /* remove a[j] */</span></span>
 <span id="L327"><span class="lineNum">     327</span>              :     }</span>
 <span id="L328"><span class="lineNum">     328</span>              :     /* after the loop, a[j] &lt;= P and a[j + 1 .. up] &gt;= P */</span>
 <span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">       13560 :     if (j &lt; i) {  /* no elements out of place? */</span></span>
@@ -409,7 +409,7 @@
 <span id="L343"><span class="lineNum">     343</span>              : ** Choose an element in the middle (2nd-3th quarters) of [lo,up]</span>
 <span id="L344"><span class="lineNum">     344</span>              : ** &quot;randomized&quot; by 'rnd'</span>
 <span id="L345"><span class="lineNum">     345</span>              : */</span>
-<span id="L346"><span class="lineNum">     346</span> <span class="tlaUNC tlaBgUNC">           0 : static IdxT choosePivot (IdxT lo, IdxT up, unsigned int rnd) {</span></span>
+<span id="L346"><span class="lineNum">     346</span> <span class="tlaUNC">           0 : static IdxT choosePivot (IdxT lo, IdxT up, unsigned int rnd) {</span></span>
 <span id="L347"><span class="lineNum">     347</span> <span class="tlaUNC">           0 :   IdxT r4 = (up - lo) / 4;  /* range/4 */</span></span>
 <span id="L348"><span class="lineNum">     348</span> <span class="tlaUNC">           0 :   IdxT p = rnd % (r4 * 2) + (lo + r4);</span></span>
 <span id="L349"><span class="lineNum">     349</span>              :   lua_assert(lo + r4 &lt;= p &amp;&amp; p &lt;= up - r4);</span>
@@ -420,7 +420,7 @@
 <span id="L354"><span class="lineNum">     354</span>              : /*</span>
 <span id="L355"><span class="lineNum">     355</span>              : ** QuickSort algorithm (recursive function)</span>
 <span id="L356"><span class="lineNum">     356</span>              : */</span>
-<span id="L357"><span class="lineNum">     357</span> <span class="tlaGNC tlaBgGNC">       15853 : static void auxsort (lua_State *L, IdxT lo, IdxT up,</span></span>
+<span id="L357"><span class="lineNum">     357</span> <span class="tlaGNC">       15853 : static void auxsort (lua_State *L, IdxT lo, IdxT up,</span></span>
 <span id="L358"><span class="lineNum">     358</span>              :                                    unsigned int rnd) {</span>
 <span id="L359"><span class="lineNum">     359</span> <span class="tlaGNC">       25789 :   while (lo &lt; up) {  /* loop for tail recursion */</span></span>
 <span id="L360"><span class="lineNum">     360</span>              :     IdxT p;  /* Pivot index */</span>
@@ -429,26 +429,26 @@
 <span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">       20509 :     lua_geti(L, 1, lo);</span></span>
 <span id="L364"><span class="lineNum">     364</span> <span class="tlaGNC">       20509 :     lua_geti(L, 1, up);</span></span>
 <span id="L365"><span class="lineNum">     365</span> <span class="tlaGNC">       20509 :     if (sort_comp(L, -1, -2))  /* a[up] &lt; a[lo]? */</span></span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaGNC">       10254 :       set2(L, lo, up);  /* swap a[lo] - a[up] */</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaGNC">       10253 :       set2(L, lo, up);  /* swap a[lo] - a[up] */</span></span>
 <span id="L367"><span class="lineNum">     367</span>              :     else</span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">       10255 :       lua_pop(L, 2);  /* remove both values */</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">       10256 :       lua_pop(L, 2);  /* remove both values */</span></span>
 <span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">       20509 :     if (up - lo == 1)  /* only 2 elements? */</span></span>
 <span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">        6602 :       return;  /* already sorted */</span></span>
 <span id="L371"><span class="lineNum">     371</span> <span class="tlaGNC">       13907 :     if (up - lo &lt; RANLIMIT || rnd == 0)  /* small interval or no randomize? */</span></span>
 <span id="L372"><span class="lineNum">     372</span> <span class="tlaGNC">       13907 :       p = (lo + up)/2;  /* middle element is a good pivot */</span></span>
 <span id="L373"><span class="lineNum">     373</span>              :     else  /* for larger intervals, it is worth a random pivot */</span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC tlaBgUNC">           0 :       p = choosePivot(lo, up, rnd);</span></span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC tlaBgGNC">       13907 :     lua_geti(L, 1, p);</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 :       p = choosePivot(lo, up, rnd);</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">       13907 :     lua_geti(L, 1, p);</span></span>
 <span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">       13907 :     lua_geti(L, 1, lo);</span></span>
 <span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">       13907 :     if (sort_comp(L, -2, -1))  /* a[p] &lt; a[lo]? */</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">        4636 :       set2(L, p, lo);  /* swap a[p] - a[lo] */</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">        4635 :       set2(L, p, lo);  /* swap a[p] - a[lo] */</span></span>
 <span id="L379"><span class="lineNum">     379</span>              :     else {</span>
-<span id="L380"><span class="lineNum">     380</span> <span class="tlaGNC">        9271 :       lua_pop(L, 1);  /* remove a[lo] */</span></span>
-<span id="L381"><span class="lineNum">     381</span> <span class="tlaGNC">        9271 :       lua_geti(L, 1, up);</span></span>
-<span id="L382"><span class="lineNum">     382</span> <span class="tlaGNC">        9271 :       if (sort_comp(L, -1, -2))  /* a[up] &lt; a[p]? */</span></span>
+<span id="L380"><span class="lineNum">     380</span> <span class="tlaGNC">        9272 :       lua_pop(L, 1);  /* remove a[lo] */</span></span>
+<span id="L381"><span class="lineNum">     381</span> <span class="tlaGNC">        9272 :       lua_geti(L, 1, up);</span></span>
+<span id="L382"><span class="lineNum">     382</span> <span class="tlaGNC">        9272 :       if (sort_comp(L, -1, -2))  /* a[up] &lt; a[p]? */</span></span>
 <span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">        4637 :         set2(L, p, up);  /* swap a[up] - a[p] */</span></span>
 <span id="L384"><span class="lineNum">     384</span>              :       else</span>
-<span id="L385"><span class="lineNum">     385</span> <span class="tlaGNC">        4634 :         lua_pop(L, 2);</span></span>
+<span id="L385"><span class="lineNum">     385</span> <span class="tlaGNC">        4635 :         lua_pop(L, 2);</span></span>
 <span id="L386"><span class="lineNum">     386</span>              :     }</span>
 <span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">       13907 :     if (up - lo == 2)  /* only 3 elements? */</span></span>
 <span id="L388"><span class="lineNum">     388</span> <span class="tlaGNC">        3970 :       return;  /* already sorted */</span></span>
@@ -469,12 +469,12 @@
 <span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">        5928 :       up = p - 1;  /* tail call for [lo .. p - 1]  (lower interval) */</span></span>
 <span id="L404"><span class="lineNum">     404</span>              :     }</span>
 <span id="L405"><span class="lineNum">     405</span> <span class="tlaGNC">        9936 :     if ((up - lo) / 128 &gt; n) /* partition too imbalanced? */</span></span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC tlaBgUNC">           0 :       rnd = l_randomizePivot();  /* try a new randomization */</span></span>
+<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :       rnd = l_randomizePivot();  /* try a new randomization */</span></span>
 <span id="L407"><span class="lineNum">     407</span>              :   }  /* tail call auxsort(L, lo, up, rnd) */</span>
 <span id="L408"><span class="lineNum">     408</span>              : }</span>
 <span id="L409"><span class="lineNum">     409</span>              : </span>
 <span id="L410"><span class="lineNum">     410</span>              : </span>
-<span id="L411"><span class="lineNum">     411</span> <span class="tlaGNC tlaBgGNC">        5918 : static int sort (lua_State *L) {</span></span>
+<span id="L411"><span class="lineNum">     411</span> <span class="tlaGNC">        5918 : static int sort (lua_State *L) {</span></span>
 <span id="L412"><span class="lineNum">     412</span> <span class="tlaGNC">        5918 :   lua_Integer n = aux_getn(L, 1, TAB_RW);</span></span>
 <span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">        5918 :   if (n &gt; 1) {  /* non-trivial interval? */</span></span>
 <span id="L414"><span class="lineNum">     414</span> <span class="tlaGNC">        5917 :     luaL_argcheck(L, n &lt; INT_MAX, 1, &quot;array too big&quot;);</span></span>
