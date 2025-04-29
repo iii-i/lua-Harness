@@ -1,7 +1,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -172,6 +172,13 @@ error_matches(function () return 3.5 << 2 end,
 error_matches(function () return 3 << 2.5 end,
         "^[^:]+:%d+: number has no integer representation",
         "3 << 2.5")
+
+-- idiom: coercion to integer (with bitwise or 0)
+equals(3.0 | 0, 3, "3.0 | 0 (idiom)" )
+
+error_matches(function () return 3.1 | 0 end,
+        "^[^:]+:%d+: number has no integer representation",
+        "3.1 | 0 (idiom)")
 
 -- Local Variables:
 --   mode: lua
