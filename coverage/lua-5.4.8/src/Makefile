@@ -58,8 +58,8 @@ a:	$(ALL_A)
 
 lcov:
 	lcov --capture -d . -o lua.info
-	rm -rf ../../../public/cover_lua547
-	genhtml -o ../../../public/cover_lua547 -t "Lua 5.4.7" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
+	rm -rf ../../../public/cover_lua548
+	genhtml -o ../../../public/cover_lua548 -t "Lua 5.4.8" --no-function-coverage --no-branch-coverage --legend --prefix $(shell dirname $(shell pwd)) lua.info
 
 $(LUA_A): $(BASE_O)
 	$(AR) $@ $(BASE_O)
