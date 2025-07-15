@@ -14,12 +14,16 @@ lua-5.3.6.tar.gz:
 lua-5.4.8.tar.gz:
 	wget https://www.lua.org/ftp/lua-5.4.8.tar.gz
 
+lua-5.5.0-rc1.tar.gz:
+	wget https://www.lua.org/work/lua-5.5.0-rc1.tar.gz
+
 .PHONY: extract
-extract: lua-5.1.5.tar.gz lua-5.2.4.tar.gz lua-5.3.6.tar.gz lua-5.4.8.tar.gz
+extract: lua-5.1.5.tar.gz lua-5.2.4.tar.gz lua-5.3.6.tar.gz lua-5.4.8.tar.gz lua-5.5.0-rc1.tar.gz
 	tar xvfz lua-5.1.5.tar.gz
 	tar xvfz lua-5.2.4.tar.gz
 	tar xvfz lua-5.3.6.tar.gz
 	tar xvfz lua-5.4.8.tar.gz
+	tar xvfz lua-5.5.0-rc1.tar.gz
 	git reset --hard # lua-5.*/src/Makefile
 
 .PHONY: build
@@ -28,6 +32,7 @@ build: extract
 	make -C lua-5.2.4 linux
 	make -C lua-5.3.6 linux
 	make -C lua-5.4.8 linux
+	make -C lua-5.5.0 linux
 
 .PHONY: harness
 harness: build
@@ -35,6 +40,7 @@ harness: build
 	-make -C ../test_lua harness LUA="../coverage/lua-5.2.4/src/lua -l profile_lua52" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.2/?.so"
 	-make -C ../test_lua harness LUA="../coverage/lua-5.3.6/src/lua -l profile_lua53" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.3/?.so"
 	-make -C ../test_lua harness LUA="../coverage/lua-5.4.8/src/lua -l profile_lua54" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.4/?.so"
+	-make -C ../test_lua harness LUA="../coverage/lua-5.5.0/src/lua -l profile_lua55" LUA_CPATH=";;/usr/lib/x86_64-linux-gnu/lua/5.5/?.so"
 
 .PHONY: lcov
 lcov: harness
@@ -42,6 +48,7 @@ lcov: harness
 	make -C lua-5.2.4/src lcov
 	make -C lua-5.3.6/src lcov
 	make -C lua-5.4.8/src lcov
+	make -C lua-5.5.0/src lcov
 
 .PHONY: clean
 clean:
@@ -49,6 +56,7 @@ clean:
 	rm -rf lua-5.2.4
 	rm -rf lua-5.3.6
 	rm -rf lua-5.4.8
+	rm -rf lua-5.5.0
 	rm -rf ../public/cover_lua*
 	git reset --hard # lua-5.*/src/Makefile
 
