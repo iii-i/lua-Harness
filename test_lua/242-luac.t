@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2010-2021, Perrad Francois
+-- Copyright (C) 2010-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -62,6 +62,8 @@ elseif _VERSION == 'Lua 5.3' then
     bin_version = "\x53"
 elseif _VERSION == 'Lua 5.4' then
     bin_version = "\x54"
+elseif _VERSION == 'Lua 5.5' then
+    bin_version = "\x55"
 end
 local format = "\x00"
 local data = "\x19\x93\r\n\x1a\n"

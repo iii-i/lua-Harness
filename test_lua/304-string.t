@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -164,7 +164,9 @@ do -- dump
     end
 
     error_matches(function () string.dump(print) end,
-            "^[^:]+:%d+: unable to dump given function",
+            _VERSION <= 'Lua 5.4'
+            and "^[^:]+:%d+: unable to dump given function"
+            or  "^[^:]+:%d+: bad argument #1 to 'dump' %(Lua function expected%)",
             "function dump (C function)")
 end
 
@@ -553,7 +555,7 @@ do -- rep
         diag("no rep with separator")
     end
 
-    if _VERSION >= 'Lua 5.3' then
+    if _VERSION == 'Lua 5.3' or _VERSION == 'Lua 5.4' then
         error_matches(function () string.rep('foo', 1e9) end,
                 "^[^:]+:%d+: resulting string too large",
                 "too large")

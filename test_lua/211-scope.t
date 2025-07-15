@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -32,7 +32,7 @@ See section "Local Variables and Blocks" in "Programming in Lua".
 
 require'test_assertion'
 
-plan(10)
+plan'no_plan'
 
 --[[ scope ]]
 x = 10
@@ -77,6 +77,12 @@ if a < b then
 end
 equals(a, 1)
 equals(b, 10)
+
+if _VERSION >= 'Lua 5.5' then
+    _dofile'lexico55/scope.t'
+end
+
+done_testing()
 
 -- Local Variables:
 --   mode: lua

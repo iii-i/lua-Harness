@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2014-2021, Perrad Francois
+-- Copyright (C) 2014-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -43,6 +43,9 @@ else
     _dofile'lexico53/utf8.t'
     if _VERSION >= 'Lua 5.4' or ravi then
         _dofile'lexico54/utf8.t'
+    end
+    if _VERSION >= 'Lua 5.5' then
+        _dofile'lexico55/utf8.t'
     end
     done_testing()
 end

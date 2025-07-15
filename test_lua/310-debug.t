@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2024, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -38,7 +38,7 @@ local has_gethook54 = _VERSION >= 'Lua 5.4'
 local has_getlocal52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_getuservalue = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_getuservalue54 = _VERSION >= 'Lua 5.4'
-local has_setcstacklimit = _VERSION >= 'Lua 5.4'
+local has_setcstacklimit = _VERSION == 'Lua 5.4'
 local has_setmetatable52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_upvalueid = _VERSION >= 'Lua 5.2' or jit
 local has_upvaluejoin = _VERSION >= 'Lua 5.2' or jit

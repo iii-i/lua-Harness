@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -226,7 +226,7 @@ if has_close then
     is_true(coroutine.close(co), "close again")
 
     error_matches(function () coroutine.close(coroutine.running()) end,
-        "^[^:]+:%d+: cannot close a running coroutine")
+        "^[^:]+:%d+: cannot close ")
 
     error_matches(function () coroutine.close(42) end,
         "^[^:]+:%d+: bad argument #1 to 'close' %(thread expected, got number%)")

@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -33,6 +33,7 @@ L<https://www.lua.org/manual/5.4/manual.html#6.1>
 require'test_assertion'
 local profile = require'profile'
 local has_error53 = _VERSION >= 'Lua 5.3'
+local has_error55 = _VERSION >= 'Lua 5.5'
 local has_gcinfo = _VERSION == 'Lua 5.1'
 local has_getfenv = _VERSION == 'Lua 5.1'
 local has_ipairs53 = _VERSION >= 'Lua 5.3'
@@ -159,6 +160,26 @@ elseif _VERSION == 'Lua 5.4' then
     equals(collectgarbage('setstepmul', 200), 100)
     equals(collectgarbage(), 0)
     equals(collectgarbage('step'), false)
+elseif _VERSION == 'Lua 5.5' then
+    equals(collectgarbage('stop'), 0, "function collectgarbage 'stop/restart/collect'")
+    equals(collectgarbage('isrunning'), false)
+    equals(collectgarbage('generational'), 'generational')
+    equals(collectgarbage('incremental'), 'generational')
+    equals(collectgarbage('incremental'), 'incremental')
+    equals(collectgarbage('generational'), 'incremental')
+    equals(collectgarbage('step'), false)
+    equals(collectgarbage('restart'), 0)
+    equals(collectgarbage('isrunning'), true)
+    equals(collectgarbage('step'), false)
+    equals(collectgarbage('collect'), 0)
+    equals(collectgarbage('param', 'pause', 10), 250)
+    equals(collectgarbage('param', 'stepmul', 100), 200)
+    equals(collectgarbage('param', 'stepsize', 4800), 9600)
+    equals(collectgarbage('param', 'minormul', 40), 20)
+    equals(collectgarbage('param', 'majorminor', 75), 50)
+    equals(collectgarbage('param', 'minormajor', 72), 68)
+    equals(collectgarbage(), 0)
+    equals(collectgarbage('step'), false)
 end
 
 is_number(collectgarbage('count'), "function collectgarbage 'count'")
@@ -221,8 +242,13 @@ do -- error
     local v, msg = pcall(function() error(obj) end)
     equals(msg, obj, "function error({})")
 
-    v, msg = pcall(function() error() end)
-    equals(msg, nil, "function error()")
+    if has_error55 then
+        v, msg = pcall(function() error() end)
+        equals(msg, "<no error object>", "function error()")
+    else
+        v, msg = pcall(function() error() end)
+        equals(msg, nil, "function error()")
+    end
 end
 
 -- gcinfo

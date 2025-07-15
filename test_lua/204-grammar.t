@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2010-2021, Perrad Francois
+-- Copyright (C) 2010-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -30,6 +30,7 @@ L<https://www.lua.org/manual/5.4/manual.html#9>
 
 require'test_assertion'
 local profile = require'profile'
+local has_global = _VERSION >= 'Lua 5.5'
 local has_goto = _VERSION >= 'Lua 5.2' or jit
 local has_attr = _VERSION >= 'Lua 5.4'
 local loadstring = loadstring or load
@@ -70,8 +71,10 @@ end
         matches(msg, "^[^:]+:%d+: no loop to break", "orphan break")
     elseif _VERSION <= 'Lua 5.3' then
         matches(msg, "^[^:]+:%d+: <break> at line 5 not inside a loop", "orphan break")
-    else
+    elseif _VERSION == 'Lua 5.4' then
         matches(msg, "^[^:]+:%d+: break outside loop at line 5", "orphan break")
+    else
+        matches(msg, "^[^:]+:%d+: break outside loop near 'break'", "orphan break")
     end
 end
 
@@ -144,9 +147,9 @@ if has_goto then
     goto e
 ]]
     if jit then
-        matches(msg, ":%d+: <goto f> jumps into the scope of local 'x'", "bad goto")
+        matches(msg, ":%d+: <goto f> jumps into the scope of ", "bad goto")
     else
-        matches(msg, ":%d+: <goto f> at line %d+ jumps into the scope of local 'x'", "bad goto")
+        matches(msg, ":%d+: <goto f> at line %d+ jumps into the scope of ", "bad goto")
     end
 
     f= loadstring [[
@@ -163,6 +166,36 @@ end
     is_function(f, "goto")
 else
     diag("no goto")
+end
+
+--[[ global ]]
+if has_global then
+    local f, msg = loadstring [[
+X = 1
+do
+    global Y
+    Y = 1
+    X = 1
+end
+X = 2
+]]
+    matches(msg, "^[^:]+:%d+: variable 'X' not declared", "global")
+else
+    diag("no global")
+end
+
+do --[[ loop control variable read-only ]]
+    local f, msg = loadstring [[
+for i = 3, 5 do
+    print(tostring(i))
+    i = i + 1
+end
+]]
+    if _VERSION >= 'Lua 5.5' then
+        matches(msg, "^[^:]+:%d+: attempt to assign to const variable 'i'", "loop control variable read-only")
+    else
+        is_function(f)
+    end
 end
 
 do --[[ syntax error ]]

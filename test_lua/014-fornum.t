@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2020, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -28,7 +28,7 @@ L<https://www.lua.org/manual/5.4/manual.html#3.3.5>
 
 --]]
 
-print("1..36")
+print("1..33")
 
 for i = 1.0, 3.0, 0.5 do
     print("ok " .. tostring(2*i-1) .. " - for 1.0, 3.0, 0.5")
@@ -48,21 +48,16 @@ for i = 1.0, 3.0, 0.5 do
     f(i)
 end
 
-for i = 3, 5 do
-    print("ok " .. tostring(13+i) .. " - for 3, 5")
-    i = i + 1
-end
-
 for i = 5, 1, -1 do
-    print("ok " .. tostring(24-i) .. " - for 5, 1, -1")
+    print("ok " .. tostring(21-i) .. " - for 5, 1, -1")
 end
 
 for i = 5, 5 do
-    print("ok " .. tostring(19+i) .. " - for 5, 5")
+    print("ok " .. tostring(16+i) .. " - for 5, 5")
 end
 
 for i = 5, 5, -1 do
-    print("ok " .. tostring(20+i) .. " - for 5, 5, -1")
+    print("ok " .. tostring(17+i) .. " - for 5, 5, -1")
 end
 
 do
@@ -71,9 +66,9 @@ do
         v = true
     end
     if v then
-        print("not ok 26 - for 5, 3")
+        print("not ok 23 - for 5, 3")
     else
-        print("ok 26 - for 5, 3")
+        print("ok 23 - for 5, 3")
     end
 end
 
@@ -83,9 +78,9 @@ do
         v = true
     end
     if v then
-        print("not ok 27 - for 5, 7, -1")
+        print("not ok 24 - for 5, 7, -1")
     else
-        print("ok 27 - for 5, 7, -1")
+        print("ok 24 - for 5, 7, -1")
     end
 end
 
@@ -98,11 +93,11 @@ do
         end
     end
     if jit then
-        print("not ok 28 - for 5, 7, 0 # TODO # LuaJIT intentional.")
+        print("not ok 25 - for 5, 7, 0 # TODO # LuaJIT intentional.")
     elseif v then
-        print("not ok 28 - for 5, 7, 0")
+        print("not ok 25 - for 5, 7, 0")
     else
-        print("ok 28 - for 5, 7, 0")
+        print("ok 25 - for 5, 7, 0")
     end
 end
 
@@ -110,13 +105,13 @@ do
     local v = nil
     for i = 1, 10, 2 do
         if i > 4 then break end
-        print("ok " .. tostring((i+57)/2) .. " - for break")
+        print("ok " .. tostring((i+51)/2) .. " - for break")
         v = i
     end
     if v == 3 then
-        print("ok 31 - break")
+        print("ok 28 - break")
     else
-        print("not ok 31 - " .. v)
+        print("not ok 28 - " .. v)
     end
 end
 
@@ -125,7 +120,7 @@ do
     local function limit() return 8 end
     local function step()  return 2 end
     for i = first(), limit(), step() do
-        print("ok " .. tostring((i+63)/2) .. " - with functions")
+        print("ok " .. tostring((i+57)/2) .. " - with functions")
     end
 end
 
@@ -136,9 +131,9 @@ do
     end
     local v = a[5]()
     if v == 5 then
-        print("ok 36 - for & upval")
+        print("ok 33 - for & upval")
     else
-        print("not ok 36 - for & upval")
+        print("not ok 33 - for & upval")
         print("#", v)
     end
 end

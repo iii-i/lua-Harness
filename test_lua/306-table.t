@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2023, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -33,6 +33,7 @@ L<https://www.lua.org/manual/5.4/manual.html#6.6>
 require'test_assertion'
 local profile = require'profile'
 local luajit21 = jit and (jit.version_num >= 20100 or jit.version:match'^RaptorJIT')
+local has_create = _VERSION >= 'Lua 5.5'
 local has_foreach = _VERSION == 'Lua 5.1'
 local has_foreachi = _VERSION == 'Lua 5.1'
 local has_getn = _VERSION == 'Lua 5.1'
@@ -72,6 +73,18 @@ do -- concat
     error_matches(function () table.concat(t, ',') end,
             "^[^:]+:%d+: invalid value %(boolean%) at index 3 in table for 'concat'",
             "function concat (non-string)")
+end
+
+-- create
+if has_create then
+    is_table(table.create(100))
+    is_table(table.create(0, 100))
+    is_table(table.create(200, 200))
+
+    error_matches(function () table.create(false) end,
+            "^[^:]+:%d+: bad argument #1 to 'create' %(number expected, got boolean%)")
+else
+    is_nil(table.create, "no table.create");
 end
 
 do -- insert
