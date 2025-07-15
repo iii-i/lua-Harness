@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-04 14:25:59</td>
+            <td class="headerValue">2025-12-22 18:36:05</td>
             <td></td>
           </tr>
           <tr>
@@ -367,16 +367,16 @@
 <span id="L301"><span class="lineNum">     301</span>              : }</span>
 <span id="L302"><span class="lineNum">     302</span>              : </span>
 <span id="L303"><span class="lineNum">     303</span>              : </span>
-<span id="L304"><span class="lineNum">     304</span> <span class="tlaGNC">         814 : static int checkArgMode (const Proto *pt, int r, enum OpArgMask mode) {</span></span>
-<span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC">         814 :   switch (mode) {</span></span>
+<span id="L304"><span class="lineNum">     304</span> <span class="tlaGNC">         820 : static int checkArgMode (const Proto *pt, int r, enum OpArgMask mode) {</span></span>
+<span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC">         820 :   switch (mode) {</span></span>
 <span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">         164 :     case OpArgN: check(r == 0); break;</span></span>
-<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">         443 :     case OpArgU: break;</span></span>
-<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">         130 :     case OpArgR: checkreg(pt, r); break;</span></span>
-<span id="L309"><span class="lineNum">     309</span> <span class="tlaGNC">          77 :     case OpArgK:</span></span>
-<span id="L310"><span class="lineNum">     310</span> <span class="tlaGNC">          77 :       check(ISK(r) ? INDEXK(r) &lt; pt-&gt;sizek : r &lt; pt-&gt;maxstacksize);</span></span>
-<span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">          77 :       break;</span></span>
+<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">         446 :     case OpArgU: break;</span></span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">         131 :     case OpArgR: checkreg(pt, r); break;</span></span>
+<span id="L309"><span class="lineNum">     309</span> <span class="tlaGNC">          79 :     case OpArgK:</span></span>
+<span id="L310"><span class="lineNum">     310</span> <span class="tlaGNC">          79 :       check(ISK(r) ? INDEXK(r) &lt; pt-&gt;sizek : r &lt; pt-&gt;maxstacksize);</span></span>
+<span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">          79 :       break;</span></span>
 <span id="L312"><span class="lineNum">     312</span>              :   }</span>
-<span id="L313"><span class="lineNum">     313</span> <span class="tlaGNC">         814 :   return 1;</span></span>
+<span id="L313"><span class="lineNum">     313</span> <span class="tlaGNC">         820 :   return 1;</span></span>
 <span id="L314"><span class="lineNum">     314</span>              : }</span>
 <span id="L315"><span class="lineNum">     315</span>              : </span>
 <span id="L316"><span class="lineNum">     316</span>              : </span>
@@ -385,65 +385,65 @@
 <span id="L319"><span class="lineNum">     319</span>              :   int last;  /* stores position of last instruction that changed `reg' */</span>
 <span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">         120 :   last = pt-&gt;sizecode-1;  /* points to final return (a `neutral' instruction) */</span></span>
 <span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">         120 :   check(precheck(pt));</span></span>
-<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">         932 :   for (pc = 0; pc &lt; lastpc; pc++) {</span></span>
-<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">         812 :     Instruction i = pt-&gt;code[pc];</span></span>
-<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">         812 :     OpCode op = GET_OPCODE(i);</span></span>
-<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">         812 :     int a = GETARG_A(i);</span></span>
-<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">         812 :     int b = 0;</span></span>
-<span id="L327"><span class="lineNum">     327</span> <span class="tlaGNC">         812 :     int c = 0;</span></span>
-<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">         812 :     check(op &lt; NUM_OPCODES);</span></span>
-<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">         812 :     checkreg(pt, a);</span></span>
-<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">         812 :     switch (getOpMode(op)) {</span></span>
-<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">         407 :       case iABC: {</span></span>
-<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">         407 :         b = GETARG_B(i);</span></span>
-<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">         407 :         c = GETARG_C(i);</span></span>
-<span id="L334"><span class="lineNum">     334</span> <span class="tlaGNC">         407 :         check(checkArgMode(pt, b, getBMode(op)));</span></span>
-<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">         407 :         check(checkArgMode(pt, c, getCMode(op)));</span></span>
-<span id="L336"><span class="lineNum">     336</span> <span class="tlaGNC">         407 :         break;</span></span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">         938 :   for (pc = 0; pc &lt; lastpc; pc++) {</span></span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">         818 :     Instruction i = pt-&gt;code[pc];</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">         818 :     OpCode op = GET_OPCODE(i);</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">         818 :     int a = GETARG_A(i);</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">         818 :     int b = 0;</span></span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaGNC">         818 :     int c = 0;</span></span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">         818 :     check(op &lt; NUM_OPCODES);</span></span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">         818 :     checkreg(pt, a);</span></span>
+<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">         818 :     switch (getOpMode(op)) {</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">         410 :       case iABC: {</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">         410 :         b = GETARG_B(i);</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">         410 :         c = GETARG_C(i);</span></span>
+<span id="L334"><span class="lineNum">     334</span> <span class="tlaGNC">         410 :         check(checkArgMode(pt, b, getBMode(op)));</span></span>
+<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">         410 :         check(checkArgMode(pt, c, getCMode(op)));</span></span>
+<span id="L336"><span class="lineNum">     336</span> <span class="tlaGNC">         410 :         break;</span></span>
 <span id="L337"><span class="lineNum">     337</span>              :       }</span>
-<span id="L338"><span class="lineNum">     338</span> <span class="tlaGNC">         377 :       case iABx: {</span></span>
-<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">         377 :         b = GETARG_Bx(i);</span></span>
-<span id="L340"><span class="lineNum">     340</span> <span class="tlaGNC">         377 :         if (getBMode(op) == OpArgK) check(b &lt; pt-&gt;sizek);</span></span>
-<span id="L341"><span class="lineNum">     341</span> <span class="tlaGNC">         377 :         break;</span></span>
+<span id="L338"><span class="lineNum">     338</span> <span class="tlaGNC">         378 :       case iABx: {</span></span>
+<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">         378 :         b = GETARG_Bx(i);</span></span>
+<span id="L340"><span class="lineNum">     340</span> <span class="tlaGNC">         378 :         if (getBMode(op) == OpArgK) check(b &lt; pt-&gt;sizek);</span></span>
+<span id="L341"><span class="lineNum">     341</span> <span class="tlaGNC">         378 :         break;</span></span>
 <span id="L342"><span class="lineNum">     342</span>              :       }</span>
-<span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">          28 :       case iAsBx: {</span></span>
-<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">          28 :         b = GETARG_sBx(i);</span></span>
-<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">          28 :         if (getBMode(op) == OpArgR) {</span></span>
-<span id="L346"><span class="lineNum">     346</span> <span class="tlaGNC">          28 :           int dest = pc+1+b;</span></span>
-<span id="L347"><span class="lineNum">     347</span> <span class="tlaGNC">          28 :           check(0 &lt;= dest &amp;&amp; dest &lt; pt-&gt;sizecode);</span></span>
-<span id="L348"><span class="lineNum">     348</span> <span class="tlaGNC">          28 :           if (dest &gt; 0) {</span></span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">          30 :       case iAsBx: {</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">          30 :         b = GETARG_sBx(i);</span></span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">          30 :         if (getBMode(op) == OpArgR) {</span></span>
+<span id="L346"><span class="lineNum">     346</span> <span class="tlaGNC">          30 :           int dest = pc+1+b;</span></span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaGNC">          30 :           check(0 &lt;= dest &amp;&amp; dest &lt; pt-&gt;sizecode);</span></span>
+<span id="L348"><span class="lineNum">     348</span> <span class="tlaGNC">          30 :           if (dest &gt; 0) {</span></span>
 <span id="L349"><span class="lineNum">     349</span>              :             int j;</span>
 <span id="L350"><span class="lineNum">     350</span>              :             /* check that it does not jump to a setlist count; this</span>
 <span id="L351"><span class="lineNum">     351</span>              :                is tricky, because the count from a previous setlist may</span>
 <span id="L352"><span class="lineNum">     352</span>              :                have the same value of an invalid setlist; so, we must</span>
 <span id="L353"><span class="lineNum">     353</span>              :                go all the way back to the first of them (if any) */</span>
-<span id="L354"><span class="lineNum">     354</span> <span class="tlaGNC">          26 :             for (j = 0; j &lt; dest; j++) {</span></span>
-<span id="L355"><span class="lineNum">     355</span> <span class="tlaGNC">          26 :               Instruction d = pt-&gt;code[dest-1-j];</span></span>
-<span id="L356"><span class="lineNum">     356</span> <span class="tlaGNC">          26 :               if (!(GET_OPCODE(d) == OP_SETLIST &amp;&amp; GETARG_C(d) == 0)) break;</span></span>
+<span id="L354"><span class="lineNum">     354</span> <span class="tlaGNC">          28 :             for (j = 0; j &lt; dest; j++) {</span></span>
+<span id="L355"><span class="lineNum">     355</span> <span class="tlaGNC">          28 :               Instruction d = pt-&gt;code[dest-1-j];</span></span>
+<span id="L356"><span class="lineNum">     356</span> <span class="tlaGNC">          28 :               if (!(GET_OPCODE(d) == OP_SETLIST &amp;&amp; GETARG_C(d) == 0)) break;</span></span>
 <span id="L357"><span class="lineNum">     357</span>              :             }</span>
 <span id="L358"><span class="lineNum">     358</span>              :             /* if 'j' is even, previous value is not a setlist (even if</span>
 <span id="L359"><span class="lineNum">     359</span>              :                it looks like one) */</span>
-<span id="L360"><span class="lineNum">     360</span> <span class="tlaGNC">          26 :             check((j&amp;1) == 0);</span></span>
+<span id="L360"><span class="lineNum">     360</span> <span class="tlaGNC">          28 :             check((j&amp;1) == 0);</span></span>
 <span id="L361"><span class="lineNum">     361</span>              :           }</span>
 <span id="L362"><span class="lineNum">     362</span>              :         }</span>
-<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">          28 :         break;</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">          30 :         break;</span></span>
 <span id="L364"><span class="lineNum">     364</span>              :       }</span>
 <span id="L365"><span class="lineNum">     365</span>              :     }</span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaGNC">         812 :     if (testAMode(op)) {</span></span>
-<span id="L367"><span class="lineNum">     367</span> <span class="tlaGNC">         722 :       if (a == reg) last = pc;  /* change register `a' */</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaGNC">         818 :     if (testAMode(op)) {</span></span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaGNC">         725 :       if (a == reg) last = pc;  /* change register `a' */</span></span>
 <span id="L368"><span class="lineNum">     368</span>              :     }</span>
-<span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">         812 :     if (testTMode(op)) {</span></span>
-<span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">          25 :       check(pc+2 &lt; pt-&gt;sizecode);  /* check skip */</span></span>
-<span id="L371"><span class="lineNum">     371</span> <span class="tlaGNC">          25 :       check(GET_OPCODE(pt-&gt;code[pc+1]) == OP_JMP);</span></span>
+<span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">         818 :     if (testTMode(op)) {</span></span>
+<span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">          27 :       check(pc+2 &lt; pt-&gt;sizecode);  /* check skip */</span></span>
+<span id="L371"><span class="lineNum">     371</span> <span class="tlaGNC">          27 :       check(GET_OPCODE(pt-&gt;code[pc+1]) == OP_JMP);</span></span>
 <span id="L372"><span class="lineNum">     372</span>              :     }</span>
-<span id="L373"><span class="lineNum">     373</span> <span class="tlaGNC">         812 :     switch (op) {</span></span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">          31 :       case OP_LOADBOOL: {</span></span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">          31 :         if (c == 1) {  /* does it jump? */</span></span>
+<span id="L373"><span class="lineNum">     373</span> <span class="tlaGNC">         818 :     switch (op) {</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">          32 :       case OP_LOADBOOL: {</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">          32 :         if (c == 1) {  /* does it jump? */</span></span>
 <span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :           check(pc+2 &lt; pt-&gt;sizecode);  /* check its jump */</span></span>
 <span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :           check(GET_OPCODE(pt-&gt;code[pc+1]) != OP_SETLIST ||</span></span>
 <span id="L378"><span class="lineNum">     378</span>              :                 GETARG_C(pt-&gt;code[pc+1]) != 0);</span>
 <span id="L379"><span class="lineNum">     379</span>              :         }</span>
-<span id="L380"><span class="lineNum">     380</span> <span class="tlaGNC">          31 :         break;</span></span>
+<span id="L380"><span class="lineNum">     380</span> <span class="tlaGNC">          32 :         break;</span></span>
 <span id="L381"><span class="lineNum">     381</span>              :       }</span>
 <span id="L382"><span class="lineNum">     382</span> <span class="tlaGNC">          16 :       case OP_LOADNIL: {</span></span>
 <span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">          16 :         if (a &lt;= reg &amp;&amp; reg &lt;= b)</span></span>
@@ -455,10 +455,10 @@
 <span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">          60 :         check(b &lt; pt-&gt;nups);</span></span>
 <span id="L390"><span class="lineNum">     390</span> <span class="tlaGNC">          60 :         break;</span></span>
 <span id="L391"><span class="lineNum">     391</span>              :       }</span>
-<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">         184 :       case OP_GETGLOBAL:</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">         185 :       case OP_GETGLOBAL:</span></span>
 <span id="L393"><span class="lineNum">     393</span>              :       case OP_SETGLOBAL: {</span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">         184 :         check(ttisstring(&amp;pt-&gt;k[b]));</span></span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">         184 :         break;</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">         185 :         check(ttisstring(&amp;pt-&gt;k[b]));</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">         185 :         break;</span></span>
 <span id="L396"><span class="lineNum">     396</span>              :       }</span>
 <span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">           6 :       case OP_SELF: {</span></span>
 <span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">           6 :         checkreg(pt, a+1);</span></span>
@@ -480,11 +480,11 @@
 <span id="L414"><span class="lineNum">     414</span> <span class="tlaUNC">           0 :         checkreg(pt, a+3);</span></span>
 <span id="L415"><span class="lineNum">     415</span>              :         /* go through */</span>
 <span id="L416"><span class="lineNum">     416</span>              :       case OP_JMP: {</span>
-<span id="L417"><span class="lineNum">     417</span> <span class="tlaGNC">          28 :         int dest = pc+1+b;</span></span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaGNC">          30 :         int dest = pc+1+b;</span></span>
 <span id="L418"><span class="lineNum">     418</span>              :         /* not full check and jump is forward and do not skip `lastpc'? */</span>
-<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">          28 :         if (reg != NO_REG &amp;&amp; pc &lt; dest &amp;&amp; dest &lt;= lastpc)</span></span>
-<span id="L420"><span class="lineNum">     420</span> <span class="tlaGNC">          26 :           pc += b;  /* do the jump */</span></span>
-<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          28 :         break;</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">          30 :         if (reg != NO_REG &amp;&amp; pc &lt; dest &amp;&amp; dest &lt;= lastpc)</span></span>
+<span id="L420"><span class="lineNum">     420</span> <span class="tlaGNC">          28 :           pc += b;  /* do the jump */</span></span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          30 :         break;</span></span>
 <span id="L422"><span class="lineNum">     422</span>              :       }</span>
 <span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">         110 :       case OP_CALL:</span></span>
 <span id="L424"><span class="lineNum">     424</span>              :       case OP_TAILCALL: {</span>
@@ -534,7 +534,7 @@
 <span id="L468"><span class="lineNum">     468</span> <span class="tlaGNC">           2 :         checkreg(pt, a+b-1);</span></span>
 <span id="L469"><span class="lineNum">     469</span> <span class="tlaGNC">           2 :         break;</span></span>
 <span id="L470"><span class="lineNum">     470</span>              :       }</span>
-<span id="L471"><span class="lineNum">     471</span> <span class="tlaGNC">         328 :       default: break;</span></span>
+<span id="L471"><span class="lineNum">     471</span> <span class="tlaGNC">         330 :       default: break;</span></span>
 <span id="L472"><span class="lineNum">     472</span>              :     }</span>
 <span id="L473"><span class="lineNum">     473</span>              :   }</span>
 <span id="L474"><span class="lineNum">     474</span> <span class="tlaGNC">         120 :   return pt-&gt;code[last];</span></span>

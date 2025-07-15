@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-04 14:26:07</td>
+            <td class="headerValue">2025-12-22 18:36:12</td>
             <td></td>
           </tr>
           <tr>
@@ -439,10 +439,10 @@
 <span id="L373"><span class="lineNum">     373</span>              : }</span>
 <span id="L374"><span class="lineNum">     374</span>              : </span>
 <span id="L375"><span class="lineNum">     375</span>              : </span>
-<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">         545 : static int filterpc (int pc, int jmptarget) {</span></span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">         545 :   if (pc &lt; jmptarget)  /* is code conditional (inside a jump)? */</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">         172 :     return -1;  /* cannot know who sets that register */</span></span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">         373 :   else return pc;  /* current position sets that register */</span></span>
+<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">         586 : static int filterpc (int pc, int jmptarget) {</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">         586 :   if (pc &lt; jmptarget)  /* is code conditional (inside a jump)? */</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">         216 :     return -1;  /* cannot know who sets that register */</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">         370 :   else return pc;  /* current position sets that register */</span></span>
 <span id="L380"><span class="lineNum">     380</span>              : }</span>
 <span id="L381"><span class="lineNum">     381</span>              : </span>
 <span id="L382"><span class="lineNum">     382</span>              : </span>
@@ -453,11 +453,11 @@
 <span id="L387"><span class="lineNum">     387</span>              :   int pc;</span>
 <span id="L388"><span class="lineNum">     388</span> <span class="tlaGNC">         172 :   int setreg = -1;  /* keep last instruction that changed 'reg' */</span></span>
 <span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">         172 :   int jmptarget = 0;  /* any code before this address is conditional */</span></span>
-<span id="L390"><span class="lineNum">     390</span> <span class="tlaGNC">        1589 :   for (pc = 0; pc &lt; lastpc; pc++) {</span></span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">        1417 :     Instruction i = p-&gt;code[pc];</span></span>
-<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">        1417 :     OpCode op = GET_OPCODE(i);</span></span>
-<span id="L393"><span class="lineNum">     393</span> <span class="tlaGNC">        1417 :     int a = GETARG_A(i);</span></span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">        1417 :     switch (op) {</span></span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaGNC">        1737 :   for (pc = 0; pc &lt; lastpc; pc++) {</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">        1565 :     Instruction i = p-&gt;code[pc];</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">        1565 :     OpCode op = GET_OPCODE(i);</span></span>
+<span id="L393"><span class="lineNum">     393</span> <span class="tlaGNC">        1565 :     int a = GETARG_A(i);</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">        1565 :     switch (op) {</span></span>
 <span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">          17 :       case OP_LOADNIL: {</span></span>
 <span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">          17 :         int b = GETARG_B(i);</span></span>
 <span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">          17 :         if (a &lt;= reg &amp;&amp; reg &lt;= a + b)  /* set registers from 'a' to 'a+b' */</span></span>
@@ -469,26 +469,26 @@
 <span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :           setreg = filterpc(pc, jmptarget);</span></span>
 <span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :         break;</span></span>
 <span id="L405"><span class="lineNum">     405</span>              :       }</span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaGNC">         248 :       case OP_CALL:</span></span>
+<span id="L406"><span class="lineNum">     406</span> <span class="tlaGNC">         288 :       case OP_CALL:</span></span>
 <span id="L407"><span class="lineNum">     407</span>              :       case OP_TAILCALL: {</span>
-<span id="L408"><span class="lineNum">     408</span> <span class="tlaGNC">         248 :         if (reg &gt;= a)  /* affect all registers above base */</span></span>
-<span id="L409"><span class="lineNum">     409</span> <span class="tlaGNC">         247 :           setreg = filterpc(pc, jmptarget);</span></span>
-<span id="L410"><span class="lineNum">     410</span> <span class="tlaGNC">         248 :         break;</span></span>
+<span id="L408"><span class="lineNum">     408</span> <span class="tlaGNC">         288 :         if (reg &gt;= a)  /* affect all registers above base */</span></span>
+<span id="L409"><span class="lineNum">     409</span> <span class="tlaGNC">         287 :           setreg = filterpc(pc, jmptarget);</span></span>
+<span id="L410"><span class="lineNum">     410</span> <span class="tlaGNC">         288 :         break;</span></span>
 <span id="L411"><span class="lineNum">     411</span>              :       }</span>
-<span id="L412"><span class="lineNum">     412</span> <span class="tlaGNC">          47 :       case OP_JMP: {</span></span>
-<span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">          47 :         int b = GETARG_sBx(i);</span></span>
-<span id="L414"><span class="lineNum">     414</span> <span class="tlaGNC">          47 :         int dest = pc + 1 + b;</span></span>
+<span id="L412"><span class="lineNum">     412</span> <span class="tlaGNC">          52 :       case OP_JMP: {</span></span>
+<span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">          52 :         int b = GETARG_sBx(i);</span></span>
+<span id="L414"><span class="lineNum">     414</span> <span class="tlaGNC">          52 :         int dest = pc + 1 + b;</span></span>
 <span id="L415"><span class="lineNum">     415</span>              :         /* jump is forward and do not skip 'lastpc'? */</span>
-<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC">          47 :         if (pc &lt; dest &amp;&amp; dest &lt;= lastpc) {</span></span>
-<span id="L417"><span class="lineNum">     417</span> <span class="tlaGNC">          47 :           if (dest &gt; jmptarget)</span></span>
-<span id="L418"><span class="lineNum">     418</span> <span class="tlaGNC">          35 :             jmptarget = dest;  /* update 'jmptarget' */</span></span>
+<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC">          52 :         if (pc &lt; dest &amp;&amp; dest &lt;= lastpc) {</span></span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaGNC">          52 :           if (dest &gt; jmptarget)</span></span>
+<span id="L418"><span class="lineNum">     418</span> <span class="tlaGNC">          37 :             jmptarget = dest;  /* update 'jmptarget' */</span></span>
 <span id="L419"><span class="lineNum">     419</span>              :         }</span>
-<span id="L420"><span class="lineNum">     420</span> <span class="tlaGNC">          47 :         break;</span></span>
+<span id="L420"><span class="lineNum">     420</span> <span class="tlaGNC">          52 :         break;</span></span>
 <span id="L421"><span class="lineNum">     421</span>              :       }</span>
-<span id="L422"><span class="lineNum">     422</span> <span class="tlaGNC">        1105 :       default:</span></span>
-<span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">        1105 :         if (testAMode(op) &amp;&amp; reg == a)  /* any instruction that set A */</span></span>
-<span id="L424"><span class="lineNum">     424</span> <span class="tlaGNC">         293 :           setreg = filterpc(pc, jmptarget);</span></span>
-<span id="L425"><span class="lineNum">     425</span> <span class="tlaGNC">        1105 :         break;</span></span>
+<span id="L422"><span class="lineNum">     422</span> <span class="tlaGNC">        1208 :       default:</span></span>
+<span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">        1208 :         if (testAMode(op) &amp;&amp; reg == a)  /* any instruction that set A */</span></span>
+<span id="L424"><span class="lineNum">     424</span> <span class="tlaGNC">         294 :           setreg = filterpc(pc, jmptarget);</span></span>
+<span id="L425"><span class="lineNum">     425</span> <span class="tlaGNC">        1208 :         break;</span></span>
 <span id="L426"><span class="lineNum">     426</span>              :     }</span>
 <span id="L427"><span class="lineNum">     427</span>              :   }</span>
 <span id="L428"><span class="lineNum">     428</span> <span class="tlaGNC">         172 :   return setreg;</span></span>

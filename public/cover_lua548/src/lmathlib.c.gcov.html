@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-04 14:26:12</td>
+            <td class="headerValue">2025-12-22 18:36:16</td>
             <td></td>
           </tr>
           <tr>
@@ -379,21 +379,21 @@
 <span id="L313"><span class="lineNum">     313</span>              : </span>
 <span id="L314"><span class="lineNum">     314</span>              : </span>
 <span id="L315"><span class="lineNum">     315</span>              : /* rotate left 'x' by 'n' bits */</span>
-<span id="L316"><span class="lineNum">     316</span> <span class="tlaGNC">        3012 : static Rand64 rotl (Rand64 x, int n) {</span></span>
-<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">        3012 :   return (x &lt;&lt; n) | (trim64(x) &gt;&gt; (64 - n));</span></span>
+<span id="L316"><span class="lineNum">     316</span> <span class="tlaGNC">        3014 : static Rand64 rotl (Rand64 x, int n) {</span></span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">        3014 :   return (x &lt;&lt; n) | (trim64(x) &gt;&gt; (64 - n));</span></span>
 <span id="L318"><span class="lineNum">     318</span>              : }</span>
 <span id="L319"><span class="lineNum">     319</span>              : </span>
-<span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">        1506 : static Rand64 nextrand (Rand64 *state) {</span></span>
-<span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">        1506 :   Rand64 state0 = state[0];</span></span>
-<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">        1506 :   Rand64 state1 = state[1];</span></span>
-<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">        1506 :   Rand64 state2 = state[2] ^ state0;</span></span>
-<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">        1506 :   Rand64 state3 = state[3] ^ state1;</span></span>
-<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">        1506 :   Rand64 res = rotl(state1 * 5, 7) * 9;</span></span>
-<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">        1506 :   state[0] = state0 ^ state3;</span></span>
-<span id="L327"><span class="lineNum">     327</span> <span class="tlaGNC">        1506 :   state[1] = state1 ^ state2;</span></span>
-<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">        1506 :   state[2] = state2 ^ (state1 &lt;&lt; 17);</span></span>
-<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">        1506 :   state[3] = rotl(state3, 45);</span></span>
-<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">        1506 :   return res;</span></span>
+<span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">        1507 : static Rand64 nextrand (Rand64 *state) {</span></span>
+<span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">        1507 :   Rand64 state0 = state[0];</span></span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">        1507 :   Rand64 state1 = state[1];</span></span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">        1507 :   Rand64 state2 = state[2] ^ state0;</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">        1507 :   Rand64 state3 = state[3] ^ state1;</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">        1507 :   Rand64 res = rotl(state1 * 5, 7) * 9;</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">        1507 :   state[0] = state0 ^ state3;</span></span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaGNC">        1507 :   state[1] = state1 ^ state2;</span></span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">        1507 :   state[2] = state2 ^ (state1 &lt;&lt; 17);</span></span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">        1507 :   state[3] = rotl(state3, 45);</span></span>
+<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">        1507 :   return res;</span></span>
 <span id="L331"><span class="lineNum">     331</span>              : }</span>
 <span id="L332"><span class="lineNum">     332</span>              : </span>
 <span id="L333"><span class="lineNum">     333</span>              : </span>
@@ -630,8 +630,8 @@
 <span id="L564"><span class="lineNum">     564</span>              :     lua_assert((lim &amp; (lim + 1)) == 0  /* 'lim + 1' is a power of 2, */</span>
 <span id="L565"><span class="lineNum">     565</span>              :       &amp;&amp; lim &gt;= n  /* not smaller than 'n', */</span>
 <span id="L566"><span class="lineNum">     566</span>              :       &amp;&amp; (lim &gt;&gt; 1) &lt; n);  /* and it is the smallest one */</span>
-<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">          10 :     while ((ran &amp;= lim) &gt; n)  /* project 'ran' into [0..lim] */</span></span>
-<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">           5 :       ran = I2UInt(nextrand(state-&gt;s));  /* not inside [0..n]? try again */</span></span>
+<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">          11 :     while ((ran &amp;= lim) &gt; n)  /* project 'ran' into [0..lim] */</span></span>
+<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">           6 :       ran = I2UInt(nextrand(state-&gt;s));  /* not inside [0..n]? try again */</span></span>
 <span id="L569"><span class="lineNum">     569</span> <span class="tlaGNC">           5 :     return ran;</span></span>
 <span id="L570"><span class="lineNum">     570</span>              :   }</span>
 <span id="L571"><span class="lineNum">     571</span>              : }</span>

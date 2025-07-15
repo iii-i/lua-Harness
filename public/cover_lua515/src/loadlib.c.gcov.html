@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-04 14:25:59</td>
+            <td class="headerValue">2025-12-22 18:36:05</td>
             <td></td>
           </tr>
           <tr>
@@ -655,21 +655,21 @@
 <span id="L589"><span class="lineNum">     589</span>              : /* auxiliary mark (for internal use) */</span>
 <span id="L590"><span class="lineNum">     590</span>              : #define AUXMARK         &quot;\1&quot;</span>
 <span id="L591"><span class="lineNum">     591</span>              : </span>
-<span id="L592"><span class="lineNum">     592</span> <span class="tlaGNC">         170 : static void setpath (lua_State *L, const char *fieldname, const char *envname,</span></span>
+<span id="L592"><span class="lineNum">     592</span> <span class="tlaGNC">         166 : static void setpath (lua_State *L, const char *fieldname, const char *envname,</span></span>
 <span id="L593"><span class="lineNum">     593</span>              :                                    const char *def) {</span>
-<span id="L594"><span class="lineNum">     594</span> <span class="tlaGNC">         170 :   const char *path = getenv(envname);</span></span>
-<span id="L595"><span class="lineNum">     595</span> <span class="tlaGNC">         170 :   if (path == NULL)  /* no environment variable? */</span></span>
+<span id="L594"><span class="lineNum">     594</span> <span class="tlaGNC">         166 :   const char *path = getenv(envname);</span></span>
+<span id="L595"><span class="lineNum">     595</span> <span class="tlaGNC">         166 :   if (path == NULL)  /* no environment variable? */</span></span>
 <span id="L596"><span class="lineNum">     596</span> <span class="tlaUNC">           0 :     lua_pushstring(L, def);  /* use default */</span></span>
 <span id="L597"><span class="lineNum">     597</span>              :   else {</span>
 <span id="L598"><span class="lineNum">     598</span>              :     /* replace &quot;;;&quot; by &quot;;AUXMARK;&quot; and then AUXMARK by default path */</span>
-<span id="L599"><span class="lineNum">     599</span> <span class="tlaGNC">         170 :     path = luaL_gsub(L, path, LUA_PATHSEP LUA_PATHSEP,</span></span>
+<span id="L599"><span class="lineNum">     599</span> <span class="tlaGNC">         166 :     path = luaL_gsub(L, path, LUA_PATHSEP LUA_PATHSEP,</span></span>
 <span id="L600"><span class="lineNum">     600</span>              :                               LUA_PATHSEP AUXMARK LUA_PATHSEP);</span>
-<span id="L601"><span class="lineNum">     601</span> <span class="tlaGNC">         170 :     luaL_gsub(L, path, AUXMARK, def);</span></span>
-<span id="L602"><span class="lineNum">     602</span> <span class="tlaGNC">         170 :     lua_remove(L, -2);</span></span>
+<span id="L601"><span class="lineNum">     601</span> <span class="tlaGNC">         166 :     luaL_gsub(L, path, AUXMARK, def);</span></span>
+<span id="L602"><span class="lineNum">     602</span> <span class="tlaGNC">         166 :     lua_remove(L, -2);</span></span>
 <span id="L603"><span class="lineNum">     603</span>              :   }</span>
 <span id="L604"><span class="lineNum">     604</span>              :   setprogdir(L);</span>
-<span id="L605"><span class="lineNum">     605</span> <span class="tlaGNC">         170 :   lua_setfield(L, -2, fieldname);</span></span>
-<span id="L606"><span class="lineNum">     606</span> <span class="tlaGNC">         170 : }</span></span>
+<span id="L605"><span class="lineNum">     605</span> <span class="tlaGNC">         166 :   lua_setfield(L, -2, fieldname);</span></span>
+<span id="L606"><span class="lineNum">     606</span> <span class="tlaGNC">         166 : }</span></span>
 <span id="L607"><span class="lineNum">     607</span>              : </span>
 <span id="L608"><span class="lineNum">     608</span>              : </span>
 <span id="L609"><span class="lineNum">     609</span>              : static const luaL_Reg pk_funcs[] = {</span>
@@ -690,44 +690,44 @@
 <span id="L624"><span class="lineNum">     624</span>              :   {loader_preload, loader_Lua, loader_C, loader_Croot, NULL};</span>
 <span id="L625"><span class="lineNum">     625</span>              : </span>
 <span id="L626"><span class="lineNum">     626</span>              : </span>
-<span id="L627"><span class="lineNum">     627</span> <span class="tlaGNC">          85 : LUALIB_API int luaopen_package (lua_State *L) {</span></span>
+<span id="L627"><span class="lineNum">     627</span> <span class="tlaGNC">          83 : LUALIB_API int luaopen_package (lua_State *L) {</span></span>
 <span id="L628"><span class="lineNum">     628</span>              :   int i;</span>
 <span id="L629"><span class="lineNum">     629</span>              :   /* create new type _LOADLIB */</span>
-<span id="L630"><span class="lineNum">     630</span> <span class="tlaGNC">          85 :   luaL_newmetatable(L, &quot;_LOADLIB&quot;);</span></span>
-<span id="L631"><span class="lineNum">     631</span> <span class="tlaGNC">          85 :   lua_pushcfunction(L, gctm);</span></span>
-<span id="L632"><span class="lineNum">     632</span> <span class="tlaGNC">          85 :   lua_setfield(L, -2, &quot;__gc&quot;);</span></span>
+<span id="L630"><span class="lineNum">     630</span> <span class="tlaGNC">          83 :   luaL_newmetatable(L, &quot;_LOADLIB&quot;);</span></span>
+<span id="L631"><span class="lineNum">     631</span> <span class="tlaGNC">          83 :   lua_pushcfunction(L, gctm);</span></span>
+<span id="L632"><span class="lineNum">     632</span> <span class="tlaGNC">          83 :   lua_setfield(L, -2, &quot;__gc&quot;);</span></span>
 <span id="L633"><span class="lineNum">     633</span>              :   /* create `package' table */</span>
-<span id="L634"><span class="lineNum">     634</span> <span class="tlaGNC">          85 :   luaL_register(L, LUA_LOADLIBNAME, pk_funcs);</span></span>
+<span id="L634"><span class="lineNum">     634</span> <span class="tlaGNC">          83 :   luaL_register(L, LUA_LOADLIBNAME, pk_funcs);</span></span>
 <span id="L635"><span class="lineNum">     635</span>              : #if defined(LUA_COMPAT_LOADLIB) </span>
 <span id="L636"><span class="lineNum">     636</span>              :   lua_getfield(L, -1, &quot;loadlib&quot;);</span>
 <span id="L637"><span class="lineNum">     637</span>              :   lua_setfield(L, LUA_GLOBALSINDEX, &quot;loadlib&quot;);</span>
 <span id="L638"><span class="lineNum">     638</span>              : #endif</span>
-<span id="L639"><span class="lineNum">     639</span> <span class="tlaGNC">          85 :   lua_pushvalue(L, -1);</span></span>
-<span id="L640"><span class="lineNum">     640</span> <span class="tlaGNC">          85 :   lua_replace(L, LUA_ENVIRONINDEX);</span></span>
+<span id="L639"><span class="lineNum">     639</span> <span class="tlaGNC">          83 :   lua_pushvalue(L, -1);</span></span>
+<span id="L640"><span class="lineNum">     640</span> <span class="tlaGNC">          83 :   lua_replace(L, LUA_ENVIRONINDEX);</span></span>
 <span id="L641"><span class="lineNum">     641</span>              :   /* create `loaders' table */</span>
-<span id="L642"><span class="lineNum">     642</span> <span class="tlaGNC">          85 :   lua_createtable(L, sizeof(loaders)/sizeof(loaders[0]) - 1, 0);</span></span>
+<span id="L642"><span class="lineNum">     642</span> <span class="tlaGNC">          83 :   lua_createtable(L, sizeof(loaders)/sizeof(loaders[0]) - 1, 0);</span></span>
 <span id="L643"><span class="lineNum">     643</span>              :   /* fill it with pre-defined loaders */</span>
-<span id="L644"><span class="lineNum">     644</span> <span class="tlaGNC">         425 :   for (i=0; loaders[i] != NULL; i++) {</span></span>
-<span id="L645"><span class="lineNum">     645</span> <span class="tlaGNC">         340 :     lua_pushcfunction(L, loaders[i]);</span></span>
-<span id="L646"><span class="lineNum">     646</span> <span class="tlaGNC">         340 :     lua_rawseti(L, -2, i+1);</span></span>
+<span id="L644"><span class="lineNum">     644</span> <span class="tlaGNC">         415 :   for (i=0; loaders[i] != NULL; i++) {</span></span>
+<span id="L645"><span class="lineNum">     645</span> <span class="tlaGNC">         332 :     lua_pushcfunction(L, loaders[i]);</span></span>
+<span id="L646"><span class="lineNum">     646</span> <span class="tlaGNC">         332 :     lua_rawseti(L, -2, i+1);</span></span>
 <span id="L647"><span class="lineNum">     647</span>              :   }</span>
-<span id="L648"><span class="lineNum">     648</span> <span class="tlaGNC">          85 :   lua_setfield(L, -2, &quot;loaders&quot;);  /* put it in field `loaders' */</span></span>
-<span id="L649"><span class="lineNum">     649</span> <span class="tlaGNC">          85 :   setpath(L, &quot;path&quot;, LUA_PATH, LUA_PATH_DEFAULT);  /* set field `path' */</span></span>
-<span id="L650"><span class="lineNum">     650</span> <span class="tlaGNC">          85 :   setpath(L, &quot;cpath&quot;, LUA_CPATH, LUA_CPATH_DEFAULT); /* set field `cpath' */</span></span>
+<span id="L648"><span class="lineNum">     648</span> <span class="tlaGNC">          83 :   lua_setfield(L, -2, &quot;loaders&quot;);  /* put it in field `loaders' */</span></span>
+<span id="L649"><span class="lineNum">     649</span> <span class="tlaGNC">          83 :   setpath(L, &quot;path&quot;, LUA_PATH, LUA_PATH_DEFAULT);  /* set field `path' */</span></span>
+<span id="L650"><span class="lineNum">     650</span> <span class="tlaGNC">          83 :   setpath(L, &quot;cpath&quot;, LUA_CPATH, LUA_CPATH_DEFAULT); /* set field `cpath' */</span></span>
 <span id="L651"><span class="lineNum">     651</span>              :   /* store config information */</span>
-<span id="L652"><span class="lineNum">     652</span> <span class="tlaGNC">          85 :   lua_pushliteral(L, LUA_DIRSEP &quot;\n&quot; LUA_PATHSEP &quot;\n&quot; LUA_PATH_MARK &quot;\n&quot;</span></span>
+<span id="L652"><span class="lineNum">     652</span> <span class="tlaGNC">          83 :   lua_pushliteral(L, LUA_DIRSEP &quot;\n&quot; LUA_PATHSEP &quot;\n&quot; LUA_PATH_MARK &quot;\n&quot;</span></span>
 <span id="L653"><span class="lineNum">     653</span>              :                      LUA_EXECDIR &quot;\n&quot; LUA_IGMARK);</span>
-<span id="L654"><span class="lineNum">     654</span> <span class="tlaGNC">          85 :   lua_setfield(L, -2, &quot;config&quot;);</span></span>
+<span id="L654"><span class="lineNum">     654</span> <span class="tlaGNC">          83 :   lua_setfield(L, -2, &quot;config&quot;);</span></span>
 <span id="L655"><span class="lineNum">     655</span>              :   /* set field `loaded' */</span>
-<span id="L656"><span class="lineNum">     656</span> <span class="tlaGNC">          85 :   luaL_findtable(L, LUA_REGISTRYINDEX, &quot;_LOADED&quot;, 2);</span></span>
-<span id="L657"><span class="lineNum">     657</span> <span class="tlaGNC">          85 :   lua_setfield(L, -2, &quot;loaded&quot;);</span></span>
+<span id="L656"><span class="lineNum">     656</span> <span class="tlaGNC">          83 :   luaL_findtable(L, LUA_REGISTRYINDEX, &quot;_LOADED&quot;, 2);</span></span>
+<span id="L657"><span class="lineNum">     657</span> <span class="tlaGNC">          83 :   lua_setfield(L, -2, &quot;loaded&quot;);</span></span>
 <span id="L658"><span class="lineNum">     658</span>              :   /* set field `preload' */</span>
-<span id="L659"><span class="lineNum">     659</span> <span class="tlaGNC">          85 :   lua_newtable(L);</span></span>
-<span id="L660"><span class="lineNum">     660</span> <span class="tlaGNC">          85 :   lua_setfield(L, -2, &quot;preload&quot;);</span></span>
-<span id="L661"><span class="lineNum">     661</span> <span class="tlaGNC">          85 :   lua_pushvalue(L, LUA_GLOBALSINDEX);</span></span>
-<span id="L662"><span class="lineNum">     662</span> <span class="tlaGNC">          85 :   luaL_register(L, NULL, ll_funcs);  /* open lib into global table */</span></span>
-<span id="L663"><span class="lineNum">     663</span> <span class="tlaGNC">          85 :   lua_pop(L, 1);</span></span>
-<span id="L664"><span class="lineNum">     664</span> <span class="tlaGNC">          85 :   return 1;  /* return 'package' table */</span></span>
+<span id="L659"><span class="lineNum">     659</span> <span class="tlaGNC">          83 :   lua_newtable(L);</span></span>
+<span id="L660"><span class="lineNum">     660</span> <span class="tlaGNC">          83 :   lua_setfield(L, -2, &quot;preload&quot;);</span></span>
+<span id="L661"><span class="lineNum">     661</span> <span class="tlaGNC">          83 :   lua_pushvalue(L, LUA_GLOBALSINDEX);</span></span>
+<span id="L662"><span class="lineNum">     662</span> <span class="tlaGNC">          83 :   luaL_register(L, NULL, ll_funcs);  /* open lib into global table */</span></span>
+<span id="L663"><span class="lineNum">     663</span> <span class="tlaGNC">          83 :   lua_pop(L, 1);</span></span>
+<span id="L664"><span class="lineNum">     664</span> <span class="tlaGNC">          83 :   return 1;  /* return 'package' table */</span></span>
 <span id="L665"><span class="lineNum">     665</span>              : }</span>
 <span id="L666"><span class="lineNum">     666</span>              : </span>
         </pre>
