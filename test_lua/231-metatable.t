@@ -2,7 +2,7 @@
 --
 -- lua-Harness : <https://fperrad.frama.io/lua-Harness/>
 --
--- Copyright (C) 2009-2021, Perrad Francois
+-- Copyright (C) 2009-2025, Perrad Francois
 --
 -- This code is licensed under the terms of the MIT/X11 license,
 -- like Lua itself.
@@ -35,6 +35,7 @@ local profile = require'profile'
 local has_metamethod52 = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_metamethod_ipairs = _VERSION == 'Lua 5.2' or profile.compat52 or profile.luajit_compat52
 local has_metamethod_le_emulated = _VERSION <= 'Lua 5.3' or profile.compat53
+local has_metamethod_name = _VERSION >= 'Lua 5.3'
 local has_metamethod_pairs = _VERSION >= 'Lua 5.2' or profile.luajit_compat52
 local has_metamethod_tostring53 = _VERSION >= 'Lua 5.3'
 local has_metamethod_tostring54 = _VERSION >= 'Lua 5.4'
@@ -65,6 +66,17 @@ do
     equals(getmetatable(false), nil, "metatable for boolean")
     equals(getmetatable(2), nil, "metatable for number")
     equals(getmetatable(print), nil, "metatable for function")
+end
+
+do
+    local t = {}
+    local mt = { __name = '__TABLE__' }
+    setmetatable(t, mt)
+    if has_metamethod_name then
+        matches(tostring(t), '^__TABLE__: 0?[Xx]?%x+$', "__name")
+    else
+        matches(tostring(t), '^table: 0?[Xx]?%x+$', "no __name")
+    end
 end
 
 do
