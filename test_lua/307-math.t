@@ -34,6 +34,8 @@ require'test_assertion'
 local profile = require'profile'
 local has_integer = _VERSION >= 'Lua 5.3' or profile.integer
 local has_mathx = _VERSION < 'Lua 5.3' or profile.compat52 or profile.compat53 or profile.has_mathx
+local has_frexp = has_mathx or _VERSION >= 'Lua 5.5'
+local has_ldexp = has_mathx or _VERSION >= 'Lua 5.5'
 local has_log10 = _VERSION < 'Lua 5.2' or profile.compat51 or profile.has_math_log10 or
                   profile.compat52 or profile.compat53 or profile.has_mathx
 local has_log_with_base = _VERSION >= 'Lua 5.2' or profile.compat52
@@ -134,7 +136,7 @@ do -- fmod
 end
 
 -- frexp
-if has_mathx then
+if has_frexp then
     array_equals({math.frexp(1.5)}, {0.75, 1}, "function frexp")
 else
     is_nil(math.frexp, "function frexp (removed)")
@@ -148,7 +150,7 @@ do -- huge
 end
 
 -- ldexp
-if has_mathx then
+if has_ldexp then
     equals(math.ldexp(1.2, 3), 9.6, "function ldexp")
 else
     is_nil(math.ldexp, "function ldexp (removed)")

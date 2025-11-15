@@ -31,9 +31,10 @@ See section "Functions" in "Programming in Lua".
 --]]
 
 require'test_assertion'
+local has_varargs55 = _VERSION >= 'Lua 5.5'
 local loadstring = loadstring or load
 
-plan(68)
+plan'no_plan'
 
 do --[[ add ]]
     local function add (a)
@@ -279,6 +280,12 @@ do --[[ sub name ]]
     function f () return 2 end
     equals(f(), 2)
 end
+
+if has_varargs55 then
+    _dofile'lexico55/function.t'
+end
+
+done_testing()
 
 -- Local Variables:
 --   mode: lua
