@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-12-22 18:36:16</td>
+            <td class="headerValue">2026-04-26 18:15:50</td>
             <td></td>
           </tr>
           <tr>
@@ -134,15 +134,15 @@
 <span id="L68"><span class="lineNum">      68</span>              :   { size_t t = cast_sizet(e); \</span>
 <span id="L69"><span class="lineNum">      69</span>              :     memcpy(b + p, &amp;t, sizeof(t)); p += sizeof(t); }</span>
 <span id="L70"><span class="lineNum">      70</span>              : </span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">         107 : static unsigned int luai_makeseed (lua_State *L) {</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">         109 : static unsigned int luai_makeseed (lua_State *L) {</span></span>
 <span id="L72"><span class="lineNum">      72</span>              :   char buff[3 * sizeof(size_t)];</span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">         107 :   unsigned int h = cast_uint(time(NULL));</span></span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">         107 :   int p = 0;</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">         107 :   addbuff(buff, p, L);  /* heap variable */</span></span>
-<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">         107 :   addbuff(buff, p, &amp;h);  /* local variable */</span></span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">         107 :   addbuff(buff, p, &amp;lua_newstate);  /* public function */</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">         109 :   unsigned int h = cast_uint(time(NULL));</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">         109 :   int p = 0;</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">         109 :   addbuff(buff, p, L);  /* heap variable */</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">         109 :   addbuff(buff, p, &amp;h);  /* local variable */</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">         109 :   addbuff(buff, p, &amp;lua_newstate);  /* public function */</span></span>
 <span id="L78"><span class="lineNum">      78</span>              :   lua_assert(p == sizeof(buff));</span>
-<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">         107 :   return luaS_hash(buff, p, h);</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">         109 :   return luaS_hash(buff, p, h);</span></span>
 <span id="L80"><span class="lineNum">      80</span>              : }</span>
 <span id="L81"><span class="lineNum">      81</span>              : </span>
 <span id="L82"><span class="lineNum">      82</span>              : #endif</span>
@@ -152,14 +152,14 @@
 <span id="L86"><span class="lineNum">      86</span>              : ** set GCdebt to a new value keeping the value (totalbytes + GCdebt)</span>
 <span id="L87"><span class="lineNum">      87</span>              : ** invariant (and avoiding underflows in 'totalbytes')</span>
 <span id="L88"><span class="lineNum">      88</span>              : */</span>
-<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">        1242 : void luaE_setdebt (global_State *g, l_mem debt) {</span></span>
-<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">        1242 :   l_mem tb = gettotalbytes(g);</span></span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">        1252 : void luaE_setdebt (global_State *g, l_mem debt) {</span></span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">        1252 :   l_mem tb = gettotalbytes(g);</span></span>
 <span id="L91"><span class="lineNum">      91</span>              :   lua_assert(tb &gt; 0);</span>
-<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">        1242 :   if (debt &lt; tb - MAX_LMEM)</span></span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">        1252 :   if (debt &lt; tb - MAX_LMEM)</span></span>
 <span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :     debt = tb - MAX_LMEM;  /* will make 'totalbytes == MAX_LMEM' */</span></span>
-<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">        1242 :   g-&gt;totalbytes = tb - debt;</span></span>
-<span id="L95"><span class="lineNum">      95</span> <span class="tlaGNC">        1242 :   g-&gt;GCdebt = debt;</span></span>
-<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">        1242 : }</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">        1252 :   g-&gt;totalbytes = tb - debt;</span></span>
+<span id="L95"><span class="lineNum">      95</span> <span class="tlaGNC">        1252 :   g-&gt;GCdebt = debt;</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">        1252 : }</span></span>
 <span id="L97"><span class="lineNum">      97</span>              : </span>
 <span id="L98"><span class="lineNum">      98</span>              : </span>
 <span id="L99"><span class="lineNum">      99</span> <span class="tlaGNC">           2 : LUA_API int lua_setcstacklimit (lua_State *L, unsigned int limit) {</span></span>
@@ -168,54 +168,54 @@
 <span id="L102"><span class="lineNum">     102</span>              : }</span>
 <span id="L103"><span class="lineNum">     103</span>              : </span>
 <span id="L104"><span class="lineNum">     104</span>              : </span>
-<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">        1283 : CallInfo *luaE_extendCI (lua_State *L) {</span></span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">        1286 : CallInfo *luaE_extendCI (lua_State *L) {</span></span>
 <span id="L106"><span class="lineNum">     106</span>              :   CallInfo *ci;</span>
 <span id="L107"><span class="lineNum">     107</span>              :   lua_assert(L-&gt;ci-&gt;next == NULL);</span>
-<span id="L108"><span class="lineNum">     108</span> <span class="tlaGNC">        1283 :   ci = luaM_new(L, CallInfo);</span></span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaGNC">        1286 :   ci = luaM_new(L, CallInfo);</span></span>
 <span id="L109"><span class="lineNum">     109</span>              :   lua_assert(L-&gt;ci-&gt;next == NULL);</span>
-<span id="L110"><span class="lineNum">     110</span> <span class="tlaGNC">        1283 :   L-&gt;ci-&gt;next = ci;</span></span>
-<span id="L111"><span class="lineNum">     111</span> <span class="tlaGNC">        1283 :   ci-&gt;previous = L-&gt;ci;</span></span>
-<span id="L112"><span class="lineNum">     112</span> <span class="tlaGNC">        1283 :   ci-&gt;next = NULL;</span></span>
-<span id="L113"><span class="lineNum">     113</span> <span class="tlaGNC">        1283 :   ci-&gt;u.l.trap = 0;</span></span>
-<span id="L114"><span class="lineNum">     114</span> <span class="tlaGNC">        1283 :   L-&gt;nci++;</span></span>
-<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC">        1283 :   return ci;</span></span>
+<span id="L110"><span class="lineNum">     110</span> <span class="tlaGNC">        1286 :   L-&gt;ci-&gt;next = ci;</span></span>
+<span id="L111"><span class="lineNum">     111</span> <span class="tlaGNC">        1286 :   ci-&gt;previous = L-&gt;ci;</span></span>
+<span id="L112"><span class="lineNum">     112</span> <span class="tlaGNC">        1286 :   ci-&gt;next = NULL;</span></span>
+<span id="L113"><span class="lineNum">     113</span> <span class="tlaGNC">        1286 :   ci-&gt;u.l.trap = 0;</span></span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaGNC">        1286 :   L-&gt;nci++;</span></span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC">        1286 :   return ci;</span></span>
 <span id="L116"><span class="lineNum">     116</span>              : }</span>
 <span id="L117"><span class="lineNum">     117</span>              : </span>
 <span id="L118"><span class="lineNum">     118</span>              : </span>
 <span id="L119"><span class="lineNum">     119</span>              : /*</span>
 <span id="L120"><span class="lineNum">     120</span>              : ** free all CallInfo structures not in use by a thread</span>
 <span id="L121"><span class="lineNum">     121</span>              : */</span>
-<span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">         120 : static void freeCI (lua_State *L) {</span></span>
-<span id="L123"><span class="lineNum">     123</span> <span class="tlaGNC">         120 :   CallInfo *ci = L-&gt;ci;</span></span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">         120 :   CallInfo *next = ci-&gt;next;</span></span>
-<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">         120 :   ci-&gt;next = NULL;</span></span>
-<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">         698 :   while ((ci = next) != NULL) {</span></span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">         578 :     next = ci-&gt;next;</span></span>
-<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">         578 :     luaM_free(L, ci);</span></span>
-<span id="L129"><span class="lineNum">     129</span> <span class="tlaGNC">         578 :     L-&gt;nci--;</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">         122 : static void freeCI (lua_State *L) {</span></span>
+<span id="L123"><span class="lineNum">     123</span> <span class="tlaGNC">         122 :   CallInfo *ci = L-&gt;ci;</span></span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">         122 :   CallInfo *next = ci-&gt;next;</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">         122 :   ci-&gt;next = NULL;</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">         704 :   while ((ci = next) != NULL) {</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">         582 :     next = ci-&gt;next;</span></span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">         582 :     luaM_free(L, ci);</span></span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaGNC">         582 :     L-&gt;nci--;</span></span>
 <span id="L130"><span class="lineNum">     130</span>              :   }</span>
-<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">         120 : }</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">         122 : }</span></span>
 <span id="L132"><span class="lineNum">     132</span>              : </span>
 <span id="L133"><span class="lineNum">     133</span>              : </span>
 <span id="L134"><span class="lineNum">     134</span>              : /*</span>
 <span id="L135"><span class="lineNum">     135</span>              : ** free half of the CallInfo structures not in use by a thread,</span>
 <span id="L136"><span class="lineNum">     136</span>              : ** keeping the first one.</span>
 <span id="L137"><span class="lineNum">     137</span>              : */</span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">        1176 : void luaE_shrinkCI (lua_State *L) {</span></span>
-<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">        1176 :   CallInfo *ci = L-&gt;ci-&gt;next;  /* first free CallInfo */</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">        1178 : void luaE_shrinkCI (lua_State *L) {</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">        1178 :   CallInfo *ci = L-&gt;ci-&gt;next;  /* first free CallInfo */</span></span>
 <span id="L140"><span class="lineNum">     140</span>              :   CallInfo *next;</span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        1176 :   if (ci == NULL)</span></span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">         188 :     return;  /* no extra elements */</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        1178 :   if (ci == NULL)</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">         189 :     return;  /* no extra elements */</span></span>
 <span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">        1074 :   while ((next = ci-&gt;next) != NULL) {  /* two extra elements? */</span></span>
-<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">         652 :     CallInfo *next2 = next-&gt;next;  /* next's next */</span></span>
-<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">         652 :     ci-&gt;next = next2;  /* remove next from the list */</span></span>
-<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">         652 :     L-&gt;nci--;</span></span>
-<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">         652 :     luaM_free(L, next);  /* free next */</span></span>
-<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">         652 :     if (next2 == NULL)</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">         651 :     CallInfo *next2 = next-&gt;next;  /* next's next */</span></span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">         651 :     ci-&gt;next = next2;  /* remove next from the list */</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">         651 :     L-&gt;nci--;</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">         651 :     luaM_free(L, next);  /* free next */</span></span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">         651 :     if (next2 == NULL)</span></span>
 <span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">         566 :       break;  /* no more elements */</span></span>
 <span id="L150"><span class="lineNum">     150</span>              :     else {</span>
-<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">          86 :       next2-&gt;previous = ci;</span></span>
-<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">          86 :       ci = next2;  /* continue */</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">          85 :       next2-&gt;previous = ci;</span></span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">          85 :       ci = next2;  /* continue */</span></span>
 <span id="L153"><span class="lineNum">     153</span>              :     }</span>
 <span id="L154"><span class="lineNum">     154</span>              :   }</span>
 <span id="L155"><span class="lineNum">     155</span>              : }</span>
@@ -236,119 +236,119 @@
 <span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L171"><span class="lineNum">     171</span>              : </span>
 <span id="L172"><span class="lineNum">     172</span>              : </span>
-<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">       44018 : LUAI_FUNC void luaE_incCstack (lua_State *L) {</span></span>
-<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">       44018 :   L-&gt;nCcalls++;</span></span>
-<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">       44018 :   if (l_unlikely(getCcalls(L) &gt;= LUAI_MAXCCALLS))</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">       44021 : LUAI_FUNC void luaE_incCstack (lua_State *L) {</span></span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">       44021 :   L-&gt;nCcalls++;</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">       44021 :   if (l_unlikely(getCcalls(L) &gt;= LUAI_MAXCCALLS))</span></span>
 <span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :     luaE_checkcstack(L);</span></span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">       44018 : }</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">       44021 : }</span></span>
 <span id="L178"><span class="lineNum">     178</span>              : </span>
 <span id="L179"><span class="lineNum">     179</span>              : </span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">         135 : static void stack_init (lua_State *L1, lua_State *L) {</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">         137 : static void stack_init (lua_State *L1, lua_State *L) {</span></span>
 <span id="L181"><span class="lineNum">     181</span>              :   int i; CallInfo *ci;</span>
 <span id="L182"><span class="lineNum">     182</span>              :   /* initialize stack array */</span>
-<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">         135 :   L1-&gt;stack.p = luaM_newvector(L, BASIC_STACK_SIZE + EXTRA_STACK, StackValue);</span></span>
-<span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">         135 :   L1-&gt;tbclist.p = L1-&gt;stack.p;</span></span>
-<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">        6210 :   for (i = 0; i &lt; BASIC_STACK_SIZE + EXTRA_STACK; i++)</span></span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">        6075 :     setnilvalue(s2v(L1-&gt;stack.p + i));  /* erase new stack */</span></span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">         135 :   L1-&gt;top.p = L1-&gt;stack.p;</span></span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">         135 :   L1-&gt;stack_last.p = L1-&gt;stack.p + BASIC_STACK_SIZE;</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">         137 :   L1-&gt;stack.p = luaM_newvector(L, BASIC_STACK_SIZE + EXTRA_STACK, StackValue);</span></span>
+<span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">         137 :   L1-&gt;tbclist.p = L1-&gt;stack.p;</span></span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">        6302 :   for (i = 0; i &lt; BASIC_STACK_SIZE + EXTRA_STACK; i++)</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">        6165 :     setnilvalue(s2v(L1-&gt;stack.p + i));  /* erase new stack */</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">         137 :   L1-&gt;top.p = L1-&gt;stack.p;</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">         137 :   L1-&gt;stack_last.p = L1-&gt;stack.p + BASIC_STACK_SIZE;</span></span>
 <span id="L189"><span class="lineNum">     189</span>              :   /* initialize first ci */</span>
-<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">         135 :   ci = &amp;L1-&gt;base_ci;</span></span>
-<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">         135 :   ci-&gt;next = ci-&gt;previous = NULL;</span></span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">         135 :   ci-&gt;callstatus = CIST_C;</span></span>
-<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">         135 :   ci-&gt;func.p = L1-&gt;top.p;</span></span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">         135 :   ci-&gt;u.c.k = NULL;</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">         135 :   ci-&gt;nresults = 0;</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">         135 :   setnilvalue(s2v(L1-&gt;top.p));  /* 'function' entry for this 'ci' */</span></span>
-<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">         135 :   L1-&gt;top.p++;</span></span>
-<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">         135 :   ci-&gt;top.p = L1-&gt;top.p + LUA_MINSTACK;</span></span>
-<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">         135 :   L1-&gt;ci = ci;</span></span>
-<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">         135 : }</span></span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">         137 :   ci = &amp;L1-&gt;base_ci;</span></span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">         137 :   ci-&gt;next = ci-&gt;previous = NULL;</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">         137 :   ci-&gt;callstatus = CIST_C;</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">         137 :   ci-&gt;func.p = L1-&gt;top.p;</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">         137 :   ci-&gt;u.c.k = NULL;</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">         137 :   ci-&gt;nresults = 0;</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">         137 :   setnilvalue(s2v(L1-&gt;top.p));  /* 'function' entry for this 'ci' */</span></span>
+<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">         137 :   L1-&gt;top.p++;</span></span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">         137 :   ci-&gt;top.p = L1-&gt;top.p + LUA_MINSTACK;</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">         137 :   L1-&gt;ci = ci;</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">         137 : }</span></span>
 <span id="L201"><span class="lineNum">     201</span>              : </span>
 <span id="L202"><span class="lineNum">     202</span>              : </span>
-<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">         120 : static void freestack (lua_State *L) {</span></span>
-<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">         120 :   if (L-&gt;stack.p == NULL)</span></span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">         122 : static void freestack (lua_State *L) {</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">         122 :   if (L-&gt;stack.p == NULL)</span></span>
 <span id="L205"><span class="lineNum">     205</span> <span class="tlaUNC">           0 :     return;  /* stack not completely built yet */</span></span>
-<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">         120 :   L-&gt;ci = &amp;L-&gt;base_ci;  /* free the entire 'ci' list */</span></span>
-<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">         120 :   freeCI(L);</span></span>
+<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">         122 :   L-&gt;ci = &amp;L-&gt;base_ci;  /* free the entire 'ci' list */</span></span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">         122 :   freeCI(L);</span></span>
 <span id="L208"><span class="lineNum">     208</span>              :   lua_assert(L-&gt;nci == 0);</span>
-<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">         120 :   luaM_freearray(L, L-&gt;stack.p, stacksize(L) + EXTRA_STACK);  /* free stack */</span></span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">         122 :   luaM_freearray(L, L-&gt;stack.p, stacksize(L) + EXTRA_STACK);  /* free stack */</span></span>
 <span id="L210"><span class="lineNum">     210</span>              : }</span>
 <span id="L211"><span class="lineNum">     211</span>              : </span>
 <span id="L212"><span class="lineNum">     212</span>              : </span>
 <span id="L213"><span class="lineNum">     213</span>              : /*</span>
 <span id="L214"><span class="lineNum">     214</span>              : ** Create registry table and its predefined values</span>
 <span id="L215"><span class="lineNum">     215</span>              : */</span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">         107 : static void init_registry (lua_State *L, global_State *g) {</span></span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">         109 : static void init_registry (lua_State *L, global_State *g) {</span></span>
 <span id="L217"><span class="lineNum">     217</span>              :   /* create registry */</span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">         107 :   Table *registry = luaH_new(L);</span></span>
-<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">         107 :   sethvalue(L, &amp;g-&gt;l_registry, registry);</span></span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">         107 :   luaH_resize(L, registry, LUA_RIDX_LAST, 0);</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">         109 :   Table *registry = luaH_new(L);</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">         109 :   sethvalue(L, &amp;g-&gt;l_registry, registry);</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">         109 :   luaH_resize(L, registry, LUA_RIDX_LAST, 0);</span></span>
 <span id="L221"><span class="lineNum">     221</span>              :   /* registry[LUA_RIDX_MAINTHREAD] = L */</span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">         107 :   setthvalue(L, &amp;registry-&gt;array[LUA_RIDX_MAINTHREAD - 1], L);</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">         109 :   setthvalue(L, &amp;registry-&gt;array[LUA_RIDX_MAINTHREAD - 1], L);</span></span>
 <span id="L223"><span class="lineNum">     223</span>              :   /* registry[LUA_RIDX_GLOBALS] = new table (table of globals) */</span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">         107 :   sethvalue(L, &amp;registry-&gt;array[LUA_RIDX_GLOBALS - 1], luaH_new(L));</span></span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">         107 : }</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">         109 :   sethvalue(L, &amp;registry-&gt;array[LUA_RIDX_GLOBALS - 1], luaH_new(L));</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">         109 : }</span></span>
 <span id="L226"><span class="lineNum">     226</span>              : </span>
 <span id="L227"><span class="lineNum">     227</span>              : </span>
 <span id="L228"><span class="lineNum">     228</span>              : /*</span>
 <span id="L229"><span class="lineNum">     229</span>              : ** open parts of the state that may cause memory-allocation errors.</span>
 <span id="L230"><span class="lineNum">     230</span>              : */</span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         107 : static void f_luaopen (lua_State *L, void *ud) {</span></span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">         107 :   global_State *g = G(L);</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         109 : static void f_luaopen (lua_State *L, void *ud) {</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">         109 :   global_State *g = G(L);</span></span>
 <span id="L233"><span class="lineNum">     233</span>              :   UNUSED(ud);</span>
-<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         107 :   stack_init(L, L);  /* init stack */</span></span>
-<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">         107 :   init_registry(L, g);</span></span>
-<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">         107 :   luaS_init(L);</span></span>
-<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">         107 :   luaT_init(L);</span></span>
-<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">         107 :   luaX_init(L);</span></span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">         107 :   g-&gt;gcstp = 0;  /* allow gc */</span></span>
-<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">         107 :   setnilvalue(&amp;g-&gt;nilvalue);  /* now state is complete */</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         109 :   stack_init(L, L);  /* init stack */</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">         109 :   init_registry(L, g);</span></span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">         109 :   luaS_init(L);</span></span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">         109 :   luaT_init(L);</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">         109 :   luaX_init(L);</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">         109 :   g-&gt;gcstp = 0;  /* allow gc */</span></span>
+<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">         109 :   setnilvalue(&amp;g-&gt;nilvalue);  /* now state is complete */</span></span>
 <span id="L241"><span class="lineNum">     241</span>              :   luai_userstateopen(L);</span>
-<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">         107 : }</span></span>
+<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">         109 : }</span></span>
 <span id="L243"><span class="lineNum">     243</span>              : </span>
 <span id="L244"><span class="lineNum">     244</span>              : </span>
 <span id="L245"><span class="lineNum">     245</span>              : /*</span>
 <span id="L246"><span class="lineNum">     246</span>              : ** preinitialize a thread with consistent values without allocating</span>
 <span id="L247"><span class="lineNum">     247</span>              : ** any memory (to avoid errors)</span>
 <span id="L248"><span class="lineNum">     248</span>              : */</span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">         135 : static void preinit_thread (lua_State *L, global_State *g) {</span></span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">         135 :   G(L) = g;</span></span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">         135 :   L-&gt;stack.p = NULL;</span></span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">         135 :   L-&gt;ci = NULL;</span></span>
-<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">         135 :   L-&gt;nci = 0;</span></span>
-<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC">         135 :   L-&gt;twups = L;  /* thread has no upvalues */</span></span>
-<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">         135 :   L-&gt;nCcalls = 0;</span></span>
-<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">         135 :   L-&gt;errorJmp = NULL;</span></span>
-<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">         135 :   L-&gt;hook = NULL;</span></span>
-<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">         135 :   L-&gt;hookmask = 0;</span></span>
-<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">         135 :   L-&gt;basehookcount = 0;</span></span>
-<span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">         135 :   L-&gt;allowhook = 1;</span></span>
-<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">         135 :   resethookcount(L);</span></span>
-<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">         135 :   L-&gt;openupval = NULL;</span></span>
-<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">         135 :   L-&gt;status = LUA_OK;</span></span>
-<span id="L264"><span class="lineNum">     264</span> <span class="tlaGNC">         135 :   L-&gt;errfunc = 0;</span></span>
-<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         135 :   L-&gt;oldpc = 0;</span></span>
-<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         135 : }</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">         137 : static void preinit_thread (lua_State *L, global_State *g) {</span></span>
+<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">         137 :   G(L) = g;</span></span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">         137 :   L-&gt;stack.p = NULL;</span></span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">         137 :   L-&gt;ci = NULL;</span></span>
+<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">         137 :   L-&gt;nci = 0;</span></span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC">         137 :   L-&gt;twups = L;  /* thread has no upvalues */</span></span>
+<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">         137 :   L-&gt;nCcalls = 0;</span></span>
+<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">         137 :   L-&gt;errorJmp = NULL;</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">         137 :   L-&gt;hook = NULL;</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">         137 :   L-&gt;hookmask = 0;</span></span>
+<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">         137 :   L-&gt;basehookcount = 0;</span></span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">         137 :   L-&gt;allowhook = 1;</span></span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">         137 :   resethookcount(L);</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">         137 :   L-&gt;openupval = NULL;</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">         137 :   L-&gt;status = LUA_OK;</span></span>
+<span id="L264"><span class="lineNum">     264</span> <span class="tlaGNC">         137 :   L-&gt;errfunc = 0;</span></span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         137 :   L-&gt;oldpc = 0;</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         137 : }</span></span>
 <span id="L267"><span class="lineNum">     267</span>              : </span>
 <span id="L268"><span class="lineNum">     268</span>              : </span>
-<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          92 : static void close_state (lua_State *L) {</span></span>
-<span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">          92 :   global_State *g = G(L);</span></span>
-<span id="L271"><span class="lineNum">     271</span> <span class="tlaGNC">          92 :   if (!completestate(g))  /* closing a partially built state? */</span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          94 : static void close_state (lua_State *L) {</span></span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">          94 :   global_State *g = G(L);</span></span>
+<span id="L271"><span class="lineNum">     271</span> <span class="tlaGNC">          94 :   if (!completestate(g))  /* closing a partially built state? */</span></span>
 <span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC">           0 :     luaC_freeallobjects(L);  /* just collect its objects */</span></span>
 <span id="L273"><span class="lineNum">     273</span>              :   else {  /* closing a fully built state */</span>
-<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">          92 :     L-&gt;ci = &amp;L-&gt;base_ci;  /* unwind CallInfo list */</span></span>
-<span id="L275"><span class="lineNum">     275</span> <span class="tlaGNC">          92 :     L-&gt;errfunc = 0;   /* stack unwind can &quot;throw away&quot; the error function */</span></span>
-<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">          92 :     luaD_closeprotected(L, 1, LUA_OK);  /* close all upvalues */</span></span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">          92 :     L-&gt;top.p = L-&gt;stack.p + 1;  /* empty the stack to run finalizers */</span></span>
-<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">          92 :     luaC_freeallobjects(L);  /* collect all objects */</span></span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">          94 :     L-&gt;ci = &amp;L-&gt;base_ci;  /* unwind CallInfo list */</span></span>
+<span id="L275"><span class="lineNum">     275</span> <span class="tlaGNC">          94 :     L-&gt;errfunc = 0;   /* stack unwind can &quot;throw away&quot; the error function */</span></span>
+<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">          94 :     luaD_closeprotected(L, 1, LUA_OK);  /* close all upvalues */</span></span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">          94 :     L-&gt;top.p = L-&gt;stack.p + 1;  /* empty the stack to run finalizers */</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">          94 :     luaC_freeallobjects(L);  /* collect all objects */</span></span>
 <span id="L279"><span class="lineNum">     279</span>              :     luai_userstateclose(L);</span>
 <span id="L280"><span class="lineNum">     280</span>              :   }</span>
-<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">          92 :   luaM_freearray(L, G(L)-&gt;strt.hash, G(L)-&gt;strt.size);</span></span>
-<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">          92 :   freestack(L);</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">          94 :   luaM_freearray(L, G(L)-&gt;strt.hash, G(L)-&gt;strt.size);</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">          94 :   freestack(L);</span></span>
 <span id="L283"><span class="lineNum">     283</span>              :   lua_assert(gettotalbytes(g) == sizeof(LG));</span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">          92 :   (*g-&gt;frealloc)(g-&gt;ud, fromstate(L), sizeof(LG), 0);  /* free main block */</span></span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">          92 : }</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">          94 :   (*g-&gt;frealloc)(g-&gt;ud, fromstate(L), sizeof(LG), 0);  /* free main block */</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">          94 : }</span></span>
 <span id="L286"><span class="lineNum">     286</span>              : </span>
 <span id="L287"><span class="lineNum">     287</span>              : </span>
 <span id="L288"><span class="lineNum">     288</span> <span class="tlaGNC">          28 : LUA_API lua_State *lua_newthread (lua_State *L) {</span></span>
@@ -426,67 +426,67 @@
 <span id="L360"><span class="lineNum">     360</span>              : }</span>
 <span id="L361"><span class="lineNum">     361</span>              : </span>
 <span id="L362"><span class="lineNum">     362</span>              : </span>
-<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">         107 : LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud) {</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">         109 : LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud) {</span></span>
 <span id="L364"><span class="lineNum">     364</span>              :   int i;</span>
 <span id="L365"><span class="lineNum">     365</span>              :   lua_State *L;</span>
 <span id="L366"><span class="lineNum">     366</span>              :   global_State *g;</span>
-<span id="L367"><span class="lineNum">     367</span> <span class="tlaGNC">         107 :   LG *l = cast(LG *, (*f)(ud, NULL, LUA_TTHREAD, sizeof(LG)));</span></span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">         107 :   if (l == NULL) return NULL;</span></span>
-<span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">         107 :   L = &amp;l-&gt;l.l;</span></span>
-<span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">         107 :   g = &amp;l-&gt;g;</span></span>
-<span id="L371"><span class="lineNum">     371</span> <span class="tlaGNC">         107 :   L-&gt;tt = LUA_VTHREAD;</span></span>
-<span id="L372"><span class="lineNum">     372</span> <span class="tlaGNC">         107 :   g-&gt;currentwhite = bitmask(WHITE0BIT);</span></span>
-<span id="L373"><span class="lineNum">     373</span> <span class="tlaGNC">         107 :   L-&gt;marked = luaC_white(g);</span></span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">         107 :   preinit_thread(L, g);</span></span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">         107 :   g-&gt;allgc = obj2gco(L);  /* by now, only object is the main thread */</span></span>
-<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">         107 :   L-&gt;next = NULL;</span></span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">         107 :   incnny(L);  /* main thread is always non yieldable */</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">         107 :   g-&gt;frealloc = f;</span></span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">         107 :   g-&gt;ud = ud;</span></span>
-<span id="L380"><span class="lineNum">     380</span> <span class="tlaGNC">         107 :   g-&gt;warnf = NULL;</span></span>
-<span id="L381"><span class="lineNum">     381</span> <span class="tlaGNC">         107 :   g-&gt;ud_warn = NULL;</span></span>
-<span id="L382"><span class="lineNum">     382</span> <span class="tlaGNC">         107 :   g-&gt;mainthread = L;</span></span>
-<span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">         107 :   g-&gt;seed = luai_makeseed(L);</span></span>
-<span id="L384"><span class="lineNum">     384</span> <span class="tlaGNC">         107 :   g-&gt;gcstp = GCSTPGC;  /* no GC while building state */</span></span>
-<span id="L385"><span class="lineNum">     385</span> <span class="tlaGNC">         107 :   g-&gt;strt.size = g-&gt;strt.nuse = 0;</span></span>
-<span id="L386"><span class="lineNum">     386</span> <span class="tlaGNC">         107 :   g-&gt;strt.hash = NULL;</span></span>
-<span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">         107 :   setnilvalue(&amp;g-&gt;l_registry);</span></span>
-<span id="L388"><span class="lineNum">     388</span> <span class="tlaGNC">         107 :   g-&gt;panic = NULL;</span></span>
-<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">         107 :   g-&gt;gcstate = GCSpause;</span></span>
-<span id="L390"><span class="lineNum">     390</span> <span class="tlaGNC">         107 :   g-&gt;gckind = KGC_INC;</span></span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">         107 :   g-&gt;gcstopem = 0;</span></span>
-<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">         107 :   g-&gt;gcemergency = 0;</span></span>
-<span id="L393"><span class="lineNum">     393</span> <span class="tlaGNC">         107 :   g-&gt;finobj = g-&gt;tobefnz = g-&gt;fixedgc = NULL;</span></span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">         107 :   g-&gt;firstold1 = g-&gt;survival = g-&gt;old1 = g-&gt;reallyold = NULL;</span></span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">         107 :   g-&gt;finobjsur = g-&gt;finobjold1 = g-&gt;finobjrold = NULL;</span></span>
-<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">         107 :   g-&gt;sweepgc = NULL;</span></span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">         107 :   g-&gt;gray = g-&gt;grayagain = NULL;</span></span>
-<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">         107 :   g-&gt;weak = g-&gt;ephemeron = g-&gt;allweak = NULL;</span></span>
-<span id="L399"><span class="lineNum">     399</span> <span class="tlaGNC">         107 :   g-&gt;twups = NULL;</span></span>
-<span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">         107 :   g-&gt;totalbytes = sizeof(LG);</span></span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">         107 :   g-&gt;GCdebt = 0;</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">         107 :   g-&gt;lastatomic = 0;</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">         107 :   setivalue(&amp;g-&gt;nilvalue, 0);  /* to signal that state is not yet built */</span></span>
-<span id="L404"><span class="lineNum">     404</span> <span class="tlaGNC">         107 :   setgcparam(g-&gt;gcpause, LUAI_GCPAUSE);</span></span>
-<span id="L405"><span class="lineNum">     405</span> <span class="tlaGNC">         107 :   setgcparam(g-&gt;gcstepmul, LUAI_GCMUL);</span></span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaGNC">         107 :   g-&gt;gcstepsize = LUAI_GCSTEPSIZE;</span></span>
-<span id="L407"><span class="lineNum">     407</span> <span class="tlaGNC">         107 :   setgcparam(g-&gt;genmajormul, LUAI_GENMAJORMUL);</span></span>
-<span id="L408"><span class="lineNum">     408</span> <span class="tlaGNC">         107 :   g-&gt;genminormul = LUAI_GENMINORMUL;</span></span>
-<span id="L409"><span class="lineNum">     409</span> <span class="tlaGNC">        1070 :   for (i=0; i &lt; LUA_NUMTAGS; i++) g-&gt;mt[i] = NULL;</span></span>
-<span id="L410"><span class="lineNum">     410</span> <span class="tlaGNC">         107 :   if (luaD_rawrunprotected(L, f_luaopen, NULL) != LUA_OK) {</span></span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaGNC">         109 :   LG *l = cast(LG *, (*f)(ud, NULL, LUA_TTHREAD, sizeof(LG)));</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">         109 :   if (l == NULL) return NULL;</span></span>
+<span id="L369"><span class="lineNum">     369</span> <span class="tlaGNC">         109 :   L = &amp;l-&gt;l.l;</span></span>
+<span id="L370"><span class="lineNum">     370</span> <span class="tlaGNC">         109 :   g = &amp;l-&gt;g;</span></span>
+<span id="L371"><span class="lineNum">     371</span> <span class="tlaGNC">         109 :   L-&gt;tt = LUA_VTHREAD;</span></span>
+<span id="L372"><span class="lineNum">     372</span> <span class="tlaGNC">         109 :   g-&gt;currentwhite = bitmask(WHITE0BIT);</span></span>
+<span id="L373"><span class="lineNum">     373</span> <span class="tlaGNC">         109 :   L-&gt;marked = luaC_white(g);</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">         109 :   preinit_thread(L, g);</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">         109 :   g-&gt;allgc = obj2gco(L);  /* by now, only object is the main thread */</span></span>
+<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">         109 :   L-&gt;next = NULL;</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">         109 :   incnny(L);  /* main thread is always non yieldable */</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">         109 :   g-&gt;frealloc = f;</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">         109 :   g-&gt;ud = ud;</span></span>
+<span id="L380"><span class="lineNum">     380</span> <span class="tlaGNC">         109 :   g-&gt;warnf = NULL;</span></span>
+<span id="L381"><span class="lineNum">     381</span> <span class="tlaGNC">         109 :   g-&gt;ud_warn = NULL;</span></span>
+<span id="L382"><span class="lineNum">     382</span> <span class="tlaGNC">         109 :   g-&gt;mainthread = L;</span></span>
+<span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">         109 :   g-&gt;seed = luai_makeseed(L);</span></span>
+<span id="L384"><span class="lineNum">     384</span> <span class="tlaGNC">         109 :   g-&gt;gcstp = GCSTPGC;  /* no GC while building state */</span></span>
+<span id="L385"><span class="lineNum">     385</span> <span class="tlaGNC">         109 :   g-&gt;strt.size = g-&gt;strt.nuse = 0;</span></span>
+<span id="L386"><span class="lineNum">     386</span> <span class="tlaGNC">         109 :   g-&gt;strt.hash = NULL;</span></span>
+<span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">         109 :   setnilvalue(&amp;g-&gt;l_registry);</span></span>
+<span id="L388"><span class="lineNum">     388</span> <span class="tlaGNC">         109 :   g-&gt;panic = NULL;</span></span>
+<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">         109 :   g-&gt;gcstate = GCSpause;</span></span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaGNC">         109 :   g-&gt;gckind = KGC_INC;</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">         109 :   g-&gt;gcstopem = 0;</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">         109 :   g-&gt;gcemergency = 0;</span></span>
+<span id="L393"><span class="lineNum">     393</span> <span class="tlaGNC">         109 :   g-&gt;finobj = g-&gt;tobefnz = g-&gt;fixedgc = NULL;</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">         109 :   g-&gt;firstold1 = g-&gt;survival = g-&gt;old1 = g-&gt;reallyold = NULL;</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">         109 :   g-&gt;finobjsur = g-&gt;finobjold1 = g-&gt;finobjrold = NULL;</span></span>
+<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">         109 :   g-&gt;sweepgc = NULL;</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">         109 :   g-&gt;gray = g-&gt;grayagain = NULL;</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">         109 :   g-&gt;weak = g-&gt;ephemeron = g-&gt;allweak = NULL;</span></span>
+<span id="L399"><span class="lineNum">     399</span> <span class="tlaGNC">         109 :   g-&gt;twups = NULL;</span></span>
+<span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">         109 :   g-&gt;totalbytes = sizeof(LG);</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">         109 :   g-&gt;GCdebt = 0;</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">         109 :   g-&gt;lastatomic = 0;</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">         109 :   setivalue(&amp;g-&gt;nilvalue, 0);  /* to signal that state is not yet built */</span></span>
+<span id="L404"><span class="lineNum">     404</span> <span class="tlaGNC">         109 :   setgcparam(g-&gt;gcpause, LUAI_GCPAUSE);</span></span>
+<span id="L405"><span class="lineNum">     405</span> <span class="tlaGNC">         109 :   setgcparam(g-&gt;gcstepmul, LUAI_GCMUL);</span></span>
+<span id="L406"><span class="lineNum">     406</span> <span class="tlaGNC">         109 :   g-&gt;gcstepsize = LUAI_GCSTEPSIZE;</span></span>
+<span id="L407"><span class="lineNum">     407</span> <span class="tlaGNC">         109 :   setgcparam(g-&gt;genmajormul, LUAI_GENMAJORMUL);</span></span>
+<span id="L408"><span class="lineNum">     408</span> <span class="tlaGNC">         109 :   g-&gt;genminormul = LUAI_GENMINORMUL;</span></span>
+<span id="L409"><span class="lineNum">     409</span> <span class="tlaGNC">        1090 :   for (i=0; i &lt; LUA_NUMTAGS; i++) g-&gt;mt[i] = NULL;</span></span>
+<span id="L410"><span class="lineNum">     410</span> <span class="tlaGNC">         109 :   if (luaD_rawrunprotected(L, f_luaopen, NULL) != LUA_OK) {</span></span>
 <span id="L411"><span class="lineNum">     411</span>              :     /* memory allocation error: free partial state */</span>
 <span id="L412"><span class="lineNum">     412</span> <span class="tlaUNC">           0 :     close_state(L);</span></span>
 <span id="L413"><span class="lineNum">     413</span> <span class="tlaUNC">           0 :     L = NULL;</span></span>
 <span id="L414"><span class="lineNum">     414</span>              :   }</span>
-<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">         107 :   return L;</span></span>
+<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">         109 :   return L;</span></span>
 <span id="L416"><span class="lineNum">     416</span>              : }</span>
 <span id="L417"><span class="lineNum">     417</span>              : </span>
 <span id="L418"><span class="lineNum">     418</span>              : </span>
-<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">          92 : LUA_API void lua_close (lua_State *L) {</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">          94 : LUA_API void lua_close (lua_State *L) {</span></span>
 <span id="L420"><span class="lineNum">     420</span>              :   lua_lock(L);</span>
-<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          92 :   L = G(L)-&gt;mainthread;  /* only the main thread can be closed */</span></span>
-<span id="L422"><span class="lineNum">     422</span> <span class="tlaGNC">          92 :   close_state(L);</span></span>
-<span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">          92 : }</span></span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          94 :   L = G(L)-&gt;mainthread;  /* only the main thread can be closed */</span></span>
+<span id="L422"><span class="lineNum">     422</span> <span class="tlaGNC">          94 :   close_state(L);</span></span>
+<span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">          94 : }</span></span>
 <span id="L424"><span class="lineNum">     424</span>              : </span>
 <span id="L425"><span class="lineNum">     425</span>              : </span>
 <span id="L426"><span class="lineNum">     426</span> <span class="tlaGNC">          10 : void luaE_warning (lua_State *L, const char *msg, int tocont) {</span></span>

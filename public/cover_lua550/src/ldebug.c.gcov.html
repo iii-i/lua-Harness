@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-12-22 18:36:21</td>
+            <td class="headerValue">2026-04-26 18:15:54</td>
             <td></td>
           </tr>
           <tr>
@@ -973,11 +973,11 @@
 <span id="L907"><span class="lineNum">     907</span>              : ** a line/count hook before the call hook. Functions coming from</span>
 <span id="L908"><span class="lineNum">     908</span>              : ** an yield already called 'luaD_hookcall' before yielding.)</span>
 <span id="L909"><span class="lineNum">     909</span>              : */</span>
-<span id="L910"><span class="lineNum">     910</span> <span class="tlaGNC">         435 : int luaG_tracecall (lua_State *L) {</span></span>
-<span id="L911"><span class="lineNum">     911</span> <span class="tlaGNC">         435 :   CallInfo *ci = L-&gt;ci;</span></span>
-<span id="L912"><span class="lineNum">     912</span> <span class="tlaGNC">         435 :   Proto *p = ci_func(ci)-&gt;p;</span></span>
-<span id="L913"><span class="lineNum">     913</span> <span class="tlaGNC">         435 :   ci-&gt;u.l.trap = 1;  /* ensure hooks will be checked */</span></span>
-<span id="L914"><span class="lineNum">     914</span> <span class="tlaGNC">         435 :   if (ci-&gt;u.l.savedpc == p-&gt;code) {  /* first instruction (not resuming)? */</span></span>
+<span id="L910"><span class="lineNum">     910</span> <span class="tlaGNC">         436 : int luaG_tracecall (lua_State *L) {</span></span>
+<span id="L911"><span class="lineNum">     911</span> <span class="tlaGNC">         436 :   CallInfo *ci = L-&gt;ci;</span></span>
+<span id="L912"><span class="lineNum">     912</span> <span class="tlaGNC">         436 :   Proto *p = ci_func(ci)-&gt;p;</span></span>
+<span id="L913"><span class="lineNum">     913</span> <span class="tlaGNC">         436 :   ci-&gt;u.l.trap = 1;  /* ensure hooks will be checked */</span></span>
+<span id="L914"><span class="lineNum">     914</span> <span class="tlaGNC">         436 :   if (ci-&gt;u.l.savedpc == p-&gt;code) {  /* first instruction (not resuming)? */</span></span>
 <span id="L915"><span class="lineNum">     915</span> <span class="tlaGNC">         275 :     if (isvararg(p))</span></span>
 <span id="L916"><span class="lineNum">     916</span>              :       return 0;  /* hooks will start at VARARGPREP instruction */</span>
 <span id="L917"><span class="lineNum">     917</span> <span class="tlaGNC">         275 :     else if (!(ci-&gt;callstatus &amp; CIST_HOOKYIELD))  /* not yielded? */</span></span>
@@ -999,14 +999,14 @@
 <span id="L933"><span class="lineNum">     933</span>              : ** This function is not &quot;Protected&quot; when called, so it should correct</span>
 <span id="L934"><span class="lineNum">     934</span>              : ** 'L-&gt;top.p' before calling anything that can run the GC.</span>
 <span id="L935"><span class="lineNum">     935</span>              : */</span>
-<span id="L936"><span class="lineNum">     936</span> <span class="tlaGNC">        1665 : int luaG_traceexec (lua_State *L, const Instruction *pc) {</span></span>
-<span id="L937"><span class="lineNum">     937</span> <span class="tlaGNC">        1665 :   CallInfo *ci = L-&gt;ci;</span></span>
-<span id="L938"><span class="lineNum">     938</span> <span class="tlaGNC">        1665 :   lu_byte mask = cast_byte(L-&gt;hookmask);</span></span>
-<span id="L939"><span class="lineNum">     939</span> <span class="tlaGNC">        1665 :   const Proto *p = ci_func(ci)-&gt;p;</span></span>
+<span id="L936"><span class="lineNum">     936</span> <span class="tlaGNC">        1659 : int luaG_traceexec (lua_State *L, const Instruction *pc) {</span></span>
+<span id="L937"><span class="lineNum">     937</span> <span class="tlaGNC">        1659 :   CallInfo *ci = L-&gt;ci;</span></span>
+<span id="L938"><span class="lineNum">     938</span> <span class="tlaGNC">        1659 :   lu_byte mask = cast_byte(L-&gt;hookmask);</span></span>
+<span id="L939"><span class="lineNum">     939</span> <span class="tlaGNC">        1659 :   const Proto *p = ci_func(ci)-&gt;p;</span></span>
 <span id="L940"><span class="lineNum">     940</span>              :   int counthook;</span>
-<span id="L941"><span class="lineNum">     941</span> <span class="tlaGNC">        1665 :   if (!(mask &amp; (LUA_MASKLINE | LUA_MASKCOUNT))) {  /* no hooks? */</span></span>
-<span id="L942"><span class="lineNum">     942</span> <span class="tlaGNC">         271 :     ci-&gt;u.l.trap = 0;  /* don't need to stop again */</span></span>
-<span id="L943"><span class="lineNum">     943</span> <span class="tlaGNC">         271 :     return 0;  /* turn off 'trap' */</span></span>
+<span id="L941"><span class="lineNum">     941</span> <span class="tlaGNC">        1659 :   if (!(mask &amp; (LUA_MASKLINE | LUA_MASKCOUNT))) {  /* no hooks? */</span></span>
+<span id="L942"><span class="lineNum">     942</span> <span class="tlaGNC">         265 :     ci-&gt;u.l.trap = 0;  /* don't need to stop again */</span></span>
+<span id="L943"><span class="lineNum">     943</span> <span class="tlaGNC">         265 :     return 0;  /* turn off 'trap' */</span></span>
 <span id="L944"><span class="lineNum">     944</span>              :   }</span>
 <span id="L945"><span class="lineNum">     945</span> <span class="tlaGNC">        1394 :   pc++;  /* reference is always next instruction */</span></span>
 <span id="L946"><span class="lineNum">     946</span> <span class="tlaGNC">        1394 :   ci-&gt;u.l.savedpc = pc;  /* save 'pc' */</span></span>

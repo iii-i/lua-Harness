@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-12-22 18:36:21</td>
+            <td class="headerValue">2026-04-26 18:15:54</td>
             <td></td>
           </tr>
           <tr>
@@ -152,24 +152,24 @@
 <span id="L86"><span class="lineNum">      86</span>              : ** more significant bits, as long as the multiplication does not</span>
 <span id="L87"><span class="lineNum">      87</span>              : ** overflow, so we check which order is best.</span>
 <span id="L88"><span class="lineNum">      88</span>              : */</span>
-<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">        1683 : l_mem luaO_applyparam (lu_byte p, l_mem x) {</span></span>
-<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">        1683 :   int m = p &amp; 0xF;  /* mantissa */</span></span>
-<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">        1683 :   int e = (p &gt;&gt; 4);  /* exponent */</span></span>
-<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">        1683 :   if (e &gt; 0) {  /* normalized? */</span></span>
-<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">        1683 :     e--;  /* correct exponent */</span></span>
-<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">        1683 :     m += 0x10;  /* correct mantissa; maximum value is 0x1F */</span></span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">        1695 : l_mem luaO_applyparam (lu_byte p, l_mem x) {</span></span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">        1695 :   int m = p &amp; 0xF;  /* mantissa */</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">        1695 :   int e = (p &gt;&gt; 4);  /* exponent */</span></span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">        1695 :   if (e &gt; 0) {  /* normalized? */</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">        1695 :     e--;  /* correct exponent */</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">        1695 :     m += 0x10;  /* correct mantissa; maximum value is 0x1F */</span></span>
 <span id="L95"><span class="lineNum">      95</span>              :   }</span>
-<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">        1683 :   e -= 7;  /* correct excess-7 */</span></span>
-<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">        1683 :   if (e &gt;= 0) {</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">        1695 :   e -= 7;  /* correct excess-7 */</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">        1695 :   if (e &gt;= 0) {</span></span>
 <span id="L98"><span class="lineNum">      98</span> <span class="tlaGNC">         295 :     if (x &lt; (MAX_LMEM / 0x1F) &gt;&gt; e)  /* no overflow? */</span></span>
 <span id="L99"><span class="lineNum">      99</span> <span class="tlaGNC">         295 :       return (x * m) &lt;&lt; e;  /* order doesn't matter here */</span></span>
 <span id="L100"><span class="lineNum">     100</span>              :     else  /* real overflow */</span>
 <span id="L101"><span class="lineNum">     101</span>              :       return MAX_LMEM;</span>
 <span id="L102"><span class="lineNum">     102</span>              :   }</span>
 <span id="L103"><span class="lineNum">     103</span>              :   else {  /* negative exponent */</span>
-<span id="L104"><span class="lineNum">     104</span> <span class="tlaGNC">        1388 :     e = -e;</span></span>
-<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">        1388 :     if (x &lt; MAX_LMEM / 0x1F)  /* multiplication cannot overflow? */</span></span>
-<span id="L106"><span class="lineNum">     106</span> <span class="tlaGNC">        1388 :       return (x * m) &gt;&gt; e;  /* multiplying first gives more precision */</span></span>
+<span id="L104"><span class="lineNum">     104</span> <span class="tlaGNC">        1400 :     e = -e;</span></span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">        1400 :     if (x &lt; MAX_LMEM / 0x1F)  /* multiplication cannot overflow? */</span></span>
+<span id="L106"><span class="lineNum">     106</span> <span class="tlaGNC">        1400 :       return (x * m) &gt;&gt; e;  /* multiplying first gives more precision */</span></span>
 <span id="L107"><span class="lineNum">     107</span> <span class="tlaUNC">           0 :     else if ((x &gt;&gt; e) &lt;  MAX_LMEM / 0x1F)  /* cannot overflow after shift? */</span></span>
 <span id="L108"><span class="lineNum">     108</span> <span class="tlaUNC">           0 :       return (x &gt;&gt; e) * m;</span></span>
 <span id="L109"><span class="lineNum">     109</span>              :     else  /* real overflow */</span>

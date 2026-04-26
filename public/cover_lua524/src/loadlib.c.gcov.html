@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-12-22 18:36:08</td>
+            <td class="headerValue">2026-04-26 18:15:42</td>
             <td></td>
           </tr>
           <tr>
@@ -393,22 +393,22 @@
 <span id="L327"><span class="lineNum">     327</span>              : */</span>
 <span id="L328"><span class="lineNum">     328</span>              : </span>
 <span id="L329"><span class="lineNum">     329</span>              : </span>
-<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">        1231 : static int readable (const char *filename) {</span></span>
-<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">        1231 :   FILE *f = fopen(filename, &quot;r&quot;);  /* try to open file */</span></span>
-<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">        1231 :   if (f == NULL) return 0;  /* open failed */</span></span>
+<span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">        1086 : static int readable (const char *filename) {</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">        1086 :   FILE *f = fopen(filename, &quot;r&quot;);  /* try to open file */</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">        1086 :   if (f == NULL) return 0;  /* open failed */</span></span>
 <span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">         100 :   fclose(f);</span></span>
 <span id="L334"><span class="lineNum">     334</span> <span class="tlaGNC">         100 :   return 1;</span></span>
 <span id="L335"><span class="lineNum">     335</span>              : }</span>
 <span id="L336"><span class="lineNum">     336</span>              : </span>
 <span id="L337"><span class="lineNum">     337</span>              : </span>
-<span id="L338"><span class="lineNum">     338</span> <span class="tlaGNC">        1367 : static const char *pushnexttemplate (lua_State *L, const char *path) {</span></span>
+<span id="L338"><span class="lineNum">     338</span> <span class="tlaGNC">        1222 : static const char *pushnexttemplate (lua_State *L, const char *path) {</span></span>
 <span id="L339"><span class="lineNum">     339</span>              :   const char *l;</span>
-<span id="L340"><span class="lineNum">     340</span> <span class="tlaGNC">        2497 :   while (*path == *LUA_PATH_SEP) path++;  /* skip separators */</span></span>
-<span id="L341"><span class="lineNum">     341</span> <span class="tlaGNC">        1367 :   if (*path == '\0') return NULL;  /* no more templates */</span></span>
-<span id="L342"><span class="lineNum">     342</span> <span class="tlaGNC">        1231 :   l = strchr(path, *LUA_PATH_SEP);  /* find next separator */</span></span>
-<span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">        1231 :   if (l == NULL) l = path + strlen(path);</span></span>
-<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">        1231 :   lua_pushlstring(L, path, l - path);  /* template */</span></span>
-<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">        1231 :   return l;</span></span>
+<span id="L340"><span class="lineNum">     340</span> <span class="tlaGNC">        2162 :   while (*path == *LUA_PATH_SEP) path++;  /* skip separators */</span></span>
+<span id="L341"><span class="lineNum">     341</span> <span class="tlaGNC">        1222 :   if (*path == '\0') return NULL;  /* no more templates */</span></span>
+<span id="L342"><span class="lineNum">     342</span> <span class="tlaGNC">        1086 :   l = strchr(path, *LUA_PATH_SEP);  /* find next separator */</span></span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">        1086 :   if (l == NULL) l = path + strlen(path);</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">        1086 :   lua_pushlstring(L, path, l - path);  /* template */</span></span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">        1086 :   return l;</span></span>
 <span id="L346"><span class="lineNum">     346</span>              : }</span>
 <span id="L347"><span class="lineNum">     347</span>              : </span>
 <span id="L348"><span class="lineNum">     348</span>              : </span>
@@ -420,15 +420,15 @@
 <span id="L354"><span class="lineNum">     354</span> <span class="tlaGNC">         236 :   luaL_buffinit(L, &amp;msg);</span></span>
 <span id="L355"><span class="lineNum">     355</span> <span class="tlaGNC">         236 :   if (*sep != '\0')  /* non-empty separator? */</span></span>
 <span id="L356"><span class="lineNum">     356</span> <span class="tlaGNC">         236 :     name = luaL_gsub(L, name, sep, dirsep);  /* replace it by 'dirsep' */</span></span>
-<span id="L357"><span class="lineNum">     357</span> <span class="tlaGNC">        1367 :   while ((path = pushnexttemplate(L, path)) != NULL) {</span></span>
-<span id="L358"><span class="lineNum">     358</span> <span class="tlaGNC">        1231 :     const char *filename = luaL_gsub(L, lua_tostring(L, -1),</span></span>
+<span id="L357"><span class="lineNum">     357</span> <span class="tlaGNC">        1222 :   while ((path = pushnexttemplate(L, path)) != NULL) {</span></span>
+<span id="L358"><span class="lineNum">     358</span> <span class="tlaGNC">        1086 :     const char *filename = luaL_gsub(L, lua_tostring(L, -1),</span></span>
 <span id="L359"><span class="lineNum">     359</span>              :                                      LUA_PATH_MARK, name);</span>
-<span id="L360"><span class="lineNum">     360</span> <span class="tlaGNC">        1231 :     lua_remove(L, -2);  /* remove path template */</span></span>
-<span id="L361"><span class="lineNum">     361</span> <span class="tlaGNC">        1231 :     if (readable(filename))  /* does file exist and is readable? */</span></span>
+<span id="L360"><span class="lineNum">     360</span> <span class="tlaGNC">        1086 :     lua_remove(L, -2);  /* remove path template */</span></span>
+<span id="L361"><span class="lineNum">     361</span> <span class="tlaGNC">        1086 :     if (readable(filename))  /* does file exist and is readable? */</span></span>
 <span id="L362"><span class="lineNum">     362</span> <span class="tlaGNC">         100 :       return filename;  /* return that file name */</span></span>
-<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">        1131 :     lua_pushfstring(L, &quot;\n\tno file &quot; LUA_QS, filename);</span></span>
-<span id="L364"><span class="lineNum">     364</span> <span class="tlaGNC">        1131 :     lua_remove(L, -2);  /* remove file name */</span></span>
-<span id="L365"><span class="lineNum">     365</span> <span class="tlaGNC">        1131 :     luaL_addvalue(&amp;msg);  /* concatenate error msg. entry */</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">         986 :     lua_pushfstring(L, &quot;\n\tno file &quot; LUA_QS, filename);</span></span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaGNC">         986 :     lua_remove(L, -2);  /* remove file name */</span></span>
+<span id="L365"><span class="lineNum">     365</span> <span class="tlaGNC">         986 :     luaL_addvalue(&amp;msg);  /* concatenate error msg. entry */</span></span>
 <span id="L366"><span class="lineNum">     366</span>              :   }</span>
 <span id="L367"><span class="lineNum">     367</span> <span class="tlaGNC">         136 :   luaL_pushresult(&amp;msg);  /* create error message */</span></span>
 <span id="L368"><span class="lineNum">     368</span> <span class="tlaGNC">         136 :   return NULL;  /* not found */</span></span>
@@ -691,12 +691,12 @@
 <span id="L625"><span class="lineNum">     625</span>              : /*</span>
 <span id="L626"><span class="lineNum">     626</span>              : ** return registry.LUA_NOENV as a boolean</span>
 <span id="L627"><span class="lineNum">     627</span>              : */</span>
-<span id="L628"><span class="lineNum">     628</span> <span class="tlaGNC">         172 : static int noenv (lua_State *L) {</span></span>
+<span id="L628"><span class="lineNum">     628</span> <span class="tlaGNC">          86 : static int noenv (lua_State *L) {</span></span>
 <span id="L629"><span class="lineNum">     629</span>              :   int b;</span>
-<span id="L630"><span class="lineNum">     630</span> <span class="tlaGNC">         172 :   lua_getfield(L, LUA_REGISTRYINDEX, &quot;LUA_NOENV&quot;);</span></span>
-<span id="L631"><span class="lineNum">     631</span> <span class="tlaGNC">         172 :   b = lua_toboolean(L, -1);</span></span>
-<span id="L632"><span class="lineNum">     632</span> <span class="tlaGNC">         172 :   lua_pop(L, 1);  /* remove value */</span></span>
-<span id="L633"><span class="lineNum">     633</span> <span class="tlaGNC">         172 :   return b;</span></span>
+<span id="L630"><span class="lineNum">     630</span> <span class="tlaGNC">          86 :   lua_getfield(L, LUA_REGISTRYINDEX, &quot;LUA_NOENV&quot;);</span></span>
+<span id="L631"><span class="lineNum">     631</span> <span class="tlaGNC">          86 :   b = lua_toboolean(L, -1);</span></span>
+<span id="L632"><span class="lineNum">     632</span> <span class="tlaGNC">          86 :   lua_pop(L, 1);  /* remove value */</span></span>
+<span id="L633"><span class="lineNum">     633</span> <span class="tlaGNC">          86 :   return b;</span></span>
 <span id="L634"><span class="lineNum">     634</span>              : }</span>
 <span id="L635"><span class="lineNum">     635</span>              : </span>
 <span id="L636"><span class="lineNum">     636</span>              : </span>
@@ -706,13 +706,13 @@
 <span id="L640"><span class="lineNum">     640</span> <span class="tlaGNC">         172 :   if (path == NULL)  /* no environment variable? */</span></span>
 <span id="L641"><span class="lineNum">     641</span> <span class="tlaGNC">         172 :     path = getenv(envname2);  /* try alternative name */</span></span>
 <span id="L642"><span class="lineNum">     642</span> <span class="tlaGNC">         172 :   if (path == NULL || noenv(L))  /* no environment variable? */</span></span>
-<span id="L643"><span class="lineNum">     643</span> <span class="tlaGNC">           2 :     lua_pushstring(L, def);  /* use default */</span></span>
+<span id="L643"><span class="lineNum">     643</span> <span class="tlaGNC">          87 :     lua_pushstring(L, def);  /* use default */</span></span>
 <span id="L644"><span class="lineNum">     644</span>              :   else {</span>
 <span id="L645"><span class="lineNum">     645</span>              :     /* replace &quot;;;&quot; by &quot;;AUXMARK;&quot; and then AUXMARK by default path */</span>
-<span id="L646"><span class="lineNum">     646</span> <span class="tlaGNC">         170 :     path = luaL_gsub(L, path, LUA_PATH_SEP LUA_PATH_SEP,</span></span>
+<span id="L646"><span class="lineNum">     646</span> <span class="tlaGNC">          85 :     path = luaL_gsub(L, path, LUA_PATH_SEP LUA_PATH_SEP,</span></span>
 <span id="L647"><span class="lineNum">     647</span>              :                               LUA_PATH_SEP AUXMARK LUA_PATH_SEP);</span>
-<span id="L648"><span class="lineNum">     648</span> <span class="tlaGNC">         170 :     luaL_gsub(L, path, AUXMARK, def);</span></span>
-<span id="L649"><span class="lineNum">     649</span> <span class="tlaGNC">         170 :     lua_remove(L, -2);</span></span>
+<span id="L648"><span class="lineNum">     648</span> <span class="tlaGNC">          85 :     luaL_gsub(L, path, AUXMARK, def);</span></span>
+<span id="L649"><span class="lineNum">     649</span> <span class="tlaGNC">          85 :     lua_remove(L, -2);</span></span>
 <span id="L650"><span class="lineNum">     650</span>              :   }</span>
 <span id="L651"><span class="lineNum">     651</span>              :   setprogdir(L);</span>
 <span id="L652"><span class="lineNum">     652</span> <span class="tlaGNC">         172 :   lua_setfield(L, -2, fieldname);</span></span>
